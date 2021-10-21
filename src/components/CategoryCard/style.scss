@@ -1,0 +1,43 @@
+@import '/src/theme/main.scss';
+
+.category-card {
+  display: flex;
+  align-items: center;
+  position: relative;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 20px;
+  width: 240px;
+  height: 64px;
+  margin: 24px;
+  transition: all 0.3s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &__img {
+    width: 64px;
+    height: 64px;
+    position: absolute;
+    top: -16px;
+    right: 8px;
+  }
+
+  &__title {
+    margin-right: 32px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  @media (max-width: 600px) {
+    width: 45%;
+    margin: 8px;
+    font-size: 16px;
+
+    &__title {
+      margin-right: 64px;
+    }
+  }
+}
