@@ -4,12 +4,21 @@ import { Provider } from 'react-redux';
 import AppRouter from './routes/AppRouter';
 import store from './store/store';
 import './theme/main.scss';
+import theme from './theme/theme.js';
+import {ThemeProvider } from '@mui/material/styles';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <AppRouter />
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+
+
+function App() {
+  return (
+    <ThemeProvider theme={theme}>
+        <React.StrictMode>
+          <Provider store={store}>
+            <AppRouter />
+          </Provider>
+        </React.StrictMode>
+      </ThemeProvider>
+  );
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
