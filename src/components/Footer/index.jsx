@@ -1,43 +1,41 @@
+import footerBg from '../../assets/images/footer-bg.svg';
+import instagram from '../../assets/images/social/instagram.svg';
+import email from '../../assets/images/social/email.svg';
+import whatsapp from '../../assets/images/social/whatsapp.svg';
+import twitter from '../../assets/images/social/twitter.svg';
+import phone from '../../assets/images/social/call.svg';
 
 import './style.scss';
 
-const Footer= () =>
-{
-  return(
-  <div className = "appbarWrapperforfooter ">
-      
+const Footer = () => {
+  return (
+    <div
+      className="appbarWrapperforfooter"
+      style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+    >
+      <img
+        style={{ position: 'absolute', width: '100%', height: '100%', objectFit: 'cover', zIndex: -1 }}
+        src={footerBg}
+        alt="footer background nature"
+      />
 
-      <div className="my-footer">
-      <br/><br/>
-      <p className="my-footer__content">تماس با ما &#128222;</p>
-      <br />
-      <p className = "my-footer__phoneNum"> &#9753; 304-256-1776 &#9743;</p>
-      <br />
-      <p className = "my-footer__phoneNum"> &#9753; 304-256-1740 &#9743;</p>
+      <div className="my-social" style={{ textAlign: 'center' }}>
+        <p className="my-footer__content">تماس با ما</p>
+        <img src={email} alt="SMI" className="my-social__Icon" />
+        <img src={instagram} alt="SMI" className="my-social__Icon" />
+        <img src={twitter} alt="SMI" className="my-social__Icon" />
+        <img src={whatsapp} alt="SMI" className="my-social__Icon" />
+        <img src={phone} alt="SMI" className="my-social__Icon" />
       </div>
 
-      <div className="my-social">
-      <br/><br/>
-      <p className="my-footer__content">شبکه‌های اجتماعی &#128241;</p>
-      <br />
-      <img src= "https://8pic.ir/uploads/outlook-mail-14615.png" alt="SMI" className="my-social__Icon"/>
-      <img src= "https://8pic.ir/uploads/paper-plane-send-message-icon-185989.png" alt="SMI" className="my-social__Icon"/>
-      <img src= "https://8pic.ir/uploads/send-message-icon-icons-com-52482.png" alt="SMI" className="my-social__Icon"/>
-      <img src= "https://8pic.ir/uploads/Twitter-icon-design-with-dark-black-brush-on-transparent-background-PNG.png" alt="SMI" className="my-social__Icon"/>
-      <img src= "https://8pic.ir/uploads/scribble-social-instagram-ig-insta-logo-icon-153109.png" alt="SMI" className="my-social__Icon"/>
+      <div className="my-footer__bylove">
+        <span className="my-footer__content__s">ساخته شده با</span>
+        <div className="my-footer__content__h">
+          <span>&hearts;</span>
+        </div>
+        <span className="my-footer__content__s">در ایران</span>
       </div>
-
-      <div className="my-footer">
-      <img src= "https://8pic.ir/uploads/backpack-school.png" alt="footer" className="my-footer__media"/>
-      <div className = "my-footer__bylove">
-      <span className="my-footer__content__s">در ایران</span>
-      <span className="my-footer__content__h">&hearts;</span>
-      <span className="my-footer__content__s">ساخته شده با</span>
-      </div></div>
     </div>
   );
-
-}
+};
 export default Footer;
-
-

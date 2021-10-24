@@ -19,7 +19,7 @@ const HowItWorks = () => {
       <div className="appbarWrapper ">
         <div
           className="why-card"
-          data-aos-offset="50"
+          data-aos-offset="100"
           data-aos={useMobile() ? 'fade-up' : 'fade-left'}
           data-aos-duration="2000"
         >
@@ -30,7 +30,7 @@ const HowItWorks = () => {
           </p>
         </div>
 
-        <div className="why-card" data-aos-offset="50" data-aos="fade-up" data-aos-duration="2000">
+        <div className="why-card" data-aos-offset="100" data-aos="fade-up" data-aos-duration="2000">
           <img src={discovery} alt="HIWmedia" className="why-card__img" />
           <p className="why-card__title">کشف و جستجوی استعدادها</p>
           <p className="why-card__content">با جستجو و شرکت‌کردن توی کلاس‌های مختلف، میتونی استعدادت رو کشف کنی!</p>
@@ -38,7 +38,7 @@ const HowItWorks = () => {
 
         <div
           className="why-card"
-          data-aos-offset="50"
+          data-aos-offset="100"
           data-aos={useMobile() ? 'fade-up' : 'fade-right'}
           data-aos-duration="2000"
         >
