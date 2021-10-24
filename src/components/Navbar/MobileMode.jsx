@@ -4,14 +4,10 @@ import logo from '../../assets/logo.png';
 import { styled, useTheme } from '@mui/material/styles';
 import { Drawer, Toolbar, Typography, Button, useScrollTrigger, Slide } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
-import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import CloseIcon from '@mui/icons-material/Close';
-import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
+import {Link } from 'react-router-dom';
 
 // IMPORTING ICONS
 import SchoolIcon from '@mui/icons-material/School';
@@ -21,23 +17,6 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
 
 const drawerWidth = 240;
-
-const Main = styled('main', { shouldForwardProp: prop => prop !== 'open' })(({ theme, open }) => ({
-  flexGrow: 1,
-  padding: theme.spacing(3),
-  transition: theme.transitions.create('margin', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  marginLeft: `-${drawerWidth}px`,
-  ...(open && {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
-  }),
-}));
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: prop => prop !== 'open',
@@ -68,15 +47,18 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 const MenuButton1 = ({ Icon, text, linkTo }) => {
   return (
     <div style={{ marginBottom: '5 px' }}>
-      <Button style={{ marginRight: '10px' }} variant="text" component={Link} to={linkTo}>
-        <Icon  color="primary" />
+      <Button
+        style={{ color: '#000', width: '100%', justifyContent: 'flex-start', padding: '16px' }}
+        variant="text"
+        component={Link}
+        to={linkTo}
+      >
+        <Icon style={{ color: 'fd576c' }} />
         <span style={{ marginRight: '5px' }}>{text}</span>
       </Button>
     </div>
   );
 };
-
-
 
 export default function MobileNavbar() {
   const [open, setOpen] = React.useState(false);
@@ -90,16 +72,15 @@ export default function MobileNavbar() {
   };
 
   return (
-    <div id="mobile">
-      <AppBar color="transparent" style={{ backdropFilter: 'blur(10px)' }} open={open}>
+    <>
+      <AppBar style={{ backgroundColor: '#fff' }} open={open}>
         <Toolbar>
-          <img alt="لوگوی کوله‌پشتی " src={logo} width="75" id="logo" />
-          <Typography variant="h5" component="p" color="textSecondary">
+          <img alt="لوگوی کوله‌پشتی " src={logo} width="75" />
+          <Typography variant="h5" component="p" style={{ fontWeight: 800, color: '#000' }}>
             کوله‌پشتی
           </Typography>
           <div style={{ marginRight: 'auto' }}>
             <IconButton
-              color="inherit"
               aria-label="open drawer"
               onClick={handleDrawerOpen}
               edge="start"
@@ -128,7 +109,7 @@ export default function MobileNavbar() {
             <CloseIcon />
           </IconButton>
         </DrawerHeader>
-        <Divider  />
+        <Divider />
 
         <MenuButton1 Icon={SchoolIcon} text="تدریس کن" linkTo="/singup" />
         <MenuButton1 Icon={HelpIcon} text="راهنما" linkTo="/help" />
@@ -138,9 +119,6 @@ export default function MobileNavbar() {
         <MenuButton1 Icon={AccountCircleIcon} text="ثبت نام" linkTo="/singup" />
         <MenuButton1 Icon={LoginIcon} text="ورود" linkTo="/login" />
       </Drawer>
-      <Main open={open}>
-        <DrawerHeader />
-      </Main>
-    </div>
+    </>
   );
 }
