@@ -3,8 +3,8 @@ import { IconButton, Rating } from '@mui/material';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import StarOutlineRoundedIcon from '@mui/icons-material/StarOutlineRounded';
-import './style.scss';
 import { Favorite } from '@mui/icons-material';
+import './style.scss';
 
 const CourseCard = ({ imgSrc, title, teacherImgSrc, teacherName, rate }) => {
   const [isFavorite, setIsFavorite] = useState(false);
@@ -21,7 +21,13 @@ const CourseCard = ({ imgSrc, title, teacherImgSrc, teacherName, rate }) => {
           emptyIcon={<StarOutlineRoundedIcon />}
           readOnly
         />
-        <IconButton onClick={() => setIsFavorite(state => !state)}>
+        <IconButton
+          onClick={e => {
+            e.preventDefault();
+            e.stopPropagation();
+            setIsFavorite(state => !state);
+          }}
+        >
           {isFavorite ? <Favorite className="filled-fav-icon" /> : <FavoriteBorderIcon className="fav-icon" />}
         </IconButton>
       </div>

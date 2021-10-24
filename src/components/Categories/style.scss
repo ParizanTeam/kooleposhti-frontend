@@ -7,13 +7,13 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  margin: 64px 0;
-  padding: 32px 0;
+  margin-bottom: 64px;
 
   &__title {
     font-size: 24px;
     font-weight: 800;
-    color: $c-gray-40;
+    color: $c-black;
+    padding: 8px;
   }
 
   &__highlight {
@@ -21,10 +21,11 @@
   }
 
   &__description {
-    padding: 10px;
+    padding: 8px;
     font-size: 20px;
     font-weight: 700;
-    color: $c-gray-40;
+    color: $c-black;
+    margin-bottom: 16px;
   }
 
   &__items {

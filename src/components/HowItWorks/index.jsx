@@ -1,33 +1,53 @@
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import teamPlay from '../../assets/images/team-play.png';
+import problemSolve from '../../assets/images/problem-solve.png';
+import discovery from '../../assets/images/discovery.png';
+import { useMobile } from '../../utils/detectSource';
 import './style.scss';
 
-const HowItWorks= () =>
-{
-  return(
-  <div class = "appbarWrapper ">
-      <div class="mdc-card my-card">
-      <p class = "my-card-title">میخوای دوره هامون رو ببینی؟</p>
-      <div class="my-card__media mdc-card__media mdc-card__media--16-9">
-        <img src= "https://8pic.ir/uploads/apple-learning.gif" alt="HIWmedia" class="my-card__media"/></div>
-      <p class="my-card-content">--توضیحات--</p>
-      </div>
+AOS.init({
+  once: true,
+});
 
-      <div class="mdc-card my-card">
-      <p class = "my-card-title">چجوری تو کلاسها ثبت نام کنیم؟</p>
-      <div class="my-card__media mdc-card__media mdc-card__media--16-9">
-        <img src= "https://8pic.ir/uploads/Dino-Learning.gif" alt="HIWmedia" class="my-card__media"/></div>
-      <p class="my-card-content">--توضیحات--</p>
-      </div>
+const HowItWorks = () => {
+  return (
+    <div className="why-section">
+      <h2 className="why-section__title">
+        <span className="why-section__highlight">چرا</span> کوله‌پشتی؟
+      </h2>
+      <div className="appbarWrapper ">
+        <div
+          className="why-card"
+          data-aos-offset="50"
+          data-aos={useMobile() ? 'fade-up' : 'fade-left'}
+          data-aos-duration="2000"
+        >
+          <img src={problemSolve} alt="HIWmedia" className="why-card__img" />
+          <p className="why-card__title">تقویت قدرت حل مسئله</p>
+          <p className="why-card__content">
+            با شرکت توی کلاس‌ها و چالش‌های مختلف، میتونی مهارت حل مسئلت رو افزایش بدی!
+          </p>
+        </div>
 
-      <div class="mdc-card my-card">
-      <p class = "my-card-title">یکم فضای کلاسها و چالشها رو با هم ببینیم؟</p>
-      <div class="my-card__media mdc-card__media mdc-card__media--16-9">
-        <img src= "https://8pic.ir/uploads/Thoughts-in-my-Mind-.gif" alt="HIWmedia" class="my-card__media"/></div>
-      <p class="my-card-content">--توضیحات--</p>
+        <div className="why-card" data-aos-offset="50" data-aos="fade-up" data-aos-duration="2000">
+          <img src={discovery} alt="HIWmedia" className="why-card__img" />
+          <p className="why-card__title">کشف و جستجوی استعدادها</p>
+          <p className="why-card__content">با جستجو و شرکت‌کردن توی کلاس‌های مختلف، میتونی استعدادت رو کشف کنی!</p>
+        </div>
+
+        <div
+          className="why-card"
+          data-aos-offset="50"
+          data-aos={useMobile() ? 'fade-up' : 'fade-right'}
+          data-aos-duration="2000"
+        >
+          <img src={teamPlay} alt="HIWmedia" className="why-card__img" />
+          <p className="why-card__title">بازی‌های جذاب و گروهی</p>
+          <p className="why-card__content">کلاس‌ها به صورت گروهیه و میتونی با بقیه بچه‌ها ارتباط برقرار کنی!</p>
+        </div>
       </div>
     </div>
   );
-
-}
+};
 export default HowItWorks;
-
-

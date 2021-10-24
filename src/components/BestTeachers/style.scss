@@ -1,8 +1,7 @@
 @import '/src/theme/main.scss';
 
 .best-teachers {
-  margin: 64px 0;
-  padding: 32px 0;
+  margin-bottom: 64px;
   text-align: center;
 
   .swiper-container {
@@ -12,7 +11,7 @@
   &__title {
     font-size: 24px;
     font-weight: 800;
-    color: $c-gray-40;
+    color: $c-black;
     margin-bottom: 32px;
   }
 
