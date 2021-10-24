@@ -204,7 +204,6 @@ export default function SignUp() {
                             value="Teacher"
                             control={<Radio />}
                             label="معلم"
-
                           />
                         </RadioGroup>
                       </FormControl>
