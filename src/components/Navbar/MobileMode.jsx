@@ -6,8 +6,8 @@ import { Drawer, Toolbar, Typography, Button, useScrollTrigger, Slide } from '@m
 import MuiAppBar from '@mui/material/AppBar';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import {Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import SearchBar from './SearchBar';
 
 // IMPORTING ICONS
 import SchoolIcon from '@mui/icons-material/School';
@@ -15,6 +15,8 @@ import HelpIcon from '@mui/icons-material/Help';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
+import CloseIcon from '@mui/icons-material/Close';
+import SearchIcon from '@mui/icons-material/Search';
 
 const drawerWidth = 240;
 
@@ -70,6 +72,14 @@ export default function MobileNavbar() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const [openSearchBar, setOpenSearchBar] = React.useState(false);
+  const handleSearchBarOpen = () => {
+    setOpenSearchBar(true);
+  };
+
+  const handleSearchBarClose = () => {
+    setOpenSearchBar(false);
+  };
 
   return (
     <>
@@ -80,11 +90,14 @@ export default function MobileNavbar() {
             کوله‌پشتی
           </Typography>
           <div style={{ marginRight: 'auto' }}>
+            <IconButton onClick={handleSearchBarOpen}>
+              <SearchIcon />
+            </IconButton>
             <IconButton
               aria-label="open drawer"
               onClick={handleDrawerOpen}
               edge="start"
-              sx={{ mr: 2, ...(open && { display: 'none' }) }}
+              sx={{ color: '#fd576c',mr: 2, ...(open && { display: 'none' }) }}
             >
               <MenuIcon />
             </IconButton>
@@ -100,12 +113,14 @@ export default function MobileNavbar() {
             boxSizing: 'border-box',
           },
         }}
-        variant="persistent"
+        variant="temporary"
+        onEscapeKeyDown={handleDrawerClose}
+        onBackdropClick={handleDrawerClose}
         anchor="left"
         open={open}
       >
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={handleDrawerClose} sx={{color: '#fd576c'}}>
             <CloseIcon />
           </IconButton>
         </DrawerHeader>
@@ -119,6 +134,8 @@ export default function MobileNavbar() {
         <MenuButton1 Icon={AccountCircleIcon} text="ثبت نام" linkTo="/singup" />
         <MenuButton1 Icon={LoginIcon} text="ورود" linkTo="/login" />
       </Drawer>
+
+      {openSearchBar && <SearchBar onClose={handleSearchBarClose} />}
     </>
   );
 }
