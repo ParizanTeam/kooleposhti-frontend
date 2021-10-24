@@ -1,16 +1,1 @@
 @import '/src/theme/main.scss';
-
-
-
-@media (max-width: $mobile-breakpont) {
-  #desktop {
-    display: none !important;
-  }
-}
-
-@media (min-width: $mobile-breakpont+1) {
-  #mobile {
-    display: none !important;
-  }
-
-}
