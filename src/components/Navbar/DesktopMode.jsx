@@ -5,7 +5,7 @@ import logo from '../../assets/logo.png';
 
 import { AppBar, Toolbar, Typography, Button, useScrollTrigger, Slide } from '@mui/material';
 
-import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
+import {Link } from 'react-router-dom';
 
 // IMPORTING ICONS
 import SchoolIcon from '@mui/icons-material/School';

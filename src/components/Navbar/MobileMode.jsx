@@ -4,14 +4,10 @@ import logo from '../../assets/logo.png';
 import { styled, useTheme } from '@mui/material/styles';
 import { Drawer, Toolbar, Typography, Button, useScrollTrigger, Slide } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
-import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import CloseIcon from '@mui/icons-material/Close';
-import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
+import {Link } from 'react-router-dom';
 
 // IMPORTING ICONS
 import SchoolIcon from '@mui/icons-material/School';
