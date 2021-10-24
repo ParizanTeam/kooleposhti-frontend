@@ -4,6 +4,7 @@ import Categories from '../Categories';
 import CourseSlider from '../CourseSlider';
 import Navbar from '../Navbar';
 import HowItWorks from '../HowItWorks';
+import Footer from '../Footer';
 import './style.scss';
 
 const HomePage = () => {
@@ -14,6 +15,7 @@ const HomePage = () => {
       <HowItWorks />
       <Categories />
       <BestTeachers />
+      <Footer />
     </div>
   );
 };
