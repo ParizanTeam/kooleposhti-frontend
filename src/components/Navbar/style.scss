@@ -1,18 +1,14 @@
-@import '../../theme/fonts.scss';
+@import '/src/theme/main.scss';
 
 
-.my_navbar {
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-}
 
-@media (max-width: 900px) {
+@media (max-width: $mobile-breakpont) {
   #desktop {
     display: none !important;
   }
 }
 
-@media (min-width: 901px) {
+@media (min-width: $mobile-breakpont+1) {
   #mobile {
     display: none !important;
   }
