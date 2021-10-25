@@ -1,10 +1,18 @@
+<<<<<<< HEAD
 import React, { useState } from 'react';
+=======
+import React from 'react';
+>>>>>>> c61562b33bb74924c725ec89c3ebcf0493f5b698
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+<<<<<<< HEAD
+=======
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+>>>>>>> c61562b33bb74924c725ec89c3ebcf0493f5b698
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Radio from '@mui/material/Radio';
@@ -37,6 +45,7 @@ function Copyright(props) {
   );
 }
 
+
 const cacheRtl = createCache({
   key: 'muirtl',
 
@@ -49,6 +58,7 @@ export default function SignUp() {
   React.useLayoutEffect(() => {
     document.body.setAttribute('dir', 'rtl');
   });
+
 
   const [validateAfterSubmit, setValidateAfterSubmit] = useState(false);
   const [apiResponse, setApiResponse] = useState('');
@@ -170,6 +180,7 @@ export default function SignUp() {
                         value={values.lastName}
                         onChange={handleChange}
                         helperText={errors.lastName}
+
                         error={Boolean(errors.lastName)}
                       />
                     </Grid> */}
@@ -235,6 +246,7 @@ export default function SignUp() {
                       </Grid>
                     </Grid>
                     {/* 
+
                   <div className="recaptcha">
                     <Recaptcha
                       sitekey="6LfI6N4cAAAAAM5s9zVuo5MJiUYbHYO9Du9cgJSU"
@@ -282,6 +294,7 @@ export default function SignUp() {
           </svg>
         </div>
       )}
+
     </CacheProvider>
   );
 }
