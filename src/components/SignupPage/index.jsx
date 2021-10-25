@@ -37,6 +37,7 @@ function Copyright(props) {
   );
 }
 
+
 const cacheRtl = createCache({
   key: 'muirtl',
 
@@ -49,6 +50,7 @@ export default function SignUp() {
   React.useLayoutEffect(() => {
     document.body.setAttribute('dir', 'rtl');
   });
+
 
   const [validateAfterSubmit, setValidateAfterSubmit] = useState(false);
   const [apiResponse, setApiResponse] = useState('');
@@ -170,6 +172,7 @@ export default function SignUp() {
                         value={values.lastName}
                         onChange={handleChange}
                         helperText={errors.lastName}
+
                         error={Boolean(errors.lastName)}
                       />
                     </Grid> */}
@@ -235,6 +238,7 @@ export default function SignUp() {
                       </Grid>
                     </Grid>
                     {/* 
+
                   <div className="recaptcha">
                     <Recaptcha
                       sitekey="6LfI6N4cAAAAAM5s9zVuo5MJiUYbHYO9Du9cgJSU"
@@ -282,6 +286,7 @@ export default function SignUp() {
           </svg>
         </div>
       )}
+
     </CacheProvider>
   );
 }
