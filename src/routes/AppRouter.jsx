@@ -3,6 +3,7 @@ import HomePage from '../components/HomePage';
 import LoginPage from '../components/LoginPage';
 import SignupPage from '../components/SignupPage';
 import NotFoundPage from '../components/NotFoundPage';
+import EmailVerification from '../components/EmailVerification';
 
 const AppRouter = () => {
   return (
@@ -10,6 +11,9 @@ const AppRouter = () => {
       <Switch>
         <Route path="/" exact>
           <HomePage />
+        </Route>
+        <Route path="/email-verification" exact>
+          <EmailVerification/>
         </Route>
         <Route path="/login" exact>
           <LoginPage />
