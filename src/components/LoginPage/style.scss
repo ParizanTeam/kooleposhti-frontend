@@ -1,1 +1,13 @@
 @import '/src/theme/main.scss';
+
+.test{
+    padding:10px;
+    margin: 10px auto;
+    border-color: blue;
+}
+
+.responsive {
+    width: 90%;
+    height: auto;
+    margin: auto;
+}

@@ -12,7 +12,7 @@ const AppRouter = () => {
         <Route path="/" exact>
           <HomePage />
         </Route>
-        <Route path="/email-verification" exact>
+        <Route path="/email-verification" exact >
           <EmailVerification/>
         </Route>
         <Route path="/login" exact>
