@@ -77,6 +77,7 @@ const LoginPage = () => {
           draggable: true,
           progress: undefined,
           theme: 'dark',
+          className: 'toast-error'
         });
       }
     },
@@ -151,20 +152,20 @@ const LoginPage = () => {
 
               {/* <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="مرا به خاطر بسپار" /> */}
               <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                وارد شوید
+                ورود
               </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    رمز عبور خود را فراموش کرده‌اید؟
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link to="/signup" component={routerLink} variant="body2">
-                    {'حساب کاربری ندارید؟ ثبت نام کنید.'}
-                  </Link>
-                </Grid>
+              {/* <Grid container> */}
+              <Grid item xs sx={{ mt: 3, mb: 2 }}>
+                <Link to="#" component={routerLink} variant="body2">
+                  رمز عبور خود را فراموش کرده‌اید؟
+                </Link>
               </Grid>
+              <Grid item sx={{ mt: 3, mb: 2 }}>
+                <Link to="/signup" component={routerLink} variant="body2" sx={{ mt: 3, mb: 2 }}>
+                  {'هنوز عضو نشدی؟! همین حالا عضو شو.'}
+                </Link>
+              </Grid>
+              {/* </Grid> */}
             </Box>
           </Box>
           <Copyright sx={{ mt: 8, mb: 4 }} />
