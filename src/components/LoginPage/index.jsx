@@ -13,11 +13,15 @@ import rtlPlugin from 'stylis-plugin-rtl';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { useFormik } from 'formik';
+import { Helmet } from 'react-helmet';
+import { ToastContainer, toast } from 'react-toastify';
+import { useHistory, Link as routerLink } from 'react-router-dom';
 import * as yup from 'yup';
 import rtl from 'jss-rtl';
+import axios from 'axios';
 import imageSrc from '../../assets/images/teaching-students-online-internet-learning-computer-programming_335657-3119.jpg';
-
 import './style.scss';
+import 'react-toastify/dist/ReactToastify.css';
 
 const cacheRtl = createCache({
   key: 'muirtl',
@@ -49,14 +53,32 @@ function Copyright(props) {
 }
 
 const LoginPage = () => {
+  const history = useHistory();
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
     },
 
-    onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async values => {
+      try {
+        const res = await axios.post('https://kooleposhti.herokuapp.com/auth/jwt/create/', {
+          username: values.email,
+          password: values.password,
+        });
+        history.push('/');
+      } catch (error) {
+        toast.error('نام کاربری یا رمز عبور اشتباه است.', {
+          position: 'bottom-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+        });
+      }
     },
     validationSchema: validationSchema,
   });
@@ -64,6 +86,10 @@ const LoginPage = () => {
   return (
     <CacheProvider value={rtl ? cacheRtl : cacheLtr}>
       <div dir="rtl">
+        <Helmet>
+          <title>ورود</title>
+        </Helmet>
+        <ToastContainer rtl={true} />
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box
@@ -134,7 +160,7 @@ const LoginPage = () => {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="/signup" variant="body2">
+                  <Link to="/signup" component={routerLink} variant="body2">
                     {'حساب کاربری ندارید؟ ثبت نام کنید.'}
                   </Link>
                 </Grid>
