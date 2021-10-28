@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
+import { Link } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -62,7 +62,7 @@ export default function SignUp() {
       {apiResponse && <Redirect to={{ pathname: '/email-verification', state: { values: values } }} />}
       {!apiResponse && (
         <div dir="rtl">
-          <Container maxWidth="sm" component="main">
+          <Container maxWidth="xs" component="main">
             <Box
               sx={{
                 marginTop: 8,
@@ -121,38 +121,10 @@ export default function SignUp() {
 
                   if (!values.username) {
                     error.username = 'لطفا نام کاربری خود را وارد کنید';
-                  } else if (!usernameIsValid) {
-                    axios
-                      .post('https://kooleposhti.herokuapp.com/accounts/checkusername/', JSON.stringify(values), {
-                        headers: {
-                          'Content-Type': 'application/json',
-                        },
-                      })
-                      .then(response => {
-                        setUsernameIsValid(response.status === 200);
-                      })
-                      .catch(err => {
-                        console.log('error: ', err);
-                        setSignupError(true);
-                      });
                   } else if (!values.email) {
                     error.email = 'لطفا ایمیل خود را وارد کنید';
                   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
                     error.email = 'ایمیل نامعتبر';
-                  } else if (!emailIsValid) {
-                    axios
-                      .post('https://kooleposhti.herokuapp.com/accounts/checkemail/', JSON.stringify(values), {
-                        headers: {
-                          'Content-Type': 'application/json',
-                        },
-                      })
-                      .then(response => {
-                        setEmailIsValid(response.status === 200);
-                      })
-                      .catch(err => {
-                        console.log('error: ', err);
-                        setSignupError(true);
-                      });
                   } else if (!values.password1) {
                     error.password1 = 'لطفا رمز عبور خود را وارد کنید';
                   } else if (values.password1.length < 8) {
@@ -164,17 +136,44 @@ export default function SignUp() {
                   } else if (values.password2 !== values.password1) {
                     error.password2 = 'با رمز اصلی تطابق ندارد';
                   } else if (!usernameIsValid) {
-                    console.log(usernameIsValid);
-                    error.username = 'تام کاربری قبلا انتخاب شده است';
-                  } else if (!emailIsValid && usernameIsValid) {
-                    error.email = 'ایمیل قبلا در سیستم ثبت شده است';
+                    axios
+                      .post('https://kooleposhti.herokuapp.com/accounts/checkusername/', JSON.stringify(values), {
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                      })
+                      .then(response => {
+                        setUsernameIsValid(true);
+                      })
+                      .catch(err => {
+                        console.log('error: ', err);
+                        setUsernameIsValid(false);
+                        console.log(usernameIsValid);
+                        error.username = 'تام کاربری قبلا انتخاب شده است';
+                        console.log(error.username);
+                      });
+                  } else if (!emailIsValid) {
+                    axios
+                      .post('https://kooleposhti.herokuapp.com/accounts/checkemail/', JSON.stringify(values), {
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                      })
+                      .then(response => {
+                        setEmailIsValid(true);
+                      })
+                      .catch(err => {
+                        console.log('error: ', err);
+                        setEmailIsValid(false);
+                        error.email = 'ایمیل قبلا در سیستم ثبت شده است';
+                      });
                   }
 
                   /*  else if(values.recaptcha === "")
                 {
                     error.recaptcha = "not human";
                 } */
-
+                  console.log('khaki');
                   return error;
                 }}
               >
@@ -201,14 +200,13 @@ export default function SignUp() {
                           autoFocus
                           value={values.username}
                           onChange={handleChange}
-                          onBlur={handleBlur}
-                          helperText={errors.username}
-                          error={Boolean(errors.username) && validateAfterSubmit}
+                          helperText={validateAfterSubmit ? errors.username : null}
+                          error={Boolean(errors.username)}
                         />
                       </Grid>
                       <Grid item xs={12}>
                         <TextField
-                          required  
+                          required
                           fullWidth
                           id="email"
                           label="ایمیل"
@@ -216,9 +214,8 @@ export default function SignUp() {
                           autoComplete="email"
                           value={values.email}
                           onChange={handleChange}
-                          onBlur={handleBlur}
-                          helperText={errors.email}
-                          error={Boolean(errors.email) && validateAfterSubmit}
+                          helperText={validateAfterSubmit ? errors.email : null}
+                          error={Boolean(errors.email)}
                         />
                       </Grid>
                       <Grid item xs={12}>
@@ -232,8 +229,8 @@ export default function SignUp() {
                           autoComplete="new-password"
                           value={values.password1}
                           onChange={handleChange}
-                          helperText={errors.password1}
-                          error={Boolean(errors.password1) && validateAfterSubmit}
+                          helperText={validateAfterSubmit ? errors.password1 : null}
+                          error={Boolean(errors.password1)}
                         />
                       </Grid>
                       <Grid item xs={12}>
@@ -247,8 +244,8 @@ export default function SignUp() {
                           autoComplete="new-password"
                           value={values.password2}
                           onChange={handleChange}
-                          helperText={errors.password2}
-                          error={Boolean(errors.password2) && validateAfterSubmit}
+                          helperText={validateAfterSubmit ? errors.password2 : null}
+                          error={Boolean(errors.password2)}
                         />
                       </Grid>
 
@@ -298,6 +295,7 @@ export default function SignUp() {
                             }}
                             to="/login"
                             variant="body2"
+
                           >
                             قبلا ثبت نام کرده اید؟
                             <Button sx={{ color: 'rgb(76, 175, 80)', fontSize: '15px' }}>ورود</Button>
