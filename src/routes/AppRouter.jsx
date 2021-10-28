@@ -12,9 +12,8 @@ const AppRouter = () => {
         <Route path="/" exact>
           <HomePage />
         </Route>
-        <Route path="/email-verification" exact >
-          <EmailVerification/>
-        </Route>
+        <Route path="/email-verification" exact render={(props) => <EmailVerification {...props}/>} />
+
         <Route path="/login" exact>
           <LoginPage />
         </Route>
