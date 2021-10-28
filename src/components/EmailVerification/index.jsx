@@ -20,7 +20,7 @@ function EmailVerification(props) {
   const [isSignedUp, setIsSignedUp] = useState(false);
   const [errorText, setErrorText] = useState('مشکلی پیش آمده است لطفا دوباره امتحان کنید');
   const time = new Date();
-  time.setSeconds(time.getSeconds() + 10); // 10 minutes timer
+  time.setSeconds(time.getSeconds() + 60); // 10 minutes timer
 
   const onExpire = () => {
     setResend(true);
