@@ -3,26 +3,30 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import VerificationInput from 'react-verification-input';
-import image from '../../assets/images/image.jpg';
 import image2 from '../../assets/images/image2.jpg';
 import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import { Redirect } from 'react-router';
+import MyTimer from '../MyTimer';
 import './style.scss';
-import { Link } from 'react-router-dom';
 
 function EmailVerification(props) {
   const token = useRef('');
   const [verified, setVerified] = useState(false);
   const [error, setError] = useState(false);
   const [resend, setResend] = useState(false);
-  const [counter, setCounter] = useState(120);
   const [isSignedUp, setIsSignedUp] = useState(false);
   const [errorText, setErrorText] = useState('مشکلی پیش آمده است لطفا دوباره امتحان کنید');
+  const time = new Date();
+  time.setSeconds(time.getSeconds() + 10); // 10 minutes timer
 
-  if (verified && !error) {
+  const onExpire = () => {
+    setResend(true);
+  };
+
+  if (verified && !error && !isSignedUp) {
     setVerified(false);
     axios
       .post('https://kooleposhti.herokuapp.com/accounts/signup/', JSON.stringify(props.location.state.values), {
@@ -32,7 +36,7 @@ function EmailVerification(props) {
       })
       .then(res => {
         console.log('status is: ', res.status);
-        setIsSignedUp(res.status === 201);
+        setIsSignedUp(true);
       })
       .catch(err => {
         console.log('error: ', err);
@@ -43,6 +47,7 @@ function EmailVerification(props) {
   const resend_code = event => {
     event.preventDefault();
     console.log('verified');
+    setResend(false);
     const info = { email: props.location.state.values.email, username: props.location.state.values.username };
 
     axios
@@ -73,7 +78,7 @@ function EmailVerification(props) {
       })
       .then(response => {
         console.log('status is: ', response.status);
-        setVerified(response.status === 202);
+        setVerified(true);
       })
       .catch(err => {
         console.log('error: ', err);
@@ -121,9 +126,13 @@ function EmailVerification(props) {
                     </Button>
                   </Grid>
                   <Grid item xs={12}>
-                    <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 4 }}>
-                      ارسال دوباره کد بعد از <span>120</span> ثانیه
-                      <Button disabled={resend} variant="contained" sx={{ m: 2 }} onClick={resend_code}>
+                    <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 8 }}>
+                      ارسال دوباره کد بعد از{' '}
+                      <span>
+                        <MyTimer expiryTimestamp={time} expire={onExpire} />
+                      </span>{' '}
+                      ثانیه
+                      <Button disabled={!resend} variant="contained" sx={{ m: 2 }} onClick={resend_code}>
                         ارسال
                       </Button>
                     </Typography>
