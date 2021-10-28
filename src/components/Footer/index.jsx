@@ -1,9 +1,9 @@
-import footerBg from '../../assets/images/footer-bg.svg';
-import instagram from '../../assets/images/social/instagram.svg';
-import email from '../../assets/images/social/email.svg';
-import whatsapp from '../../assets/images/social/whatsapp.svg';
-import twitter from '../../assets/images/social/twitter.svg';
-import phone from '../../assets/images/social/call.svg';
+import footerBg from '../../assets/images/footer-bg.png';
+import instagram from '../../assets/images/social/instagram.png';
+import email from '../../assets/images/social/email.png';
+import whatsapp from '../../assets/images/social/whatsapp.png';
+import twitter from '../../assets/images/social/twitter.png';
+import phone from '../../assets/images/social/call.png';
 
 import './style.scss';
 
