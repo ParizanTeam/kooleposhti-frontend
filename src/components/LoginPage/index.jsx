@@ -35,20 +35,19 @@ const cacheLtr = createCache({
 });
 
 const validationSchema = yup.object({
-  email: yup.string('').required('پر کردن این فیلد الزامی است.'),
-  password: yup.string('').required('پر کردن این فیلد الزامی است.'),
+  email: yup.string('').required('باید حتما ایمیل یا نام کاربریت رو بنویسی تا بتونی وارد بشی.'),
+  password: yup.string('').required('باید حتما رمز عبورت رو بنویسی تا بتوونی وارد بشی..'),
 });
 
 function Copyright(props) {
   return (
-    <Typography color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="/">
-        Kooleposhti
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
+    <div className="my-footer__bylove">
+      <span className="my-footer__content__s">ساخته شده با</span>
+      <div className="my-footer__content__h">
+        <span>&hearts;</span>
+      </div>
+      <span className="my-footer__content__s">در ایران</span>
+    </div>
   );
 }
 
@@ -68,7 +67,7 @@ const LoginPage = () => {
         });
         history.push('/');
       } catch (error) {
-        toast.error('نام کاربری یا رمز عبور اشتباه است.', {
+        toast.error('نام کاربری یا رمز عبورت اشتباهه!', {
           position: 'bottom-center',
           autoClose: 5000,
           hideProgressBar: false,
@@ -77,7 +76,7 @@ const LoginPage = () => {
           draggable: true,
           progress: undefined,
           theme: 'dark',
-          className: 'toast-error'
+          className: 'toast-error',
         });
       }
     },
@@ -125,7 +124,7 @@ const LoginPage = () => {
                 required
                 fullWidth
                 id="email"
-                label="نام کاربری یا پست الکترونیک"
+                label="نام کاربری یا ایمیل"
                 name="email"
                 autoComplete="email"
                 autoFocus

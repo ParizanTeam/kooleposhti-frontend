@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import VerificationInput from 'react-verification-input';
-import image from '../../assets/images/image.jpg';
+import image from '../../assets/images/child1.jpg';
 import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import './style.scss';

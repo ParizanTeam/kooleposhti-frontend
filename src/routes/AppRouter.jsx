@@ -4,6 +4,7 @@ import LoginPage from '../components/LoginPage';
 import SignupPage from '../components/SignupPage';
 import NotFoundPage from '../components/NotFoundPage';
 import EmailVerification from '../components/EmailVerification';
+import ForgetPasswordPage from '../components/ForgetPasswordPage';
 
 const AppRouter = () => {
   return (
@@ -12,14 +13,17 @@ const AppRouter = () => {
         <Route path="/" exact>
           <HomePage />
         </Route>
-        <Route path="/email-verification" exact >
-          <EmailVerification/>
+        <Route path="/email-verification" exact>
+          <EmailVerification />
         </Route>
         <Route path="/login" exact>
           <LoginPage />
         </Route>
         <Route path="/signup" exact>
           <SignupPage />
+        </Route>
+        <Route path="/forget-password" exact>
+          <ForgetPasswordPage />
         </Route>
         <Route path="*">
           <NotFoundPage />
