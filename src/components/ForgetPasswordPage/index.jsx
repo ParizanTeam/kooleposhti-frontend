@@ -43,19 +43,6 @@ const validationSchema = yup.object({
   email: yup.string('').email('ایمیلی که وارد کردی درست نیست🤔').required('باید حتما ایمیلت رو بنویسی.'),
 });
 
-function Copyright(props) {
-  return (
-    <div className="my-footer__bylove">
-      <span className="my-footer__content__s">ساخته شده با</span>
-      <div className="my-footer__content__h">
-        <span>&hearts;</span>
-      </div>
-      <span className="my-footer__content__s">در ایران</span>
-    </div>
-  );
-}
-
-
 const ForgetPasswordPage = () => {
   const history = useHistory();
   const formik = useFormik({
@@ -159,7 +146,6 @@ const ForgetPasswordPage = () => {
                 <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                   ارسال
                 </Button>
-                <Copyright sx={{ mt: 5 }} />
               </Box>
             </Box>
           </Grid>
