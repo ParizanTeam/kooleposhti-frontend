@@ -97,7 +97,7 @@ export default function MobileNavbar() {
               aria-label="open drawer"
               onClick={handleDrawerOpen}
               edge="start"
-              sx={{ color: '#fd576c',mr: 2, ...(open && { display: 'none' }) }}
+              sx={{ color: '#fd576c', mr: 2, ...(open && { display: 'none' }) }}
             >
               <MenuIcon />
             </IconButton>
@@ -120,7 +120,7 @@ export default function MobileNavbar() {
         open={open}
       >
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose} sx={{color: '#fd576c'}}>
+          <IconButton onClick={handleDrawerClose} sx={{ color: '#fd576c' }}>
             <CloseIcon />
           </IconButton>
         </DrawerHeader>
@@ -131,7 +131,7 @@ export default function MobileNavbar() {
 
         <Divider style={{ marginTop: '20 px' }} />
 
-        <MenuButton1 Icon={AccountCircleIcon} text="ثبت نام" linkTo="/singup" />
+        <MenuButton1 Icon={AccountCircleIcon} text="ثبت نام" linkTo="/signup" />
         <MenuButton1 Icon={LoginIcon} text="ورود" linkTo="/login" />
       </Drawer>
 

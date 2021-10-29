@@ -1,6 +1,6 @@
 // IMPORTING APIS
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button, useScrollTrigger, Slide} from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, useScrollTrigger, Slide } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { Link } from 'react-router-dom';
 
@@ -20,7 +20,7 @@ const DesktopNavbar = props => {
   };
 
   const handleSearchBarClose = () => {
-     setOpenSearchBar(false);
+    setOpenSearchBar(false);
   };
 
   return (
@@ -47,11 +47,11 @@ const DesktopNavbar = props => {
             </IconButton>
           </div>
 
-          <div className="desktop_navbar__signup" >
+          <div className="desktop_navbar__signup">
             <Button
               variant="contained"
               component={Link}
-              to="/singup"
+              to="/signup"
               style={{ backgroundColor: '#fd576c', marginLeft: '10px', fontWeight: 800 }}
             >
               ثبت نام
@@ -69,7 +69,6 @@ const DesktopNavbar = props => {
       </AppBar>
 
       {openSearchBar && <SearchBar onClose={handleSearchBarClose} />}
-
     </div>
   );
 };
