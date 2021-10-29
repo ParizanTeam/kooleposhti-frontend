@@ -19,6 +19,8 @@ import { useHistory, Link as routerLink } from 'react-router-dom';
 import * as yup from 'yup';
 import rtl from 'jss-rtl';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { login } from '../../store/actions';
 import imageSrc from '../../assets/images/teaching-students-online-internet-learning-computer-programming_335657-3119.jpg';
 import './style.scss';
 import 'react-toastify/dist/ReactToastify.css';
@@ -35,25 +37,25 @@ const cacheLtr = createCache({
 });
 
 const validationSchema = yup.object({
-  email: yup.string('').required('پر کردن این فیلد الزامی است.'),
-  password: yup.string('').required('پر کردن این فیلد الزامی است.'),
+  email: yup.string('').required('باید حتما ایمیل یا نام کاربریت رو بنویسی تا بتونی وارد بشی.'),
+  password: yup.string('').required('باید حتما رمز عبورت رو بنویسی تا بتوونی وارد بشی..'),
 });
 
 function Copyright(props) {
   return (
-    <Typography color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="/">
-        Kooleposhti
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
+    <div className="my-footer__bylove">
+      <span className="my-footer__content__s">ساخته شده با</span>
+      <div className="my-footer__content__h">
+        <span>&hearts;</span>
+      </div>
+      <span className="my-footer__content__s">در ایران</span>
+    </div>
   );
 }
 
 const LoginPage = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -62,13 +64,25 @@ const LoginPage = () => {
 
     onSubmit: async values => {
       try {
-        const res = await axios.post('https://kooleposhti.herokuapp.com/auth/jwt/create/', {
-          username: values.email,
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const isEmail = re.test(String(values.email).toLowerCase());
+        const body = {
           password: values.password,
-        });
+        };
+        if (isEmail) {
+          body.email = values.email;
+        } else {
+          body.username = values.email;
+        }
+        const res = await axios.post('https://kooleposhti.herokuapp.com/accounts/jwt/create/', body);
+        localStorage.setItem('access_token', res.data.access);
+        localStorage.setItem('refresh_token', res.data.refresh);
+
+        dispatch(login());
+
         history.push('/');
       } catch (error) {
-        toast.error('نام کاربری یا رمز عبور اشتباه است.', {
+        toast.error('نام کاربری یا رمز عبورت اشتباهه!', {
           position: 'bottom-center',
           autoClose: 5000,
           hideProgressBar: false,
@@ -77,6 +91,7 @@ const LoginPage = () => {
           draggable: true,
           progress: undefined,
           theme: 'dark',
+          className: 'toast-error',
         });
       }
     },
@@ -112,7 +127,6 @@ const LoginPage = () => {
             <Box
               component="form"
               dir="rtl !important"
-              //onSubmit={handleSubmit}
               noValidate
               onSubmit={formik.handleSubmit}
               setFieldValue
@@ -124,7 +138,7 @@ const LoginPage = () => {
                 required
                 fullWidth
                 id="email"
-                label="نام کاربری یا پست الکترونیک"
+                label="نام کاربری یا ایمیل"
                 name="email"
                 autoComplete="email"
                 autoFocus
@@ -149,21 +163,18 @@ const LoginPage = () => {
                 sx={{ fontFamily: 'iranyekan' }}
               />
 
-              {/* <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="مرا به خاطر بسپار" /> */}
               <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                وارد شوید
+                ورود
               </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    رمز عبور خود را فراموش کرده‌اید؟
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link to="/signup" component={routerLink} variant="body2">
-                    {'حساب کاربری ندارید؟ ثبت نام کنید.'}
-                  </Link>
-                </Grid>
+              <Grid item xs sx={{ mt: 3, mb: 2 }}>
+                <Link to="#" component={routerLink} variant="body2">
+                  رمز عبور خود را فراموش کرده‌اید؟
+                </Link>
+              </Grid>
+              <Grid item sx={{ mt: 3, mb: 2 }}>
+                <Link to="/signup" component={routerLink} variant="body2" sx={{ mt: 3, mb: 2 }}>
+                  {'هنوز عضو نشدی؟! همین حالا عضو شو.'}
+                </Link>
               </Grid>
             </Box>
           </Box>
