@@ -20,8 +20,8 @@ function EmailVerification(props) {
   const time = new Date();
   time.setSeconds(time.getSeconds() + 5); // 10 minutes timer
 
-  const onExpire = () => {
-    setResend(true);
+  const onExpire = (newState) => {
+    setResend(newState);
   };
 
 
@@ -108,8 +108,8 @@ function EmailVerification(props) {
           theme: 'dark',
         });
 
-        setTimeout(() => {console.log("wait to show signup successfull message")}, 3000);
-        setIsSignedUp(true);
+        setTimeout(() => {setIsSignedUp(true)}, 2000);
+        
       })
       .catch(err => {
         throw "signup";
@@ -189,7 +189,7 @@ function EmailVerification(props) {
                     <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 8 }}>
                       ارسال دوباره کد بعد از{' '}
                       <span>
-                        <MyTimer expiryTimestamp={time} expire={onExpire} />
+                        <MyTimer expiryTimestamp={time} expire={onExpire} resend={resend} seconds={60} />
                       </span>{' '}
                       ثانیه
                       <Button disabled={!resend} variant="contained" sx={{ m: 2 }} onClick={resend_code}>

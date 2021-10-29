@@ -92,106 +92,80 @@ export default function SignUp() {
                   /*                 recaptcha:"" */
                 }}
                 onSubmit={async values => {
-
-                  try
-                  {
+                  try {
                     const res = await axios
                       .post('https://kooleposhti.herokuapp.com/accounts/checkusername/', JSON.stringify(values), {
                         headers: {
                           'Content-Type': 'application/json',
                         },
                       })
-                      .then(response => {
-
-                      })
+                      .then(response => {})
                       .catch(err => {
-                        throw "username";
+                        throw 'username';
                       });
-                      
 
-
-
-                      const res2 = await axios
+                    const res2 = await axios
                       .post('https://kooleposhti.herokuapp.com/accounts/checkemail/', JSON.stringify(values), {
                         headers: {
                           'Content-Type': 'application/json',
                         },
                       })
-                      .then(response => {
-
-                      })
+                      .then(response => {})
                       .catch(err => {
-                        throw "email"
+                        throw 'email';
                       });
 
-
-
-                  const res3 = await axios
-                    .post('https://kooleposhti.herokuapp.com/accounts/activate/', JSON.stringify(values), {
-                      headers: {
-                        'Content-Type': 'application/json',
-                      },
-                    })
-                    .then(response => {
-                      console.log('status is: ', response.status);
-                      setValues(values);
-                      setApiResponse(response.status === 200);
-                    })
-                    .catch(err => {
-                      console.log('error: ', err);
-                      throw "activate"
-                    });
+                    const res3 = await axios
+                      .post('https://kooleposhti.herokuapp.com/accounts/activate/', JSON.stringify(values), {
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                      })
+                      .then(response => {
+                        console.log('status is: ', response.status);
+                        setValues(values);
+                        setApiResponse(response.status === 200);
+                      })
+                      .catch(err => {
+                        console.log('error: ', err);
+                        throw 'activate';
+                      });
+                  } catch (error) {
+                    if (error === 'username') {
+                      toast.error('نام کاربری قبلا انتخاب شده است', {
+                        position: 'bottom-center',
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: 'dark',
+                      });
+                    } else if (error === 'email') {
+                      toast.error('ایمیل قبلا در سیستم ثبت شده است', {
+                        position: 'bottom-center',
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: 'dark',
+                      });
+                    } else if (error === 'activate') {
+                      toast.error('مشکلی پیش آمده است لطفا دوباره امتحان کنید', {
+                        position: 'bottom-center',
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: 'dark',
+                      });
+                    }
                   }
-                  catch(error)
-                  {
-                      if(error === "username")
-                      {
-                        toast.error('نام کاربری قبلا انتخاب شده است', {
-                          position: 'bottom-center',
-                          autoClose: 5000,
-                          hideProgressBar: false,
-                          closeOnClick: true,
-                          pauseOnHover: true,
-                          draggable: true,
-                          progress: undefined,
-                          theme: 'dark',
-
-                        
-                        });
-                      }
-
-                      else if(error === "email")
-                      {
-                        toast.error('ایمیل قبلا در سیستم ثبت شده است', {
-                          position: 'bottom-center',
-                          autoClose: 5000,
-                          hideProgressBar: false,
-                          closeOnClick: true,
-                          pauseOnHover: true,
-                          draggable: true,
-                          progress: undefined,
-                          theme: 'dark',
-
-                        });
-                      }
-
-                      else if(error === "activate")
-                      {
-                        toast.error('مشکلی پیش آمده است لطفا دوباره امتحان کنید', {
-                          position: 'bottom-center',
-                          autoClose: 5000,
-                          hideProgressBar: false,
-                          closeOnClick: true,
-                          pauseOnHover: true,
-                          draggable: true,
-                          progress: undefined,
-                          theme: 'dark',
-
-                        });
-                      }
-                  }
-
-                  
                 }}
                 validateOnChange={validateAfterSubmit}
                 validate={values => {
@@ -213,8 +187,7 @@ export default function SignUp() {
                     error.password2 = 'لطفا رمز عبور خود را دوباره وارد کنید';
                   } else if (values.password2 !== values.password1) {
                     error.password2 = 'با رمز اصلی تطابق ندارد';
-                  } 
-                  
+                  }
 
                   /*  else if(values.recaptcha === "")
                 {
@@ -342,7 +315,6 @@ export default function SignUp() {
                             }}
                             to="/login"
                             variant="body2"
-
                           >
                             قبلا ثبت نام کرده اید؟
                             <Button sx={{ color: 'rgb(76, 175, 80)', fontSize: '15px' }}>ورود</Button>
