@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -22,8 +22,9 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { login } from '../../store/actions';
 import imageSrc from '../../assets/images/teaching-students-online-internet-learning-computer-programming_335657-3119.jpg';
-import './style.scss';
 import 'react-toastify/dist/ReactToastify.css';
+import ReactLoading from 'react-loading';
+import './style.scss';
 
 const cacheRtl = createCache({
   key: 'muirtl',
@@ -36,12 +37,14 @@ const cacheLtr = createCache({
   prepend: true,
 });
 
+
 const validationSchema = yup.object({
   email: yup.string('').required('باید حتما ایمیل یا نام کاربریت رو بنویسی تا بتونی وارد بشی.'),
   password: yup.string('').required('باید حتما رمز عبورت رو بنویسی تا بتوونی وارد بشی.'),
 });
 
 const LoginPage = () => {
+  const [loading , setLoading] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
   const formik = useFormik({
@@ -62,6 +65,7 @@ const LoginPage = () => {
         } else {
           body.username = values.email;
         }
+        setLoading(true);
         const res = await axios.post('https://kooleposhti.herokuapp.com/accounts/jwt/create/', body);
         localStorage.setItem('access_token', res.data.access);
         localStorage.setItem('refresh_token', res.data.refresh);
@@ -70,6 +74,7 @@ const LoginPage = () => {
 
         history.push('/');
       } catch (error) {
+        setLoading(false);
         toast.error('نام کاربری یا رمز عبورت اشتباهه!', {
           position: 'bottom-center',
           autoClose: 5000,
@@ -152,7 +157,8 @@ const LoginPage = () => {
               />
 
               <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                ورود
+                {!loading && <span>ورود</span>}
+                {loading && <ReactLoading type="bubbles" color="#fff" className="loading-login" />}
               </Button>
               <Grid item xs sx={{ mt: 3, mb: 2 }}>
                 <Link
