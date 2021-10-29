@@ -1,8 +1,15 @@
 @import '/src/theme/main.scss';
 
-@media only screen and (max-width: 600px) {
-  .forget-password__text {
-    font-size: 0.9em !important;
-    font-weight: 500;
-  }
+// @media only screen and (max-width: 600px) {
+//   .forget-password__text {
+//     font-size: 0.9em !important;
+//     font-weight: 500;
+//   }
+// }
+.forget-password-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: justify;
 }

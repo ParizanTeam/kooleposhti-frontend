@@ -38,20 +38,8 @@ const cacheLtr = createCache({
 
 const validationSchema = yup.object({
   email: yup.string('').required('باید حتما ایمیل یا نام کاربریت رو بنویسی تا بتونی وارد بشی.'),
-  password: yup.string('').required('باید حتما رمز عبورت رو بنویسی تا بتوونی وارد بشی..'),
+  password: yup.string('').required('باید حتما رمز عبورت رو بنویسی تا بتوونی وارد بشی.'),
 });
-
-function Copyright(props) {
-  return (
-    <div className="my-footer__bylove">
-      <span className="my-footer__content__s">ساخته شده با</span>
-      <div className="my-footer__content__h">
-        <span>&hearts;</span>
-      </div>
-      <span className="my-footer__content__s">در ایران</span>
-    </div>
-  );
-}
 
 const LoginPage = () => {
   const history = useHistory();
@@ -117,13 +105,13 @@ const LoginPage = () => {
               fontFamily: 'iranyekan',
             }}
           >
-            <img src={imageSrc} style={{ width: '100%' }} />
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5" sx={{ fontFamily: 'iranyekan' }}>
               ورود
             </Typography>
+            <img src={imageSrc} style={{ width: '100%' }} />
             <Box
               component="form"
               dir="rtl !important"
@@ -167,18 +155,28 @@ const LoginPage = () => {
                 ورود
               </Button>
               <Grid item xs sx={{ mt: 3, mb: 2 }}>
-                <Link to="#" component={routerLink} variant="body2">
-                  رمز عبور خود را فراموش کرده‌اید؟
+                <Link
+                  to="/forget-password"
+                  component={routerLink}
+                  variant="body2"
+                  className="login-link__forget-password"
+                >
+                  رمز عبورتو یادت رفته؟
                 </Link>
               </Grid>
               <Grid item sx={{ mt: 3, mb: 2 }}>
-                <Link to="/signup" component={routerLink} variant="body2" sx={{ mt: 3, mb: 2 }}>
+                <Link
+                  to="/signup"
+                  component={routerLink}
+                  variant="body2"
+                  sx={{ mt: 3, mb: 2 }}
+                  className="login-link__not-registered"
+                >
                   {'هنوز عضو نشدی؟! همین حالا عضو شو.'}
                 </Link>
               </Grid>
             </Box>
           </Box>
-          <Copyright sx={{ mt: 8, mb: 4 }} />
         </Container>
       </div>
     </CacheProvider>

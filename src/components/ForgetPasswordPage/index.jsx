@@ -27,6 +27,7 @@ import axios from 'axios';
 import { color, padding } from '@mui/system';
 import img from '../../assets/images/forget-password.jpg';
 import './style.scss';
+import { useMediaQuery } from '@mui/material';
 
 const cacheRtl = createCache({
   key: 'muirtl',
@@ -43,29 +44,6 @@ const validationSchema = yup.object({
   email: yup.string('').email('ایمیلی که وارد کردی درست نیست🤔').required('باید حتما ایمیلت رو بنویسی.'),
 });
 
-function Copyright(props) {
-  return (
-    <div className="my-footer__bylove">
-      <span className="my-footer__content__s">ساخته شده با</span>
-      <div className="my-footer__content__h">
-        <span>&hearts;</span>
-      </div>
-      <span className="my-footer__content__s">در ایران</span>
-    </div>
-  );
-}
-
-const Emoji = props => (
-  <span
-    className="emoji"
-    role="img"
-    aria-label={props.label ? props.label : ''}
-    aria-hidden={props.label ? 'false' : 'true'}
-  >
-    {props.symbol}
-  </span>
-);
-
 const ForgetPasswordPage = () => {
   const history = useHistory();
   const formik = useFormik({
@@ -75,9 +53,10 @@ const ForgetPasswordPage = () => {
 
     onSubmit: async values => {
       try {
-        const res = await axios.post('https://kooleposhti.herokuapp.com/auth/jwt/create/', {
+        const res = await axios.post('https://kooleposhti.herokuapp.com/accounts/users/reset_password/', {
           email: values.email,
         });
+        console.log(res);
         history.push('/');
       } catch (error) {
         console.log('hello world');
@@ -99,85 +78,90 @@ const ForgetPasswordPage = () => {
 
   return (
     <CacheProvider value={rtl ? cacheRtl : cacheLtr}>
-      <div dir="rtl">
-        <Helmet>
-          <title>فراموش کردن رمز عبور</title>
-        </Helmet>
-        <Grid container component="main" sx={{ height: '100vh' }}>
-          <CssBaseline />
-          <Grid
-            item
-            xs={false}
-            sm={false}
-            md={7}
-            sx={{
-              backgroundImage: `url(${img})`,
-              backgroundRepeat: 'no-repeat',
-              backgroundColor: t => (t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900]),
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }}
-          />
-          <Grid item xs={12} sm={12} md={5} component={Paper} elevation={15} square>
-            <Box
+      <div className="forget-password-container">
+        <div dir="rtl" className="forget-password">
+          <Helmet>
+            <title>فراموش کردن رمز عبور</title>
+          </Helmet>
+          <Grid container component={Paper} elevation={useMediaQuery('(max-width: 900px)') ? 0 : 10} maxWidth="md">
+            <CssBaseline />
+            <Grid
+              item
+              xs={false}
+              sm={false}
+              md={6}
               sx={{
-                my: 8,
-                mx: 4,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
+                backgroundImage: `url(${img})`,
+                backgroundRepeat: 'no-repeat',
+                backgroundColor: t => (t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900]),
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
               }}
+            />
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              md={6}
+              component={Paper}
+              elevation={useMediaQuery('(max-width: 900px)') ? 0 : 10}
+              square
             >
-              <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                <HelpOutlineIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                رمز عبورتو یادت رفته؟
-              </Typography>
-
-              <Typography component="h6" variant="h6" sx={{ mt: 7 }}>
-                اشکال نداره. نگران نباش 😉
-              </Typography>
-              <Typography
-                component="h6"
-                variant="h6"
-                margin="normal"
-                sx={{ mt: 7, pr: 5, pl: 5 }}
-                className="forget-password__text"
-              >
-                بعد از وارد کردن ایمیلتون، ما یک پیام براتون می‌فرستیم و شما از طریق اون پیام می‌تونید رمز عبور جدیدتون
-                رو ثبت کنید.
-              </Typography>
               <Box
-                component="form"
-                noValidate
-                onSubmit={formik.handleSubmit}
-                setFieldValue
-                sx={{ mt: 4, width: '90%' }}
+                sx={{
+                  my: 8,
+                  mx: 4,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
               >
-                <TextField
+                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                  <HelpOutlineIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                  رمز عبورتو یادت رفته؟
+                </Typography>
+                <Typography
+                  component="h6"
+                  variant="h6"
                   margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="ایمیل"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
-                  dir="rtl"
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  helperText={formik.touched.email && formik.errors.email}
-                />
-                <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                  ارسال
-                </Button>
-                <Copyright sx={{ mt: 5 }} />
+                  sx={{ mt: 7, pr: 4, pl: 4, fontSize: 16 }}
+                  className="forget-password__text"
+                >
+                  بعد از وارد کردن ایمیلت، ما یک پیام برات می‌فرستیم و شما از طریق اون پیام می‌تونی رمز عبور جدیدت رو
+                  ثبت کنی.
+                </Typography>
+                <Box
+                  component="form"
+                  noValidate
+                  onSubmit={formik.handleSubmit}
+                  setFieldValue
+                  sx={{ mt: 4, width: '90%' }}
+                >
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="email"
+                    label="ایمیل"
+                    name="email"
+                    autoComplete="email"
+                    autoFocus
+                    dir="rtl"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
+                  />
+                  <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                    ارسال
+                  </Button>
+                </Box>
               </Box>
-            </Box>
+            </Grid>
           </Grid>
-        </Grid>
+        </div>
       </div>
     </CacheProvider>
   );
