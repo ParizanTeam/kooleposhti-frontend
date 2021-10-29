@@ -163,10 +163,10 @@ function EmailVerification(props) {
                 <ToastContainer rtl={true} />
                   <Grid item xs={12}>
                     <Typography variant="h4" color="text.secondary" align="center">
-                      لطفا کد تایید ایمیل را وارد کنید
+                      لطفا کد تایید ایمیل رو وارد کن 
                     </Typography>
                     <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 4 }}>
-                      کد 6 رقمی به <span>{props.location.state.values.email}</span> ارسال شده است
+                      کد 6 رقمی به <span>{props.location.state.values.email}</span> ارسال شده‌است
                     </Typography>
                   </Grid>
                   <Grid item xs={12} component="form" sx={{ margin: '80px 10px 0 0' }} onSubmit={verifyAndSignUp}>

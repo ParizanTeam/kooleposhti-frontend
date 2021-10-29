@@ -21,21 +21,9 @@ import background from '../../assets/images/child1.jpg';
 import axios from 'axios';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { ToastContainer, toast } from 'react-toastify';
+import { Helmet } from 'react-helmet';
 /* import Recaptcha from 'react-recaptcha'; */
 import './style.scss';
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="/">
-        Koolephoshti
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const cacheRtl = createCache({
   key: 'muirtl',
@@ -53,13 +41,19 @@ export default function SignUp() {
   const [validateAfterSubmit, setValidateAfterSubmit] = useState(false);
   const [apiResponse, setApiResponse] = useState(false);
   const [values, setValues] = useState({});
+  const [ loading, setLoading] = useState(false);
 
   return (
     <CacheProvider value={cacheRtl}>
       {apiResponse && <Redirect to={{ pathname: '/email-verification', state: { values: values } }} />}
       {!apiResponse && (
         <div dir="rtl">
-          <Container maxWidth="xs" component="main">
+          <Helmet>
+            <title>ثبت نام</title>
+          </Helmet>
+
+          <div  className="shadow">
+          <Container maxWidth="xs" component="main" sx={{margin:"auto auto 30px auto"}}>
             <Box
               sx={{
                 marginTop: 8,
@@ -114,7 +108,8 @@ export default function SignUp() {
                       .catch(err => {
                         throw 'email';
                       });
-
+                    
+                    setLoading(true);
                     const res3 = await axios
                       .post('https://kooleposhti.herokuapp.com/accounts/activate/', JSON.stringify(values), {
                         headers: {
@@ -124,6 +119,7 @@ export default function SignUp() {
                       .then(response => {
                         console.log('status is: ', response.status);
                         setValues(values);
+                        setLoading(false);
                         setApiResponse(response.status === 200);
                       })
                       .catch(err => {
@@ -193,7 +189,6 @@ export default function SignUp() {
                 {
                     error.recaptcha = "not human";
                 } */
-                  console.log('khaki');
                   return error;
                 }}
               >
@@ -300,8 +295,9 @@ export default function SignUp() {
                     />
                   </div> */}
 
-                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>
-                      ثبت نام
+                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 , backgroundColor:"rgb(69, 15, 194)" }}>
+                      {!loading && ثبت نام}
+                      {loading && <ReactLoading type="bubbles" color="#fff" />}
                     </Button>
                     <Grid container justifyContent="flex-start">
                       <Grid item>
@@ -310,14 +306,13 @@ export default function SignUp() {
                             sx={{
                               textDecoration: 'none',
                               color: 'black',
-                              fontSize: '13px',
                               mr: 0,
                             }}
                             to="/login"
                             variant="body2"
                           >
-                            قبلا ثبت نام کرده اید؟
-                            <Button sx={{ color: 'rgb(76, 175, 80)', fontSize: '15px' }}>ورود</Button>
+                            <span style={{fontSize:"13px"}}>قبلا ثبت نام کردی؟</span>
+                            <Button sx={{ color: 'rgb(76, 175, 80)', fontSize: '13px' }}>ورود</Button>
                           </Link>
                         </Container>
                       </Grid>
@@ -326,16 +321,8 @@ export default function SignUp() {
                 )}
               </Formik>
             </Box>
-            <Copyright sx={{ mt: 5 }} />
           </Container>
-
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-            <path
-              fill="#0099ff"
-              fillOpacity="1"
-              d="M0,160L14.1,170.7C28.2,181,56,203,85,197.3C112.9,192,141,160,169,128C197.6,96,226,64,254,48C282.4,32,311,32,339,64C367.1,96,395,160,424,176C451.8,192,480,160,508,149.3C536.5,139,565,149,593,165.3C621.2,181,649,203,678,229.3C705.9,256,734,288,762,282.7C790.6,277,819,235,847,202.7C875.3,171,904,149,932,160C960,171,988,213,1016,224C1044.7,235,1073,213,1101,170.7C1129.4,128,1158,64,1186,80C1214.1,96,1242,192,1271,213.3C1298.8,235,1327,181,1355,133.3C1383.5,85,1412,43,1426,21.3L1440,0L1440,320L1425.9,320C1411.8,320,1384,320,1355,320C1327.1,320,1299,320,1271,320C1242.4,320,1214,320,1186,320C1157.6,320,1129,320,1101,320C1072.9,320,1045,320,1016,320C988.2,320,960,320,932,320C903.5,320,875,320,847,320C818.8,320,791,320,762,320C734.1,320,706,320,678,320C649.4,320,621,320,593,320C564.7,320,536,320,508,320C480,320,452,320,424,320C395.3,320,367,320,339,320C310.6,320,282,320,254,320C225.9,320,198,320,169,320C141.2,320,113,320,85,320C56.5,320,28,320,14,320L0,320Z"
-            ></path>
-          </svg>
+          </div>
         </div>
       )}
     </CacheProvider>
