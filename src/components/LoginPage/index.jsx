@@ -105,7 +105,7 @@ const LoginPage = () => {
               fontFamily: 'iranyekan',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <Avatar className="login-page-avatar" sx={{ m: 1 }}>
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5" sx={{ fontFamily: 'iranyekan' }}>
@@ -151,7 +151,7 @@ const LoginPage = () => {
                 sx={{ fontFamily: 'iranyekan' }}
               />
 
-              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+              <Button type="submit" fullWidth variant="contained" className="login-page-button" sx={{ mt: 3, mb: 2 }}>
                 ورود
               </Button>
               <Grid item xs sx={{ mt: 3, mb: 2 }}>

@@ -25,7 +25,7 @@ import * as yup from 'yup';
 import rtl from 'jss-rtl';
 import axios from 'axios';
 import { color, padding } from '@mui/system';
-import img from '../../assets/images/forget-password.jpg';
+import img from '../../assets/images/forget-password.png';
 import './style.scss';
 import { useMediaQuery } from '@mui/material';
 
@@ -60,7 +60,7 @@ const ForgetPasswordPage = () => {
         history.push('/');
       } catch (error) {
         console.log('hello world');
-        toast.error('نام کاربری یا رمز عبورت اشتباهه!', {
+        toast.error('ایمیلی که نوشتی تو سامانه ثبت نشده.', {
           position: 'bottom-center',
           autoClose: 5000,
           hideProgressBar: false,
@@ -69,7 +69,6 @@ const ForgetPasswordPage = () => {
           draggable: true,
           progress: undefined,
           theme: 'dark',
-          className: 'toast-error',
         });
       }
     },
@@ -116,7 +115,7 @@ const ForgetPasswordPage = () => {
                   alignItems: 'center',
                 }}
               >
-                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                <Avatar className="forget-password-avatar" sx={{ m: 1 }}>
                   <HelpOutlineIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
@@ -154,7 +153,13 @@ const ForgetPasswordPage = () => {
                     error={formik.touched.email && Boolean(formik.errors.email)}
                     helperText={formik.touched.email && formik.errors.email}
                   />
-                  <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                  <Button
+                    type="submit"
+                    className="forget-password-page-button"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                  >
                     ارسال
                   </Button>
                 </Box>

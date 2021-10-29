@@ -1,36 +1,29 @@
 @import '/src/theme/main.scss';
 
 .container {
-    height: 50px;
-    width: 300px;
-  }
-  
-  .character {
-    line-height: 50px;
-    font-size: 36px;
-    color: white;
-    background-color: rgba(1, 85, 194, 0.548);
-    border: 1px solid transparent;
-    border-radius: 10px;
-    margin-left: 8px;
-  }
-  
-  
-  .character:first-child {
-    margin-left: 0;
-  }
-  
-  .character--inactive {
-    background-color:rgba(250, 19, 31, 0.548);
-  }
-  
-  .character--selected {
-    border: 1px solid white;
-    color:rgb(163, 216, 165);
-  }
+  height: 50px;
+  width: 300px;
+}
 
-  .Toastify__toast--error {
+.character {
+  line-height: 50px;
+  font-size: 36px;
+  color: white;
+  background-color: rgba(1, 85, 194, 0.548);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  margin-left: 8px;
+}
 
-    background: rgb(161, 49, 83) !important;
-  
-  }
+.character:first-child {
+  margin-left: 0;
+}
+
+.character--inactive {
+  background-color: rgba(250, 19, 31, 0.548);
+}
+
+.character--selected {
+  border: 1px solid white;
+  color: rgb(163, 216, 165);
+}
