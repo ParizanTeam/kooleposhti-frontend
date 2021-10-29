@@ -55,16 +55,6 @@ function Copyright(props) {
   );
 }
 
-const Emoji = props => (
-  <span
-    className="emoji"
-    role="img"
-    aria-label={props.label ? props.label : ''}
-    aria-hidden={props.label ? 'false' : 'true'}
-  >
-    {props.symbol}
-  </span>
-);
 
 const ForgetPasswordPage = () => {
   const history = useHistory();
@@ -134,10 +124,6 @@ const ForgetPasswordPage = () => {
               <Typography component="h1" variant="h5">
                 رمز عبورتو یادت رفته؟
               </Typography>
-
-              <Typography component="h6" variant="h6" sx={{ mt: 7 }}>
-                اشکال نداره. نگران نباش 😉
-              </Typography>
               <Typography
                 component="h6"
                 variant="h6"
@@ -145,8 +131,8 @@ const ForgetPasswordPage = () => {
                 sx={{ mt: 7, pr: 5, pl: 5 }}
                 className="forget-password__text"
               >
-                بعد از وارد کردن ایمیلتون، ما یک پیام براتون می‌فرستیم و شما از طریق اون پیام می‌تونید رمز عبور جدیدتون
-                رو ثبت کنید.
+                بعد از وارد کردن ایمیلت، ما یک پیام برات می‌فرستیم و شما از طریق اون پیام می‌تونی رمز عبور جدیدت رو ثبت
+                کنی.
               </Typography>
               <Box
                 component="form"
