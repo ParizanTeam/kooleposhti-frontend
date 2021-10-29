@@ -27,7 +27,7 @@ const DesktopNavbar = props => {
     <div>
       <AppBar style={{ backgroundColor: '#fff' }}>
         <Toolbar>
-          <img alt="لوگوی کوله‌پشتی " style={{ marginRight: '50px' }} src={logo} width="75" />
+          <img alt="لوگوی کوله‌پشتی " className="desktop_navbar__logo" src={logo} width="75" />
           <Typography variant="h5" component="p" style={{ fontWeight: 800, color: '#000' }}>
             کوله‌پشتی
           </Typography>
@@ -47,7 +47,7 @@ const DesktopNavbar = props => {
             </IconButton>
           </div>
 
-          <div style={{ marginRight: 'auto', marginLeft: '10%' }}>
+          <div className="desktop_navbar__signup" >
             <Button
               variant="contained"
               component={Link}
