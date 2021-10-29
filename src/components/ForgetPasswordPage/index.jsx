@@ -25,6 +25,7 @@ import * as yup from 'yup';
 import rtl from 'jss-rtl';
 import axios from 'axios';
 import { color, padding } from '@mui/system';
+import img from '../../assets/images/forget-password.jpg';
 import './style.scss';
 
 const cacheRtl = createCache({
@@ -110,14 +111,13 @@ const ForgetPasswordPage = () => {
             sm={false}
             md={7}
             sx={{
-              backgroundImage: 'url(/static/media/newFile.d6ec9cda.jpg)',
+              backgroundImage: `url(${img})`,
               backgroundRepeat: 'no-repeat',
               backgroundColor: t => (t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900]),
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}
           />
-
           <Grid item xs={12} sm={12} md={5} component={Paper} elevation={15} square>
             <Box
               sx={{

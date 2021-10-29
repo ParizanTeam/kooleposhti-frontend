@@ -19,6 +19,8 @@ import { useHistory, Link as routerLink } from 'react-router-dom';
 import * as yup from 'yup';
 import rtl from 'jss-rtl';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { login } from '../../store/actions';
 import imageSrc from '../../assets/images/teaching-students-online-internet-learning-computer-programming_335657-3119.jpg';
 import './style.scss';
 import 'react-toastify/dist/ReactToastify.css';
@@ -53,6 +55,7 @@ function Copyright(props) {
 
 const LoginPage = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -61,10 +64,22 @@ const LoginPage = () => {
 
     onSubmit: async values => {
       try {
-        const res = await axios.post('https://kooleposhti.herokuapp.com/auth/jwt/create/', {
-          username: values.email,
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const isEmail = re.test(String(values.email).toLowerCase());
+        const body = {
           password: values.password,
-        });
+        };
+        if (isEmail) {
+          body.email = values.email;
+        } else {
+          body.username = values.email;
+        }
+        const res = await axios.post('https://kooleposhti.herokuapp.com/accounts/jwt/create/', body);
+        localStorage.setItem('access_token', res.data.access);
+        localStorage.setItem('refresh_token', res.data.refresh);
+
+        dispatch(login());
+
         history.push('/');
       } catch (error) {
         toast.error('نام کاربری یا رمز عبورت اشتباهه!', {
@@ -112,7 +127,6 @@ const LoginPage = () => {
             <Box
               component="form"
               dir="rtl !important"
-              //onSubmit={handleSubmit}
               noValidate
               onSubmit={formik.handleSubmit}
               setFieldValue
@@ -149,11 +163,9 @@ const LoginPage = () => {
                 sx={{ fontFamily: 'iranyekan' }}
               />
 
-              {/* <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="مرا به خاطر بسپار" /> */}
               <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                 ورود
               </Button>
-              {/* <Grid container> */}
               <Grid item xs sx={{ mt: 3, mb: 2 }}>
                 <Link to="#" component={routerLink} variant="body2">
                   رمز عبور خود را فراموش کرده‌اید؟
@@ -164,7 +176,6 @@ const LoginPage = () => {
                   {'هنوز عضو نشدی؟! همین حالا عضو شو.'}
                 </Link>
               </Grid>
-              {/* </Grid> */}
             </Box>
           </Box>
           <Copyright sx={{ mt: 8, mb: 4 }} />
