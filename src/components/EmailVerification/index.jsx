@@ -7,42 +7,23 @@ import image2 from '../../assets/images/image2.jpg';
 import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import axios from 'axios';
-import Alert from '@mui/material/Alert';
 import { Redirect } from 'react-router';
 import MyTimer from '../MyTimer';
+import { ToastContainer, toast } from 'react-toastify';
 import './style.scss';
+
 
 function EmailVerification(props) {
   const token = useRef('');
-  const [verified, setVerified] = useState(false);
-  const [error, setError] = useState(false);
   const [resend, setResend] = useState(false);
-  const [isSignedUp, setIsSignedUp] = useState(false);
-  const [errorText, setErrorText] = useState('مشکلی پیش آمده است لطفا دوباره امتحان کنید');
+  const [isSignedUp , setIsSignedUp] = useState(false);
   const time = new Date();
-  time.setSeconds(time.getSeconds() + 60); // 10 minutes timer
+  time.setSeconds(time.getSeconds() + 5); // 10 minutes timer
 
   const onExpire = () => {
     setResend(true);
   };
 
-  if (verified && !error && !isSignedUp) {
-    setVerified(false);
-    axios
-      .post('https://kooleposhti.herokuapp.com/accounts/signup/', JSON.stringify(props.location.state.values), {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      .then(res => {
-        console.log('status is: ', res.status);
-        setIsSignedUp(true);
-      })
-      .catch(err => {
-        console.log('error: ', err);
-        setError(true);
-      });
-  }
 
   const resend_code = event => {
     event.preventDefault();
@@ -58,19 +39,43 @@ function EmailVerification(props) {
       })
       .then(response => {
         console.log('status is: ', response.status);
+        toast.success('کد تایید با موفقیت ارسال شد', {
+          position: 'bottom-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+
+        
+        });
+        
       })
       .catch(err => {
         console.log('error: ', err);
-        setError(true);
+        toast.error('مشکلی در فرستادن کد پیش آمده لطفا دوباره امتحان کنید', {
+          position: 'bottom-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+
+        
+        });
       });
   };
-  const verify = event => {
+  const verifyAndSignUp = async event => {
     event.preventDefault();
-    console.log('verified');
-    setError(false);
     const info = { email: props.location.state.values.email ?? null, token: token.current.value ?? null };
 
-    axios
+    try
+    {
+      const res = await axios
       .post('https://kooleposhti.herokuapp.com/accounts/checkcode/', info, {
         headers: {
           'Content-Type': 'application/json',
@@ -78,12 +83,71 @@ function EmailVerification(props) {
       })
       .then(response => {
         console.log('status is: ', response.status);
-        setVerified(true);
+
       })
       .catch(err => {
-        console.log('error: ', err);
-        setError(true);
+        throw "checkcode";
       });
+
+      const res2 = await axios
+      .post('https://kooleposhti.herokuapp.com/accounts/signup/', JSON.stringify(props.location.state.values), {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(res => {
+        console.log('status is: ', res.status);
+        toast.success('ثبت نام با موفقیت انجام شد', {
+          position: 'bottom-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+        });
+
+        setTimeout(() => {console.log("wait to show signup successfull message")}, 3000);
+        setIsSignedUp(true);
+      })
+      .catch(err => {
+        throw "signup";
+      });
+    }
+    catch(error)
+    {
+      if(error === "checkcode")
+      {
+        toast.error('کد وارد شده اشتباه است', {
+          position: 'bottom-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+
+        
+        });
+      }
+      if(error === "signup")
+      {
+        toast.error('کاربر با این مشخصات قبلا ثبت نام شده است', {
+          position: 'bottom-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+
+        
+        });
+      }
+    }
   };
 
   return (
@@ -96,11 +160,7 @@ function EmailVerification(props) {
             <Grid container spacing={1} align="center" justify="center" alignItems="center">
               <Grid item xs={12} sm={12}>
                 <Grid container>
-                  {error && (
-                    <Alert sx={{ margin: '10px auto 50px auto' }} onClose={event => {}} severity="error">
-                      {errorText}
-                    </Alert>
-                  )}
+                <ToastContainer rtl={true} />
                   <Grid item xs={12}>
                     <Typography variant="h4" color="text.secondary" align="center">
                       لطفا کد تایید ایمیل را وارد کنید
@@ -109,7 +169,7 @@ function EmailVerification(props) {
                       کد 6 رقمی به <span>{props.location.state.values.email}</span> ارسال شده است
                     </Typography>
                   </Grid>
-                  <Grid item xs={12} component="form" sx={{ margin: '80px 10px 0 0' }} onSubmit={verify}>
+                  <Grid item xs={12} component="form" sx={{ margin: '80px 10px 0 0' }} onSubmit={verifyAndSignUp}>
                     <VerificationInput
                       ref={token}
                       removeDefaultStyles

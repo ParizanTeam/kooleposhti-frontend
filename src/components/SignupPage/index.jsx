@@ -20,7 +20,7 @@ import createCache from '@emotion/cache';
 import background from '../../assets/images/child1.jpg';
 import axios from 'axios';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import Alert from '@mui/material/Alert';
+import { ToastContainer, toast } from 'react-toastify';
 /* import Recaptcha from 'react-recaptcha'; */
 import './style.scss';
 
@@ -52,10 +52,7 @@ export default function SignUp() {
 
   const [validateAfterSubmit, setValidateAfterSubmit] = useState(false);
   const [apiResponse, setApiResponse] = useState(false);
-  const [usernameIsValid, setUsernameIsValid] = useState(false);
-  const [emailIsValid, setEmailIsValid] = useState(false);
   const [values, setValues] = useState({});
-  const [signupError, setSignupError] = useState(false);
 
   return (
     <CacheProvider value={cacheRtl}>
@@ -79,15 +76,12 @@ export default function SignUp() {
                 ثبت نام
               </Typography>
 
+              <ToastContainer rtl={true} />
+
               <Grid>
                 <img src={background} alt="" className="responsive" />
               </Grid>
 
-              {signupError && (
-                <Alert onClose={event => {}} severity="error">
-                  مشکلی پیش آمده است لطفا دوباره امتحان کنید
-                </Alert>
-              )}
               <Formik
                 initialValues={{
                   username: '',
@@ -98,8 +92,41 @@ export default function SignUp() {
                   /*                 recaptcha:"" */
                 }}
                 onSubmit={async values => {
-                  setSignupError(false);
-                  axios
+
+                  try
+                  {
+                    const res = await axios
+                      .post('https://kooleposhti.herokuapp.com/accounts/checkusername/', JSON.stringify(values), {
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                      })
+                      .then(response => {
+
+                      })
+                      .catch(err => {
+                        throw "username";
+                      });
+                      
+
+
+
+                      const res2 = await axios
+                      .post('https://kooleposhti.herokuapp.com/accounts/checkemail/', JSON.stringify(values), {
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                      })
+                      .then(response => {
+
+                      })
+                      .catch(err => {
+                        throw "email"
+                      });
+
+
+
+                  const res3 = await axios
                     .post('https://kooleposhti.herokuapp.com/accounts/activate/', JSON.stringify(values), {
                       headers: {
                         'Content-Type': 'application/json',
@@ -112,8 +139,59 @@ export default function SignUp() {
                     })
                     .catch(err => {
                       console.log('error: ', err);
-                      setSignupError(true);
+                      throw "activate"
                     });
+                  }
+                  catch(error)
+                  {
+                      if(error === "username")
+                      {
+                        toast.error('نام کاربری قبلا انتخاب شده است', {
+                          position: 'bottom-center',
+                          autoClose: 5000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: 'dark',
+
+                        
+                        });
+                      }
+
+                      else if(error === "email")
+                      {
+                        toast.error('ایمیل قبلا در سیستم ثبت شده است', {
+                          position: 'bottom-center',
+                          autoClose: 5000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: 'dark',
+
+                        });
+                      }
+
+                      else if(error === "activate")
+                      {
+                        toast.error('مشکلی پیش آمده است لطفا دوباره امتحان کنید', {
+                          position: 'bottom-center',
+                          autoClose: 5000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: 'dark',
+
+                        });
+                      }
+                  }
+
+                  
                 }}
                 validateOnChange={validateAfterSubmit}
                 validate={values => {
@@ -135,39 +213,8 @@ export default function SignUp() {
                     error.password2 = 'لطفا رمز عبور خود را دوباره وارد کنید';
                   } else if (values.password2 !== values.password1) {
                     error.password2 = 'با رمز اصلی تطابق ندارد';
-                  } else if (!usernameIsValid) {
-                    axios
-                      .post('https://kooleposhti.herokuapp.com/accounts/checkusername/', JSON.stringify(values), {
-                        headers: {
-                          'Content-Type': 'application/json',
-                        },
-                      })
-                      .then(response => {
-                        setUsernameIsValid(true);
-                      })
-                      .catch(err => {
-                        console.log('error: ', err);
-                        setUsernameIsValid(false);
-                        console.log(usernameIsValid);
-                        error.username = 'تام کاربری قبلا انتخاب شده است';
-                        console.log(error.username);
-                      });
-                  } else if (!emailIsValid) {
-                    axios
-                      .post('https://kooleposhti.herokuapp.com/accounts/checkemail/', JSON.stringify(values), {
-                        headers: {
-                          'Content-Type': 'application/json',
-                        },
-                      })
-                      .then(response => {
-                        setEmailIsValid(true);
-                      })
-                      .catch(err => {
-                        console.log('error: ', err);
-                        setEmailIsValid(false);
-                        error.email = 'ایمیل قبلا در سیستم ثبت شده است';
-                      });
-                  }
+                  } 
+                  
 
                   /*  else if(values.recaptcha === "")
                 {
