@@ -9,7 +9,7 @@
     line-height: 50px;
     font-size: 36px;
     color: white;
-    background-color: rgba(1, 85, 194, 0.548);
+    background-color: rgb(98, 84, 159);
     border: 1px solid transparent;
     border-radius: 10px;
     margin-left: 8px;
@@ -21,7 +21,7 @@
   }
   
   .character--inactive {
-    background-color:rgba(250, 19, 31, 0.548);
+    background-color:rgb(240, 146, 164);
   }
   
   .character--selected {
@@ -31,6 +31,23 @@
 
   .Toastify__toast--error {
 
-    background: rgb(20, 19, 19) !important;
+    background: rgb(49, 3, 102) !important;
   
+  }
+
+  
+  .Toastify__toast--success {
+
+    background: rgb(4, 61, 61) !important;
+  
+  }
+
+
+  .resend-code{
+    background-color: rgb(99, 36, 200) !important;
+
+    &:disabled{
+      background-color: rgb(124, 94, 173) !important;
+      color: rgb(185, 182, 182) !important;
+    }
   }

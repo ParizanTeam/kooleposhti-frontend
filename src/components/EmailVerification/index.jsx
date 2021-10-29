@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import VerificationInput from 'react-verification-input';
 import image2 from '../../assets/images/image2.jpg';
+import image from '../../assets/images/email.png'
 import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import axios from 'axios';
@@ -108,7 +109,7 @@ function EmailVerification(props) {
           theme: 'dark',
         });
 
-        setTimeout(() => {setIsSignedUp(true)}, 2000);
+        setTimeout(() => {setIsSignedUp(true)}, 3000);
         
       })
       .catch(err => {
@@ -181,7 +182,7 @@ function EmailVerification(props) {
                         characterSelected: 'character--selected',
                       }}
                     />
-                    <Button type="submit" variant="contained" sx={{ mt: 4 }}>
+                    <Button type="submit" variant="contained" sx={{ mt: 4 ,backgroundColor: "rgb(99, 36, 200) !important" }}>
                       تایید
                     </Button>
                   </Grid>
@@ -189,18 +190,18 @@ function EmailVerification(props) {
                     <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 8 }}>
                       ارسال دوباره کد بعد از{' '}
                       <span>
-                        <MyTimer expiryTimestamp={time} expire={onExpire} resend={resend} seconds={60} />
+                        <MyTimer expiryTimestamp={time} expire={onExpire} resend={resend} seconds={10} />
                       </span>{' '}
                       ثانیه
-                      <Button disabled={!resend} variant="contained" sx={{ m: 2 }} onClick={resend_code}>
+                      <Button disabled={!resend} variant="contained" sx={{ m: 2}}  onClick={resend_code} className="resend-code">
                         ارسال
                       </Button>
                     </Typography>
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={12} sm={12}>
-                <img src={image2} alt="" className="responsive" />
+              <Grid item xs={12} sm={12} >
+                <img src={image} alt="" className="responsive" />
               </Grid>
             </Grid>
           </Box>

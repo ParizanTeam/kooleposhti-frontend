@@ -22,6 +22,7 @@ import axios from 'axios';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { ToastContainer, toast } from 'react-toastify';
 import { Helmet } from 'react-helmet';
+import ReactLoading from 'react-loading';
 /* import Recaptcha from 'react-recaptcha'; */
 import './style.scss';
 
@@ -63,7 +64,7 @@ export default function SignUp() {
                 fontFamily: 'iranyekan',
               }}
             >
-              <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+              <Avatar sx={{ m: 1, backgroundColor: "rgb(99, 36, 200)" }}>
                 <AccountCircleIcon />
               </Avatar>
               <Typography component="h1" variant="Button">
@@ -87,6 +88,7 @@ export default function SignUp() {
                 }}
                 onSubmit={async values => {
                   try {
+                    setLoading(true);
                     const res = await axios
                       .post('https://kooleposhti.herokuapp.com/accounts/checkusername/', JSON.stringify(values), {
                         headers: {
@@ -109,7 +111,7 @@ export default function SignUp() {
                         throw 'email';
                       });
                     
-                    setLoading(true);
+                    
                     const res3 = await axios
                       .post('https://kooleposhti.herokuapp.com/accounts/activate/', JSON.stringify(values), {
                         headers: {
@@ -128,7 +130,7 @@ export default function SignUp() {
                       });
                   } catch (error) {
                     if (error === 'username') {
-                      toast.error('نام کاربری قبلا انتخاب شده است', {
+                      toast.error('این نام کاربری قبلا انتخاب شده', {
                         position: 'bottom-center',
                         autoClose: 5000,
                         hideProgressBar: false,
@@ -139,7 +141,7 @@ export default function SignUp() {
                         theme: 'dark',
                       });
                     } else if (error === 'email') {
-                      toast.error('ایمیل قبلا در سیستم ثبت شده است', {
+                      toast.error('این ایمیل قبلا در سیستم ثبت شده', {
                         position: 'bottom-center',
                         autoClose: 5000,
                         hideProgressBar: false,
@@ -150,7 +152,7 @@ export default function SignUp() {
                         theme: 'dark',
                       });
                     } else if (error === 'activate') {
-                      toast.error('مشکلی پیش آمده است لطفا دوباره امتحان کنید', {
+                      toast.error('مشکلی پیش اومده بعدا دوباره امتحان کن', {
                         position: 'bottom-center',
                         autoClose: 5000,
                         hideProgressBar: false,
@@ -168,21 +170,21 @@ export default function SignUp() {
                   let error = {};
 
                   if (!values.username) {
-                    error.username = 'لطفا نام کاربری خود را وارد کنید';
+                    error.username = ' نام کاربری خودت رو وارد کن';
                   } else if (!values.email) {
-                    error.email = 'لطفا ایمیل خود را وارد کنید';
+                    error.email = ' ایمیل خودت رو وارد کن';
                   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
                     error.email = 'ایمیل نامعتبر';
                   } else if (!values.password1) {
-                    error.password1 = 'لطفا رمز عبور خود را وارد کنید';
+                    error.password1 = ' رمز عبور خودت رو وارد کن';
                   } else if (values.password1.length < 8) {
-                    error.password1 = 'طول رمز کمتر از 8 کاراکتر است';
+                    error.password1 = 'طول رمز نباید کمتر از 8 کاراکتر باشه';
                   } else if (/^\d+$/i.test(values.password1)) {
-                    error.password1 = 'رمز عبور نباید فقط متشکل از اعداد باشد';
+                    error.password1 = 'رمز عبورت نباید فقط از اعداد تشکیل شده باشه';
                   } else if (!values.password2) {
-                    error.password2 = 'لطفا رمز عبور خود را دوباره وارد کنید';
+                    error.password2 = ' رمز عبور خودت رو دوباره وارد کن';
                   } else if (values.password2 !== values.password1) {
-                    error.password2 = 'با رمز اصلی تطابق ندارد';
+                    error.password2 = 'با رمز اصلی یکسان نیست';
                   }
 
                   /*  else if(values.recaptcha === "")
@@ -295,8 +297,8 @@ export default function SignUp() {
                     />
                   </div> */}
 
-                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 , backgroundColor:"rgb(69, 15, 194)" }}>
-                      {!loading && ثبت نام}
+                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 , backgroundColor: "rgb(99, 36, 200) !important"}}>
+                      {!loading && <span>ثبت نام</span>}
                       {loading && <ReactLoading type="bubbles" color="#fff" />}
                     </Button>
                     <Grid container justifyContent="flex-start">
