@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
+import { Link } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -20,7 +20,7 @@ import createCache from '@emotion/cache';
 import background from '../../assets/images/child1.jpg';
 import axios from 'axios';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Alert from '@mui/material/Alert';
 /* import Recaptcha from 'react-recaptcha'; */
 import './style.scss';
 
@@ -51,14 +51,18 @@ export default function SignUp() {
   });
 
   const [validateAfterSubmit, setValidateAfterSubmit] = useState(false);
-  const [apiResponse, setApiResponse] = useState('');
+  const [apiResponse, setApiResponse] = useState(false);
+  const [usernameIsValid, setUsernameIsValid] = useState(false);
+  const [emailIsValid, setEmailIsValid] = useState(false);
+  const [values, setValues] = useState({});
+  const [signupError, setSignupError] = useState(false);
 
   return (
     <CacheProvider value={cacheRtl}>
-      {apiResponse === 201 && <Redirect to="/email-verification" />}
-      {apiResponse !== 201 && (
+      {apiResponse && <Redirect to={{ pathname: '/email-verification', state: { values: values } }} />}
+      {!apiResponse && (
         <div dir="rtl">
-          <Container maxWidth="sm" component="main">
+          <Container maxWidth="xs" component="main">
             <Box
               sx={{
                 marginTop: 8,
@@ -79,56 +83,101 @@ export default function SignUp() {
                 <img src={background} alt="" className="responsive" />
               </Grid>
 
+              {signupError && (
+                <Alert onClose={event => {}} severity="error">
+                  مشکلی پیش آمده است لطفا دوباره امتحان کنید
+                </Alert>
+              )}
               <Formik
                 initialValues={{
                   username: '',
                   email: '',
-                  password: '',
-                  re_password: '',
+                  password1: '',
+                  password2: '',
+                  is_instructor: false,
                   /*                 recaptcha:"" */
                 }}
                 onSubmit={async values => {
+                  setSignupError(false);
                   axios
-                    .post('https://kooleposhti.herokuapp.com/auth/users/', JSON.stringify(values), {
+                    .post('https://kooleposhti.herokuapp.com/accounts/activate/', JSON.stringify(values), {
                       headers: {
                         'Content-Type': 'application/json',
                       },
                     })
                     .then(response => {
                       console.log('status is: ', response.status);
-                      setApiResponse(response.status);
+                      setValues(values);
+                      setApiResponse(response.status === 200);
                     })
-                    .catch(error => console.log('error: ', error));
+                    .catch(err => {
+                      console.log('error: ', err);
+                      setSignupError(true);
+                    });
                 }}
                 validateOnChange={validateAfterSubmit}
                 validate={values => {
                   let error = {};
+
                   if (!values.username) {
                     error.username = 'لطفا نام کاربری خود را وارد کنید';
                   } else if (!values.email) {
                     error.email = 'لطفا ایمیل خود را وارد کنید';
                   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
                     error.email = 'ایمیل نامعتبر';
-                  } else if (!values.password) {
-                    error.password = 'لطفا رمز عبور خود را وارد کنید';
-                  } else if (values.password.length < 8) {
-                    error.password = 'طول رمز کمتر از 8 کاراکتر است';
-                  } else if (/^\d+$/i.test(values.password)) {
-                    error.password = 'ایمیل نباید فقط متشکل از اعداد باشد';
-                  } else if (!values.re_password) {
-                    error.re_password = 'لطفا رمز عبور خود را دوباره وارد کنید';
-                  } else if (values.re_password !== values.password) {
-                    error.re_password = 'با رمز اصلی تطابق ندارد';
+                  } else if (!values.password1) {
+                    error.password1 = 'لطفا رمز عبور خود را وارد کنید';
+                  } else if (values.password1.length < 8) {
+                    error.password1 = 'طول رمز کمتر از 8 کاراکتر است';
+                  } else if (/^\d+$/i.test(values.password1)) {
+                    error.password1 = 'رمز عبور نباید فقط متشکل از اعداد باشد';
+                  } else if (!values.password2) {
+                    error.password2 = 'لطفا رمز عبور خود را دوباره وارد کنید';
+                  } else if (values.password2 !== values.password1) {
+                    error.password2 = 'با رمز اصلی تطابق ندارد';
+                  } else if (!usernameIsValid) {
+                    axios
+                      .post('https://kooleposhti.herokuapp.com/accounts/checkusername/', JSON.stringify(values), {
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                      })
+                      .then(response => {
+                        setUsernameIsValid(true);
+                      })
+                      .catch(err => {
+                        console.log('error: ', err);
+                        setUsernameIsValid(false);
+                        console.log(usernameIsValid);
+                        error.username = 'تام کاربری قبلا انتخاب شده است';
+                        console.log(error.username);
+                      });
+                  } else if (!emailIsValid) {
+                    axios
+                      .post('https://kooleposhti.herokuapp.com/accounts/checkemail/', JSON.stringify(values), {
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                      })
+                      .then(response => {
+                        setEmailIsValid(true);
+                      })
+                      .catch(err => {
+                        console.log('error: ', err);
+                        setEmailIsValid(false);
+                        error.email = 'ایمیل قبلا در سیستم ثبت شده است';
+                      });
                   }
+
                   /*  else if(values.recaptcha === "")
                 {
                     error.recaptcha = "not human";
                 } */
-
+                  console.log('khaki');
                   return error;
                 }}
               >
-                {({ handleSubmit, handleChange, setFieldValue, values, errors }) => (
+                {({ handleSubmit, handleChange, setFieldValue, values, errors, handleBlur }) => (
                   <Box
                     component="form"
                     noValidate
@@ -151,25 +200,10 @@ export default function SignUp() {
                           autoFocus
                           value={values.username}
                           onChange={handleChange}
-                          helperText={errors.username}
+                          helperText={validateAfterSubmit ? errors.username : null}
                           error={Boolean(errors.username)}
                         />
                       </Grid>
-                      {/*                     <Grid item xs={12} sm={6}>
-                      <TextField
-                        required
-                        fullWidth
-                        id="lastName"
-                        label="نام خانوادگی"
-                        name="lastName"
-                        autoComplete="family-name"
-                        value={values.lastName}
-                        onChange={handleChange}
-                        helperText={errors.lastName}
-
-                        error={Boolean(errors.lastName)}
-                      />
-                    </Grid> */}
                       <Grid item xs={12}>
                         <TextField
                           required
@@ -180,7 +214,7 @@ export default function SignUp() {
                           autoComplete="email"
                           value={values.email}
                           onChange={handleChange}
-                          helperText={errors.email}
+                          helperText={validateAfterSubmit ? errors.email : null}
                           error={Boolean(errors.email)}
                         />
                       </Grid>
@@ -188,30 +222,30 @@ export default function SignUp() {
                         <TextField
                           required
                           fullWidth
-                          name="password"
+                          name="password1"
                           label="رمز عبور"
                           type="password"
-                          id="password"
+                          id="password1"
                           autoComplete="new-password"
-                          value={values.password}
+                          value={values.password1}
                           onChange={handleChange}
-                          helperText={errors.password}
-                          error={Boolean(errors.password)}
+                          helperText={validateAfterSubmit ? errors.password1 : null}
+                          error={Boolean(errors.password1)}
                         />
                       </Grid>
                       <Grid item xs={12}>
                         <TextField
                           required
                           fullWidth
-                          name="re_password"
+                          name="password2"
                           label="تکرار رمز عبور"
                           type="password"
-                          id="re_password"
+                          id="password2"
                           autoComplete="new-password"
-                          value={values.re_password}
+                          value={values.password2}
                           onChange={handleChange}
-                          helperText={errors.re_password}
-                          error={Boolean(errors.re_password)}
+                          helperText={validateAfterSubmit ? errors.password2 : null}
+                          error={Boolean(errors.password2)}
                         />
                       </Grid>
 
@@ -221,12 +255,16 @@ export default function SignUp() {
                           <RadioGroup
                             row
                             aria-label="Acccount Type"
-                            defaultValue="Student"
-                            name="radio-buttons-type-group"
+                            defaultValue="false"
+                            name="is_instructor"
+                            value={values.is_instructor}
                             sx={{ mt: 1 }}
+                            onChange={event => {
+                              setFieldValue('is_instructor', event.currentTarget.value);
+                            }}
                           >
-                            <FormControlLabel value="Student" control={<Radio />} label="دانش آموز" />
-                            <FormControlLabel value="Teacher" control={<Radio />} label="معلم" />
+                            <FormControlLabel value="false" control={<Radio />} label="دانش آموز" />
+                            <FormControlLabel value="true" control={<Radio />} label="معلم" />
                           </RadioGroup>
                         </FormControl>
                       </Grid>
@@ -255,8 +293,9 @@ export default function SignUp() {
                               fontSize: '13px',
                               mr: 0,
                             }}
-                            href="/login"
+                            to="/login"
                             variant="body2"
+
                           >
                             قبلا ثبت نام کرده اید؟
                             <Button sx={{ color: 'rgb(76, 175, 80)', fontSize: '15px' }}>ورود</Button>
