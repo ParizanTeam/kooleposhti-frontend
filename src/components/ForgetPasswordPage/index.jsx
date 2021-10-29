@@ -41,7 +41,7 @@ const cacheLtr = createCache({
 });
 
 const validationSchema = yup.object({
-  email: yup.string('').email('ایمیلی که وارد کردی درست نیست🤔').required('باید حتما ایمیلت رو بنویسی.'),
+  email: yup.string('').email('ایمیلی که وارد کردی درست نیست').required('باید حتما ایمیلت رو بنویسی.'),
 });
 
 const ForgetPasswordPage = () => {
@@ -57,10 +57,20 @@ const ForgetPasswordPage = () => {
           email: values.email,
         });
         console.log(res);
+        toast.success('ایمیل با موفقیت برات ارسال شد.', {
+          position: 'bottom-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+        });
         history.push('/');
       } catch (error) {
         console.log('hello world');
-        toast.error('ایمیلی که نوشتی تو سامانه ثبت نشده.', {
+        toast.error('ایمیلت تو سامانه ثبت نشده.', {
           position: 'bottom-center',
           autoClose: 5000,
           hideProgressBar: false,
@@ -82,6 +92,7 @@ const ForgetPasswordPage = () => {
           <Helmet>
             <title>فراموش کردن رمز عبور</title>
           </Helmet>
+          <ToastContainer rtl={true} />
           <Grid container component={Paper} elevation={useMediaQuery('(max-width: 900px)') ? 0 : 10} maxWidth="md">
             <CssBaseline />
             <Grid

@@ -16,6 +16,7 @@ import { useFormik } from 'formik';
 import { Helmet } from 'react-helmet';
 import { ToastContainer, toast } from 'react-toastify';
 import { useHistory, Link as routerLink, useParams, useLocation } from 'react-router-dom';
+import { Redirect } from 'react-router';
 import * as yup from 'yup';
 import rtl from 'jss-rtl';
 import axios from 'axios';
@@ -71,7 +72,7 @@ const ResetPasswordPage = () => {
         toast.success('رمز عبور باموفقیت تغییر یافت.');
         history.push('/');
       } catch (error) {
-        toast.error('متاسفانه تو ارتباط شما با سرور مشکلی بوجود اومد.', {
+        toast.error('در سیستم مشکلی بوجود اومده. دوباره امتحان کن.', {
           position: 'bottom-center',
           autoClose: 5000,
           hideProgressBar: false,
@@ -89,6 +90,8 @@ const ResetPasswordPage = () => {
 
   return (
     <CacheProvider value={rtl ? cacheRtl : cacheLtr}>
+      {(token === null || uid === null) && <Redirect to="*" />}
+      {/* not existing url to redirect to NOtFound Page */}
       <div dir="rtl">
         <Helmet>
           <title>ورود</title>
