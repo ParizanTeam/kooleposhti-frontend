@@ -15,7 +15,7 @@ import createCache from '@emotion/cache';
 import { useFormik } from 'formik';
 import { Helmet } from 'react-helmet';
 import { ToastContainer, toast } from 'react-toastify';
-import { useHistory, Link as routerLink } from 'react-router-dom';
+import { useHistory, Link as routerLink, useParams, useLocation } from 'react-router-dom';
 import * as yup from 'yup';
 import rtl from 'jss-rtl';
 import axios from 'axios';
@@ -45,7 +45,7 @@ const validationSchema = yup.object({
   password2: yup
     .string('')
     .required('باید حتما رمز عبور جدیدت رو بنویسی.')
-    .oneOf([yup.ref('password')], 'تکرار رمزعبور باید با رمزعبور یکسان باشه!'),
+    .oneOf([yup.ref('password1')], 'تکرار رمزعبور باید با رمزعبور یکسان باشه!'),
 });
 
 function Copyright(props) {
@@ -62,6 +62,10 @@ function Copyright(props) {
 
 const ResetPasswordPage = () => {
   const history = useHistory();
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const token = query.get('token');
+  const uid = query.get('uid');
   const formik = useFormik({
     initialValues: {
       password1: '',
@@ -70,10 +74,13 @@ const ResetPasswordPage = () => {
 
     onSubmit: async values => {
       try {
-        const res = await axios.post('https://kooleposhti.herokuapp.com/auth/jwt/create/', {
-          password1: values.email,
-          password2: values.password,
+        const res = await axios.post('https://kooleposhti.herokuapp.com/accounts/users/reset_password_confirm/', {
+          new_password: values.password1,
+          re_new_password: values.password1,
+          uid,
+          token,
         });
+        toast.success('رمز عبور باموفقیت تغییر یافت.');
         history.push('/');
       } catch (error) {
         toast.error('رمزعبور نمیتونه با نام کاربری یکسان باشه.', {
