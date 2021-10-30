@@ -69,10 +69,11 @@ const LoginPage = () => {
         localStorage.setItem('access_token', res.data.access);
         localStorage.setItem('refresh_token', res.data.refresh);
         dispatch(login());
+        setLoading(false);
         toast.success('با موفقیت وارد شدی.');
         setTimeout(() => {
           history.push('/');
-        }, 3000);
+        }, 2000);
       } catch (error) {
         setLoading(false);
         toast.error('نام کاربری یا رمز عبورت اشتباهه!', {

@@ -64,9 +64,10 @@ const ForgetPasswordPage = () => {
           progress: undefined,
           theme: 'dark',
         });
+        setLoading(false);
         setTimeout(() => {
-          history.push('/');
-        }, 3000);
+          history.push('/login');
+        }, 2500);
       } catch (error) {
         setLoading(false);
         console.log('hello world');
