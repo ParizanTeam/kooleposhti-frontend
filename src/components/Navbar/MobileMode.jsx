@@ -128,7 +128,7 @@ export default function MobileNavbar() {
         </DrawerHeader>
         <Divider />
 
-        <MenuButton1 Icon={SchoolIcon} text="تدریس کن" linkTo="/singup" />
+        <MenuButton1 Icon={SchoolIcon} text="تدریس کن" linkTo="/signup" />
         <MenuButton1 Icon={HelpIcon} text="راهنما" linkTo="/help" />
 
         <Divider style={{ marginTop: '20 px' }} />

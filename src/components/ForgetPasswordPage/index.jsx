@@ -64,7 +64,9 @@ const ForgetPasswordPage = () => {
           progress: undefined,
           theme: 'dark',
         });
-        history.push('/');
+        setTimeout(() => {
+          history.push('/');
+        }, 3000);
       } catch (error) {
         setLoading(false);
         console.log('hello world');
@@ -135,7 +137,7 @@ const ForgetPasswordPage = () => {
                   component="h6"
                   variant="h6"
                   margin="normal"
-                  sx={{ mt: 7, pr: 4, pl: 4, fontSize:"17px !important" }}
+                  sx={{ mt: 7, pr: 4, pl: 4, fontSize: '17px !important' }}
                   className="forget-password__text"
                 >
                   بعد از وارد کردن ایمیلت، ما یک پیام برات می‌فرستیم و شما از طریق اون پیام می‌تونی رمز عبور جدیدت رو

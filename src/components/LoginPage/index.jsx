@@ -39,7 +39,7 @@ const cacheLtr = createCache({
 
 const validationSchema = yup.object({
   email: yup.string('').required('باید حتما ایمیل یا نام کاربریت رو بنویسی تا بتونی وارد بشی.'),
-  password: yup.string('').required('باید حتما رمز عبورت رو بنویسی تا بتوونی وارد بشی.'),
+  password: yup.string('').required('باید حتما رمز عبورت رو بنویسی تا بتونی وارد بشی.'),
 });
 
 const LoginPage = () => {
@@ -68,10 +68,11 @@ const LoginPage = () => {
         const res = await axios.post('https://kooleposhti.herokuapp.com/accounts/jwt/create/', body);
         localStorage.setItem('access_token', res.data.access);
         localStorage.setItem('refresh_token', res.data.refresh);
-
         dispatch(login());
-
-        history.push('/');
+        toast.success('با موفقیت وارد شدی.');
+        setTimeout(() => {
+          history.push('/');
+        }, 3000);
       } catch (error) {
         setLoading(false);
         toast.error('نام کاربری یا رمز عبورت اشتباهه!', {
@@ -96,7 +97,7 @@ const LoginPage = () => {
         <Helmet>
           <title>ورود</title>
         </Helmet>
-        <ToastContainer rtl={true} />
+        <ToastContainer rtl={true} position="bottom-center" />
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box

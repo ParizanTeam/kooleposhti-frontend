@@ -37,10 +37,8 @@ const validationSchema = yup.object({
   password1: yup
     .string('')
     .required('باید حتما رمز عبور جدیدت رو بنویسی.')
-    .matches(
-      /^(?=.*[a-zA-Z])(?=.{8,})/,
-      'رمز عبور شما باید شامل 8 کارکتر باشد. علاوه بر اون، باید حتما یک حرف انگلیسی و یک عدد در رمزعبورت وجود داشته باشه.'
-    ),
+    .matches(/(?!^\d+$)^.+$/, 'رمز عبورت نباید فقط از اعداد تشکیل شده باشه')
+    .matches(/^(?=.{8,})/, 'طول رمز نباید کمتر از 8 کاراکتر باشه'),
   password2: yup
     .string('')
     .required('باید حتما رمز عبور جدیدت رو بنویسی.')
@@ -70,7 +68,9 @@ const ResetPasswordPage = () => {
           token,
         });
         toast.success('رمز عبور باموفقیت تغییر یافت.');
-        history.push('/');
+        setTimeout(() => {
+          history.push('/');
+        }, 3000);
       } catch (error) {
         setLoading(false);
         toast.error('در سیستم مشکلی بوجود اومده. دوباره امتحان کن.', {
@@ -95,9 +95,9 @@ const ResetPasswordPage = () => {
       {/* not existing url to redirect to NOtFound Page */}
       <div dir="rtl">
         <Helmet>
-          <title>ورود</title>
+          <title>تغییر رمز عبور</title>
         </Helmet>
-        <ToastContainer rtl={true} />
+        <ToastContainer rtl={true} position="bottom-center" />
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box
