@@ -1,37 +1,27 @@
-import React, { useState } from 'react';
-import { useTimer } from 'react-timer-hook';
+import React from 'react';
 
-export default function MyTimer({expire , resend , seconds}){
+export default function MyTimer({ expire, resend, seconds }) {
   const [timer, setTimer] = React.useState(seconds);
-  const id =React.useRef(null);
-  const clear=()=>{
-  window.clearInterval(id.current)
-}
-  React.useEffect(()=>{
-     if(resend === false)
-     {
-      setTimer(seconds)
-      id.current=window.setInterval(()=>{
-        setTimer((time)=>time-1)
-      },1000)
-      return ()=>clear();
-     }
-  },[resend])
-
-  React.useEffect(()=>{
-    if(timer===0){
-      expire(true);
-      clear()
-
+  const id = React.useRef(null);
+  const clear = () => {
+    window.clearInterval(id.current);
+  };
+  React.useEffect(() => {
+    if (resend === false) {
+      setTimer(seconds);
+      id.current = window.setInterval(() => {
+        setTimer(time => time - 1);
+      }, 1000);
+      return () => clear();
     }
+  }, [resend]);
 
-  },[timer])
+  React.useEffect(() => {
+    if (timer === 0) {
+      expire(true);
+      clear();
+    }
+  }, [timer]);
 
-  return (
-    <span style={{fontSize:'40px'}}>
-      {timer}
-    </span>
-  );
-
+  return <span style={{ fontSize: '40px' }}>{timer}</span>;
 }
-

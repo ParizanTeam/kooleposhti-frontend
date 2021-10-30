@@ -13,6 +13,9 @@
   background: rgb(4, 61, 61) !important;
 }
 
-.signup-page-loading-button {
-  height: 4vw !important;
+.loading-signup {
+  height: 30px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
@@ -15,12 +13,12 @@ import createCache from '@emotion/cache';
 import { useFormik } from 'formik';
 import { Helmet } from 'react-helmet';
 import { ToastContainer, toast } from 'react-toastify';
-import { useHistory, Link as routerLink, useParams, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Redirect } from 'react-router';
+import ReactLoading from 'react-loading';
 import * as yup from 'yup';
 import rtl from 'jss-rtl';
 import axios from 'axios';
-import imageSrc from '../../assets/images/teaching-students-online-internet-learning-computer-programming_335657-3119.jpg';
 import './style.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -40,7 +38,7 @@ const validationSchema = yup.object({
     .string('')
     .required('باید حتما رمز عبور جدیدت رو بنویسی.')
     .matches(
-      /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.{8,})/,
+      /^(?=.*[a-zA-Z])(?=.{8,})/,
       'رمز عبور شما باید شامل 8 کارکتر باشد. علاوه بر اون، باید حتما یک حرف انگلیسی و یک عدد در رمزعبورت وجود داشته باشه.'
     ),
   password2: yup
@@ -50,6 +48,7 @@ const validationSchema = yup.object({
 });
 
 const ResetPasswordPage = () => {
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
   const location = useLocation();
   const query = new URLSearchParams(location.search);
@@ -63,6 +62,7 @@ const ResetPasswordPage = () => {
 
     onSubmit: async values => {
       try {
+        setLoading(true);
         const res = await axios.post('https://kooleposhti.herokuapp.com/accounts/users/reset_password_confirm/', {
           new_password: values.password1,
           re_new_password: values.password1,
@@ -72,6 +72,7 @@ const ResetPasswordPage = () => {
         toast.success('رمز عبور باموفقیت تغییر یافت.');
         history.push('/');
       } catch (error) {
+        setLoading(false);
         toast.error('در سیستم مشکلی بوجود اومده. دوباره امتحان کن.', {
           position: 'bottom-center',
           autoClose: 5000,
@@ -162,7 +163,8 @@ const ResetPasswordPage = () => {
                 className="reset-password-button"
                 sx={{ mt: 3, mb: 2 }}
               >
-                ارسال
+                {!loading && <span>ارسال</span>}
+                {loading && <ReactLoading type="bubbles" color="#fff" className="loading-login" />}
               </Button>
             </Box>
           </Box>

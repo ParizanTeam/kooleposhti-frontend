@@ -97,6 +97,7 @@ export default function SignUp() {
                         })
                         .then(response => {})
                         .catch(err => {
+                          setLoading(false);
                           throw 'username';
                         });
 
@@ -108,6 +109,7 @@ export default function SignUp() {
                         })
                         .then(response => {})
                         .catch(err => {
+                          setLoading(false);
                           throw 'email';
                         });
 
@@ -125,6 +127,7 @@ export default function SignUp() {
                         })
                         .catch(err => {
                           console.log('error: ', err);
+                          setLoading(false);
                           throw 'activate';
                         });
                     } catch (error) {
@@ -303,7 +306,7 @@ export default function SignUp() {
                         sx={{ mt: 3, backgroundColor: 'rgb(99, 36, 200) !important' }}
                       >
                         {!loading && <span>ثبت نام</span>}
-                        {loading && <ReactLoading type="bubbles" color="#fff" className="signup-page-loading-button" />}
+                        {loading && <ReactLoading type="bubbles" color="#fff" className="loading-signup" />}
                       </Button>
                       <Grid container justifyContent="flex-start">
                         <Grid item>
