@@ -1,11 +1,5 @@
 @import '/src/theme/main.scss';
 
-@keyframes beat {
-  to {
-    transform: scale(1.4);
-  }
-}
-
 .test {
   padding: 10px;
   margin: 10px auto;
@@ -22,65 +16,28 @@
   font-family: 'iranyekan';
 }
 
-.Toastify__toast--error {
-  background: purple !important;
-}
-
-.my-footer {
-  padding: 5px;
-  text-align: left;
-  bottom: 0%;
-  width: 25%;
-  color: #fff;
-  @media (max-width: 600px) {
-    width: 80%;
-  }
-  &__phoneNum {
-    font-size: medium;
-    font-weight: bold;
-  }
-  &__media {
-    padding: 20px;
-    width: 60%;
-    text-align: center;
-  }
-  &__bylove {
-    padding: 5px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: purple;
-    font-weight: 700;
-  }
-  &__content {
-    padding: 32px;
-    font-size: 20px;
-    font-weight: 800;
-    text-align: center;
-    bottom: 30px;
-    &__s {
-      bottom: auto;
-      font-size: medium;
-      font-weight: bold;
-      text-align: center;
-    }
-    &__h {
-      color: rgb(231, 3, 3);
-      padding: 8px;
-      bottom: auto;
-      font-size: x-large;
-      animation: beat 0.25s infinite alternate;
-    }
-  }
-}
-
 .login-link__not-registered {
   text-decoration: none !important;
 }
 
 .login-link__forget-password {
   text-decoration: none !important;
+}
+
+.login-page-button {
+  background-color: rgb(99, 36, 200) !important;
+}
+
+.login-page-avatar {
+  background-color: rgb(99, 36, 200) !important;
+}
+
+.Toastify__toast--error {
+  background: rgb(49, 3, 102) !important;
+}
+
+.Toastify__toast--success {
+  background: rgb(4, 61, 61) !important;
 }
 
 .loading-login{

@@ -1,34 +1,28 @@
-import React , {useState} from 'react';
+import React, { useState } from 'react';
 import './style.scss';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-//import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { useFormik } from 'formik';
 import { Helmet } from 'react-helmet';
 import { ToastContainer, toast } from 'react-toastify';
-import { useHistory, Link as routerLink } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
 import rtl from 'jss-rtl';
 import axios from 'axios';
-import { color, padding } from '@mui/system';
-import img from '../../assets/images/forget-password.jpg';
+import img from '../../assets/images/forget-password.png';
+import './style.scss';
 import { useMediaQuery } from '@mui/material';
 import ReactLoading from 'react-loading';
-import './style.scss';
 
 const cacheRtl = createCache({
   key: 'muirtl',
@@ -42,11 +36,11 @@ const cacheLtr = createCache({
 });
 
 const validationSchema = yup.object({
-  email: yup.string('').email('ایمیلی که وارد کردی درست نیست🤔').required('باید حتما ایمیلت رو بنویسی.'),
+  email: yup.string('').email('ایمیلی که وارد کردی درست نیست').required('باید حتما ایمیلت رو بنویسی.'),
 });
 
 const ForgetPasswordPage = () => {
-  const [ loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
   const formik = useFormik({
     initialValues: {
@@ -60,11 +54,7 @@ const ForgetPasswordPage = () => {
           email: values.email,
         });
         console.log(res);
-        history.push('/');
-      } catch (error) {
-        setLoading(false);
-        console.log('hello world');
-        toast.error('نام کاربری یا رمز عبورت اشتباهه!', {
+        toast.success('ایمیل با موفقیت برات ارسال شد.', {
           position: 'bottom-center',
           autoClose: 5000,
           hideProgressBar: false,
@@ -73,7 +63,20 @@ const ForgetPasswordPage = () => {
           draggable: true,
           progress: undefined,
           theme: 'dark',
-          className: 'toast-error',
+        });
+        history.push('/');
+      } catch (error) {
+        setLoading(false);
+        console.log('hello world');
+        toast.error('ایمیلت تو سامانه ثبت نشده.', {
+          position: 'bottom-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
         });
       }
     },
@@ -88,6 +91,7 @@ const ForgetPasswordPage = () => {
           <Helmet>
             <title>فراموش کردن رمز عبور</title>
           </Helmet>
+          <ToastContainer rtl={true} />
           <Grid container component={Paper} elevation={useMediaQuery('(max-width: 900px)') ? 0 : 10} maxWidth="md">
             <CssBaseline />
             <Grid
@@ -121,7 +125,7 @@ const ForgetPasswordPage = () => {
                   alignItems: 'center',
                 }}
               >
-                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                <Avatar className="forget-password-avatar" sx={{ m: 1 }}>
                   <HelpOutlineIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
@@ -159,7 +163,13 @@ const ForgetPasswordPage = () => {
                     error={formik.touched.email && Boolean(formik.errors.email)}
                     helperText={formik.touched.email && formik.errors.email}
                   />
-                  <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    className="forget-password-page-button"
+                    sx={{ mt: 3, mb: 2 }}
+                  >
                     {!loading && <span>ارسال</span>}
                     {loading && <ReactLoading type="bubbles" color="#fff" className="loading-login" />}
                   </Button>

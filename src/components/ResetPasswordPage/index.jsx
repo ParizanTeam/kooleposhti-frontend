@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
@@ -15,11 +13,12 @@ import createCache from '@emotion/cache';
 import { useFormik } from 'formik';
 import { Helmet } from 'react-helmet';
 import { ToastContainer, toast } from 'react-toastify';
-import { useHistory, Link as routerLink, useParams, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
+import { Redirect } from 'react-router';
+import ReactLoading from 'react-loading';
 import * as yup from 'yup';
 import rtl from 'jss-rtl';
 import axios from 'axios';
-import imageSrc from '../../assets/images/teaching-students-online-internet-learning-computer-programming_335657-3119.jpg';
 import './style.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -39,8 +38,8 @@ const validationSchema = yup.object({
     .string('')
     .required('باید حتما رمز عبور جدیدت رو بنویسی.')
     .matches(
-      /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.{8,})/,
-      'رمز عبور شما باید شامل 8 کارکتر باشد. همچنین باید حتما یک حرف انگلیسی و یک عدد در رمزعبورتون وجود داشته باشه.'
+      /^(?=.*[a-zA-Z])(?=.{8,})/,
+      'رمز عبور شما باید شامل 8 کارکتر باشد. علاوه بر اون، باید حتما یک حرف انگلیسی و یک عدد در رمزعبورت وجود داشته باشه.'
     ),
   password2: yup
     .string('')
@@ -48,19 +47,8 @@ const validationSchema = yup.object({
     .oneOf([yup.ref('password1')], 'تکرار رمزعبور باید با رمزعبور یکسان باشه!'),
 });
 
-function Copyright(props) {
-  return (
-    <div className="my-footer__bylove">
-      <span className="my-footer__content__s">ساخته شده با</span>
-      <div className="my-footer__content__h">
-        <span>&hearts;</span>
-      </div>
-      <span className="my-footer__content__s">در ایران</span>
-    </div>
-  );
-}
-
 const ResetPasswordPage = () => {
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
   const location = useLocation();
   const query = new URLSearchParams(location.search);
@@ -74,6 +62,7 @@ const ResetPasswordPage = () => {
 
     onSubmit: async values => {
       try {
+        setLoading(true);
         const res = await axios.post('https://kooleposhti.herokuapp.com/accounts/users/reset_password_confirm/', {
           new_password: values.password1,
           re_new_password: values.password1,
@@ -83,7 +72,8 @@ const ResetPasswordPage = () => {
         toast.success('رمز عبور باموفقیت تغییر یافت.');
         history.push('/');
       } catch (error) {
-        toast.error('رمزعبور نمیتونه با نام کاربری یکسان باشه.', {
+        setLoading(false);
+        toast.error('در سیستم مشکلی بوجود اومده. دوباره امتحان کن.', {
           position: 'bottom-center',
           autoClose: 5000,
           hideProgressBar: false,
@@ -101,6 +91,8 @@ const ResetPasswordPage = () => {
 
   return (
     <CacheProvider value={rtl ? cacheRtl : cacheLtr}>
+      {(token === null || uid === null) && <Redirect to="*" />}
+      {/* not existing url to redirect to NOtFound Page */}
       <div dir="rtl">
         <Helmet>
           <title>ورود</title>
@@ -118,7 +110,7 @@ const ResetPasswordPage = () => {
               fontFamily: 'iranyekan',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <Avatar className="reset-password-avatar" sx={{ m: 1 }}>
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5" sx={{ fontFamily: 'iranyekan' }}>
@@ -164,25 +156,18 @@ const ResetPasswordPage = () => {
                 sx={{ fontFamily: 'iranyekan' }}
               />
 
-              {/* <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="مرا به خاطر بسپار" /> */}
-              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                ارسال
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                className="reset-password-button"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                {!loading && <span>ارسال</span>}
+                {loading && <ReactLoading type="bubbles" color="#fff" className="loading-login" />}
               </Button>
-              {/* <Grid container> */}
-              <Grid item xs sx={{ mt: 3, mb: 2 }}>
-                <Link to="/forget-password" component={routerLink} variant="body2">
-                  رمز عبور خود را فراموش کرده‌اید؟
-                </Link>
-              </Grid>
-              <Grid item sx={{ mt: 3, mb: 2 }}>
-                <Link to="/signup" component={routerLink} variant="body2" sx={{ mt: 3, mb: 2 }}>
-                  {'هنوز عضو نشدی؟! همین حالا عضو شو.'}
-                </Link>
-              </Grid>
-              {/* </Grid> */}
             </Box>
           </Box>
-          <Copyright sx={{ mt: 8, mb: 4 }} />
         </Container>
       </div>
     </CacheProvider>

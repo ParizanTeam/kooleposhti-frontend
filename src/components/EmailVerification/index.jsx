@@ -190,7 +190,7 @@ function EmailVerification(props) {
                     <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 8 }}>
                       ارسال دوباره کد بعد از{' '}
                       <span>
-                        <MyTimer expiryTimestamp={time} expire={onExpire} resend={resend} seconds={10} />
+                        <MyTimer expiryTimestamp={time} expire={onExpire} resend={resend} seconds={60} />
                       </span>{' '}
                       ثانیه
                       <Button disabled={!resend} variant="contained" sx={{ m: 2}}  onClick={resend_code} className="resend-code">

@@ -1,11 +1,5 @@
 @import '/src/theme/main.scss';
 
-// @media only screen and (max-width: 600px) {
-//   .forget-password__text {
-//     font-size: 0.9em !important;
-//     font-weight: 500;
-//   }
-// }
 .forget-password-container {
   display: flex;
   justify-content: center;
@@ -14,10 +8,24 @@
   text-align: justify;
 }
 
-.loading-forget-password{
+.forget-password-page-button {
+  background-color: rgb(99, 36, 200) !important;
+}
+
+.forget-password-avatar {
+  background-color: rgb(99, 36, 200) !important;
+}
+
+.Toastify__toast--error {
+  background: rgb(49, 3, 102) !important;
+}
+
+.Toastify__toast--success {
+  background: rgb(4, 61, 61) !important;
+}
+.loading-forget-password {
   height: 30px !important;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-

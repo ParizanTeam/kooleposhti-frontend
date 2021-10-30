@@ -37,14 +37,13 @@ const cacheLtr = createCache({
   prepend: true,
 });
 
-
 const validationSchema = yup.object({
   email: yup.string('').required('باید حتما ایمیل یا نام کاربریت رو بنویسی تا بتونی وارد بشی.'),
   password: yup.string('').required('باید حتما رمز عبورت رو بنویسی تا بتوونی وارد بشی.'),
 });
 
 const LoginPage = () => {
-  const [loading , setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
   const formik = useFormik({
@@ -110,13 +109,13 @@ const LoginPage = () => {
               fontFamily: 'iranyekan',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <Avatar className="login-page-avatar" sx={{ m: 1 }}>
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5" sx={{ fontFamily: 'iranyekan' }}>
               ورود
             </Typography>
-            <img src={imageSrc} style={{ width: '100%' }} />
+            <img src={imageSrc} alt="login" style={{ width: '100%' }} />
             <Box
               component="form"
               dir="rtl !important"
@@ -156,7 +155,7 @@ const LoginPage = () => {
                 sx={{ fontFamily: 'iranyekan' }}
               />
 
-              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+              <Button type="submit" fullWidth variant="contained" className="login-page-button" sx={{ mt: 3, mb: 2 }}>
                 {!loading && <span>ورود</span>}
                 {loading && <ReactLoading type="bubbles" color="#fff" className="loading-login" />}
               </Button>
