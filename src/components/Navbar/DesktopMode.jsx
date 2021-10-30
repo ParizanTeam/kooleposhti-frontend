@@ -14,13 +14,16 @@ import HelpIcon from '@mui/icons-material/Help';
 import SearchIcon from '@mui/icons-material/Search';
 
 const DesktopNavbar = props => {
+  const [color,setColor]=React.useState('#fd576c');
   const [openSearchBar, setOpenSearchBar] = React.useState(false);
   const handleSearchBarOpen = () => {
     setOpenSearchBar(true);
+    setColor('grey');
   };
 
   const handleSearchBarClose = () => {
     setOpenSearchBar(false);
+    setColor('#fd576c');
   };
 
   return (
@@ -42,7 +45,7 @@ const DesktopNavbar = props => {
               راهنما
             </Button>
 
-            <IconButton style={{ marginRight: '10px' }} onClick={handleSearchBarOpen}>
+            <IconButton style={{ marginRight: '10px',color: color }} onClick={handleSearchBarOpen} >
               <SearchIcon />
             </IconButton>
           </div>

@@ -64,7 +64,7 @@ const MenuButton1 = ({ Icon, text, linkTo }) => {
 
 export default function MobileNavbar() {
   const [open, setOpen] = React.useState(false);
-
+  const [color,setColor]=React.useState('#fd576c');
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -75,10 +75,12 @@ export default function MobileNavbar() {
   const [openSearchBar, setOpenSearchBar] = React.useState(false);
   const handleSearchBarOpen = () => {
     setOpenSearchBar(true);
+    setColor('grey');
   };
 
   const handleSearchBarClose = () => {
     setOpenSearchBar(false);
+    setColor('#fd576c');
   };
 
   return (
@@ -90,7 +92,7 @@ export default function MobileNavbar() {
             کوله‌پشتی
           </Typography>
           <div style={{ marginRight: 'auto' }}>
-            <IconButton onClick={handleSearchBarOpen}>
+            <IconButton onClick={handleSearchBarOpen} sx={{color: color}}>
               <SearchIcon />
             </IconButton>
             <IconButton
