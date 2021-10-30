@@ -1,0 +1,37 @@
+@import '/src/theme/main.scss';
+
+.categories-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 96px;
+
+  &__title {
+    font-size: 24px;
+    font-weight: 800;
+    color: $c-black;
+    padding: 8px;
+  }
+
+  &__highlight {
+    color: #ff979d;
+  }
+
+  &__description {
+    padding: 8px;
+    font-size: 20px;
+    font-weight: 700;
+    color: $c-black;
+    margin-bottom: 16px;
+  }
+
+  &__items {
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
