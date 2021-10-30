@@ -2,16 +2,23 @@
 
 .container {
   height: 50px;
+
   width: 300px;
 }
 
 .character {
   line-height: 50px;
+
   font-size: 36px;
+
   color: white;
+
   background-color: rgb(98, 84, 159);
+
   border: 1px solid transparent;
+
   border-radius: 10px;
+
   margin-left: 8px;
 }
 
@@ -25,17 +32,12 @@
 
 .character--selected {
   border: 1px solid white;
+
   color: rgb(163, 216, 165);
 }
 
-.character {
-  line-height: 50px;
-  font-size: 36px;
-  color: white;
-  background-color: rgba(1, 85, 194, 0.548);
-  border: 1px solid transparent;
-  border-radius: 10px;
-  margin-left: 8px;
+.Toastify__toast--error {
+  background: rgb(49, 3, 102) !important;
 }
 
 .Toastify__toast--success {
@@ -47,6 +49,7 @@
 
   &:disabled {
     background-color: rgb(124, 94, 173) !important;
+
     color: rgb(185, 182, 182) !important;
   }
 }

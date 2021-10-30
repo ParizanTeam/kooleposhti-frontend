@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import './style.scss';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -28,6 +28,7 @@ import { color, padding } from '@mui/system';
 import img from '../../assets/images/forget-password.png';
 import './style.scss';
 import { useMediaQuery } from '@mui/material';
+import ReactLoading from 'react-loading';
 
 const cacheRtl = createCache({
   key: 'muirtl',
@@ -45,6 +46,7 @@ const validationSchema = yup.object({
 });
 
 const ForgetPasswordPage = () => {
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
   const formik = useFormik({
     initialValues: {
@@ -53,6 +55,7 @@ const ForgetPasswordPage = () => {
 
     onSubmit: async values => {
       try {
+        setLoading(true);
         const res = await axios.post('https://kooleposhti.herokuapp.com/accounts/users/reset_password/', {
           email: values.email,
         });
@@ -69,6 +72,7 @@ const ForgetPasswordPage = () => {
         });
         history.push('/');
       } catch (error) {
+        setLoading(false);
         console.log('hello world');
         toast.error('ایمیلت تو سامانه ثبت نشده.', {
           position: 'bottom-center',
@@ -87,6 +91,7 @@ const ForgetPasswordPage = () => {
 
   return (
     <CacheProvider value={rtl ? cacheRtl : cacheLtr}>
+      <ToastContainer rtl={true} />
       <div className="forget-password-container">
         <div dir="rtl" className="forget-password">
           <Helmet>
@@ -166,12 +171,13 @@ const ForgetPasswordPage = () => {
                   />
                   <Button
                     type="submit"
-                    className="forget-password-page-button"
                     fullWidth
                     variant="contained"
+                    className="forget-password-page-button"
                     sx={{ mt: 3, mb: 2 }}
                   >
-                    ارسال
+                    {!loading && <span>ارسال</span>}
+                    {loading && <ReactLoading type="bubbles" color="#fff" className="loading-login" />}
                   </Button>
                 </Box>
               </Box>
