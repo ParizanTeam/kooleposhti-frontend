@@ -135,7 +135,7 @@ const ForgetPasswordPage = () => {
                   component="h6"
                   variant="h6"
                   margin="normal"
-                  sx={{ mt: 7, pr: 4, pl: 4, fontSize: 16 }}
+                  sx={{ mt: 7, pr: 4, pl: 4, fontSize:"17px !important" }}
                   className="forget-password__text"
                 >
                   بعد از وارد کردن ایمیلت، ما یک پیام برات می‌فرستیم و شما از طریق اون پیام می‌تونی رمز عبور جدیدت رو
