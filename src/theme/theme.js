@@ -1,14 +1,14 @@
 import IranyekanWoff2 from '../assets/fonts/woff2/IRANYekanWebRegular.woff2';
-import { createTheme} from '@mui/material/styles';
+import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 
-
-export default createTheme({
-  typography: {
-    fontFamily: 'iranyekan, Arial',
-  },
-  components: {
-    MuiCssBaseline: {
-      styleOverrides: `
+export default responsiveFontSizes(
+  createTheme({
+    typography: {
+      fontFamily: 'iranyekan, Arial',
+    },
+    components: {
+      MuiCssBaseline: {
+        styleOverrides: `
         @font-face {
           font-family: 'iranyekan';
           font-style: normal;
@@ -18,6 +18,7 @@ export default createTheme({
           unicodeRange: U+200c,U+0621-0628,U+062A-063A,U+0641-0642,U+0644-0648,U+064E-0651,U+0655,U+067E,U+0686,U+0698,U+06A9,U+06AF,U+06BE,U+06CC
         }
       `,
+      },
     },
-  },
-});
+  })
+);

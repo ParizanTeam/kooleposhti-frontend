@@ -3,6 +3,9 @@ import HomePage from '../components/HomePage';
 import LoginPage from '../components/LoginPage';
 import SignupPage from '../components/SignupPage';
 import NotFoundPage from '../components/NotFoundPage';
+import EmailVerification from '../components/EmailVerification';
+import ForgetPasswordPage from '../components/ForgetPasswordPage';
+import ResetPasswordPage from '../components/ResetPasswordPage';
 
 const AppRouter = () => {
   return (
@@ -11,11 +14,19 @@ const AppRouter = () => {
         <Route path="/" exact>
           <HomePage />
         </Route>
+        <Route path="/email-verification" exact render={props => <EmailVerification {...props} />} />
+
         <Route path="/login" exact>
           <LoginPage />
         </Route>
         <Route path="/signup" exact>
           <SignupPage />
+        </Route>
+        <Route path="/forget-password" exact>
+          <ForgetPasswordPage />
+        </Route>
+        <Route path="/reset-password" exact>
+          <ResetPasswordPage />
         </Route>
         <Route path="*">
           <NotFoundPage />
