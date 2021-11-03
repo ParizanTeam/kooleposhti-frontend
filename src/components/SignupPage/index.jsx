@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
+import {
+  Button,
+  TextField,
+  Grid,
+  Box,
+  Typography,
+  Container,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
+  FormLabel,
+} from '@mui/material';
 import { Link } from 'react-router-dom';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
 import { Redirect } from 'react-router';
 import { Formik } from 'formik';
 import rtlPlugin from 'stylis-plugin-rtl';
@@ -23,7 +25,6 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { ToastContainer, toast } from 'react-toastify';
 import { Helmet } from 'react-helmet';
 import ReactLoading from 'react-loading';
-/* import Recaptcha from 'react-recaptcha'; */
 import './style.scss';
 
 const cacheRtl = createCache({
@@ -84,7 +85,6 @@ export default function SignUp() {
                     password1: '',
                     password2: '',
                     is_instructor: false,
-                    /*                 recaptcha:"" */
                   }}
                   onSubmit={async values => {
                     try {
@@ -120,13 +120,11 @@ export default function SignUp() {
                           },
                         })
                         .then(response => {
-                          console.log('status is: ', response.status);
                           setValues(values);
                           setLoading(false);
                           setApiResponse(response.status === 200);
                         })
                         .catch(err => {
-                          console.log('error: ', err);
                           setLoading(false);
                           throw 'activate';
                         });
@@ -189,10 +187,6 @@ export default function SignUp() {
                       error.password2 = 'با رمز اصلی یکسان نیست';
                     }
 
-                    /*  else if(values.recaptcha === "")
-                {
-                    error.recaptcha = "not human";
-                } */
                     return error;
                   }}
                 >
@@ -288,16 +282,6 @@ export default function SignUp() {
                           </FormControl>
                         </Grid>
                       </Grid>
-                      {/* 
-
-                  <div className="recaptcha">
-                    <Recaptcha
-                      sitekey="6LfI6N4cAAAAAM5s9zVuo5MJiUYbHYO9Du9cgJSU"
-                      render="expilcit"
-                      verifyCallback={(response) => { setFieldValue("recaptcha", response); }}
-                      onloadCallback={() => console.log('loaded')}
-                    />
-                  </div> */}
 
                       <Button
                         type="submit"
