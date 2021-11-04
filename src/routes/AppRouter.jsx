@@ -6,6 +6,7 @@ import NotFoundPage from '../components/NotFoundPage';
 import EmailVerification from '../components/EmailVerification';
 import ForgetPasswordPage from '../components/ForgetPasswordPage';
 import ResetPasswordPage from '../components/ResetPasswordPage';
+import CreateCourseForm from '../components/CreateCourseForm';
 
 const AppRouter = () => {
   return (
@@ -27,6 +28,9 @@ const AppRouter = () => {
         </Route>
         <Route path="/reset-password" exact>
           <ResetPasswordPage />
+        </Route>
+        <Route path="/create-course" exact>
+          <CreateCourseForm />
         </Route>
         <Route path="*">
           <NotFoundPage />
