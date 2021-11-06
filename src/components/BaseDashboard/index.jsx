@@ -6,7 +6,6 @@ import {
   Typography,
   ListItemIcon,
   ListItem,
-  ListItemText,
   List,
   Toolbar,
   Box,
@@ -43,16 +42,23 @@ function BaseDashboard(props) {
 
   const drawer = (
     <div>
-      <Typography component="ListItem" className="dashboard-sidebar-profile-title" variant="h6" sx={{fontWeight:"bold"}}>کوله پشتی</Typography>
-      <Divider sx={{background:"rgba(255, 255, 255, 0.4);" , mr:2 , ml:2}}/>
+      <Typography
+        component="ListItem"
+        className="dashboard-sidebar-profile-title"
+        variant="h6"
+        sx={{ fontWeight: 'bold' }}
+      >
+        کوله پشتی
+      </Typography>
+      <Divider sx={{ background: 'rgba(255, 255, 255, 0.4);', mr: 2, ml: 2 }} />
       <Toolbar>{props.profile}</Toolbar>
-      <Divider sx={{background:"rgba(255, 255, 255, 0.4);" , mr:2 , ml:2}}/>
+      <Divider sx={{ background: 'rgba(255, 255, 255, 0.4);', mr: 2, ml: 2 }} />
       <List>
         {props.items.map((item, index) => (
           <div style={{ padding: '0px 10px' }}>
             <ListItem button key={item.text} onClick={item.onClick} className="list-item">
               <ListItemIcon>{item.icon}</ListItemIcon>
-              <p style={{fontSize:"13px"}}>{item.text}</p>
+              <p style={{ fontSize: '13px' }}>{item.text}</p>
             </ListItem>
           </div>
         ))}
@@ -70,7 +76,7 @@ function BaseDashboard(props) {
           <Grid item>
             <Box
               component="nav"
-              sx={{width: { md:drawerWidth ,  sm:"34vmin"} , flexShrink: { sm: 0 } }}
+              sx={{ width: { md: drawerWidth, sm: '34vmin' }, flexShrink: { sm: 0 } }}
               aria-label="mailbox folders"
             >
               {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
@@ -83,10 +89,10 @@ function BaseDashboard(props) {
                   keepMounted: true, // Better open performance on mobile.
                 }}
                 sx={{
-                  display: {sm:"none" , xs:"block"}  ,
+                  display: { sm: 'none', xs: 'block' },
                   '& .MuiDrawer-paper': {
                     boxSizing: 'border-box',
-                    width:{sm:"33vmin" , xs:drawerWidth},
+                    width: { sm: '33vmin', xs: drawerWidth },
                   },
                 }}
                 anchor="left"
@@ -96,8 +102,8 @@ function BaseDashboard(props) {
               <Drawer
                 variant="permanent"
                 sx={{
-                  display: {sm:"block" , xs:"none"} ,
-                  '& .MuiDrawer-paper': { boxSizing: 'border-box', width: {md:drawerWidth , sm:"34vmin"}},
+                  display: { sm: 'block', xs: 'none' },
+                  '& .MuiDrawer-paper': { boxSizing: 'border-box', width: { md: drawerWidth, sm: '34vmin' } },
                 }}
                 open
               >
@@ -109,9 +115,9 @@ function BaseDashboard(props) {
             <AppBar
               position="fixed"
               sx={{
-                width: {  md:`calc(100% - ${drawerWidth}px)` , sm:`calc(100% - 34vmin)`},
+                width: { md: `calc(100% - ${drawerWidth}px)`, sm: `calc(100% - 34vmin)` },
 
-                backgroundColor:"rgba(10, 67, 94, 0.942)",
+                backgroundColor: 'rgba(10, 67, 94, 0.942)',
               }}
             >
               <Toolbar>
@@ -120,7 +126,7 @@ function BaseDashboard(props) {
                   aria-label="open drawer"
                   edge="start"
                   onClick={handleDrawerToggle}
-                  sx={{ mr: 2, display:useMediaQuery('(max-width: 600px)') ? "block" : "none"}}
+                  sx={{ mr: 2, display: useMediaQuery('(max-width: 600px)') ? 'block' : 'none' }}
                 >
                   <MenuIcon />
                 </IconButton>

@@ -10,7 +10,6 @@ import TeacherDashboard from '../components/TeacherDashboard';
 import { Redirect } from 'react-router';
 
 const AppRouter = () => {
-
   return (
     <Router>
       <Switch>
@@ -27,35 +26,18 @@ const AppRouter = () => {
         <Route path="/dashboard" exact>
           <Redirect to="/dashboard/profile" />
         </Route>
+        <Route path="/dashboard/">
+          <TeacherDashboard />
+        </Route>
         <Route path="/forget-password" exact>
           <ForgetPasswordPage />
         </Route>
         <Route path="/reset-password" exact>
           <ResetPasswordPage />
         </Route>
-
-        {/* teacher dashbaors url */}
-        <Switch>
-          <Route path="/dashboard/profile" exact>
-            <TeacherDashboard>
-              <h1>پروفایل</h1>
-            </TeacherDashboard>
-          </Route>
-          <Route path="/dashboard/teacher" exact>
-            <TeacherDashboard>
-              <h1>کیف پول</h1>
-            </TeacherDashboard>
-          </Route>
-          <Route path="/dashboard/student" exact>
-            <TeacherDashboard>
-              <h1>کلاس ها</h1>
-            </TeacherDashboard>
-          </Route>
-          <Route path="*">
-            <NotFoundPage />
-          </Route>
-        </Switch>
-        {/* end teacher dashboard url */}
+        <Route path="*">
+          <NotFoundPage />
+        </Route>
       </Switch>
     </Router>
   );

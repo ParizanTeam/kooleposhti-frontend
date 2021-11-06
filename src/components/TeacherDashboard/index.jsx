@@ -1,99 +1,103 @@
 import React from 'react';
 import BaseDashboard from '../BaseDashboard';
-import { Grid, Typography, ListItem, ListItemText, Divider } from '@mui/material';
+import { Grid, ListItem } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Apple';
 import LoginIcon from '@mui/icons-material/AccountBalance';
 import SignupIcon from '@mui/icons-material/AccountCircle';
-import { useHistory } from 'react-router-dom';
-import './style.scss';
+import { useHistory, useLocation } from 'react-router-dom';
+import { Redirect } from 'react-router';
 import { Box } from '@mui/system';
+import './style.scss';
 
 function TeacherDashboard(props) {
   let history = useHistory();
+  let notValidPath = false;
+
+  const tabs = ['profile', 'wallet', 'classes'];
 
   const items = [
     {
       text: 'پروفایل',
       icon: <HomeIcon />,
       onClick: () => {
-        history.push('/dashboard/profile');
+        history.push(`/dashboard/${tabs[0]}`);
       },
     },
     {
       text: 'کیف پول',
       icon: <LoginIcon />,
       onClick: () => {
-        history.push('/dashboard/teacher');
+        history.push(`/dashboard/${tabs[1]}`);
       },
     },
     {
       text: 'کلاس ها',
       icon: <SignupIcon />,
       onClick: () => {
-        history.push('/dashboard/student');
+        history.push(`/dashboard/${tabs[2]}`);
       },
     },
     {
       text: 'پروفایل',
       icon: <HomeIcon />,
       onClick: () => {
-        history.push('/dashboard/profile');
+        history.push(`/dashboard/${tabs[0]}`);
       },
     },
     {
       text: 'کیف پول',
       icon: <LoginIcon />,
       onClick: () => {
-        history.push('/dashboard/teacher');
+        history.push(`/dashboard/${tabs[1]}`);
       },
     },
     {
       text: 'کلاس ها',
       icon: <SignupIcon />,
       onClick: () => {
-        history.push('/dashboard/student');
+        history.push(`/dashboard/${tabs[2]}`);
       },
     },
     {
       text: 'پروفایل',
       icon: <HomeIcon />,
       onClick: () => {
-        history.push('/dashboard/profile');
+        history.push(`/dashboard/${tabs[0]}`);
       },
     },
     {
       text: 'کیف پول',
       icon: <LoginIcon />,
       onClick: () => {
-        history.push('/dashboard/teacher');
+        history.push(`/dashboard/${tabs[1]}`);
       },
     },
     {
       text: 'کلاس ها',
       icon: <SignupIcon />,
       onClick: () => {
-        history.push('/dashboard/student');
+        history.push(`/dashboard/${tabs[2]}`);
       },
     },
     {
       text: 'پروفایل',
       icon: <HomeIcon />,
       onClick: () => {
-        history.push('/dashboard/profile');
+        history.push(`/dashboard/${tabs[0]}`);
       },
     },
     {
       text: 'کیف پول',
       icon: <LoginIcon />,
       onClick: () => {
-        history.push('/dashboard/teacher');
+        history.push(`/dashboard/${tabs[1]}`);
       },
     },
     {
       text: 'کلاس ها',
       icon: <SignupIcon />,
       onClick: () => {
-        history.push('/dashboard/student');
+        history.push(`/dashboard/${tabs[2]}`);
       },
     },
   ];
@@ -119,8 +123,31 @@ function TeacherDashboard(props) {
     </Box>
   );
 
+  const location = useLocation();
+  console.log(tabs.map(item => `dashboard/${item}`));
+  if (!tabs.map(item => `/dashboard/${item}`).includes(location.pathname)) {
+    notValidPath = true;
+  }
+
   return (
     <React.Fragment>
+      {notValidPath && <Redirect to="/notFound" />}
+      {location.pathname === '/dashboard/profile' && (
+        <BaseDashboard items={items} profile={profile} className="drawer">
+          <h1>پروفایل</h1>
+        </BaseDashboard>
+      )}
+      {location.pathname === '/dashboard/wallet' && (
+        <BaseDashboard items={items} profile={profile} className="drawer">
+          <h1>کیف پول</h1>
+        </BaseDashboard>
+      )}
+      {location.pathname === '/dashboard/classes' && (
+        <BaseDashboard items={items} profile={profile} className="drawer">
+          <h1>کلاس ها</h1>
+        </BaseDashboard>
+      )}
+
       <BaseDashboard items={items} profile={profile} className="drawer">
         {props.children}
       </BaseDashboard>
