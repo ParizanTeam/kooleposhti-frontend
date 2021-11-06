@@ -13,12 +13,18 @@ import {
   Drawer,
   Grid,
   useMediaQuery,
+  Button,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
+import SchoolIcon from '@mui/icons-material/School';
+import HelpIcon from '@mui/icons-material/Help';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import './style.scss';
 
@@ -33,6 +39,19 @@ const cacheRtl = createCache({
 const drawerWidth = 310;
 
 function BaseDashboard(props) {
+  const [color, setColor] = React.useState('#fd576c');
+  const [openSearchBar, setOpenSearchBar] = React.useState(false);
+
+  const handleSearchBarOpen = () => {
+    setOpenSearchBar(true);
+    setColor('grey');
+  };
+
+  const handleSearchBarClose = () => {
+    setOpenSearchBar(false);
+    setColor('#fd576c');
+  };
+
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -114,9 +133,9 @@ function BaseDashboard(props) {
           <Grid item>
             <AppBar
               position="fixed"
+              display="flex"
               sx={{
                 width: { md: `calc(100% - ${drawerWidth}px)`, sm: `calc(100% - 34vmin)` },
-
                 backgroundColor: 'rgba(10, 67, 94, 0.942)',
               }}
             >
@@ -130,9 +149,28 @@ function BaseDashboard(props) {
                 >
                   <MenuIcon />
                 </IconButton>
-                <Typography variant="h6" noWrap component="div">
-                  Responsive drawer
-                </Typography>
+
+                <Button variant="text" component={Link} to="/singup" sx={{ mr: 2 }}>
+                  <SchoolIcon sx={{ color: 'rgba(123, 234, 242, 0.857)', mr: 1.5 }} />
+                  <Typography variant="body" noWrap component="div" sx={{ color: 'white' , fontSize:"0.7rem"}}>
+                    تدریس کن
+                  </Typography>
+                </Button>
+                <Button variant="text" component={Link} to="/Help">
+                  <HelpIcon sx={{ color: 'rgba(123, 234, 242, 0.857)', mr: 1.5 }} />
+                  <Typography variant="body" noWrap component="div" sx={{ color: 'white' ,fontSize:"0.7rem"}}>
+                    راهنما
+                  </Typography>
+                </Button>
+
+                <Box display="flex" flexGrow={1} sx={{ direction: 'rtl' }}>
+                <Button variant="text" component={Link} to="/Help">
+                  <LogoutIcon sx={{ color: 'rgba(123, 234, 242, 0.857)', ml: 1.5 }} />
+                  <Typography variant="body" noWrap component="div" sx={{ color: 'white',fontSize:"0.7rem" }}>
+                    خروج
+                  </Typography>
+                </Button>
+                </Box>
               </Toolbar>
             </AppBar>
 

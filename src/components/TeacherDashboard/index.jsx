@@ -124,7 +124,7 @@ function TeacherDashboard(props) {
   );
 
   const location = useLocation();
-  console.log(tabs.map(item => `dashboard/${item}`));
+
   if (!tabs.map(item => `/dashboard/${item}`).includes(location.pathname)) {
     notValidPath = true;
   }
