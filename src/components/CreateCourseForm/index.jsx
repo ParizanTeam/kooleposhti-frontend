@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useState } from 'react';
 import { Stepper, Step, StepLabel, Box, Typography, Button } from '@mui/material';
 import { StyledEngineProvider } from '@mui/material/styles';
 import { makeStyles } from '@mui/styles';
@@ -6,6 +6,8 @@ import { CacheProvider } from '@emotion/react';
 import rtl from 'jss-rtl';
 import rtlPlugin from 'stylis-plugin-rtl';
 import createCache from '@emotion/cache';
+import CreateCourseStepOne from '../CreateCourseStepOne';
+import './style.scss';
 
 const steps = ['ثبت نام اولیه', 'ثبت نام وسطی', 'مرحله آخر'];
 //const classes = useStyle();
@@ -37,7 +39,7 @@ function CreateCourseForm() {
   function getStepsContent(stepIndex) {
     switch (stepIndex) {
       case 0:
-        return 'ثبت نام اولیه (اول)';
+        return <CreateCourseStepOne></CreateCourseStepOne>;
       case 1:
         return 'ثبت نام وسطی (دوم)';
       case 2:
@@ -47,15 +49,31 @@ function CreateCourseForm() {
 
   const steps = getSteps();
   const classes = useStyles();
+  const [activeStep, setActiveStep] = useState(0);
+  const handleNext = () => {
+    setActiveStep(prevActiveStep => prevActiveStep + 1);
+  };
   return (
     <CacheProvider value={rtl ? cacheRtl : cacheLtr}>
-      <Stepper className={classes.root} alternativeLabel sx={{ mt: 5, pt: 2, pb: 2 }}>
-        {steps.map(label => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
+      <div className="form-holder-main-class">
+        <Stepper alternativeLabel activeStep={activeStep} sx={{ mt: 5, pt: 2, pb: 2 }}>
+          {steps.map(label => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+        <>
+          {activeStep === steps.length ? (
+            'مراحل با موفقیت به اتمام رسید.'
+          ) : (
+            <>
+              {getStepsContent(activeStep)}
+              <Button onClick={handleNext}>{activeStep == steps.length - 1 ? 'پایان' : 'بعدی'}</Button>
+            </>
+          )}
+        </>
+      </div>
     </CacheProvider>
   );
 }

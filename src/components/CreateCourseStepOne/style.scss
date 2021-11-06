@@ -1,0 +1,25 @@
+@import '/src/theme/main.scss';
+
+.step-one-title {
+  align-items: center !important;
+}
+
+.step-one-form-container {
+  position: relative;
+  height: auto;
+  padding: 2rem;
+}
+
+.step-one-main-container {
+  display: grid;
+  justify-content: center;
+  position: relative;
+  z-index: 5;
+}
+
+.step-one-dropdown-holder {
+  width: 26rem;
+  padding: 2rem;
+  position: relative;
+  height: auto;
+}
