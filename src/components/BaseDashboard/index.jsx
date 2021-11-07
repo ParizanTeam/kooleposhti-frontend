@@ -65,7 +65,7 @@ function BaseDashboard(props) {
         component="ListItem"
         className="dashboard-sidebar-profile-title"
         variant="h6"
-        sx={{ fontWeight: 'bold' }}
+        sx={{ fontWeight: 'bold'  }}
       >
         کوله پشتی
       </Typography>
@@ -130,7 +130,7 @@ function BaseDashboard(props) {
               </Drawer>
             </Box>
           </Grid>
-          <Grid item>
+          <Grid item sx={{ margin: 'auto' ,  width: { md: `calc(100% - ${drawerWidth}px)`, sm: `calc(100% - 34vmin)` }}}>
             <AppBar
               position="fixed"
               display="flex"
@@ -175,6 +175,7 @@ function BaseDashboard(props) {
             </AppBar>
 
             {props.children}
+
           </Grid>
         </Grid>
       </Box>

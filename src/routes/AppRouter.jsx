@@ -23,10 +23,10 @@ const AppRouter = () => {
         <Route path="/signup" exact>
           {<SignupPage />}
         </Route>
-        <Route path="/dashboard" exact>
-          <Redirect to="/dashboard/profile" />
+        <Route path="/teacher/dashboard" exact>
+          <Redirect to="/teacher/dashboard/profile" />
         </Route>
-        <Route path="/dashboard/">
+        <Route path="/teacher/dashboard/">
           <TeacherDashboard />
         </Route>
         <Route path="/forget-password" exact>
