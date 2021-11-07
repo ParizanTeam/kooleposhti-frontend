@@ -13,6 +13,16 @@
   box-shadow: 10px;
 }
 
+.steeper-button__holder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.steeper-button {
+  margin-bottom: 25px !important;
+}
+
 @media only screen and (max-width: 600px) {
   .form-holder-main-class {
     width: 100%;

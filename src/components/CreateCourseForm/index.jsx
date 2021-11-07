@@ -69,7 +69,17 @@ function CreateCourseForm() {
           ) : (
             <>
               {getStepsContent(activeStep)}
-              <Button onClick={handleNext}>{activeStep == steps.length - 1 ? 'پایان' : 'بعدی'}</Button>
+              <div className="steeper-button__holder">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  component="span"
+                  className="steeper-button"
+                  onClick={handleNext}
+                >
+                  {activeStep == steps.length - 1 ? 'پایان' : 'رفتن به صفحه‌ی بعد'}
+                </Button>
+              </div>
             </>
           )}
         </>

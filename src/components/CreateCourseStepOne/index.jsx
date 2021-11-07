@@ -18,6 +18,13 @@ import {
   FormControl,
   Button,
 } from '@mui/material';
+import DatePicker, { DateObject } from 'react-multi-date-picker';
+import TimePicker from 'react-multi-date-picker/plugins/time_picker';
+import persian from 'react-date-object/calendars/persian';
+import DatePanel from 'react-multi-date-picker/plugins/date_panel';
+import persian_fa from 'react-date-object/locales/persian_fa';
+import { Calendar } from 'react-multi-date-picker';
+import InputIcon from 'react-multi-date-picker/components/input_icon';
 // import { TimePicker, DateTimePicker, DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 // import DateAdapter from '@mui/lab/AdapterDateFns';
 import moment from 'moment';
@@ -95,6 +102,11 @@ function CreateCourseStepOne() {
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
   const [selectedDate, handleDateChange] = useState(moment());
+  const [file, setFile] = useState('');
+  const [value, onChange] = useState('10:00');
+  const handleChangeFile = e => {
+    setFile(URL.createObjectURL(e.target.files[0]));
+  };
 
   const handleChange = event => {
     const {
@@ -107,6 +119,10 @@ function CreateCourseStepOne() {
   };
   const [loading, setLoading] = useState(false);
   const history = useHistory();
+  const [values, setValues] = useState([
+    new DateObject({ calendar: persian, locale: persian_fa }), //امروز,
+    new DateObject({ calendar: persian, locale: persian_fa }).add(1, 'day'), //فردا
+  ]);
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
@@ -190,6 +206,7 @@ function CreateCourseStepOne() {
                 label="اسم کلاس"
                 name="class-name"
                 autoFocus
+                className="step-one-input-field"
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 error={formik.touched.email && Boolean(formik.errors.email)}
@@ -222,41 +239,74 @@ function CreateCourseStepOne() {
                 </Select>
               </FormControl>
               <TextField
-                style={{ width: '100%', margin: '1rem 0 0.5rem 0' }}
+                style={{ width: '95%', margin: '1rem 0 0.5rem 0' }}
                 variant="outlined"
                 label="هزینه ثبت نام در کلاس(تومان)"
               ></TextField>
 
               <TextField
-                style={{ width: '100%', margin: '1rem 0 0 0' }}
+                style={{ width: '95%', margin: '1rem 0 0 0' }}
                 variant="outlined"
                 label="مدت زمان هر جلسه(دقیقه)"
               ></TextField>
 
-              <input style={{ display: 'none' }} id="contained-button-file" type="file" />
+              {/* <input id="contained-button-file" type="file" />
               <label htmlFor="contained-button-file">
                 <Button variant="contained" color="primary" component="span">
                   Upload
                 </Button>
-              </label>
+              </label> */}
 
-              {/* <DateTimePicker
-                okLabel="تأیید"
-                cancelLabel="لغو"
-                labelFunc={date => (date ? date.format('jYYYY/jMM/jDD hh:mm A') : '')}
-                value={selectedDate}
-                onChange={handleDateChange}
-              /> */}
-              {/* <TextField
-                id="datetime-local"
-                label="Next appointment"
-                type="datetime-local"
-                defaultValue="2017-05-24T10:30"
-                sx={{ width: 250 }}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              /> */}
+              <label for="calender" className="step-one-calender__label" style={{ display: 'block' }}>
+                تاریخ و زمان کلاس ها
+              </label>
+              <DatePicker
+                multiple
+                // render={<InputIcon className="step-one-datePicker" />}
+                value={values}
+                onChange={setValues}
+                calendar={persian}
+                locale={persian_fa}
+                inputClass="step-one-datePicker"
+                format="HH:mm:ss | YYYY/MM/DD "
+                plugins={[<TimePicker position="bottom" />, <DatePanel position="left" />]}
+                calendarPosition="bottom-right"
+                id="calender"
+              />
+
+              <TextField
+                id="outlined-multiline-static"
+                label="توضیحات کلاس"
+                style={{ display: 'block' }}
+                className="step-one-text-area"
+                multiline
+                rows={4}
+              />
+
+              <input
+                id="contained-button-file"
+                type="file"
+                style={{ display: 'none', mt: 1, mb: 1 }}
+                onChange={handleChangeFile}
+              />
+              <label htmlFor="contained-button-file">
+                <span style={{ display: 'block' }}>
+                  <label for="upload-image" className="step-one-calender__label" style={{ display: 'block' }}>
+                    عکس کلاس
+                  </label>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    component="span"
+                    style={{ mt: 1, mb: 1 }}
+                    id="upload-image"
+                    className="step-one-button"
+                  >
+                    انتخاب فایل
+                  </Button>
+                </span>
+              </label>
+              <img src={file} />
             </Box>
           </Box>
         </Container>
