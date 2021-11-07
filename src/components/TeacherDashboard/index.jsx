@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import BaseDashboard from '../BaseDashboard';
-import { Grid, ListItem } from '@mui/material';
+import { Grid, ListItem, Avatar, Toolbar } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Apple';
 import LoginIcon from '@mui/icons-material/AccountBalance';
 import SignupIcon from '@mui/icons-material/AccountCircle';
@@ -13,11 +13,14 @@ import DashboardTeacherClasses from '../DashboardteacherClasses';
 import DashboardTeacherWallet from '../DashboardTeacherWallet';
 import DashboardTeacherRecieved from '../DashboardTeacherRecieved';
 import DashboardTeacherBankAccount from '../DashboardTeacherBankAccount';
+import profile_1 from '../../assets/images/profile_1.png';
 import './style.scss';
 
 function TeacherDashboard(props) {
   let history = useHistory();
   let notValidPath = false;
+
+  const [file, setFile] = useState(profile_1);
 
   const tabs = ['profile', 'classes', 'wallet', 'received', 'bankaccount'];
 
@@ -111,9 +114,10 @@ function TeacherDashboard(props) {
   const profile = (
     <Box className="dashboard-sidebar-profile">
       <Grid container spacing={0} direction="column" alignItems="center" justifyContent="center">
-        <Grid item xs={12} sm={12}>
-          <SignupIcon sx={{ fontSize: 100 }} />
+        <Grid item xs={12} sm={12} sx={{display:"flex" , justifyContent:"center" , alignItems:"center"}}>
+            <Avatar src={file} alt="profile" sx={{ height: 'auto', width: '30%', borderRadius: '50%' }} />
         </Grid>
+
         <Grid item xs={12} sm={12}>
           <ListItem button className="dashboard-avatar-item">
             <p className="dashboard-avatar-item__info-name">سید عماد موسوی</p>

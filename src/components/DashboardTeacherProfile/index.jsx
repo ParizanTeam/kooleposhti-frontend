@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SignupIcon from '@mui/icons-material/AccountCircle';
 import Avatar from '@mui/material/Avatar';
 import {
@@ -20,10 +20,17 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { ToastContainer, toast } from 'react-toastify';
 import { Helmet } from 'react-helmet';
+import profile_1 from '../../assets/images/profile_2.png';
 
 import './style.scss';
 
 function DashboardTeacherProfile(props) {
+  const [file, setFile] = useState(profile_1);
+
+  const handleChange = e => {
+    setFile(URL.createObjectURL(e.target.files[0]));
+  };
+
   const cacheRtl = createCache({
     key: 'muirtl',
 
@@ -50,13 +57,18 @@ function DashboardTeacherProfile(props) {
               fontFamily: 'iranyekan',
             }}
           >
-            <Typography component="h2" variant="Button" sx={{ color: 'rgba(10, 67, 94, 0.942)' }}>
+            <Typography component="h2" variant="Button" sx={{ color: 'rgba(10, 67, 94, 0.942)' ,fontSize:{sm:"3vmin" , xs:"4vmin"}}}>
               ویرایش حساب کاربری
             </Typography>
-            <SignupIcon sx={{ fontSize: 130, color: 'rgba(10, 67, 94, 0.942)', mt: 3 }} />
+            <Avatar src={file} alt="profile" sx={{ mt: 1, width:"auto", height:"18vmin", borderRadius: '50%' }} />
 
-            <Button sx={{ backgroundColor: 'rgba(10, 67, 94, 0.942)', color: 'white', width: '120px', mt: 1 }}>
+            <Button
+              variant="contained"
+              component="label"
+              sx={{ backgroundColor: 'rgba(10, 67, 94, 0.942)', color: 'white', width: '120px', mt: 2 }}
+            >
               <p style={{ fontSize: '0.8rem' }}>انتخاب عکس</p>
+              <input type="file" hidden onChange={handleChange} />
             </Button>
 
             <ToastContainer rtl={true} />
@@ -113,7 +125,7 @@ function DashboardTeacherProfile(props) {
                 </Grid>
               </Grid>
 
-              <Grid item >
+              <Grid item>
                 <Button
                   fullWidth
                   type="submit"
