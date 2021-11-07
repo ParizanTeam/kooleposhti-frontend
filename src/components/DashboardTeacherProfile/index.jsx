@@ -120,7 +120,7 @@ function DashboardTeacherProfile(props) {
                   variant="contained"
                   sx={{ mt: 3, backgroundColor: 'rgba(10, 67, 94, 0.942) !important' }}
                 >
-                  ثبت نام
+                  تایید
                 </Button>
               </Grid>
             </Box>
