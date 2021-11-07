@@ -5,7 +5,6 @@ function DashboardTeacherBankAccount(props) {
     <React.Fragment>
       <h1>حساب بانکی</h1>
     </React.Fragment>
-
   );
 }
 
