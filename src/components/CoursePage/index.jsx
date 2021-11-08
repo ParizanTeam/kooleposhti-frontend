@@ -32,6 +32,7 @@ const CoursePage = () => {
     'تجربه ساختن یک ماکت واقعی',
     'آشنایی با مفاهیم جذاب ساختن',
   ];
+  const tags = ['معماری', 'خلاقیت', 'ساختن', 'کار گروهی'];
   const scrollToDates = () => {
     datesRef.current.scrollIntoView({
       behavior: 'smooth',
@@ -42,7 +43,7 @@ const CoursePage = () => {
       <div className="course-header">
         <div className="course-header__first-section-wrapper">
           <div className="course-header__categories">
-            {categoryData.slice(2, 5).map(category => (
+            {categoryData.slice(3, 4).map(category => (
               <CourseCategory
                 color={category.color}
                 imgSrc={category.imgSrc}
@@ -83,6 +84,13 @@ const CoursePage = () => {
           <img src={coursesData.imgSrc} alt="" />
         </div>
       </div>
+      <div className="course-tags">
+        {tags.map((tag, i) => (
+          <div className="course-tags__tag" key={i}>
+            {tag}
+          </div>
+        ))}
+      </div>
       <div className="course-info">
         <div className="course-info__item">
           <ScheduleOutlinedIcon />
@@ -118,7 +126,7 @@ const CoursePage = () => {
         teacherDescription={teacherDescription}
         teacherImgSrc={teacherImgSrc}
       />
-      <CourseDates ref={datesRef} />
+      <CourseDates ref={datesRef}/>
     </div>
   );
 };
