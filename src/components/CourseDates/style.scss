@@ -1,0 +1,134 @@
+@import '/src/theme/main.scss';
+
+.course-dates-section {
+  margin: 64px 0;
+  &__title {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 32px 16px;
+  }
+
+  .carousal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: visible;
+
+    .swiper-container {
+      position: static;
+    }
+
+    .swiper-slide {
+      padding: 10px 0;
+      width: 250px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .swiper-button-prev {
+      width: 56px;
+      height: 56px;
+      position: absolute;
+      right: 28px;
+      top: 50%;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+      border-radius: 50%;
+      padding: 8px;
+      background-color: #fff;
+      padding: 10px;
+      &::after {
+        font-weight: bolder;
+        color: #666;
+        font-size: 24px;
+      }
+    }
+    .swiper-button-next {
+      width: 56px;
+      height: 56px;
+      position: absolute;
+      left: 28px;
+      top: 50%;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+      border-radius: 50%;
+      padding: 8px;
+      background-color: #fff;
+      padding: 10px;
+      &::after {
+        font-weight: bolder;
+        color: #666;
+        font-size: 24px;
+      }
+    }
+
+    .swiper-button-disabled {
+      display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    &__title {
+      text-align: center;
+    }
+  }
+}
+
+.course-date-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 32px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  width: 240px;
+  height: 300px;
+
+  &:focus {
+    border: 2px solid rgb(37, 93, 173);
+    background-color: rgba(242, 247, 254, 0.5);
+  }
+
+  &__day {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  &__weekday {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  &__time {
+    font-size: 18px;
+    font-weight: 700;
+    color: rgb(37, 93, 173);
+    margin-bottom: 24px;
+  }
+
+  &__remain {
+    font-weight: 700;
+    color: rgb(241, 93, 93);
+    margin-bottom: 8px;
+  }
+
+  &__register {
+    background-color: #29a877;
+    color: $c-white;
+    border: 1px solid rgba(37, 93, 173, 0.25);
+    padding: 8px 16px;
+    font-weight: 700;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(41, 168, 119, 0.35);
+    font-size: 16px;
+    margin: 16px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #249468;
+    }
+  }
+}

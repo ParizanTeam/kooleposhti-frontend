@@ -7,6 +7,7 @@ import EmailVerification from '../components/EmailVerification';
 import ForgetPasswordPage from '../components/ForgetPasswordPage';
 import ResetPasswordPage from '../components/ResetPasswordPage';
 import CreateCourseForm from '../components/CreateCourseForm';
+import CoursePage from '../components/CoursePage';
 
 const AppRouter = () => {
   return (
@@ -16,7 +17,6 @@ const AppRouter = () => {
           <HomePage />
         </Route>
         <Route path="/email-verification" exact render={props => <EmailVerification {...props} />} />
-
         <Route path="/login" exact>
           <LoginPage />
         </Route>
@@ -31,6 +31,9 @@ const AppRouter = () => {
         </Route>
         <Route path="/create-course" exact>
           <CreateCourseForm />
+        </Route>
+        <Route path="/courses/:courseId" exact>
+          <CoursePage />
         </Route>
         <Route path="*">
           <NotFoundPage />
