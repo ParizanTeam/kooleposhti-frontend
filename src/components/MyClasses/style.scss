@@ -1,0 +1,201 @@
+@import '/src/theme/main.scss';
+
+.My{
+    position: absolute;
+    width: 100%;
+}
+.Head{
+    position: absolute;
+    width: 100%;
+    box-shadow: rgb(228, 195, 134) 0px 1px 4px;
+    &__content{
+        color: rgb(224, 89, 35);
+        font-size: x-large;
+        font-weight: 700;
+        margin-right: 18%;
+        margin-top: 120px;
+    }
+}
+.HeadSub{
+    display:flex;
+    flex-direction: row;
+    text-align: center;
+    margin-top: 3px;
+    margin-inline-start: 16%;
+    @media (max-width: 600px) {
+        margin-inline-start: 1%;
+    }
+    &__Ia{
+        height: 50px;
+        border-top-right-radius: 30%;
+        border-top-left-radius: 50%;
+        width: 25%;
+        text-align: center;
+        font-size: large;
+        font-weight: 700;
+        color: rgb(255, 255, 255);
+        background-color:orangered;
+        &:hover {
+            background-color:bisque;
+            color:orangered;
+            transform: perspective(10);
+        }
+    @media (max-width: 600px) {
+        width: 33%;
+    }
+    &__cont{
+        text-align: center;
+        font-size: large;
+        font-weight: 700;
+        color: rgb(255, 255, 255);
+        position: relative;
+        line-height: 50px;
+        display: block;
+        @media (max-width: 600px) {
+            display: none;
+        }
+        &:hover {
+            color:orangered;}
+    }
+    &__cont-b{
+        color: rgb(255, 255, 255);
+        position: relative;
+        line-height: 54px;
+        font-size: medium;
+        display: none;
+        @media (max-width: 600px) {
+            display: block;
+        }
+        &:hover {
+            color:orangered;}
+    }
+    }
+    &__Ib{
+        height: 50px;
+        border-top-right-radius: 50%;
+        border-top-left-radius: 30%;
+        width: 25%;
+        text-align: center;
+        font-size: large;
+        font-weight: 700;
+        color: rgb(255, 255, 255);
+        background-color:red;
+        &:hover {
+            background-color:rgb(253, 172, 105);
+            color:red;
+            transform: perspective(10);
+        }
+    @media (max-width: 600px) {
+        width: 33%;
+    }
+    &__cont{
+        text-align: center;
+        font-size: large;
+        font-weight: 700;
+        color: rgb(255, 255, 255);
+        position: relative;
+        line-height: 50px;
+        display: block;
+        @media (max-width: 600px) {
+            display: none;
+        }
+        &:hover {
+            color:red;
+        }
+    }
+    &__cont-b{
+        color: rgb(255, 255, 255);
+        position: relative;
+        line-height: 54px;
+        font-size: medium;
+        display: none;
+        @media (max-width: 600px) {
+            display: block;
+        }
+        &:hover {
+            color:red;
+        }
+    }
+    }
+    &__Ic{
+        height: 50px;
+        border-top-right-radius: 50%;
+        border-top-left-radius: 50%;
+        width: 25%;
+        text-align: center;
+        font-size: large;
+        font-weight: 800;
+        color: rgb(255, 51, 0);
+        background-color:rgb(251, 255, 0);
+        &:hover {
+            background-color:rgb(250, 190, 255);
+            color:rgb(53, 6, 71);
+            transform: perspective(10);
+        }
+    @media (max-width: 600px) {
+        width: 33%;
+    }
+    &__cont{
+        text-align: center;
+        font-size: large;
+        font-weight: 800;
+        color: rgb(255, 51, 0);
+        position: relative;
+        line-height: 50px;
+        display: block;
+        @media (max-width: 600px) {
+            display: none;
+        }
+        &:hover {
+            color:rgb(53, 6, 71);
+        }
+    }
+    &__cont-b{
+        position: relative;
+        line-height: 54px;
+        font-size: medium;
+        display: none;
+        color: rgb(255, 51, 0);
+        @media (max-width: 600px) {
+            display: block;
+        }
+        &:hover {
+            color:rgb(53, 6, 71);
+        }
+    }
+    }
+    
+    &__ClickedOnMe{
+        font-size: xx-large;
+        font-weight: 900;
+        display:flex;
+        flex-direction: row;
+        text-align: center;
+        margin-top: 40px;
+        @media (max-width: 600px) {
+            margin-inline-start: 1%;
+        }
+        color: brown;
+        &__a{
+            margin-inline-start: 25%;
+            display: block;
+            @media (max-width: 600px) {
+                margin-inline-start: 14%;
+            }
+        }
+        &__b{
+            margin-inline-start: 47%;
+            display: none;
+            @media (max-width: 600px) {
+                margin-inline-start: 28%;
+            }
+        }
+        &__c{
+            margin-inline-start: 68%;
+            display: none;
+            @media (max-width: 600px) {
+                margin-inline-start: 27%;
+            }
+        }
+    }
+}
