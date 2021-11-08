@@ -58,7 +58,7 @@ const AppRouter = () => {
           </Route>
         {/* end teacher dashboard url */}
 
-        {/* MyClasses url */}
+        {/* student dasgboard classes url */}
         <Switch>
           <Route path="/dashboard/student/Schedule" exact>
             <ClassSchedule/>
@@ -74,7 +74,7 @@ const AppRouter = () => {
           </Route>
         </Switch>
         </Switch>
-        {/* end MyClasses url */}
+        {/* end student dasgboard classes url */}
 
       </Switch>
 
