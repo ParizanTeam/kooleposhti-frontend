@@ -11,6 +11,7 @@ import ClassSchedule from '../components/ClassSchedule';
 import BookMarkedClasses from '../components/BookMarkedClasses';
 import SearchClasses from '../components/SearchClasses';
 import { Redirect } from 'react-router';
+import StudentProfile from '../components/StudentProfile';
 
 const AppRouter = () => {
   return (
@@ -69,6 +70,9 @@ const AppRouter = () => {
           <Route path="/dashboard/student/Search">
             <SearchClasses />
           </Route>  
+          <Route path="/dashboard/student/Profile">
+            <StudentProfile />
+          </Route> 
         <Route path="*">
             <NotFoundPage />
           </Route>
