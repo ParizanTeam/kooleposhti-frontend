@@ -1,7 +1,8 @@
 //import { useMobile } from '../../utils/detectSource';
 import MyClasses from '../MyClasses';
 import ClassesSearchBar from './ClassesSearchBar';
-import Categories from '../Categories'
+import Categories from '../Categories';
+import MyClassesFooter from '../MyClasses/MyClassesFooter';
 import './style.scss';
 
 const SearchClasses = () => {
@@ -15,6 +16,7 @@ const SearchClasses = () => {
       <div className="CTG">
       <Categories /></div>
     </div>
+    <MyClassesFooter />
   </div>
   );
 };

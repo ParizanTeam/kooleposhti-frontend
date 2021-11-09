@@ -1,8 +1,9 @@
 import Gpro from './Gpro';
 import Bpro from './Bpro';
 import Pro from './Pro';
-import './style.scss';
 import ProBar from './Pro/ProBar';
+import './style.scss';
+
 
 const StudentProfile = () => {
   return (
@@ -13,6 +14,7 @@ const StudentProfile = () => {
         </div>
         <div className='Forms'>
         </div>
+      
     </div>
   );
 };

@@ -2,6 +2,7 @@
 import MyClasses from '../MyClasses';
 import React from 'react';
 import CourseSlider from '../CourseSlider';
+import MyClassesFooter from '../MyClasses/MyClassesFooter';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Keyboard } from 'swiper/core';
@@ -91,7 +92,7 @@ const ClassSchedule = () => {
         <MyOngoingCourseSlider />
         <MyDoneCourseSlider />
       </div>  
-
+      <MyClassesFooter />
   </div>
   );
 };

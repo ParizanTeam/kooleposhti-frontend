@@ -8,6 +8,7 @@ import { useMobile } from '../../utils/detectSource';
 import { coursesData } from '../CourseSlider/coursesData';
 import 'swiper/swiper-bundle.min.css';
 import './style.scss';
+import MyClassesFooter from '../MyClasses/MyClassesFooter';
 
 SwiperCore.use([Navigation, Keyboard]);
 const MyCourseSlider = () => {
@@ -53,6 +54,7 @@ const BookMarkedClasses = () => {
     <div className="afterMyC-a">
       <MyCourseSlider/>
     </div>
+    <MyClassesFooter />
   </div>
   );
 };
