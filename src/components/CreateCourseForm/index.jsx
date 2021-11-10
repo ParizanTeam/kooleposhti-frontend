@@ -77,7 +77,7 @@ function CreateCourseForm() {
                   className="steeper-button"
                   onClick={handleNext}
                 >
-                  {activeStep == steps.length - 1 ? 'پایان' : 'رفتن به صفحه‌ی بعد'}
+                  {activeStep == steps.length - 1 ? 'پایان' : 'صفحه‌ی بعد'}
                 </Button>
               </div>
             </>
