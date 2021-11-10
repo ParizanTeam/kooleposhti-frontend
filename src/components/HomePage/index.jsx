@@ -15,7 +15,7 @@ const HomePage = () => {
       <Helmet>
         <title>کوله‌پشتی |‌ پلتفرم پرورش مهارت کودکان و نوجوانان</title>
       </Helmet>
-      <Navbar />
+      <Navbar color="#fd576c"/>
       <HomeHeader />
       <HowItWorks />
       <Categories />
