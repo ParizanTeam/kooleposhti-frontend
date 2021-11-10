@@ -22,20 +22,20 @@ const MyClasses = () => {
                 <div className="HeadSub__Ia">
                 <Link to="/dashboard/student/Bookmarks">
                 <Button>
-                    <p className="HeadSub__Ia__cont">کلاسهای نشان شده &#x2665;</p>
-                    <p className="HeadSub__Ia__cont-b"> نشان‌شده‌ها &#x2665;</p>
+                    <p className="HeadSub__Ia__cont">کلاسهای محبوب من</p>
+                    <p className="HeadSub__Ia__cont-b">محبوب های من</p>
                 </Button></Link></div>
                 <div className="HeadSub__Ic">
                     <Link to="/dashboard/student/Search">
                     <Button>
-                    <p className="HeadSub__Ic__cont">جست و جو در کلاسها &#x2766;</p>
-                    <p className="HeadSub__Ic__cont-b">جستجو &#x2766;</p>
+                    <p className="HeadSub__Ic__cont">جستجو در کلاسها</p>
+                    <p className="HeadSub__Ic__cont-b">جستجو در کلاسها</p>
                 </Button></Link></div>
                 <div className="HeadSub__Ib">
                     <Link to="/dashboard/student/Schedule">
                     <Button>
-                    <p className="HeadSub__Ib__cont">تقویم کلاسهای من &#x2744;</p>
-                    <p className="HeadSub__Ib__cont-b">تقویم &#x2744;</p>
+                    <p className="HeadSub__Ib__cont">تقویم کلاسهای من</p>
+                    <p className="HeadSub__Ib__cont-b">تقویم من</p>
                     </Button></Link></div>
             </div>
         </div>

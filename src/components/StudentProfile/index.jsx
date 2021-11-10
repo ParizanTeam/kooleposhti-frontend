@@ -26,7 +26,7 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { ToastContainer, toast } from 'react-toastify';
 import { Helmet } from 'react-helmet';
-import profile_1 from '../../assets/images/profile_2.png';
+import profile_1 from '../../assets/images/StudentProfile/UsreIcon.png';
 
 import './style.scss';
 
