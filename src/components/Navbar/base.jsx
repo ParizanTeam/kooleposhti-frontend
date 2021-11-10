@@ -32,100 +32,120 @@ import LoginIcon from '@mui/icons-material/Login';
 //Redux
 import { useSelector } from 'react-redux';
 
+import { navbarProps } from './constants';
 
-import {navbarProps} from './constants'
-
-const profileMenuItems = [
+export const MyClasses = () => {
+  return <>
+  <RightBtn Icon={SchoolIcon} text="کلاس‌های من" linkTo="/classes" />
+  
+  </>;
+};
+export const ProfileMenu = props => {
+  const username = useSelector(state => state.auth.username);
+  const profileMenuItems = [
     { icon: <FavoriteBorder style={{ color: navbarProps.baseColor }} fontSize="small" />, label: 'علاقمندی‌هام' },
     { icon: <CalendarToday style={{ color: navbarProps.baseColor }} fontSize="small" />, label: 'برنامه کلاس‌هام' },
     { icon: <ForumOutlinedIcon style={{ color: navbarProps.baseColor }} fontSize="small" />, label: 'گفت‌وگو ها' },
-  
+
     { icon: <Logout style={{ color: navbarProps.baseColor }} fontSize="small" />, label: 'خروج' },
   ];
 
-export const ProfileMenu = props => {
-    const username = useSelector(state => state.auth.username);
-  
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
-    const handleClick = event => {
-      setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-      setAnchorEl(null);
-    };
-    return (
-      <>
-        <Box
-          sx={{
-            mr: 'auto',
-            ml: '100px',
-          }}
-        >
-          <Button variant="text" style={{ color: '#000' }}>
-            <Badge badgeContent={4} style={{ color: navbarProps.baseColor}}>
-              <NotificationsNoneIcon style={{ color: navbarProps.baseColor, marginRight: '5px', fontSize: '30' }} />
-            </Badge>
-          </Button>
-          <Tooltip title="منوی شخصی">
-            <IconButton onClick={handleClick} size="small">
-              <Avatar sx={{ width: 32, height: 32 }}>{username[0].toUpperCase()}</Avatar>
-            </IconButton>
-          </Tooltip>
-        </Box>
-     
-        <Menu
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          onClick={handleClose}
-          transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-          disableScrollLock={true}
-        >
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  return (
+    <>
+      {!useMobile() ? (
+        <>
+          <Box
+            sx={{
+              mr: 'auto',
+              ml: '100px',
+            }}
+          >
+            <Button variant="text" style={{ color: '#000' }}>
+              <Badge badgeContent={4} style={{ color: navbarProps.baseColor }}>
+                <NotificationsNoneIcon style={{ color: navbarProps.baseColor, marginRight: '5px', fontSize: '30' }} />
+              </Badge>
+            </Button>
+            <Tooltip title="منوی شخصی">
+              <IconButton onClick={handleClick} size="small">
+                <Avatar sx={{ width: 32, height: 32 }}>{username[0].toUpperCase()}</Avatar>
+              </IconButton>
+            </Tooltip>
+          </Box>
+
+          <Menu
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            onClick={handleClose}
+            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            disableScrollLock={true}
+          >
+            <MenuItem>
+              <Avatar component={Link} to="/dashboard/student/Profile" sx={{ width: 30, height: 30, ml: '15px' }} />
+              {username}
+            </MenuItem>
+            <Divider />
+            {profileMenuItems.map(item => (
+              <MenuItem>
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                {item.label}
+              </MenuItem>
+            ))}
+          </Menu>
+        </>
+      ) : (
+        <>
           <MenuItem>
-            <Avatar component={Link} to="/dashboard/student/Profile" sx={{ width: 30, height: 30, ml: '15px' }} />
+            <Avatar sx={{ width: 30, height: 30, ml: '15px' }} />
             {username}
           </MenuItem>
           <Divider />
-          {profileMenuItems.map(item => (
-            <MenuItem>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              {item.label}
-            </MenuItem>
-          ))}
-        </Menu>
-      </>
-    );
-  };
-  
- export const RightBtn = ({ Icon, text, linkTo }) => {
-    return (
-      <Button variant="text" component={Link} to={linkTo} style={{ color: '#000' }}>
-        <Icon style={{ color: navbarProps.baseColor, marginLeft: '5px' }} />
-        {text}
-      </Button>
-    );
-  };
-  
-  
+          <MenuButton Icon={FavoriteBorder} text="علاقمندی‌هام" linkTo="/students/" />
+          <MenuButton Icon={CalendarToday} text="برنامه کلاس‌هام" linkTo="/students/" />
+          <MenuButton Icon={ForumOutlinedIcon} text="گفت‌و‌گو ها" linkTo="/students/" />
+          <Divider style={{ marginTop: '20 px' }} />
+          <MenuButton Icon={HelpIcon} text="راهنما" linkTo="/help" />
+          <MenuButton Icon={Logout} text="خروج" linkTo="/logout" />
+          <Divider />
+        </>
+      )}
+    </>
+  );
+};
+
+export const RightBtn = ({ Icon, text, linkTo }) => {
+  return (
+    <Button variant="text" component={Link} to={linkTo} style={{ color: '#000' }}>
+      <Icon style={{ color: navbarProps.baseColor, marginLeft: '5px' }} />
+      {text}
+    </Button>
+  );
+};
+
 export const MenuButton = ({ Icon, text, linkTo }) => {
-    return (
-      <div style={{ marginBottom: '5 px' }}>
-        <Button
-          style={{ color: '#000', width: '100%', justifyContent: 'flex-start', padding: '16px' }}
-          variant="text"
-          component={Link}
-          to={linkTo}
-        >
-          <Icon style={{ color: navbarProps.baseColor }} />
-          <span style={{ marginRight: '5px' }}>{text}</span>
-        </Button>
-      </div>
-    );
-  };
-
-
+  return (
+    <div style={{ marginBottom: '5 px' }}>
+      <Button
+        style={{ color: '#000', width: '100%', justifyContent: 'flex-start', padding: '16px' }}
+        variant="text"
+        component={Link}
+        to={linkTo}
+      >
+        <Icon style={{ color: navbarProps.baseColor }} />
+        <span style={{ marginRight: '5px' }}>{text}</span>
+      </Button>
+    </div>
+  );
+};
 
 export const LoginSignUp = () => {
   return (
@@ -145,7 +165,12 @@ export const LoginSignUp = () => {
             variant="contained"
             component={Link}
             to="/login"
-            style={{ color: navbarProps.baseColor, border: `2px solid ${navbarProps.baseColor}`, backgroundColor: '#fff', fontWeight: 800 }}
+            style={{
+              color: navbarProps.baseColor,
+              border: `2px solid ${navbarProps.baseColor}`,
+              backgroundColor: '#fff',
+              fontWeight: 800,
+            }}
           >
             ورود
           </Button>
