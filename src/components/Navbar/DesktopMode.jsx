@@ -1,11 +1,10 @@
 // IMPORTING APIS
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button, useScrollTrigger, Slide } from '@mui/material';
+import { AppBar, Toolbar } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import { Link } from 'react-router-dom';
 
 import './style.scss';
-import logo from '../../assets/logo.png';
+import Logo from './Logo';
 import SearchBar from './SearchBar';
 
 // IMPORTING ICONS
@@ -13,8 +12,17 @@ import SchoolIcon from '@mui/icons-material/School';
 import HelpIcon from '@mui/icons-material/Help';
 import SearchIcon from '@mui/icons-material/Search';
 
-const DesktopNavbar = props => {
-  const [color, setColor] = React.useState('#fd576c');
+//Redux
+import { useSelector } from 'react-redux';
+
+
+import {LoginSignUp,ProfileMenu,RightBtn} from './base'
+
+import {navbarProps} from './constants'
+
+const DesktopNavbar = () => {
+  const isAuth = useSelector(state => state.auth.isAuthenticated);
+  const [color, setColor] = React.useState(navbarProps.baseColor);
   const [openSearchBar, setOpenSearchBar] = React.useState(false);
   const handleSearchBarOpen = () => {
     setOpenSearchBar(true);
@@ -23,51 +31,27 @@ const DesktopNavbar = props => {
 
   const handleSearchBarClose = () => {
     setOpenSearchBar(false);
-    setColor('#fd576c');
+    setColor(navbarProps.baseColor);
   };
 
   return (
     <div>
       <AppBar style={{ backgroundColor: '#fff' }}>
         <Toolbar>
-          <img alt="لوگوی کوله‌پشتی " className="desktop_navbar__logo" src={logo} width="75" />
-          <Typography variant="h5" component="p" style={{ fontWeight: 800, color: '#000' }}>
-            کوله‌پشتی
-          </Typography>
-
+          <Logo />
           <div style={{ marginRight: '2rem' }}>
-            <Button variant="text" component={Link} to="/singup" style={{ color: '#000' }}>
-              <SchoolIcon style={{ color: '#fd576c', marginLeft: '5px' }} />
-              تدریس کن
-            </Button>
-            <Button variant="text" component={Link} to="/Help" style={{ color: '#000' }}>
-              <HelpIcon style={{ color: '#fd576c', marginLeft: '5px' }} />
-              راهنما
-            </Button>
+            {isAuth ? (
+              <RightBtn Icon={SchoolIcon} text="کلاس‌های من" linkTo="/classes" />
+            ) : (
+              <RightBtn Icon={SchoolIcon} text="تدریس کن" linkTo="/signup" />
+            )}
 
+            <RightBtn Icon={HelpIcon} text="راهنما" linkTo="/help" />
             <IconButton style={{ marginRight: '10px', color: color }} onClick={handleSearchBarOpen}>
               <SearchIcon />
             </IconButton>
           </div>
-
-          <div className="desktop_navbar__signup">
-            <Button
-              variant="contained"
-              component={Link}
-              to="/signup"
-              style={{ backgroundColor: '#fd576c', marginLeft: '10px', fontWeight: 800 }}
-            >
-              ثبت نام
-            </Button>
-            <Button
-              variant="contained"
-              component={Link}
-              to="/login"
-              style={{ color: '#fd576c', border: '2px solid #fd576c', backgroundColor: '#fff', fontWeight: 800 }}
-            >
-              ورود
-            </Button>
-          </div>
+          {isAuth ? <ProfileMenu /> : <LoginSignUp />}
         </Toolbar>
       </AppBar>
 

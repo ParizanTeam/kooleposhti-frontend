@@ -1,25 +1,33 @@
 import * as React from 'react';
-import logo from '../../assets/logo.png';
+import Logo from './Logo';
 
-import { styled, useTheme } from '@mui/material/styles';
-import { Drawer, Toolbar, Typography, Button, useScrollTrigger, Slide } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { Drawer, Toolbar, Button } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
 
 // IMPORTING ICONS
 import SchoolIcon from '@mui/icons-material/School';
 import HelpIcon from '@mui/icons-material/Help';
 import MenuIcon from '@mui/icons-material/Menu';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import LoginIcon from '@mui/icons-material/Login';
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
+import Logout from '@mui/icons-material/Logout';
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import CalendarToday from '@mui/icons-material/CalendarToday';
+import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+//New Imports
+import { useSelector } from 'react-redux';
+import Avatar from '@mui/material/Avatar';
+import MenuItem from '@mui/material/MenuItem';
+
+import { LoginSignUp, MenuButton } from './base';
+import {navbarProps} from './constants'
 
 const drawerWidth = 240;
-
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: prop => prop !== 'open',
 })(({ theme, open }) => ({
@@ -46,25 +54,32 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-const MenuButton1 = ({ Icon, text, linkTo }) => {
+const ProfileMenu = () => {
+  const username = useSelector(state => state.auth.username);
+
   return (
-    <div style={{ marginBottom: '5 px' }}>
-      <Button
-        style={{ color: '#000', width: '100%', justifyContent: 'flex-start', padding: '16px' }}
-        variant="text"
-        component={Link}
-        to={linkTo}
-      >
-        <Icon style={{ color: 'fd576c' }} />
-        <span style={{ marginRight: '5px' }}>{text}</span>
-      </Button>
-    </div>
+    <>
+      <MenuItem>
+        <Avatar sx={{ width: 30, height: 30, ml: '15px' }} />
+        {username}
+      </MenuItem>
+      <Divider />
+      <MenuButton Icon={FavoriteBorder} text="علاقمندی‌هام" linkTo="/students/" />
+      <MenuButton Icon={CalendarToday} text="برنامه کلاس‌هام" linkTo="/students/" />
+      <MenuButton Icon={ForumOutlinedIcon} text="گفت‌و‌گو ها" linkTo="/students/" />
+      <Divider style={{ marginTop: '20 px' }} />
+      <MenuButton Icon={HelpIcon} text="راهنما" linkTo="/help" />
+      <MenuButton Icon={Logout} text="خروج" linkTo="/logout" />
+      <Divider />
+    </>
   );
 };
 
-export default function MobileNavbar() {
+const MobileNavbar=() =>{
+  const isAuth = useSelector(state => state.auth.isAuthenticated);
+
   const [open, setOpen] = React.useState(false);
-  const [color,setColor]=React.useState('#fd576c');
+  const [color, setColor] = React.useState(navbarProps.baseColor);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -80,26 +95,32 @@ export default function MobileNavbar() {
 
   const handleSearchBarClose = () => {
     setOpenSearchBar(false);
-    setColor('#fd576c');
+    setColor(navbarProps.baseColor);
   };
 
   return (
     <>
       <AppBar style={{ backgroundColor: '#fff' }} open={open}>
         <Toolbar>
-          <img alt="لوگوی کوله‌پشتی " src={logo} width="75" />
-          <Typography variant="h5" component="p" style={{ fontWeight: 800, color: '#000' }}>
-            کوله‌پشتی
-          </Typography>
+          <Logo />
           <div style={{ marginRight: 'auto' }}>
-            <IconButton onClick={handleSearchBarOpen} sx={{color: color}}>
-              <SearchIcon />
-            </IconButton>
+            {!open && (
+              <>
+                <IconButton onClick={handleSearchBarOpen} sx={{ color: navbarProps.baseColor }}>
+                  <SearchIcon />
+                </IconButton>
+                {isAuth && (
+                  <Button variant="text" style={{ color: '#000' }}>
+                    <NotificationsNoneIcon style={{ color: navbarProps.baseColor, marginRight: '5px', fontSize: '30' }} />
+                  </Button>
+                )}
+              </>
+            )}
             <IconButton
               aria-label="open drawer"
               onClick={handleDrawerOpen}
               edge="start"
-              sx={{ color: '#fd576c', mr: 2, ...(open && { display: 'none' }) }}
+              sx={{ color: navbarProps.baseColor, mr: 2, ...(open && { display: 'none' }) }}
             >
               <MenuIcon />
             </IconButton>
@@ -122,22 +143,25 @@ export default function MobileNavbar() {
         open={open}
       >
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose} sx={{ color: '#fd576c' }}>
+          <IconButton onClick={handleDrawerClose} sx={{ color: navbarProps.baseColor }}>
             <CloseIcon />
           </IconButton>
         </DrawerHeader>
         <Divider />
+        {!isAuth && (
+          <>
+            <MenuButton Icon={SchoolIcon} text="تدریس کن" linkTo="/signup" />
+            <MenuButton Icon={HelpIcon} text="راهنما" linkTo="/help" />
+            <Divider style={{ marginTop: '20 px' }} />
+          </>
+        )}
 
-        <MenuButton1 Icon={SchoolIcon} text="تدریس کن" linkTo="/signup" />
-        <MenuButton1 Icon={HelpIcon} text="راهنما" linkTo="/help" />
-
-        <Divider style={{ marginTop: '20 px' }} />
-
-        <MenuButton1 Icon={AccountCircleIcon} text="ثبت نام" linkTo="/signup" />
-        <MenuButton1 Icon={LoginIcon} text="ورود" linkTo="/login" />
+        {isAuth ? <ProfileMenu /> : <LoginSignUp />}
       </Drawer>
 
       {openSearchBar && <SearchBar onClose={handleSearchBarClose} />}
     </>
   );
 }
+
+export default MobileNavbar;

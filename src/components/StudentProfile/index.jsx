@@ -29,6 +29,7 @@ import { Helmet } from 'react-helmet';
 import profile_1 from '../../assets/images/StudentProfile/UsreIcon.png';
 
 import './style.scss';
+import Navbar from '../Navbar';
 
 function SProfile(props) {
   const [file, setFile] = useState(profile_1);
@@ -152,6 +153,8 @@ function SProfile(props) {
 
 const StudentProfile = () => {
   return (
+    <>
+    <Navbar color="#7a0047"/>
     <div className='mainPro'>
         <div className='RightBar'>
           <ProBar />
@@ -162,6 +165,7 @@ const StudentProfile = () => {
         </div>
       
     </div>
+    </>
   );
 };
 export default StudentProfile;
