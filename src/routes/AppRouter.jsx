@@ -17,9 +17,7 @@ const AppRouter = () => {
   return (
     <Router>
       <Switch>
-{/*       <Route path="/min" exact>
-          <MiniDrawer />
-        </Route> */}
+
         <Route path="/" exact>
           <HomePage />
         </Route>
@@ -30,10 +28,10 @@ const AppRouter = () => {
         <Route path="/signup" exact>
           {<SignupPage />}
         </Route>
-        <Route path="/teacher/dashboard" exact>
-          <Redirect to="/teacher/dashboard/profile" />
+        <Route path="/dashboard/teacher/" exact>
+          <Redirect to="/dashboard/teacher/profile" />
         </Route>
-        <Route path="/teacher/dashboard/">
+        <Route path="/dashboard/teacher/">
           <TeacherDashboard />
         </Route>
         <Route path="/forget-password" exact>
@@ -43,24 +41,8 @@ const AppRouter = () => {
           <ResetPasswordPage />
         </Route>
 
-        {/* teacher dashbaors url */}
-        <Switch>
-          <Route path="/dashboard/profile" exact>
-            <TeacherDashboard>
-              <h1>پروفایل</h1>
-            </TeacherDashboard>
-          </Route>
-          <Route path="/dashboard/teacher" exact>
-            <TeacherDashboard>
-              <h1>کیف پول</h1>
-            </TeacherDashboard>
-          </Route>
-          <Route path="/dashboard/student" exact>
-            <TeacherDashboard>
-              <h1>کلاسها</h1>
-            </TeacherDashboard>
-          </Route>
-        {/* end teacher dashboard url */}
+        
+
 
         {/* student dasgboard classes url */}
         <Switch>
@@ -69,6 +51,9 @@ const AppRouter = () => {
           </Route>
           <Route path="/dashboard/student/Bookmarks" exact>
             <BookMarkedClasses/>
+          </Route>
+          <Route path="/dashboard/student/" exact>
+            <Redirect to="/dashboard/student/Profile" />
           </Route>
           <Route path="/dashboard/student/Search">
             <SearchClasses />
@@ -80,7 +65,7 @@ const AppRouter = () => {
             <NotFoundPage />
           </Route>
         </Switch>
-        </Switch>
+     
         {/* end student dasgboard classes url */}
 
       </Switch>

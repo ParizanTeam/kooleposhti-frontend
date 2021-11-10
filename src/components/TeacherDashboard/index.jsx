@@ -29,84 +29,84 @@ function TeacherDashboard(props) {
       text: 'کلاس ها',
       icon: <SignupIcon />,
       onClick: () => {
-        history.push(`/teacher/dashboard/${tabs[1]}`);
+        history.push(`/dashboard/teacher/${tabs[1]}`);
       },
     },
     {
       text: 'کیف پول',
       icon: <LoginIcon />,
       onClick: () => {
-        history.push(`/teacher/dashboard/${tabs[2]}`);
+        history.push(`/dashboard/teacher/${tabs[2]}`);
       },
     },
     {
       text: 'دریافت ها',
       icon: <LoginIcon />,
       onClick: () => {
-        history.push(`/teacher/dashboard/${tabs[3]}`);
+        history.push(`/dashboard/teacher/${tabs[3]}`);
       },
     },
     {
       text: 'حساب بانکی',
       icon: <SignupIcon />,
       onClick: () => {
-        history.push(`/teacher/dashboard/${tabs[4]}`);
+        history.push(`/dashboard/teacher/${tabs[4]}`);
       },
     },
     {
       text: 'کلاس ها',
       icon: <SignupIcon />,
       onClick: () => {
-        history.push(`/teacher/dashboard/${tabs[1]}`);
+        history.push(`/dashboard/teacher/${tabs[1]}`);
       },
     },
     {
       text: 'کیف پول',
       icon: <LoginIcon />,
       onClick: () => {
-        history.push(`/teacher/dashboard/${tabs[2]}`);
+        history.push(`/dashboard/teacher/${tabs[2]}`);
       },
     },
     {
       text: 'دریافت ها',
       icon: <LoginIcon />,
       onClick: () => {
-        history.push(`/teacher/dashboard/${tabs[3]}`);
+        history.push(`/dashboard/teacher/${tabs[3]}`);
       },
     },
     {
       text: 'حساب بانکی',
       icon: <SignupIcon />,
       onClick: () => {
-        history.push(`/teacher/dashboard/${tabs[4]}`);
+        history.push(`/dashboard/teacher/${tabs[4]}`);
       },
     },
     {
       text: 'کلاس ها',
       icon: <SignupIcon />,
       onClick: () => {
-        history.push(`/teacher/dashboard/${tabs[1]}`);
+        history.push(`/dashboard/teacher/${tabs[1]}`);
       },
     },
     {
       text: 'کیف پول',
       icon: <LoginIcon />,
       onClick: () => {
-        history.push(`/teacher/dashboard/${tabs[2]}`);
+        history.push(`/dashboard/teacher/${tabs[2]}`);
       },
     },
     {
       text: 'دریافت ها',
       icon: <LoginIcon />,
       onClick: () => {
-        history.push(`/teacher/dashboard/${tabs[3]}`);
+        history.push(`/dashboard/teacher/${tabs[3]}`);
       },
     },
     {
       text: 'حساب بانکی',
       icon: <SignupIcon />,
       onClick: () => {
-        history.push(`/teacher/dashboard/${tabs[4]}`);
+        history.push(`/dashboard/teacher/${tabs[4]}`);
       },
     },
   ];
@@ -123,7 +123,7 @@ function TeacherDashboard(props) {
             <p className="dashboard-avatar-item__info-name">سید عماد موسوی</p>
           </ListItem>
           <ListItem button className="dashboard-avatar-item">
-            <Link to={`/teacher/dashboard/${tabs[0]}`}>
+            <Link to={`/dashboard/teacher/${tabs[0]}`}>
               <p className="dashboard-avatar-item__info-edit">ویرایش حساب کاربری</p>
             </Link>
           </ListItem>
@@ -134,34 +134,34 @@ function TeacherDashboard(props) {
 
   const location = useLocation();
 
-  if (!tabs.map(item => `/teacher/dashboard/${item}`).includes(location.pathname)) {
+  if (!tabs.map(item => `/dashboard/teacher/${item}`).includes(location.pathname)) {
     notValidPath = true;
   }
 
   return (
     <React.Fragment>
       {notValidPath && <Redirect to="/notFound" />}
-      {location.pathname === '/teacher/dashboard/profile' && (
+      {location.pathname === '/dashboard/teacher/profile' && (
         <BaseDashboard items={items} profile={profile} className="drawer">
           <DashboardTeacherProfile />
         </BaseDashboard>
       )}
-      {location.pathname === '/teacher/dashboard/wallet' && (
+      {location.pathname === '/dashboard/teacher/wallet' && (
         <BaseDashboard items={items} profile={profile} className="drawer">
           <DashboardTeacherWallet />
         </BaseDashboard>
       )}
-      {location.pathname === '/teacher/dashboard/classes' && (
+      {location.pathname === '/dashboard/teacher/classes' && (
         <BaseDashboard items={items} profile={profile} className="drawer">
           <DashboardTeacherClasses />
         </BaseDashboard>
       )}
-      {location.pathname === '/teacher/dashboard/received' && (
+      {location.pathname === '/dashboard/teacher/received' && (
         <BaseDashboard items={items} profile={profile} className="drawer">
           <DashboardTeacherRecieved />
         </BaseDashboard>
       )}
-      {location.pathname === '/teacher/dashboard/bankaccount' && (
+      {location.pathname === '/dashboard/teacher/bankaccount' && (
         <BaseDashboard items={items} profile={profile} className="drawer">
           <DashboardTeacherBankAccount />
         </BaseDashboard>
