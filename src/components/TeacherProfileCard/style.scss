@@ -1,0 +1,43 @@
+@import '/src/theme/main.scss';
+
+.teacher-profile {
+  margin: 16px;
+  padding: 32px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+  border-radius: 16px;
+
+  &__name {
+    color: #5624d0;
+    font-size: 24px;
+    font-weight: 700;
+    display: block;
+    margin: 8px 0;
+  }
+
+  &__title {
+    color: $c-gray-40;
+    font-weight: 700;
+  }
+
+  &__avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background-color: $c-gray-85;
+    margin: 16px 0;
+
+    img {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+    }
+  }
+}
+
+.showmore {
+  background-color: $c-white;
+  color: #2ba7ce;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
