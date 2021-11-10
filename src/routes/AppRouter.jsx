@@ -8,11 +8,15 @@ import ForgetPasswordPage from '../components/ForgetPasswordPage';
 import ResetPasswordPage from '../components/ResetPasswordPage';
 import TeacherDashboard from '../components/TeacherDashboard';
 import { Redirect } from 'react-router';
+/* import MiniDrawer from '../components/MiniDrawer' */
 
 const AppRouter = () => {
   return (
     <Router>
       <Switch>
+{/*       <Route path="/min" exact>
+          <MiniDrawer />
+        </Route> */}
         <Route path="/" exact>
           <HomePage />
         </Route>

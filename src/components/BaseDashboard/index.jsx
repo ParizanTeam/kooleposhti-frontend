@@ -65,7 +65,7 @@ function BaseDashboard(props) {
         component="ListItem"
         className="dashboard-sidebar-profile-title"
         variant="h6"
-        sx={{ fontWeight: 'bold'  }}
+        sx={{ fontWeight: 'bold' }}
       >
         کوله پشتی
       </Typography>
@@ -130,7 +130,7 @@ function BaseDashboard(props) {
               </Drawer>
             </Box>
           </Grid>
-          <Grid item sx={{ margin: 'auto' ,  width: { md: `calc(100% - ${drawerWidth}px)`, sm: `calc(100% - 34vmin)` }}}>
+          <Grid item sx={{ margin: 'auto', width: { md: `calc(100% - ${drawerWidth}px)`, sm: `calc(100% - 34vmin)` } }}>
             <AppBar
               position="fixed"
               display="flex"
@@ -152,30 +152,29 @@ function BaseDashboard(props) {
 
                 <Button variant="text" component={Link} to="/singup" sx={{ mr: 2 }}>
                   <SchoolIcon sx={{ color: 'rgba(123, 234, 242, 0.857)', mr: 1.5 }} />
-                  <Typography variant="body" noWrap component="div" sx={{ color: 'white' , fontSize:"0.7rem"}}>
+                  <Typography variant="body" noWrap component="div" sx={{ color: 'white', fontSize: '0.7rem' }}>
                     تدریس کن
                   </Typography>
                 </Button>
                 <Button variant="text" component={Link} to="/Help">
                   <HelpIcon sx={{ color: 'rgba(123, 234, 242, 0.857)', mr: 1.5 }} />
-                  <Typography variant="body" noWrap component="div" sx={{ color: 'white' ,fontSize:"0.7rem"}}>
+                  <Typography variant="body" noWrap component="div" sx={{ color: 'white', fontSize: '0.7rem' }}>
                     راهنما
                   </Typography>
                 </Button>
 
                 <Box display="flex" flexGrow={1} sx={{ direction: 'rtl' }}>
-                <Button variant="text" component={Link} to="/Help">
-                  <LogoutIcon sx={{ color: 'rgba(123, 234, 242, 0.857)', ml: 1.5 }} />
-                  <Typography variant="body" noWrap component="div" sx={{ color: 'white',fontSize:"0.7rem" }}>
-                    خروج
-                  </Typography>
-                </Button>
+                  <Button variant="text" component={Link} to="/Help">
+                    <LogoutIcon sx={{ color: 'rgba(123, 234, 242, 0.857)', ml: 1.5 }} />
+                    <Typography variant="body" noWrap component="div" sx={{ color: 'white', fontSize: '0.7rem' }}>
+                      خروج
+                    </Typography>
+                  </Button>
                 </Box>
               </Toolbar>
             </AppBar>
 
             {props.children}
-
           </Grid>
         </Grid>
       </Box>

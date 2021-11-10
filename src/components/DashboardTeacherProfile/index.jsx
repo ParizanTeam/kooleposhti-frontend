@@ -20,15 +20,18 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { ToastContainer, toast } from 'react-toastify';
 import { Helmet } from 'react-helmet';
+import FormData from 'form-data'
 import profile_1 from '../../assets/images/profile_2.png';
 
 import './style.scss';
 
 function DashboardTeacherProfile(props) {
   const [file, setFile] = useState(profile_1);
+  console.log(file);
 
   const handleChange = e => {
     setFile(URL.createObjectURL(e.target.files[0]));
+    console.log(e.target.files[0]);
   };
 
   const cacheRtl = createCache({
@@ -79,7 +82,6 @@ function DashboardTeacherProfile(props) {
                   <TextField
                     autoComplete="given-name"
                     name="first_name"
-                    required
                     fullWidth
                     id="first_name"
                     label="نام "
@@ -90,7 +92,6 @@ function DashboardTeacherProfile(props) {
                   <TextField
                     autoComplete="given-name"
                     name="last_name"
-                    required
                     fullWidth
                     id="last_name"
                     label="نام خانوادگی"
@@ -121,7 +122,7 @@ function DashboardTeacherProfile(props) {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField required fullWidth name="mobile" label="شماره موبایل" type="phone" id="mobile" />
+                  <TextField  fullWidth name="mobile" label="شماره موبایل" type="phone" id="mobile" />
                 </Grid>
               </Grid>
 

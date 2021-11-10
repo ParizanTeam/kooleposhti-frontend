@@ -114,8 +114,8 @@ function TeacherDashboard(props) {
   const profile = (
     <Box className="dashboard-sidebar-profile">
       <Grid container spacing={0} direction="column" alignItems="center" justifyContent="center">
-        <Grid item xs={12} sm={12} sx={{display:"flex" , justifyContent:"center" , alignItems:"center"}}>
-            <Avatar src={file} alt="profile" sx={{ height: 'auto', width: '30%', borderRadius: '50%' }} />
+        <Grid item xs={12} sm={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Avatar src={file} alt="profile" sx={{ height: 'auto', width: '30%', borderRadius: '50%' }} />
         </Grid>
 
         <Grid item xs={12} sm={12}>
