@@ -8,8 +8,9 @@ import rtlPlugin from 'stylis-plugin-rtl';
 import createCache from '@emotion/cache';
 import CreateCourseStepOne from '../CreateCourseStepOne';
 import './style.scss';
+import CreateCourseStepTwo from '../CreateCourseStepTwo';
 
-const steps = ['ثبت نام اولیه', 'ثبت نام وسطی', 'مرحله آخر'];
+const steps = ['مشخصات کلی کلاس', 'مشخصات شرکت کنندگان', 'مرحله آخر'];
 //const classes = useStyle();
 
 const useStyles = makeStyles({
@@ -33,7 +34,7 @@ const cacheLtr = createCache({
 
 function CreateCourseForm() {
   function getSteps() {
-    return ['ثبت نام اولیه', 'ثبت نام وسطی', 'مرحله آخر'];
+    return ['مشخصات کلی کلاس', 'مشخصات شرکت کنندگان', 'مرحله آخر'];
   }
 
   function getStepsContent(stepIndex) {
@@ -41,7 +42,7 @@ function CreateCourseForm() {
       case 0:
         return <CreateCourseStepOne></CreateCourseStepOne>;
       case 1:
-        return 'ثبت نام وسطی (دوم)';
+        return <CreateCourseStepTwo></CreateCourseStepTwo>;
       case 2:
         return 'ثبت نام آخر (سوم)';
     }
@@ -52,6 +53,13 @@ function CreateCourseForm() {
   const [activeStep, setActiveStep] = useState(0);
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
+  };
+  const handleLast = () => {
+    if (activeStep != 0) {
+      setActiveStep(prevActiveStep => prevActiveStep - 1);
+    } else {
+      setActiveStep(0);
+    }
   };
   return (
     <CacheProvider value={rtl ? cacheRtl : cacheLtr}>
@@ -73,7 +81,18 @@ function CreateCourseForm() {
                 <Button
                   variant="contained"
                   color="primary"
-                  component="span"
+                  // component="span"
+                  className="steeper-button"
+                  onClick={handleLast}
+                  disabled={activeStep == 0}
+                >
+                  صفحه‌ی قبل
+                </Button>
+
+                <Button
+                  variant="contained"
+                  color="primary"
+                  // component="span"
                   className="steeper-button"
                   onClick={handleNext}
                 >

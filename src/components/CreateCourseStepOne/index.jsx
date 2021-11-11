@@ -46,7 +46,7 @@ import { login } from '../../store/actions';
 import imageSrc from '../../assets/images/teaching-students-online-internet-learning-computer-programming_335657-3119.jpg';
 import 'react-toastify/dist/ReactToastify.css';
 import './style.scss';
-import { margin } from '@mui/system';
+import { margin, width } from '@mui/system';
 import { position } from 'stylis';
 
 const cacheRtl = createCache({
@@ -71,26 +71,6 @@ const MenuProps = {
   },
 };
 
-const names = [
-  'مد و لباس',
-  'زیبایی',
-  'کتاب',
-  'ساختن',
-  'خوشمزه',
-  'کاردستی',
-  'بازی',
-  'نوزاد',
-  'ورزشی',
-  'مسافرت',
-  'حیوانات',
-];
-
-function getStyles(name, personName, theme) {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium,
-  };
-}
 const validationSchema = yup.object({
   email: yup.string('').required('باید حتما ایمیل یا نام کاربریت رو بنویسی تا بتونی وارد بشی.'),
   password: yup.string('').required('باید حتما رمز عبورت رو بنویسی تا بتونی وارد بشی.'),
@@ -99,24 +79,16 @@ const validationSchema = yup.object({
 jMoment.loadPersian({ dialect: 'persian-modern', usePersianDigits: true });
 
 function CreateCourseStepOne() {
-  const theme = useTheme();
-  const [personName, setPersonName] = React.useState([]);
-  const [selectedDate, handleDateChange] = useState(moment());
+  const [age, setAge] = useState('');
   const [file, setFile] = useState('');
-  const [value, onChange] = useState('10:00');
   const handleChangeFile = e => {
     setFile(URL.createObjectURL(e.target.files[0]));
   };
 
   const handleChange = event => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      // On autofill we get a the stringified value.
-      typeof value === 'string' ? value.split(',') : value
-    );
+    setAge(event.target.value);
   };
+
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const [values, setValues] = useState([
@@ -175,7 +147,7 @@ function CreateCourseStepOne() {
       <div dir="rtl">
         <ToastContainer rtl={true} position="bottom-center" />
         <Typography variant="h5" className="step-one-title" style={{ textAlign: 'center', margin: '2rem' }}>
-          مشخصات اصلی
+          مشخصات کلی کلاس
         </Typography>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -206,50 +178,68 @@ function CreateCourseStepOne() {
                 label="اسم کلاس"
                 name="class-name"
                 autoFocus
-                className="step-one-input-field"
+                // className="step-one-input-field"
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 error={formik.touched.email && Boolean(formik.errors.email)}
                 helperText={formik.touched.email && formik.errors.email}
-                sx={{ mb: 3 }}
+                // sx={{ mb: 3 }}
               />
-              <FormControl className="step-one-dropdown-holder" sx={{ mb: 1 }}>
-                <InputLabel id="demo-multiple-chip-label">موضوع درس</InputLabel>
+              <FormControl className="step-one-select-holder" margin="normal" fullWidth>
+                <InputLabel id="demo-simple-select-helper-label">موضوع</InputLabel>
                 <Select
-                  labelId="demo-multiple-chip-label"
-                  id="demo-multiple-chip"
-                  multiple
-                  value={personName}
+                  labelId="demo-simple-select-helper-label"
+                  id="demo-simple-select-helper"
+                  value={age}
+                  margin="normal"
+                  fullWidth
+                  label="موضوع"
+                  // sx={{ mb: 1 }}
                   onChange={handleChange}
-                  input={<OutlinedInput id="select-multiple-chip" label="موضوع درس" />}
-                  renderValue={selected => (
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                      {selected.map(value => (
-                        <Chip key={value} label={value} />
-                      ))}
-                    </Box>
-                  )}
-                  MenuProps={MenuProps}
                 >
-                  {names.map(name => (
-                    <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
-                      {name}
-                    </MenuItem>
-                  ))}
+                  <MenuItem value={1}>مد و لباس</MenuItem>
+                  <MenuItem value={2}>زیبایی</MenuItem>
+                  <MenuItem value={3}>کتاب</MenuItem>
+                  <MenuItem value={4}>ساختن</MenuItem>
+                  <MenuItem value={5}>خوشمزه</MenuItem>
+                  <MenuItem value={6}>کاردستی</MenuItem>
+                  <MenuItem value={7}>بازی</MenuItem>
+                  <MenuItem value={8}>نوزاد</MenuItem>
+                  <MenuItem value={9}>ورزشی</MenuItem>
+                  <MenuItem value={10}>مسافرت</MenuItem>
+                  <MenuItem value={11}>حیوانات</MenuItem>
                 </Select>
               </FormControl>
               <TextField
-                style={{ width: '95%', margin: '1rem 0 0.5rem 0' }}
-                variant="outlined"
-                label="هزینه ثبت نام در کلاس(تومان)"
-              ></TextField>
-
+                dir="rtl !important"
+                margin="normal"
+                required
+                fullWidth
+                id="class-name"
+                label="هزینه شرکت در کلاس(تومان)"
+                name="class-price"
+                // className="step-one-input-field"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
+                // sx={{ mb: 1 }}
+              />
               <TextField
-                style={{ width: '95%', margin: '1rem 0 0 0' }}
-                variant="outlined"
+                dir="rtl !important"
+                margin="normal"
+                required
+                fullWidth
+                id="class-name"
                 label="مدت زمان هر جلسه(دقیقه)"
-              ></TextField>
-
+                name="class-duration"
+                // className="step-one-input-field"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
+                sx={{ mb: 1 }}
+              />
               {/* <input id="contained-button-file" type="file" />
               <label htmlFor="contained-button-file">
                 <Button variant="contained" color="primary" component="span">
@@ -260,19 +250,22 @@ function CreateCourseStepOne() {
               <label for="calender" className="step-one-calender__label" style={{ display: 'block' }}>
                 تاریخ و زمان کلاس ها
               </label>
-              <DatePicker
-                multiple
-                // render={<InputIcon className="step-one-datePicker" />}
-                value={values}
-                onChange={setValues}
-                calendar={persian}
-                locale={persian_fa}
-                inputClass="step-one-datePicker"
-                format="HH:mm:ss | YYYY/MM/DD "
-                plugins={[<TimePicker position="bottom" />, <DatePanel position="left" />]}
-                calendarPosition="bottom-right"
-                id="calender"
-              />
+              <Grid sx={{ width: { md: '65vmin', sm: '65vmin', xs: '95vmin' } }}>
+                <DatePicker
+                  multiple
+                  // render={<InputIcon className="step-one-datePicker" />}
+                  value={values}
+                  onChange={setValues}
+                  calendar={persian}
+                  locale={persian_fa}
+                  inputClass="step-one-datePicker"
+                  // style={{ width: '100%' }}
+                  format="HH:mm:ss | YYYY/MM/DD "
+                  plugins={[<TimePicker position="bottom" />, <DatePanel position="left" />]}
+                  calendarPosition="bottom-right"
+                  id="calender"
+                />
+              </Grid>
 
               <TextField
                 id="outlined-multiline-static"
@@ -280,7 +273,9 @@ function CreateCourseStepOne() {
                 style={{ display: 'block' }}
                 className="step-one-text-area"
                 multiline
-                rows={4}
+                rows={7}
+                fullWidth
+                margin="normal"
               />
 
               <input
@@ -306,7 +301,19 @@ function CreateCourseStepOne() {
                   </Button>
                 </span>
               </label>
-              <img src={file} />
+              <Grid sx={{ display: 'grid', alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  src={file}
+                  style={{
+                    border: file ? '2px solid blue' : '0px',
+                    width: file ? '65vmin' : '0px',
+                    height: file ? '65vmin' : '0px',
+                    display: file ? 'block' : 'none',
+                    borderRadius: '5px',
+                  }}
+                  className="step-one-image"
+                />
+              </Grid>
             </Box>
           </Box>
         </Container>
