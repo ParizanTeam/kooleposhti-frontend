@@ -23,6 +23,7 @@
     padding: 5px;
     border-radius: 2%;
     @media (max-width: 800px) {
+      margin: auto auto 20px auto;
       width: 91%;
       flex-direction: column;
     }
