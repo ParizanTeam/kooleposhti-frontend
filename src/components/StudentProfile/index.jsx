@@ -2,6 +2,7 @@ import Gpro from './Gpro';
 import Bpro from './Bpro';
 import Pro from './Pro';
 import ProBar from './Pro/ProBar';
+import ComeBack from '../../assets/images/StudentProfile/ComeBack.png';
 
 import React, { useState } from 'react';
 import SignupIcon from '@mui/icons-material/AccountCircle';
@@ -54,7 +55,11 @@ function SProfile(props) {
         </Helmet>
         <ToastContainer />
 
+<<<<<<< Updated upstream
         <Container maxWidth="xl" component="main" sx={{ margin: 'auto 12vmin 30px auto' }}>
+=======
+        <Container maxWidth="xl" component="main" sx={{ margin: 'auto 8vmin 30px auto' }}>
+>>>>>>> Stashed changes
           <Box
             sx={{
               marginTop: 3,
@@ -157,6 +162,11 @@ const StudentProfile = () => {
         <div className='RightBar'>
           <ProBar />
           <Pro />
+          <Link to="/">
+          <div className='PB'>
+          <img src={ComeBack} alt="PB" className='PB__media'/>
+          <span className='PB__content'>برگردیم خونه؟</span>
+        </div></Link>
         </div>
         <div className='Forms'>
             <SProfile/>
