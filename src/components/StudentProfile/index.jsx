@@ -54,7 +54,7 @@ function SProfile(props) {
         </Helmet>
         <ToastContainer />
 
-        <Container  component="main" sx={{ margin: 'auto auto 30px auto' }}>
+        <Container component="main" sx={{ margin: 'auto auto 30px auto' }}>
           <Box
             sx={{
               marginTop: 3,
@@ -159,7 +159,7 @@ const StudentProfile = () => {
           <Pro />
         </div>
         <div className='Forms'>
-            <SProfile/>
+            <div className='center'><SProfile/></div>
         </div>
       
     </div>
