@@ -20,12 +20,43 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { ToastContainer, toast } from 'react-toastify';
 import { Helmet } from 'react-helmet';
-import FormData from 'form-data'
+import FormData from 'form-data';
 import profile_1 from '../../assets/images/profile_2.png';
 
 import './style.scss';
+import axios from 'axios';
 
 function DashboardTeacherProfile(props) {
+  const editProfile = event => {
+    event.preventDefault();
+    const token = 'JWT ' + localStorage.getItem('access_token');
+
+    console.log(token);
+    console.log("pass: " , document.getElementById('password').value);
+
+    const body = {
+      username: document.getElementById('username').value,
+      email: document.getElementById('email').value,
+      first_name: document.getElementById('first_name').value,
+      last_name: document.getElementById('last_name').value,
+      password: document.getElementById('password').value,
+      phone_no: document.getElementById('phone_no').value,
+    };
+    console.log(body);
+
+    axios
+      .put('https://kooleposhti.herokuapp.com/accounts/instructors/me/', JSON.stringify(body), {
+        headers: {
+          'Authorization' : token,
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => {console.log(response)})
+      .catch(err => {
+        console.log("error");
+      });
+  };
+
   const [file, setFile] = useState(profile_1);
   console.log(file);
 
@@ -60,10 +91,14 @@ function DashboardTeacherProfile(props) {
               fontFamily: 'iranyekan',
             }}
           >
-            <Typography component="h2" variant="Button" sx={{ color: 'rgba(10, 67, 94, 0.942)' ,fontSize:{sm:"3vmin" , xs:"4vmin"}}}>
+            <Typography
+              component="h2"
+              variant="Button"
+              sx={{ color: 'rgba(10, 67, 94, 0.942)', fontSize: { sm: '3vmin', xs: '4vmin' } }}
+            >
               ویرایش حساب کاربری
             </Typography>
-            <Avatar src={file} alt="profile" sx={{ mt: 1, width:"auto", height:"18vmin", borderRadius: '50%' }} />
+            <Avatar src={file} alt="profile" sx={{ mt: 1, width: '18vmin', height: '18vmin', borderRadius: '50%' }} />
 
             <Button
               variant="contained"
@@ -76,7 +111,7 @@ function DashboardTeacherProfile(props) {
 
             <ToastContainer rtl={true} />
 
-            <Box component="form" noValidate sx={{ mt: 8 }}>
+            <Box component="form" id="profile-form" noValidate sx={{ mt: 8 }} onSubmit={editProfile}>
               <Grid container spacing={2}>
                 <Grid item sm={6} xs={12}>
                   <TextField
@@ -89,13 +124,7 @@ function DashboardTeacherProfile(props) {
                   />
                 </Grid>
                 <Grid item sm={6} xs={12}>
-                  <TextField
-                    autoComplete="given-name"
-                    name="last_name"
-                    fullWidth
-                    id="last_name"
-                    label="نام خانوادگی"
-                  />
+                  <TextField autoComplete="given-name" name="last_name" fullWidth id="last_name" label="نام خانوادگی" />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
@@ -114,15 +143,15 @@ function DashboardTeacherProfile(props) {
                   <TextField
                     required
                     fullWidth
-                    name="password1"
-                    label="رمز عبور"
+                    name="password"
+                    label="رمز عبور جدید"
                     type="password"
-                    id="password1"
+                    id="password"
                     autoComplete="new-password"
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField  fullWidth name="mobile" label="شماره موبایل" type="phone" id="mobile" />
+                  <TextField fullWidth name="phone_no" label="شماره موبایل" type="phone" id="phone_no" />
                 </Grid>
               </Grid>
 
@@ -132,6 +161,7 @@ function DashboardTeacherProfile(props) {
                   type="submit"
                   variant="contained"
                   sx={{ mt: 3, backgroundColor: 'rgba(10, 67, 94, 0.942) !important' }}
+                  typeof="submit"
                 >
                   تایید
                 </Button>

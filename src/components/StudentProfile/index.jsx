@@ -54,7 +54,7 @@ function SProfile(props) {
         </Helmet>
         <ToastContainer />
 
-        <Container component="main" sx={{ margin: 'auto auto 30px auto' }}>
+        <Container maxWidth="xl" component="main" sx={{ margin: 'auto 12vmin 30px auto' }}>
           <Box
             sx={{
               marginTop: 3,

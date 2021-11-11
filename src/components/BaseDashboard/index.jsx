@@ -97,6 +97,7 @@ function BaseDashboard(props) {
               component="nav"
               sx={{ width: { md: drawerWidth, sm: '34vmin' }, flexShrink: { sm: 0 } }}
               aria-label="mailbox folders"
+              
             >
               {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
               <Drawer

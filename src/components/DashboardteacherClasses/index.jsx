@@ -29,6 +29,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import axios from 'axios';
 import { styled } from '@mui/material/styles';
 
 import './style.scss';
@@ -102,6 +103,20 @@ function DashboardTeacherClasses(props) {
       3.9
     ),
   ];
+
+  const token = 'JWT ' + localStorage.getItem('access_token');
+
+  axios
+      .get('https://kooleposhti.herokuapp.com/accounts/classes/', {
+        headers: {
+          'Authorization' : token,
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => {console.log(response)})
+      .catch(err => {
+        console.log("error");
+      });
 
   return (
     <CacheProvider value={cacheRtl}>
