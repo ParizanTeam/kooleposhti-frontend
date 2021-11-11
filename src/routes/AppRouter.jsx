@@ -8,6 +8,7 @@ import ForgetPasswordPage from '../components/ForgetPasswordPage';
 import ResetPasswordPage from '../components/ResetPasswordPage';
 import CreateCourseForm from '../components/CreateCourseForm';
 import CoursePage from '../components/CoursePage';
+import ClassDashboard from '../components/ClassDashboard';
 
 const AppRouter = () => {
   return (
@@ -34,6 +35,9 @@ const AppRouter = () => {
         </Route>
         <Route path="/courses/:courseId" exact>
           <CoursePage />
+        </Route>
+        <Route path="/dashboard/class/:classId" exact>
+          <ClassDashboard />
         </Route>
         <Route path="*">
           <NotFoundPage />
