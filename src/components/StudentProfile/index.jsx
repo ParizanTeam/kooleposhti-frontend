@@ -2,7 +2,6 @@ import Gpro from './Gpro';
 import Bpro from './Bpro';
 import Pro from './Pro';
 import ProBar from './Pro/ProBar';
-import './style.scss';
 
 import React, { useState } from 'react';
 import SignupIcon from '@mui/icons-material/AccountCircle';
@@ -27,15 +26,16 @@ import createCache from '@emotion/cache';
 import { ToastContainer, toast } from 'react-toastify';
 import { Helmet } from 'react-helmet';
 import profile_1 from '../../assets/images/StudentProfile/UsreIcon.png';
-
-import './style.scss';
 import Navbar from '../Navbar';
+import './style.scss';
 
 function SProfile(props) {
   const [file, setFile] = useState(profile_1);
+  console.log(file);
 
   const handleChange = e => {
     setFile(URL.createObjectURL(e.target.files[0]));
+    console.log(e.target.files[0]);
   };
 
   const cacheRtl = createCache({
@@ -81,12 +81,11 @@ function SProfile(props) {
             <ToastContainer rtl={true} />
 
             <Box component="form" noValidate sx={{ mt: 3 }}>
-              <Grid container spacing={1}>
+              <Grid container spacing={2}>
                 <Grid item sm={6} xs={12}>
                   <TextField
                     autoComplete="given-name"
                     name="first_name"
-                    required
                     fullWidth
                     id="first_name"
                     label="نام "
@@ -97,7 +96,6 @@ function SProfile(props) {
                   <TextField
                     autoComplete="given-name"
                     name="last_name"
-                    required
                     fullWidth
                     id="last_name"
                     label="نام خانوادگی"
@@ -153,7 +151,7 @@ function SProfile(props) {
 
 const StudentProfile = () => {
   return (
-    <>
+    <div>
     <Navbar color="#7a0047"/>
     <div className='mainPro'>
         <div className='RightBar'>
@@ -165,7 +163,7 @@ const StudentProfile = () => {
         </div>
       
     </div>
-    </>
+    </div>
   );
 };
 export default StudentProfile;

@@ -14,7 +14,8 @@ const MyClasses = () => {
             />
             <p className="Head__content">&#127809; اینجا همیشه مهره!</p>
             <div className="HeadSub__ClickedOnMe">
-                <p className="HeadSub__ClickedOnMe__a">&#x2602;</p>
+                <Link to= "/" className="HeadSub__ClickedOnMe__a">
+                <p>&#x2602;</p></Link>
                 <p className="HeadSub__ClickedOnMe__c">&#x2602;</p>
                 <p className="HeadSub__ClickedOnMe__b">&#x2602;</p>
             </div>
