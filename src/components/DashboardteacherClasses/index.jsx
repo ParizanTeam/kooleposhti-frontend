@@ -107,7 +107,7 @@ function DashboardTeacherClasses(props) {
   const token = 'JWT ' + localStorage.getItem('access_token');
 
   axios
-      .get('https://kooleposhti.herokuapp.com/accounts/classes/', {
+      .get('https://kooleposhti.herokuapp.com/accounts/instructors/classes/', {
         headers: {
           'Authorization' : token,
           'Content-Type': 'application/json',

@@ -12,12 +12,12 @@ import BookMarkedClasses from '../components/BookMarkedClasses';
 import SearchClasses from '../components/SearchClasses';
 import { Redirect } from 'react-router';
 import StudentProfile from '../components/StudentProfile';
+import ClassDashboard from '../components/ClassDashboard';
 
 const AppRouter = () => {
   return (
     <Router>
       <Switch>
-
         <Route path="/" exact>
           <HomePage />
         </Route>
@@ -40,37 +40,36 @@ const AppRouter = () => {
         <Route path="/reset-password" exact>
           <ResetPasswordPage />
         </Route>
-
-        
-
+        <Route path="/dashboard/class/:classId" exact>
+        <ClassDashboard />
+      </Route>
 
         {/* student dasgboard classes url */}
         <Switch>
           <Route path="/dashboard/student/Schedule" exact>
-            <ClassSchedule/>
+            <ClassSchedule />
           </Route>
           <Route path="/dashboard/student/Bookmarks" exact>
-            <BookMarkedClasses/>
+            <BookMarkedClasses />
           </Route>
           <Route path="/dashboard/student/" exact>
             <Redirect to="/dashboard/student/Profile" />
           </Route>
           <Route path="/dashboard/student/Search">
             <SearchClasses />
-          </Route>  
+          </Route>
           <Route path="/dashboard/student/Profile">
             <StudentProfile />
-          </Route> 
-        <Route path="*">
+          </Route>
+          <Route path="*">
             <NotFoundPage />
           </Route>
         </Switch>
-     
-        {/* end student dasgboard classes url */}
 
+        {/* end student dasgboard classes url */}
       </Switch>
 
-
+      
     </Router>
   );
 };

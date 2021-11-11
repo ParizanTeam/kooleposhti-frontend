@@ -55,11 +55,7 @@ function SProfile(props) {
         </Helmet>
         <ToastContainer />
 
-<<<<<<< Updated upstream
         <Container maxWidth="xl" component="main" sx={{ margin: 'auto 12vmin 30px auto' }}>
-=======
-        <Container maxWidth="xl" component="main" sx={{ margin: 'auto 8vmin 30px auto' }}>
->>>>>>> Stashed changes
           <Box
             sx={{
               marginTop: 3,
