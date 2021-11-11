@@ -159,7 +159,7 @@ const StudentProfile = () => {
           <Pro />
         </div>
         <div className='Forms'>
-            <div className='center'><SProfile/></div>
+            <SProfile/>
         </div>
       
     </div>
