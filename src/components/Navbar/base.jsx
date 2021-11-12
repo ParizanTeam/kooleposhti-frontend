@@ -30,25 +30,51 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
 
 //Redux
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch  } from 'react-redux';
+import { logout } from '../../store/actions';
+
 
 import { navbarProps } from './constants';
+const LogoutBtn = () => {
+  const dispatch = useDispatch();
+  return useMobile ? (
+    <div style={{ marginBottom: '5 px' }}>
+    <Button onClick={()=>dispatch(logout())} style={{ color: '#000', width: '100%', justifyContent: 'flex-start', padding: '16px' }} variant="text">
+      <Logout style={{ color: navbarProps.baseColor }} />
+      <span style={{ marginRight: '5px' }}>خروج</span>
+    </Button>
+  </div>
 
+  ) : (
+    <MenuItem onClick={()=>dispatch(logout())}>
+      <ListItemIcon >
+        <Logout style={{ color: navbarProps.baseColor }} fontSize="small" />
+      </ListItemIcon>
+      خروج
+    </MenuItem>
+  );
+};
 export const MyClasses = () => {
-  return <>
-  <RightBtn Icon={SchoolIcon} text="کلاس‌های من" linkTo="/classes" />
-  
-  </>;
+  return (
+    <>
+      <RightBtn Icon={SchoolIcon} text="کلاس‌های من" linkTo="/classes" />
+    </>
+  );
 };
 export const ProfileMenu = props => {
   const username = useSelector(state => state.auth.username);
-  const profileMenuItems = [
-    { icon: <FavoriteBorder style={{ color: navbarProps.baseColor }} fontSize="small" />, label: 'علاقمندی‌هام' },
-    { icon: <CalendarToday style={{ color: navbarProps.baseColor }} fontSize="small" />, label: 'برنامه کلاس‌هام' },
-    { icon: <ForumOutlinedIcon style={{ color: navbarProps.baseColor }} fontSize="small" />, label: 'گفت‌وگو ها' },
-
-    { icon: <Logout style={{ color: navbarProps.baseColor }} fontSize="small" />, label: 'خروج' },
-  ];
+  const profileMenuItems = {
+    student: [
+      { icon: <FavoriteBorder style={{ color: navbarProps.baseColor }} fontSize="small" />, label: 'علاقمندی‌هام' },
+      { icon: <CalendarToday style={{ color: navbarProps.baseColor }} fontSize="small" />, label: 'برنامه کلاس‌هام' },
+      { icon: <ForumOutlinedIcon style={{ color: navbarProps.baseColor }} fontSize="small" />, label: 'گفت‌وگو ها' },
+    ],
+    teacher: [
+      { icon: <FavoriteBorder style={{ color: navbarProps.baseColor }} fontSize="small" />, label: 'علاقمندی‌هام' },
+      { icon: <CalendarToday style={{ color: navbarProps.baseColor }} fontSize="small" />, label: 'برنامه کلاس‌هام' },
+      { icon: <ForumOutlinedIcon style={{ color: navbarProps.baseColor }} fontSize="small" />, label: 'گفت‌وگو ها' },
+    ],
+  };
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -94,12 +120,13 @@ export const ProfileMenu = props => {
               {username}
             </MenuItem>
             <Divider />
-            {profileMenuItems.map(item => (
-              <MenuItem>
+            {profileMenuItems['student'].map((item, i) => (
+              <MenuItem key={i}>
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 {item.label}
               </MenuItem>
             ))}
+            <LogoutBtn />
           </Menu>
         </>
       ) : (
@@ -114,7 +141,7 @@ export const ProfileMenu = props => {
           <MenuButton Icon={ForumOutlinedIcon} text="گفت‌و‌گو ها" linkTo="/students/" />
           <Divider style={{ marginTop: '20 px' }} />
           <MenuButton Icon={HelpIcon} text="راهنما" linkTo="/help" />
-          <MenuButton Icon={Logout} text="خروج" linkTo="/logout" />
+          <LogoutBtn />
           <Divider />
         </>
       )}

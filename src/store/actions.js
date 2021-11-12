@@ -2,8 +2,7 @@ import axios from '../utils/axiosConfig';
 import {baseUrl} from '../utils/constants';
 
 export const login = () => async (dispatch) => {
-  console.log("hi from login")
-  const response = await axios.get(`${baseUrl}/auth/users/me`, {
+  const response = await axios.get(`${baseUrl}/accounts/users/me`, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -16,6 +15,7 @@ export const login = () => async (dispatch) => {
 };
 
 export const logout = () => {
+  localStorage.removeItem('access_token');
   return {
     type: 'LOGOUT',
   };
