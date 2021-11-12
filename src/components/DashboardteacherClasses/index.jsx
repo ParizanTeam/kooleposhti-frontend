@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import SignupIcon from '@mui/icons-material/AccountCircle';
 import Avatar from '@mui/material/Avatar';
 import {
@@ -34,6 +34,34 @@ import { styled } from '@mui/material/styles';
 
 import './style.scss';
 function DashboardTeacherClasses(props) {
+
+  const [classData , setClassData] = useState([]);
+
+  const token = 'JWT ' + localStorage.getItem('access_token');
+
+  useEffect(() => {
+    async function fetchData(){
+      const res = await axios
+      .get(
+        'https://kooleposhti.herokuapp.com/accounts/instructors/classes/',
+        {
+          headers: {
+            Authorization: token,
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .then(response => {
+        console.log("get response: ",response);
+        setClassData(response.data);
+      })
+      .catch(err => {
+        console.log('error: ', err);
+      });
+    }
+    fetchData();
+  }, []);
+
   const cacheRtl = createCache({
     key: 'muirtl',
 
@@ -66,58 +94,18 @@ function DashboardTeacherClasses(props) {
     return { img, subject, start_date, end_date, capacity };
   }
 
-  const rows = [
-    createData(
-      <Avatar src={profile_1} alt="profile" sx={{ height: '0', width: '7vmin', borderRadius: '50%' }} />,
-      159,
-      6.0,
-      24,
-      4.0
-    ),
-    createData(
-      <Avatar src={profile_1} alt="profile" sx={{ height: '0', width: '7vmin', borderRadius: '50%' }} />,
-      237,
-      9.0,
-      37,
-      4.3
-    ),
-    createData(
-      <Avatar src={profile_1} alt="profile" sx={{ height: '0', width: '7vmin', borderRadius: '50%' }} />,
-      262,
-      16.0,
-      24,
-      6.0
-    ),
-    createData(
-      <Avatar src={profile_1} alt="profile" sx={{ height: '0', width: '7vmin', borderRadius: '50%' }} />,
-      305,
-      3.7,
-      67,
-      4.3
-    ),
-    createData(
-      <Avatar src={profile_1} alt="profile" sx={{ height: '0', width: '7vmin', borderRadius: '50%' }} />,
-      356,
-      16.0,
-      49,
-      3.9
-    ),
-  ];
+  const rows = [];
+  classData.forEach( (item) => {
+    rows.push(createData(
+      <Avatar src={item.image} alt="profile" sx={{ height: '0', width: '7vmin', borderRadius: '50%' }} />,
+      item.title,
+      item.start_date,
+      item.end_date,
+      item.max_students
+    ));
+  });
 
-  const token = 'JWT ' + localStorage.getItem('access_token');
-
-  axios
-      .get('https://kooleposhti.herokuapp.com/accounts/instructors/classes/', {
-        headers: {
-          'Authorization' : token,
-          'Content-Type': 'application/json',
-        },
-      })
-      .then(response => {console.log(response)})
-      .catch(err => {
-        console.log("error");
-      });
-
+ 
   return (
     <CacheProvider value={cacheRtl}>
       <div dir="rtl">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import SignupIcon from '@mui/icons-material/AccountCircle';
 import Avatar from '@mui/material/Avatar';
 import {
@@ -32,15 +32,19 @@ function DashboardTeacherProfile(props) {
   const [apiResponse, setApiResponse] = useState(false);
   const [values, setValues] = useState({});
   const [loading, setLoading] = useState(false);
-
-  const token = 'JWT ' + localStorage.getItem('access_token');
+  const [binaryFile, setBinaryFile] = useState(null);
   const [teacher_data, setteacherData] = useState({});
 
+
+
+  const token = 'JWT ' + localStorage.getItem('access_token');
+  console.log(token);
+
   useEffect(() => {
-    axios
+    async function fetchData(){
+      const res = await axios
       .get(
         'https://kooleposhti.herokuapp.com/accounts/instructors/me/',
-        { name: '' },
         {
           headers: {
             Authorization: token,
@@ -49,21 +53,29 @@ function DashboardTeacherProfile(props) {
         }
       )
       .then(response => {
-        console.log(response);
+        console.log("get response: ",response);
         setteacherData(response.data);
         setFile(response.data.image.image);
+        
       })
       .catch(err => {
         console.log('error: ', err);
       });
+    }
+    fetchData();
   }, []);
+
 
   const [file, setFile] = useState(profile_1);
   console.log(file);
 
   const handleChange = e => {
     setFile(URL.createObjectURL(e.target.files[0]));
-    console.log(e.target.files[0]);
+
+    let picture = e.target.files[0];
+    console.log('picture', picture);
+    setBinaryFile(picture);
+
   };
 
   const cacheRtl = createCache({
@@ -74,6 +86,7 @@ function DashboardTeacherProfile(props) {
     prepend: true,
   });
 
+  console.log(teacher_data.username);
   return (
     <CacheProvider value={cacheRtl}>
       <div dir="rtl">
@@ -113,13 +126,14 @@ function DashboardTeacherProfile(props) {
             <ToastContainer rtl={true} />
 
             <Formik
+              enableReinitialize={true}
               initialValues={{
-                username: teacher_data.username,
+                username: teacher_data.username ,
                 email: teacher_data.email,
                 password: teacher_data.password,
-                first_name: teacher_data.first_name,
-                last_name: teacher_data.last_name,
-                phone_no: teacher_data.phone_no,
+                first_name: teacher_data.first_name ,
+                last_name: teacher_data.last_name ,
+                phone_no: teacher_data.phone_no  ,
               }}
               onSubmit={async values => {
                 try {
@@ -127,24 +141,24 @@ function DashboardTeacherProfile(props) {
 
                   console.log(token);
                   console.log('pass: ', document.getElementById('password').value);
+                  console.log('binary file', binaryFile);
 
-                  const body = {
-                    username: document.getElementById('username').value,
-                    email: document.getElementById('email').value,
-                    first_name: document.getElementById('first_name').value,
-                    last_name: document.getElementById('last_name').value,
-                    password: document.getElementById('password').value,
-                    phone_no: document.getElementById('phone_no').value,
-                    image: {
-                      image: file,
-                      name: document.getElementById('username').value + 'profile_image',
-                      description: null,
-                    },
-                  };
-                  console.log(body);
+                  const formdata = new FormData();
+                  
+                  const data = {... values , "image.image":binaryFile};
+                  formdata.append('username',values.username);
+                  formdata.append('email',values.email);
+                  formdata.append('first_name',values.first_name);
+                  formdata.append('last_name',values.last_name);
+                  formdata.append('password',values.password);
+                  formdata.append('phone_no', values.phone_no);
+
+                  formdata.append('image.image', binaryFile);
+                  console.log('form data', formdata);
+                  
 
                   axios
-                    .put('https://kooleposhti.herokuapp.com/accounts/instructors/me/', JSON.stringify(body), {
+                    .put('https://kooleposhti.herokuapp.com/accounts/instructors/me/', formdata, {
                       headers: {
                         Authorization: token,
                         'Content-Type': 'application/json',
@@ -162,6 +176,7 @@ function DashboardTeacherProfile(props) {
                         progress: undefined,
                         theme: 'dark',
                       });
+                      setLoading(false);
                     })
                     .catch(err => {
                       setLoading(false);
@@ -174,7 +189,7 @@ function DashboardTeacherProfile(props) {
                         pauseOnHover: true,
                         draggable: true,
                         progress: undefined,
-                        
+
                         theme: 'dark',
                       });
                     });
@@ -219,14 +234,13 @@ function DashboardTeacherProfile(props) {
               validate={values => {
                 let error = {};
 
-
                 if (!values.username) {
                   error.username = ' نام کاربری خودت رو وارد کن';
                 } else if (!values.email) {
                   error.email = ' ایمیل خودت رو وارد کن';
                 } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
                   error.email = 'ایمیل نامعتبر';
-                } 
+                }
 
                 return error;
               }}
@@ -248,6 +262,7 @@ function DashboardTeacherProfile(props) {
                     <Grid item sm={6} xs={12}>
                       <TextField
                         value={values.first_name}
+                        InputLabelProps={{ shrink: values.first_name }}
                         autoComplete="given-name"
                         name="first_name"
                         fullWidth
@@ -255,26 +270,28 @@ function DashboardTeacherProfile(props) {
                         label="نام "
                         autoFocus
                         onChange={handleChange}
-                            helperText={validateAfterSubmit ? errors.first_name : null}
-                            error={Boolean(errors.first_name)}
+                        helperText={validateAfterSubmit ? errors.first_name : null}
+                        error={Boolean(errors.first_name)}
                       />
                     </Grid>
                     <Grid item sm={6} xs={12}>
                       <TextField
                         autoComplete="given-name"
+                        InputLabelProps={{ shrink: values.last_name }}
                         name="last_name"
                         fullWidth
                         id="last_name"
                         label="نام خانوادگی"
                         value={values.last_name}
                         onChange={handleChange}
-                            helperText={validateAfterSubmit ? errors.last_name : null}
-                            error={Boolean(errors.last_name)}
+                        helperText={validateAfterSubmit ? errors.last_name : null}
+                        error={Boolean(errors.last_name)}
                       />
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
                         value={values.username}
+                        InputLabelProps={{ shrink: values.username }}
                         autoComplete="given-name"
                         name="username"
                         required
@@ -282,13 +299,14 @@ function DashboardTeacherProfile(props) {
                         id="username"
                         label="نام کاربری"
                         onChange={handleChange}
-                            helperText={validateAfterSubmit ? errors.username : null}
-                            error={Boolean(errors.username)}
+                        helperText={validateAfterSubmit ? errors.username : null}
+                        error={Boolean(errors.username)}
                       />
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
                         required
+                        InputLabelProps={{ shrink: values.email }}
                         fullWidth
                         id="email"
                         label="ایمیل"
@@ -296,36 +314,37 @@ function DashboardTeacherProfile(props) {
                         autoComplete="email"
                         value={values.email}
                         onChange={handleChange}
-                            helperText={validateAfterSubmit ? errors.email : null}
-                            error={Boolean(errors.email)}
+                        helperText={validateAfterSubmit ? errors.email : null}
+                        error={Boolean(errors.email)}
                       />
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
-                        
                         fullWidth
                         name="password"
+                        InputLabelProps={{ shrink: values.password }}
                         label="رمز عبور جدید"
                         type="password"
                         id="password"
                         autoComplete="new-password"
                         value={values.password}
                         onChange={handleChange}
-                            helperText={validateAfterSubmit ? errors.password : null}
-                            error={Boolean(errors.password)}
+                        helperText={validateAfterSubmit ? errors.password : null}
+                        error={Boolean(errors.password)}
                       />
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
                         fullWidth
+                        InputLabelProps={{ shrink: values.phone_no }}
                         name="phone_no"
                         label="شماره موبایل"
                         type="phone"
                         id="phone_no"
                         value={values.phone_no}
                         onChange={handleChange}
-                            helperText={validateAfterSubmit ? errors.phone_no : null}
-                            error={Boolean(errors.phone_no)}
+                        helperText={validateAfterSubmit ? errors.phone_no : null}
+                        error={Boolean(errors.phone_no)}
                       />
                     </Grid>
                   </Grid>
@@ -338,9 +357,8 @@ function DashboardTeacherProfile(props) {
                       sx={{ mt: 3, backgroundColor: 'rgba(10, 67, 94, 0.942) !important' }}
                       typeof="submit"
                     >
-                      
                       {!loading && <span>تایید</span>}
-                        {loading && <ReactLoading type="bubbles" color="#fff" className="loading-signup" />}
+                      {loading && <ReactLoading type="bubbles" color="#fff" className="loading-signup" />}
                     </Button>
                   </Grid>
                 </Box>
