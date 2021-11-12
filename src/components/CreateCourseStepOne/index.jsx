@@ -78,15 +78,21 @@ const validationSchema = yup.object({
 
 jMoment.loadPersian({ dialect: 'persian-modern', usePersianDigits: true });
 
-function CreateCourseStepOne() {
-  const [age, setAge] = useState('');
+const CreateCourseStepOne = ({ formData, setFormData }) => {
+  // console.log(props);
+  const { courseName, category, price, duration, dates, description, courseImage } = formData;
+  const [sliderCatergory, setSliderCatergory] = useState('');
   const [file, setFile] = useState('');
   const handleChangeFile = e => {
     setFile(URL.createObjectURL(e.target.files[0]));
   };
 
   const handleChange = event => {
-    setAge(event.target.value);
+    setSliderCatergory(event.target.value);
+    // console.log(sliderCatergory);
+    // category = event.target.value;
+    // setFormData({ ...formData, [category]: sliderCatergory });
+    console.log('category is ' + category);
   };
 
   const [loading, setLoading] = useState(false);
@@ -176,13 +182,14 @@ function CreateCourseStepOne() {
                 fullWidth
                 id="class-name"
                 label="اسم کلاس"
-                name="class-name"
+                name="courseName"
                 autoFocus
                 // className="step-one-input-field"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
+                value={courseName}
+                // onChange={formik.handleChange}
+                onChange={setFormData}
+                // error={formik.touched.email && Boolean(formik.errors.email)}
+                // helperText={formik.touched.email && formik.errors.email}
                 // sx={{ mb: 3 }}
               />
               <FormControl className="step-one-select-holder" margin="normal" fullWidth>
@@ -190,11 +197,13 @@ function CreateCourseStepOne() {
                 <Select
                   labelId="demo-simple-select-helper-label"
                   id="demo-simple-select-helper"
-                  value={age}
+                  // value={category}
+                  value={sliderCatergory}
                   margin="normal"
                   fullWidth
                   label="موضوع"
                   // sx={{ mb: 1 }}
+
                   onChange={handleChange}
                 >
                   <MenuItem value={1}>مد و لباس</MenuItem>
@@ -218,8 +227,9 @@ function CreateCourseStepOne() {
                 id="class-name"
                 label="هزینه شرکت در کلاس(تومان)"
                 name="class-price"
+                value={price}
                 // className="step-one-input-field"
-                value={formik.values.email}
+                //value={formik.values.email}
                 onChange={formik.handleChange}
                 error={formik.touched.email && Boolean(formik.errors.email)}
                 helperText={formik.touched.email && formik.errors.email}
@@ -234,7 +244,8 @@ function CreateCourseStepOne() {
                 label="مدت زمان هر جلسه(دقیقه)"
                 name="class-duration"
                 // className="step-one-input-field"
-                value={formik.values.email}
+                //value={formik.values.email}
+                value={duration}
                 onChange={formik.handleChange}
                 error={formik.touched.email && Boolean(formik.errors.email)}
                 helperText={formik.touched.email && formik.errors.email}
@@ -250,7 +261,7 @@ function CreateCourseStepOne() {
               <label for="calender" className="step-one-calender__label" style={{ display: 'block' }}>
                 تاریخ و زمان کلاس ها
               </label>
-              <Grid sx={{ width: { md: '65vmin', sm: '65vmin', xs: '95vmin' } }}>
+              <Grid sx={{ width: { md: '65vmin', sm: '65vmin', xs: '92vmin' } }}>
                 <DatePicker
                   multiple
                   // render={<InputIcon className="step-one-datePicker" />}
@@ -320,7 +331,7 @@ function CreateCourseStepOne() {
       </div>
     </CacheProvider>
   );
-}
+};
 
 export default CreateCourseStepOne;
 

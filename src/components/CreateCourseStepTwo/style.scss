@@ -1,18 +1,126 @@
 @import '/src/theme/main.scss';
 
-.btn {
-  height: '55px';
-  float: 'right';
-  margin-bottom: '15px';
+// .btn {
+//   height: '55px';
+//   float: 'right';
+//   margin-bottom: '15px';
+// }
+
+// .btn3 {
+//   height: '55px' !important;
+//   width: '35px' !important;
+//   float: 'right' !important;
+// }
+
+// .btnB {
+//   height: '55px';
+//   margin-bottom: '15px';
+// }
+
+// .step-two-form-container {
+//   position: relative;
+//   height: auto;
+//   padding: 2rem;
+// }
+
+// .step-two-main-container {
+//   display: grid;
+//   justify-content: center;
+//   position: relative;
+//   z-index: 5;
+// }
+
+.step-one-title {
+  align-items: center !important;
 }
 
-.btn3 {
-  height: '55px' !important;
-  width: '35px' !important;
-  float: 'right' !important;
+.step-one-form-container {
+  position: relative;
+  height: auto;
+  padding: 2rem;
 }
 
-.btnB {
-  height: '55px';
-  margin-bottom: '15px';
+.step-one-main-container {
+  display: grid;
+  justify-content: center;
+  position: relative;
+  z-index: 5;
 }
+
+.step-one-dropdown-holder {
+  width: 26rem;
+  padding: 2rem;
+  position: relative;
+  height: auto;
+}
+
+.step-one-button {
+  margin-top: 1.5rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.step-one-datePicker {
+  border-radius: 3px;
+  border: 1px #0c8af8 solid;
+  padding: 4px 12px !important;
+  background-color: white;
+  height: 50px;
+  box-shadow: 0 0 2px #0074d9;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 16px;
+  width: 100% !important;
+}
+
+.rmdp-container {
+  width: 100% !important;
+}
+
+.step-one-datePicker:focus {
+  outline: none;
+  border: 1px solid #0c8af8;
+  box-shadow: 0 0 10px 2px #0074d9;
+}
+
+.step-one-calender__label {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 16px;
+}
+
+.step-two-select-container {
+  margin-top: 1rem !important;
+}
+
+.step-two-dynamic-input-title {
+  margin-top: 2rem !important;
+}
+
+.step-two-dynamic-input-fields {
+  margin-top: 1.5rem !important;
+  margin-right: 1rem !important;
+}
+
+.step-two-dynamic-input-buttons {
+  margin-top: 5px !important;
+}
+
+// .step-one-image {
+//   width: 20vmin;
+//   height: 20vmin;
+// }
+
+.MuiOutlinedInput-root.MuiInputBase-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-multiline.muirtl-l6hdvs-MuiInputBase-root-MuiOutlinedInput-root {
+  width: 100%;
+}
+
+.step-one-select-holder {
+  // width: 26rem;
+  // min-width: 26rem !important;
+}
+
+// @media only screen and (max-width: 800px) {
+//   .step-one-datePicker {
+//     width: 95% !important;
+//   }
+// }

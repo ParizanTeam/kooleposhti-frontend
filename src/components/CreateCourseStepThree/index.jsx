@@ -51,29 +51,18 @@ const cacheLtr = createCache({
   prepend: true,
 });
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
 const validationSchema = yup.object({
   email: yup.string('').required('باید حتما ایمیل یا نام کاربریت رو بنویسی تا بتونی وارد بشی.'),
   password: yup.string('').required('باید حتما رمز عبورت رو بنویسی تا بتونی وارد بشی.'),
 });
 
-function CreateCourseStepTwo(props) {
+function CreateCourseStepThree(props) {
+  console.log(props);
   const [age, setAge] = useState('');
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
   const text = '';
-  console.log(props);
   //   const [personName, setPersonName] = useState([]);
   const [learnings, setLearnings] = useState([{ learningItem: '' }]);
   const [prerequisites, setPrerequisites] = useState([{ prerequisity: '' }]);
@@ -187,48 +176,10 @@ function CreateCourseStepTwo(props) {
               setFieldValue
               sx={{ mt: 1, fontFamily: 'iranyekan' }}
             >
-              <TextField
-                dir="rtl !important"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="ظرفیت کلاس"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
-              />
-              <FormControl
-                sx={{ minWidth: 120, width: { md: '65vmin', sm: '65vmin', xs: '92vmin' } }}
-                className="step-two-select-container"
-              >
-                <InputLabel id="demo-simple-select-helper-label" margin="normal">
-                  رده سنی
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-helper-label"
-                  id="demo-simple-select-helper"
-                  value={age}
-                  label="رده سنی"
-                  onChange={handleChange}
-                  // style={{ margin: '50px' }}
-                >
-                  <MenuItem value={1}>بین ۴ تا ۷</MenuItem>
-                  <MenuItem value={2}>بین ۷ تا ۱۰</MenuItem>
-                  <MenuItem value={3}>بین ۱۰ تا ۱۳</MenuItem>
-                  <MenuItem value={4}>بین ۱۳ تا ۱۸</MenuItem>
-                  <MenuItem value={5}>بین ۴ تا ۱۰</MenuItem>
-                  <MenuItem value={6}>بین ۱۰ تا ۱۸</MenuItem>
-                  <MenuItem value={7}>بین ۴ تا ۱۸</MenuItem>
-                </Select>
-                {/* <FormHelperText>With label + helper text</FormHelperText> */}
-              </FormControl>
-
-              <h3 className="step-two-dynamic-input-title">با شرکت در کلاس شما، چه چیزی یاد می‌گیریم؟</h3>
+              <h3 className="step-two-dynamic-input-title">تگ های درس</h3>
+              <p>
+                توجه شود که با انتخاب تگ های مناسب، امکان دیده شدن درس شما و نمایش آن در نتابج جست و جو بیشتر می‌شود
+              </p>
 
               {learnings.map((learnItem, index) => (
                 <div key={index} className="step-two-dynamic-input-fields">
@@ -253,13 +204,17 @@ function CreateCourseStepTwo(props) {
                     label={text}
                     variant="outlined"
                     value={learnItem.learningItem}
-                    sx={{ width: { md: '40vmin  ', sm: '40vmin', xs: '70vmin' } }}
+                    sx={{ width: { md: '65vmin  ', sm: '65vmin', xs: '90vmin' } }}
                     onChange={event => handleLearningChange(index, event)}
                   ></TextField>
                 </div>
               ))}
 
-              <h3 className="step-two-dynamic-input-title">پیش نیازهای شرکت در کلاس</h3>
+              <h3 className="step-two-dynamic-input-title">سرفصل‌های درس</h3>
+              <p sx={{ marginTop: 2 }}>
+                اگر درس شما نظم و برنامه‌ی منظمی داشته باشد، دانش آموزان با آن بهتر ارتباط برقرار می‌کنند و احتمال فروش
+                کلاس شما بیشتر خواهد شد.
+              </p>
 
               {prerequisites.map((prerequisitiesItem, index) => (
                 <div key={index} className="step-two-dynamic-input-fields">
@@ -282,7 +237,7 @@ function CreateCourseStepTwo(props) {
                     label={text}
                     variant="outlined"
                     value={prerequisitiesItem.prerequisity}
-                    sx={{ width: { md: '40vmin  ', sm: '40vmin', xs: '70vmin' } }}
+                    sx={{ width: { md: '65vmin  ', sm: '65vmin', xs: '90vmin' } }}
                     onChange={event => handlePrerequistiesChange(index, event)}
                   ></TextField>
                 </div>
@@ -295,4 +250,4 @@ function CreateCourseStepTwo(props) {
   );
 }
 
-export default CreateCourseStepTwo;
+export default CreateCourseStepThree;

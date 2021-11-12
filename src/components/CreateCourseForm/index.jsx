@@ -7,8 +7,10 @@ import rtl from 'jss-rtl';
 import rtlPlugin from 'stylis-plugin-rtl';
 import createCache from '@emotion/cache';
 import CreateCourseStepOne from '../CreateCourseStepOne';
-import './style.scss';
 import CreateCourseStepTwo from '../CreateCourseStepTwo';
+import CreateCourseStepThree from '../CreateCourseStepThree';
+import { useForm, useStep } from 'react-hooks-helper';
+import './style.scss';
 
 const steps = ['مشخصات کلی کلاس', 'مشخصات شرکت کنندگان', 'مرحله آخر'];
 //const classes = useStyle();
@@ -32,25 +34,53 @@ const cacheLtr = createCache({
   prepend: true,
 });
 
+const defaultData = {
+  courseName: '',
+  category: '',
+  price: '',
+  duration: '',
+  dates: '',
+  description: '',
+  courseImage: '',
+};
+
+// const stepsNew = [{ id: 'مشخصات کلی کلاس' }, { id: 'مشخصات شرکت کنندگان' }, { id: 'مشخصات کلی کلاس' }];
+
 function CreateCourseForm() {
+  const [formData, setFormData] = useForm(defaultData);
+  const classes = useStyles();
+  const [activeStep, setActiveStep] = useState(0);
+  // const { step, navigation } = useStep({
+  //   stepsNew,
+  //   initialStep: 0,
+  // });
   function getSteps() {
     return ['مشخصات کلی کلاس', 'مشخصات شرکت کنندگان', 'مرحله آخر'];
   }
 
+  // switch (step.id) {
+  //   case 'مشخصات کلی کلاس':
+  //     return <CreateCourseStepOne {...props}></CreateCourseStepOne>;
+  //   case 'مشخصات شرکت کنندگان':
+  //     return <CreateCourseStepTwo {...props}></CreateCourseStepTwo>;
+  //   case 'مرحله آخر':
+  //     return <CreateCourseStepThree {...props}></CreateCourseStepThree>;
+  // }
+
   function getStepsContent(stepIndex) {
+    const props = { formData, setFormData };
     switch (stepIndex) {
       case 0:
-        return <CreateCourseStepOne></CreateCourseStepOne>;
+        return <CreateCourseStepOne {...props}></CreateCourseStepOne>;
       case 1:
-        return <CreateCourseStepTwo></CreateCourseStepTwo>;
+        return <CreateCourseStepTwo {...props}></CreateCourseStepTwo>;
       case 2:
-        return 'ثبت نام آخر (سوم)';
+        return <CreateCourseStepThree {...props}></CreateCourseStepThree>;
     }
   }
 
   const steps = getSteps();
-  const classes = useStyles();
-  const [activeStep, setActiveStep] = useState(0);
+
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
   };

@@ -31,15 +31,15 @@
 
 .step-one-datePicker {
   border-radius: 3px;
-  border: 1px #0c8af8 solid;
+  border: 1px #c4c4c4 solid !important;
   padding: 4px 12px !important;
-  background-color: white;
-  height: 50px;
-  box-shadow: 0 0 2px #0074d9;
+  height: 53px !important;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   font-size: 16px;
   width: 100% !important;
+  font-family: 'iranyekan' !important;
+  box-shadow: none !important;
 }
 
 .rmdp-container {
@@ -48,8 +48,8 @@
 
 .step-one-datePicker:focus {
   outline: none;
-  border: 1px solid #0c8af8;
-  box-shadow: 0 0 10px 2px #0074d9;
+  border: 2px solid #1976d2 !important;
+  box-shadow: none !important;
 }
 
 .step-one-calender__label {
