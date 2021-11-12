@@ -29,6 +29,7 @@ import { Helmet } from 'react-helmet';
 import profile_1 from '../../assets/images/StudentProfile/UsreIcon.png';
 import Navbar from '../Navbar';
 import './style.scss';
+import FormDialog from '../InfoDialog';
 
 function SProfile(props) {
   const [file, setFile] = useState(profile_1);
@@ -153,6 +154,7 @@ function SProfile(props) {
 const StudentProfile = () => {
   return (
     <div>
+      <FormDialog/>
     <Navbar color="#7a0047"/>
     <div className='mainPro'>
         <div className='RightBar'>
