@@ -8,9 +8,10 @@
   width: 70%;
   align-items: center;
   margin: auto;
-  border: 1px solid;
   margin-top: 40px;
-  box-shadow: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+  border-radius: 16px;
+  padding: 8px;
 }
 
 .steeper-button__holder {

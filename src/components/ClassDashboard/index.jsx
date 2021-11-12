@@ -12,6 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import { useMediaQuery } from '@mui/material';
 import patternSrc from '../../assets/images/pattern2.png';
 import './style.scss';
+import { Link } from 'react-router-dom';
 
 const ClassDashboard = () => {
   const [showDrawer, setShowDrawer] = useState(false);
@@ -51,10 +52,12 @@ const ClassDashboard = () => {
             <p>بازخوردها</p>
             <FeedbackIcon />
           </div>
-          <div className={baseClass + '__item'}>
-            <p>صفحه درس</p>
-            <RemoveRedEyeIcon />
-          </div>
+          <Link to="/courses/1234">
+            <div className={baseClass + '__item'}>
+              <p>صفحه درس</p>
+              <RemoveRedEyeIcon />
+            </div>
+          </Link>
         </div>
         <div className={baseClass + '__box-1'}></div>
       </div>
@@ -77,7 +80,11 @@ const ClassDashboard = () => {
       <div className="class-dashboard">
         {renderDrawer(false)}
         <div className="main-content">
-          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repudiandae, unde autem sint, eaque pariatur reiciendis suscipit obcaecati laborum cupiditate dolore nostrum perferendis praesentium ut iure quia inventore natus quo cumque.</p>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repudiandae, unde autem sint, eaque pariatur
+            reiciendis suscipit obcaecati laborum cupiditate dolore nostrum perferendis praesentium ut iure quia
+            inventore natus quo cumque.
+          </p>
         </div>
       </div>
     </Fragment>
