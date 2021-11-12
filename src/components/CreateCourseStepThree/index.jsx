@@ -57,7 +57,9 @@ const validationSchema = yup.object({
 });
 
 function CreateCourseStepThree(props) {
-  console.log(props);
+  const { formData, setFormData, activeStep, setActiveStep } = props;
+  console.log(activeStep);
+  const { tags, price, duration } = formData;
   const [age, setAge] = useState('');
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -66,6 +68,20 @@ function CreateCourseStepThree(props) {
   //   const [personName, setPersonName] = useState([]);
   const [learnings, setLearnings] = useState([{ learningItem: '' }]);
   const [prerequisites, setPrerequisites] = useState([{ prerequisity: '' }]);
+
+  const handleNext = () => {
+    if (price != '' && duration != '' && !/^[0-9]+$/i.test(price) && !/^[0-9]+$/i.test(duration)) {
+      setActiveStep(prevActiveStep => prevActiveStep + 1);
+    }
+  };
+  const handleLast = () => {
+    if (activeStep != 0) {
+      setActiveStep(prevActiveStep => prevActiveStep - 1);
+    } else {
+      setActiveStep(0);
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -176,41 +192,80 @@ function CreateCourseStepThree(props) {
               setFieldValue
               sx={{ mt: 1, fontFamily: 'iranyekan' }}
             >
+              <TextField
+                dir="rtl !important"
+                margin="normal"
+                required
+                fullWidth
+                id="class-name"
+                label="هزینه شرکت در کلاس(تومان)"
+                name="class-price"
+                value={price}
+                error={price == '' || !/^[0-9]+$/i.test(price)}
+                helperText={
+                  price == ''
+                    ? 'پر کردن این فیلد الزامی است '
+                    : '' || !/^[0-9]+$/i.test(price)
+                    ? 'باید مقدار عددی وارد کنید.'
+                    : ''
+                }
+                // className="step-one-input-field"
+                // value={price}
+                onChange={e => {
+                  setFormData(prev => ({ ...prev, price: e.target.value }));
+                }}
+
+                // sx={{ mb: 1 }}
+              />
+              <TextField
+                dir="rtl !important"
+                margin="normal"
+                required
+                fullWidth
+                id="class-name"
+                label="مدت زمان هر جلسه(دقیقه)"
+                name="class-duration"
+                // className="step-one-input-field"
+                //value={formik.values.email}
+                value={duration}
+                onChange={e => {
+                  setFormData(prev => ({ ...prev, duration: e.target.value }));
+                }}
+                error={duration == '' || !/^[0-9]+$/i.test(duration)}
+                helperText={
+                  duration == ''
+                    ? 'پر کردن این فیلد الزامی است '
+                    : '' || !/^[0-9]+$/i.test(duration)
+                    ? 'باید مقدار عددی وارد کنید.'
+                    : ''
+                }
+                sx={{ mb: 1 }}
+              />
               <h3 className="step-two-dynamic-input-title">تگ های درس</h3>
               <p>
                 توجه شود که با انتخاب تگ های مناسب، امکان دیده شدن درس شما و نمایش آن در نتابج جست و جو بیشتر می‌شود
               </p>
 
-              {learnings.map((learnItem, index) => (
+              {tags.map((tag, index) => (
                 <div key={index} className="step-two-dynamic-input-fields">
-                  <IconButton>
-                    <AddIcon
-                      style={{ color: 'green' }}
-                      onClick={() => handleAddLearnings()}
-                      className="step-two-dynamic-input-buttons"
-                    ></AddIcon>
-                  </IconButton>
-                  <IconButton>
-                    <RemoveIcon
-                      style={{ color: 'red' }}
-                      onClick={index => handleRemoveLearnings(index)}
-                      className="step-two-dynamic-input-buttons"
-                    ></RemoveIcon>
-                  </IconButton>
-
-                  {/* {(text = index + 'مورد')} */}
                   <TextField
                     name="learningItem"
                     label={text}
                     variant="outlined"
-                    value={learnItem.learningItem}
+                    value={tag}
                     sx={{ width: { md: '65vmin  ', sm: '65vmin', xs: '90vmin' } }}
-                    onChange={event => handleLearningChange(index, event)}
+                    onChange={e =>
+                      setFormData(prev => {
+                        const newTags = prev.tags;
+                        newTags[index] = e.target.value;
+                        return { ...prev, tags: newTags };
+                      })
+                    }
                   ></TextField>
                 </div>
               ))}
 
-              <h3 className="step-two-dynamic-input-title">سرفصل‌های درس</h3>
+              {/* <h3 className="step-two-dynamic-input-title">سرفصل‌های درس</h3>
               <p sx={{ marginTop: 2 }}>
                 اگر درس شما نظم و برنامه‌ی منظمی داشته باشد، دانش آموزان با آن بهتر ارتباط برقرار می‌کنند و احتمال فروش
                 کلاس شما بیشتر خواهد شد.
@@ -241,7 +296,29 @@ function CreateCourseStepThree(props) {
                     onChange={event => handlePrerequistiesChange(index, event)}
                   ></TextField>
                 </div>
-              ))}
+              ))} */}
+              <div className="steeper-button__holder">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  // component="span"
+                  className="steeper-button"
+                  onClick={handleLast}
+                  disabled={activeStep == 0}
+                >
+                  صفحه‌ی قبل
+                </Button>
+
+                <Button
+                  variant="contained"
+                  color="primary"
+                  // component="span"
+                  className="steeper-button"
+                  onClick={handleNext}
+                >
+                  {activeStep == 2 ? 'پایان' : 'صفحه‌ی بعد'}
+                </Button>
+              </div>
             </Box>
           </Box>
         </Container>

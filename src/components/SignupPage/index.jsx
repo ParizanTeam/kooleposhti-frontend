@@ -25,6 +25,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { ToastContainer, toast } from 'react-toastify';
 import { Helmet } from 'react-helmet';
 import ReactLoading from 'react-loading';
+import validator from "validator";
 import './style.scss';
 
 const cacheRtl = createCache({

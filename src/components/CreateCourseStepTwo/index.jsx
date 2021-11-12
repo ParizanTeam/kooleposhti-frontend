@@ -68,7 +68,10 @@ const validationSchema = yup.object({
 });
 
 function CreateCourseStepTwo(props) {
-  const [age, setAge] = useState('');
+  const { formData, setFormData, activeStep, setActiveStep } = props;
+  console.log(activeStep);
+  const { objectives, capacity, age, startAge, endAge } = formData;
+  const [ageSlider, setAgeSlider] = useState('');
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -77,6 +80,47 @@ function CreateCourseStepTwo(props) {
   //   const [personName, setPersonName] = useState([]);
   const [learnings, setLearnings] = useState([{ learningItem: '' }]);
   const [prerequisites, setPrerequisites] = useState([{ prerequisity: '' }]);
+
+  const handleChange = event => {
+    setAgeSlider(event.target.value);
+    console.log(event.target.value);
+    // setFormData(prev => ({ ...prev, age: event.target.value }));
+    if (event.target.value == '1') {
+      setFormData(prev => ({ ...prev, age: event.target.value, startAge: '4', endAge: '7' }));
+    } else if (event.target.value == '2') {
+      setFormData(prev => ({ ...prev, age: event.target.value, startAge: '7', endAge: '10' }));
+    } else if (event.target.value == '3') {
+      setFormData(prev => ({ ...prev, age: event.target.value, startAge: '10', endAge: '13' }));
+    } else if (event.target.value == '4') {
+      setFormData(prev => ({ ...prev, age: event.target.value, startAge: '13', endAge: '18' }));
+    } else if (event.target.value == '5') {
+      setFormData(prev => ({ ...prev, age: event.target.value, startAge: '4', endAge: '10' }));
+    } else if (event.target.value == '6') {
+      setFormData(prev => ({ ...prev, age: event.target.value, startAge: '10', endAge: '18' }));
+    } else if (event.target.value == '7') {
+      setFormData(prev => ({ ...prev, age: event.target.value, startAge: '4', endAge: '18' }));
+    }
+    // console.log('start is ' + startAge);
+    // console.log('end is ' + endAge);
+  };
+
+  const handleSelectChange = event => {
+    handleChange(event);
+  };
+
+  const handleNext = () => {
+    if (capacity != '' && age != '' && !/^[0-9]+$/i.test(capacity)) {
+      setActiveStep(prevActiveStep => prevActiveStep + 1);
+    }
+  };
+  const handleLast = () => {
+    if (activeStep != 0) {
+      setActiveStep(prevActiveStep => prevActiveStep - 1);
+    } else {
+      setActiveStep(0);
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -123,16 +167,13 @@ function CreateCourseStepTwo(props) {
     validationSchema: validationSchema,
   });
 
-  const handleChange = event => {
-    setAge(event.target.value);
-  };
-
   const handleLearningChange = (index, event) => {
     const values = [...learnings];
     values[index][event.target.name] = event.target.value;
     setLearnings(values);
   };
 
+  console.log('capacity is :' + capacity);
   const handleAddLearnings = () => {
     setLearnings([...learnings, { learningItem: '' }]);
   };
@@ -194,16 +235,23 @@ function CreateCourseStepTwo(props) {
                 fullWidth
                 id="email"
                 label="ظرفیت کلاس"
-                name="email"
-                autoComplete="email"
+                name="capacity"
                 autoFocus
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
+                value={capacity}
+                error={capacity == '' || !/^[0-9]+$/i.test(capacity)}
+                helperText={
+                  capacity == ''
+                    ? 'پر کردن این فیلد الزامی است '
+                    : '' || !/^[0-9]+$/i.test(capacity)
+                    ? 'باید مقدار عددی وارد کنید.'
+                    : ''
+                }
+                onChange={e => {
+                  setFormData(prev => ({ ...prev, capacity: e.target.value }));
+                }}
               />
               <FormControl
-                sx={{ minWidth: 120, width: { md: '65vmin', sm: '65vmin', xs: '92vmin' } }}
+                sx={{ minWidth: 120, width: { md: '67vmin', sm: '65vmin', xs: '92vmin' } }}
                 className="step-two-select-container"
               >
                 <InputLabel id="demo-simple-select-helper-label" margin="normal">
@@ -214,7 +262,9 @@ function CreateCourseStepTwo(props) {
                   id="demo-simple-select-helper"
                   value={age}
                   label="رده سنی"
-                  onChange={handleChange}
+                  name="ageRange"
+                  error={age == ''}
+                  onChange={handleSelectChange}
                   // style={{ margin: '50px' }}
                 >
                   <MenuItem value={1}>بین ۴ تا ۷</MenuItem>
@@ -225,41 +275,33 @@ function CreateCourseStepTwo(props) {
                   <MenuItem value={6}>بین ۱۰ تا ۱۸</MenuItem>
                   <MenuItem value={7}>بین ۴ تا ۱۸</MenuItem>
                 </Select>
-                {/* <FormHelperText>With label + helper text</FormHelperText> */}
+                <FormHelperText style={{ color: '#D32F2F' }}>
+                  {age == '' ? 'باید یک گزینه را انتخاب کنید.' : ''}
+                </FormHelperText>
               </FormControl>
 
               <h3 className="step-two-dynamic-input-title">با شرکت در کلاس شما، چه چیزی یاد می‌گیریم؟</h3>
 
-              {learnings.map((learnItem, index) => (
+              {objectives.map((objective, index) => (
                 <div key={index} className="step-two-dynamic-input-fields">
-                  <IconButton>
-                    <AddIcon
-                      style={{ color: 'green' }}
-                      onClick={() => handleAddLearnings()}
-                      className="step-two-dynamic-input-buttons"
-                    ></AddIcon>
-                  </IconButton>
-                  <IconButton>
-                    <RemoveIcon
-                      style={{ color: 'red' }}
-                      onClick={index => handleRemoveLearnings(index)}
-                      className="step-two-dynamic-input-buttons"
-                    ></RemoveIcon>
-                  </IconButton>
-
-                  {/* {(text = index + 'مورد')} */}
                   <TextField
                     name="learningItem"
                     label={text}
                     variant="outlined"
-                    value={learnItem.learningItem}
-                    sx={{ width: { md: '40vmin  ', sm: '40vmin', xs: '70vmin' } }}
-                    onChange={event => handleLearningChange(index, event)}
+                    value={objective}
+                    sx={{ width: { md: '67vmin  ', sm: '67vmin', xs: '91vmin' } }}
+                    onChange={e =>
+                      setFormData(prev => {
+                        const newObjectives = prev.objectives;
+                        newObjectives[index] = e.target.value;
+                        return { ...prev, objectives: newObjectives };
+                      })
+                    }
                   ></TextField>
                 </div>
               ))}
 
-              <h3 className="step-two-dynamic-input-title">پیش نیازهای شرکت در کلاس</h3>
+              {/* <h3 className="step-two-dynamic-input-title">پیش نیازهای شرکت در کلاس</h3>
 
               {prerequisites.map((prerequisitiesItem, index) => (
                 <div key={index} className="step-two-dynamic-input-fields">
@@ -286,7 +328,29 @@ function CreateCourseStepTwo(props) {
                     onChange={event => handlePrerequistiesChange(index, event)}
                   ></TextField>
                 </div>
-              ))}
+              ))} */}
+              <div className="steeper-button__holder">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  // component="span"
+                  className="steeper-button"
+                  onClick={handleLast}
+                  disabled={activeStep == 0}
+                >
+                  صفحه‌ی قبل
+                </Button>
+
+                <Button
+                  variant="contained"
+                  color="primary"
+                  // component="span"
+                  className="steeper-button"
+                  onClick={handleNext}
+                >
+                  {activeStep == 2 ? 'پایان' : 'صفحه‌ی بعد'}
+                </Button>
+              </div>
             </Box>
           </Box>
         </Container>

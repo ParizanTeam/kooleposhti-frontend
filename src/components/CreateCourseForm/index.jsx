@@ -9,7 +9,6 @@ import createCache from '@emotion/cache';
 import CreateCourseStepOne from '../CreateCourseStepOne';
 import CreateCourseStepTwo from '../CreateCourseStepTwo';
 import CreateCourseStepThree from '../CreateCourseStepThree';
-import { useForm, useStep } from 'react-hooks-helper';
 import './style.scss';
 
 const steps = ['مشخصات کلی کلاس', 'مشخصات شرکت کنندگان', 'مرحله آخر'];
@@ -42,13 +41,18 @@ const defaultData = {
   dates: '',
   description: '',
   courseImage: '',
+  objectives: ['', '', '', ''],
+  tags: ['', '', '', ''],
+  capacity: '',
+  startAge: '',
+  endAge: '',
+  age: '',
 };
 
 // const stepsNew = [{ id: 'مشخصات کلی کلاس' }, { id: 'مشخصات شرکت کنندگان' }, { id: 'مشخصات کلی کلاس' }];
 
 function CreateCourseForm() {
-  const [formData, setFormData] = useForm(defaultData);
-  const classes = useStyles();
+  const [formData, setFormData] = useState(defaultData);
   const [activeStep, setActiveStep] = useState(0);
   // const { step, navigation } = useStep({
   //   stepsNew,
@@ -56,27 +60,6 @@ function CreateCourseForm() {
   // });
   function getSteps() {
     return ['مشخصات کلی کلاس', 'مشخصات شرکت کنندگان', 'مرحله آخر'];
-  }
-
-  // switch (step.id) {
-  //   case 'مشخصات کلی کلاس':
-  //     return <CreateCourseStepOne {...props}></CreateCourseStepOne>;
-  //   case 'مشخصات شرکت کنندگان':
-  //     return <CreateCourseStepTwo {...props}></CreateCourseStepTwo>;
-  //   case 'مرحله آخر':
-  //     return <CreateCourseStepThree {...props}></CreateCourseStepThree>;
-  // }
-
-  function getStepsContent(stepIndex) {
-    const props = { formData, setFormData };
-    switch (stepIndex) {
-      case 0:
-        return <CreateCourseStepOne {...props}></CreateCourseStepOne>;
-      case 1:
-        return <CreateCourseStepTwo {...props}></CreateCourseStepTwo>;
-      case 2:
-        return <CreateCourseStepThree {...props}></CreateCourseStepThree>;
-    }
   }
 
   const steps = getSteps();
@@ -91,6 +74,28 @@ function CreateCourseForm() {
       setActiveStep(0);
     }
   };
+
+  // switch (step.id) {
+  //   case 'مشخصات کلی کلاس':
+  //     return <CreateCourseStepOne {...props}></CreateCourseStepOne>;
+  //   case 'مشخصات شرکت کنندگان':
+  //     return <CreateCourseStepTwo {...props}></CreateCourseStepTwo>;
+  //   case 'مرحله آخر':
+  //     return <CreateCourseStepThree {...props}></CreateCourseStepThree>;
+  // }
+
+  function getStepsContent(stepIndex) {
+    const props = { formData, setFormData, activeStep, setActiveStep };
+    switch (stepIndex) {
+      case 0:
+        return <CreateCourseStepOne {...props}></CreateCourseStepOne>;
+      case 1:
+        return <CreateCourseStepTwo {...props}></CreateCourseStepTwo>;
+      case 2:
+        return <CreateCourseStepThree {...props}></CreateCourseStepThree>;
+    }
+  }
+
   return (
     <CacheProvider value={rtl ? cacheRtl : cacheLtr}>
       <div className="form-holder-main-class">
@@ -107,7 +112,7 @@ function CreateCourseForm() {
           ) : (
             <>
               {getStepsContent(activeStep)}
-              <div className="steeper-button__holder">
+              {/* <div className="steeper-button__holder">
                 <Button
                   variant="contained"
                   color="primary"
@@ -128,7 +133,7 @@ function CreateCourseForm() {
                 >
                   {activeStep == steps.length - 1 ? 'پایان' : 'صفحه‌ی بعد'}
                 </Button>
-              </div>
+              </div> */}
             </>
           )}
         </>

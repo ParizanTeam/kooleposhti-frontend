@@ -16,6 +16,7 @@ import {
   Checkbox,
   ListItemText,
   FormControl,
+  FormHelperText,
   Button,
 } from '@mui/material';
 import DatePicker, { DateObject } from 'react-multi-date-picker';
@@ -72,27 +73,26 @@ const MenuProps = {
 };
 
 const validationSchema = yup.object({
-  email: yup.string('').required('باید حتما ایمیل یا نام کاربریت رو بنویسی تا بتونی وارد بشی.'),
-  password: yup.string('').required('باید حتما رمز عبورت رو بنویسی تا بتونی وارد بشی.'),
+  courseName: yup.string('').required('پر کردن این فیلد الزامی است.'),
+  categoryField: yup.string('').required('پر کردن این فیلد الزامی است.'),
+  datesAndTimes: yup.string('').required('پر کردن این فیلد الزامی است.'),
 });
 
 jMoment.loadPersian({ dialect: 'persian-modern', usePersianDigits: true });
 
-const CreateCourseStepOne = ({ formData, setFormData }) => {
-  // console.log(props);
+const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep }) => {
+  console.log(activeStep);
   const { courseName, category, price, duration, dates, description, courseImage } = formData;
   const [sliderCatergory, setSliderCatergory] = useState('');
-  const [file, setFile] = useState('');
   const handleChangeFile = e => {
-    setFile(URL.createObjectURL(e.target.files[0]));
+    setFormData(prev => ({ ...prev, courseImage: URL.createObjectURL(e.target.files[0]) }));
   };
 
   const handleChange = event => {
     setSliderCatergory(event.target.value);
-    // console.log(sliderCatergory);
-    // category = event.target.value;
-    setFormData({ ...formData, category: sliderCatergory });
-    console.log('category is ' + category);
+    console.log(event.target.value);
+    setFormData(prev => ({ ...prev, category: event.target.value }));
+    // console.log('category is ' + category);
   };
 
   const handleSelectChange = event => {
@@ -101,53 +101,62 @@ const CreateCourseStepOne = ({ formData, setFormData }) => {
 
   const [loading, setLoading] = useState(false);
   const history = useHistory();
-  const [values, setValues] = useState([
-    new DateObject({ calendar: persian, locale: persian_fa }), //امروز,
-    new DateObject({ calendar: persian, locale: persian_fa }).add(1, 'day'), //فردا
-  ]);
   const dispatch = useDispatch();
+  const handleNext = () => {
+    if (courseName != '' && category != '' && dates != '') {
+      setActiveStep(prevActiveStep => prevActiveStep + 1);
+      console.log(dates);
+    }
+    if (dates == '') {
+      toast.error('باید حتما یک تاریخ را انتخاب کنید.');
+    }
+  };
+  const handleLast = () => {
+    if (activeStep != 0) {
+      setActiveStep(prevActiveStep => prevActiveStep - 1);
+    } else {
+      setActiveStep(0);
+    }
+  };
   const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: '',
-    },
-
+    initialValues: { formData },
     onSubmit: async values => {
-      try {
-        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        const isEmail = re.test(String(values.email).toLowerCase());
-        const body = {
-          password: values.password,
-        };
-        if (isEmail) {
-          body.email = values.email;
-        } else {
-          body.username = values.email;
-        }
-        setLoading(true);
-        const res = await axios.post('https://kooleposhti.herokuapp.com/accounts/jwt/create/', body);
-        localStorage.setItem('access_token', res.data.access);
-        localStorage.setItem('refresh_token', res.data.refresh);
-        dispatch(login());
-        setLoading(false);
-        toast.success('با موفقیت وارد شدی.');
-        setTimeout(() => {
-          history.push('/');
-        }, 2000);
-      } catch (error) {
-        setLoading(false);
-        toast.error('نام کاربری یا رمز عبورت اشتباهه!', {
-          position: 'bottom-center',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'dark',
-          className: 'toast-error',
-        });
-      }
+      // try {
+      //   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      //   const isEmail = re.test(String(values.email).toLowerCase());
+      //   const body = {
+      //     password: values.password,
+      //   };
+      //   if (isEmail) {
+      //     body.email = values.email;
+      //   } else {
+      //     body.username = values.email;
+      //   }
+      //   setLoading(true);
+      //   const res = await axios.post('https://kooleposhti.herokuapp.com/accounts/jwt/create/', body);
+      //   localStorage.setItem('access_token', res.data.access);
+      //   localStorage.setItem('refresh_token', res.data.refresh);
+      //   dispatch(login());
+      //   setLoading(false);
+      //   toast.success('با موفقیت وارد شدی.');
+      //   setTimeout(() => {
+      //     history.push('/');
+      //   }, 2000);
+      // } catch (error) {
+      //   setLoading(false);
+      //   toast.error('نام کاربری یا رمز عبورت اشتباهه!', {
+      //     position: 'bottom-center',
+      //     autoClose: 5000,
+      //     hideProgressBar: false,
+      //     closeOnClick: true,
+      //     pauseOnHover: true,
+      //     draggable: true,
+      //     progress: undefined,
+      //     theme: 'dark',
+      //     className: 'toast-error',
+      //   });
+      // }
+      setFormData(values);
     },
     validationSchema: validationSchema,
   });
@@ -187,11 +196,16 @@ const CreateCourseStepOne = ({ formData, setFormData }) => {
                 id="class-name"
                 label="اسم کلاس"
                 name="courseName"
+                // errorText={this.state.errorText}
+                error={courseName == ''}
                 autoFocus
                 // className="step-one-input-field"
                 value={courseName}
+                helperText={courseName == '' ? 'پر کردن این فیلد الزامی است.' : ''}
                 // onChange={formik.handleChange}
-                onChange={setFormData}
+                onChange={e => {
+                  setFormData(prev => ({ ...prev, courseName: e.target.value }));
+                }}
                 // error={formik.touched.email && Boolean(formik.errors.email)}
                 // helperText={formik.touched.email && formik.errors.email}
                 // sx={{ mb: 3 }}
@@ -202,12 +216,14 @@ const CreateCourseStepOne = ({ formData, setFormData }) => {
                   labelId="demo-simple-select-helper-label"
                   id="demo-simple-select-helper"
                   // value={category}
-                  value={sliderCatergory}
+                  value={category}
                   margin="normal"
                   fullWidth
                   label="موضوع"
+                  required
+                  error={category == ''}
                   // sx={{ mb: 1 }}
-
+                  name="categoryField"
                   onChange={handleSelectChange}
                 >
                   <MenuItem value={1}>مد و لباس</MenuItem>
@@ -222,39 +238,11 @@ const CreateCourseStepOne = ({ formData, setFormData }) => {
                   <MenuItem value={10}>مسافرت</MenuItem>
                   <MenuItem value={11}>حیوانات</MenuItem>
                 </Select>
+                <FormHelperText style={{ color: '#D32F2F' }}>
+                  {category == '' ? 'باید یک گزینه را انتخاب کنید.' : ''}
+                </FormHelperText>
               </FormControl>
-              <TextField
-                dir="rtl !important"
-                margin="normal"
-                required
-                fullWidth
-                id="class-name"
-                label="هزینه شرکت در کلاس(تومان)"
-                name="class-price"
-                value={price}
-                // className="step-one-input-field"
-                //value={formik.values.email}
-                onChange={formik.handleChange}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
-                // sx={{ mb: 1 }}
-              />
-              <TextField
-                dir="rtl !important"
-                margin="normal"
-                required
-                fullWidth
-                id="class-name"
-                label="مدت زمان هر جلسه(دقیقه)"
-                name="class-duration"
-                // className="step-one-input-field"
-                //value={formik.values.email}
-                value={duration}
-                onChange={formik.handleChange}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
-                sx={{ mb: 1 }}
-              />
+
               {/* <input id="contained-button-file" type="file" />
               <label htmlFor="contained-button-file">
                 <Button variant="contained" color="primary" component="span">
@@ -269,13 +257,20 @@ const CreateCourseStepOne = ({ formData, setFormData }) => {
                 <DatePicker
                   multiple
                   // render={<InputIcon className="step-one-datePicker" />}
-                  value={values}
-                  onChange={setValues}
+                  value={dates}
+                  onChange={dateObject => {
+                    console.log(dateObject);
+                    setFormData(prev => ({ ...prev, dates: dateObject }));
+                  }}
                   calendar={persian}
                   locale={persian_fa}
                   inputClass="step-one-datePicker"
                   // style={{ width: '100%' }}
                   format="HH:mm:ss | YYYY/MM/DD "
+                  name="datesAndTimes"
+                  minDate={new Date()}
+                  // error={dates == ''}
+                  // helperText={dates == '' ? 'باید حتما یک روز را انتخاب کنید.' : ''}
                   plugins={[<TimePicker position="bottom" />, <DatePanel position="left" />]}
                   calendarPosition="bottom-right"
                   id="calender"
@@ -291,6 +286,10 @@ const CreateCourseStepOne = ({ formData, setFormData }) => {
                 rows={7}
                 fullWidth
                 margin="normal"
+                value={description}
+                onChange={e => {
+                  setFormData(prev => ({ ...prev, description: e.target.value }));
+                }}
               />
 
               <input
@@ -318,17 +317,40 @@ const CreateCourseStepOne = ({ formData, setFormData }) => {
               </label>
               <Grid sx={{ display: 'grid', alignItems: 'center', justifyContent: 'center' }}>
                 <img
-                  src={file}
+                  src={courseImage}
                   style={{
-                    border: file ? '2px solid blue' : '0px',
-                    width: file ? '65vmin' : '0px',
-                    height: file ? '65vmin' : '0px',
-                    display: file ? 'block' : 'none',
+                    border: courseImage ? '2px solid blue' : '0px',
+                    width: courseImage ? '65vmin' : '0px',
+                    height: courseImage ? '65vmin' : '0px',
+                    display: courseImage ? 'block' : 'none',
                     borderRadius: '5px',
                   }}
                   className="step-one-image"
                 />
               </Grid>
+
+              <div className="steeper-button__holder">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  // component="span"
+                  className="steeper-button"
+                  onClick={handleLast}
+                  disabled={activeStep == 0}
+                >
+                  صفحه‌ی قبل
+                </Button>
+
+                <Button
+                  variant="contained"
+                  color="primary"
+                  // component="span"
+                  className="steeper-button"
+                  onClick={handleNext}
+                >
+                  {activeStep == 2 ? 'پایان' : 'صفحه‌ی بعد'}
+                </Button>
+              </div>
             </Box>
           </Box>
         </Container>
