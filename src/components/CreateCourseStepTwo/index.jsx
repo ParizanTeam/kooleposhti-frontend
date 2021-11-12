@@ -69,6 +69,8 @@ const validationSchema = yup.object({
 
 function CreateCourseStepTwo(props) {
   const { formData, setFormData, activeStep, setActiveStep } = props;
+  const [capacityBlured, setCapacityBlured] = useState(false);
+  const [ageRangeBlured, setAgeRangeBlured] = useState(false);
   console.log(activeStep);
   const { objectives, capacity, age, startAge, endAge } = formData;
   const [ageSlider, setAgeSlider] = useState('');
@@ -109,7 +111,9 @@ function CreateCourseStepTwo(props) {
   };
 
   const handleNext = () => {
-    if (capacity != '' && age != '' && !/^[0-9]+$/i.test(capacity)) {
+    setCapacityBlured(true);
+    setAgeRangeBlured(true);
+    if (capacity != '' && age != '' && /^[0-9]+$/i.test(capacity)) {
       setActiveStep(prevActiveStep => prevActiveStep + 1);
     }
   };
@@ -238,11 +242,12 @@ function CreateCourseStepTwo(props) {
                 name="capacity"
                 autoFocus
                 value={capacity}
-                error={capacity == '' || !/^[0-9]+$/i.test(capacity)}
+                onBlur={() => setCapacityBlured(true)}
+                error={(capacity == '' || !/^[0-9]+$/i.test(capacity)) && capacityBlured}
                 helperText={
-                  capacity == ''
+                  capacity == '' && capacityBlured
                     ? 'پر کردن این فیلد الزامی است '
-                    : '' || !/^[0-9]+$/i.test(capacity)
+                    : capacityBlured && !/^[0-9]+$/i.test(capacity)
                     ? 'باید مقدار عددی وارد کنید.'
                     : ''
                 }
@@ -263,7 +268,7 @@ function CreateCourseStepTwo(props) {
                   value={age}
                   label="رده سنی"
                   name="ageRange"
-                  error={age == ''}
+                  error={age == '' && ageRangeBlured}
                   onChange={handleSelectChange}
                   // style={{ margin: '50px' }}
                 >
@@ -276,7 +281,7 @@ function CreateCourseStepTwo(props) {
                   <MenuItem value={7}>بین ۴ تا ۱۸</MenuItem>
                 </Select>
                 <FormHelperText style={{ color: '#D32F2F' }}>
-                  {age == '' ? 'باید یک گزینه را انتخاب کنید.' : ''}
+                  {age == '' && ageRangeBlured ? 'باید یک گزینه را انتخاب کنید.' : ''}
                 </FormHelperText>
               </FormControl>
 
@@ -286,7 +291,9 @@ function CreateCourseStepTwo(props) {
                 <div key={index} className="step-two-dynamic-input-fields">
                   <TextField
                     name="learningItem"
-                    label={text}
+                    label={`هدف ${
+                      index == 0 ? 'اول' : index == 1 ? 'دوم' : index == 2 ? 'سوم' : index == 3 ? 'چهارم' : ''
+                    }`}
                     variant="outlined"
                     value={objective}
                     sx={{ width: { md: '67vmin  ', sm: '67vmin', xs: '91vmin' } }}

@@ -48,7 +48,7 @@ const CoursePage = () => {
       left: 0,
       behavior: 'smooth',
     });
-    axios.get('https://kooleposhti.herokuapp.com/courses/13/').then(res => console.log(res.data));
+    axios.get('https://kooleposhti.herokuapp.com/courses/49/').then(res => console.log(res.data));
   }, []);
 
   return (
