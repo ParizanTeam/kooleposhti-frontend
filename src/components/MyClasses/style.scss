@@ -190,22 +190,9 @@
   }
 }
 .MCmy-footer {
-  padding: 5px;
-  text-align: left;
-  bottom: 0%;
-  width: 25%;
-  color: #fff;
+
   @media (max-width: 600px) {
     width: 80%;
-  }
-  &__phoneNum {
-    font-size: medium;
-    font-weight: bold;
-  }
-  &__media {
-    padding: 20px;
-    width: 60%;
-    text-align: center;
   }
   &__bylove {
     padding: 5px;

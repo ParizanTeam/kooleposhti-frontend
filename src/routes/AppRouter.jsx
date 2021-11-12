@@ -9,10 +9,13 @@ import ResetPasswordPage from '../components/ResetPasswordPage';
 import TeacherDashboard from '../components/TeacherDashboard';
 import ClassSchedule from '../components/ClassSchedule';
 import BookMarkedClasses from '../components/BookMarkedClasses';
-import SearchClasses from '../components/SearchClasses';
 import { Redirect } from 'react-router';
 import StudentProfile from '../components/StudentProfile';
+<<<<<<< HEAD
 import ClassDashboard from '../components/ClassDashboard';
+=======
+import ClassCalendar from '../components/ClassCalendar';
+>>>>>>> 0e475e502600f8c00aab061b79dea1aa15d9ecea
 
 const AppRouter = () => {
   return (
@@ -55,9 +58,9 @@ const AppRouter = () => {
           <Route path="/dashboard/student/" exact>
             <Redirect to="/dashboard/student/Profile" />
           </Route>
-          <Route path="/dashboard/student/Search">
-            <SearchClasses />
-          </Route>
+          <Route path="/dashboard/student/Calendar">
+            <ClassCalendar />
+          </Route>  
           <Route path="/dashboard/student/Profile">
             <StudentProfile />
           </Route>

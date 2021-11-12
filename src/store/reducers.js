@@ -1,12 +1,15 @@
-import { combineReducers } from 'redux';
-
-const initialAuthState = { isAuthenticated: false };
+import {
+  combineReducers
+} from 'redux';
+const initialAuthState = {
+  isAuthenticated: false
+};
 const authReducer = (state = initialAuthState, action) => {
   switch (action.type) {
     case 'LOGIN':
       return {
         isAuthenticated: true,
-        ...action.payload,
+          ...action.payload,
       };
 
     case 'LOGOUT':

@@ -6,6 +6,7 @@ import store from './store/store';
 import './theme/main.scss';
 import IranyekanWoff2 from './assets/fonts/woff2/IRANYekanWebRegular.woff2';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { login } from './store/actions';
 
 const theme = createTheme({
   typography: {
@@ -27,17 +28,23 @@ const theme = createTheme({
   },
 });
 
-
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <React.StrictMode>
-        <Provider store={store}>
-          <AppRouter />
-        </Provider>
-      </React.StrictMode>
-    </ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <React.StrictMode>
+          <Provider store={store}>
+            <AppRouter />
+          </Provider>
+        </React.StrictMode>
+      </ThemeProvider>
   );
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+let token = localStorage.getItem('access_token');
+if (token) {
+  store.dispatch(login()).then(() => {
+    ReactDOM.render(<App />, document.getElementById('root'));
+  });
+} else {
+  ReactDOM.render(<App />, document.getElementById('root'));
+}

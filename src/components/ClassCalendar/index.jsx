@@ -4,20 +4,18 @@ import ClassesSearchBar from './ClassesSearchBar';
 import Categories from '../Categories';
 import MyClassesFooter from '../MyClasses/MyClassesFooter';
 import './style.scss';
+import MyCalendar from '../MyCalendar';
 
-const SearchClasses = () => {
+const ClassCalendar = () => {
   return (
   <div>
     <MyClasses/>
     <br/>
     <div className="afterMyC-b">
-      <ClassesSearchBar />
-      <br/><br/>
-      <div className="CTG">
-      <Categories /></div>
+      <MyCalendar />
     </div>
     <MyClassesFooter />
   </div>
   );
 };
-export default SearchClasses;
+export default ClassCalendar;
