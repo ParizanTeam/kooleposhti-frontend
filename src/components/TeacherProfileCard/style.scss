@@ -25,11 +25,24 @@
     border-radius: 50%;
     background-color: $c-gray-85;
     margin: 16px 0;
+    margin-left: 32px;
 
     img {
       width: 96px;
       height: 96px;
       border-radius: 50%;
+    }
+  }
+
+  &__title-img-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  @media (max-width: 768px) {
+    &__title-img-wrapper {
+      flex-direction: column;
     }
   }
 }
