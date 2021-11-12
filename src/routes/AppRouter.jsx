@@ -11,16 +11,13 @@ import ClassSchedule from '../components/ClassSchedule';
 import BookMarkedClasses from '../components/BookMarkedClasses';
 import { Redirect } from 'react-router';
 import StudentProfile from '../components/StudentProfile';
-<<<<<<< HEAD
-import ClassDashboard from '../components/ClassDashboard';
-=======
 import ClassCalendar from '../components/ClassCalendar';
->>>>>>> 0e475e502600f8c00aab061b79dea1aa15d9ecea
 
 const AppRouter = () => {
   return (
     <Router>
       <Switch>
+
         <Route path="/" exact>
           <HomePage />
         </Route>
@@ -43,17 +40,17 @@ const AppRouter = () => {
         <Route path="/reset-password" exact>
           <ResetPasswordPage />
         </Route>
-        <Route path="/dashboard/class/:classId" exact>
-        <ClassDashboard />
-      </Route>
+
+        
+
 
         {/* student dasgboard classes url */}
         <Switch>
           <Route path="/dashboard/student/Schedule" exact>
-            <ClassSchedule />
+            <ClassSchedule/>
           </Route>
           <Route path="/dashboard/student/Bookmarks" exact>
-            <BookMarkedClasses />
+            <BookMarkedClasses/>
           </Route>
           <Route path="/dashboard/student/" exact>
             <Redirect to="/dashboard/student/Profile" />
@@ -63,16 +60,17 @@ const AppRouter = () => {
           </Route>  
           <Route path="/dashboard/student/Profile">
             <StudentProfile />
-          </Route>
-          <Route path="*">
+          </Route> 
+        <Route path="*">
             <NotFoundPage />
           </Route>
         </Switch>
-
+     
         {/* end student dasgboard classes url */}
+
       </Switch>
 
-      
+
     </Router>
   );
 };
