@@ -82,25 +82,23 @@ const CreateCourseStepOne = ({ formData, setFormData }) => {
   // console.log(props);
   const { courseName, category, price, duration, dates, description, courseImage } = formData;
   const [sliderCatergory, setSliderCatergory] = useState('');
-  const [file, setFile] = useState('');
   const handleChangeFile = e => {
-    setFile(URL.createObjectURL(e.target.files[0]));
+    setFormData(prev => ({ ...prev, courseImage: URL.createObjectURL(e.target.files[0]) }));
   };
 
   const handleChange = event => {
     setSliderCatergory(event.target.value);
-    // console.log(sliderCatergory);
-    // category = event.target.value;
-    // setFormData({ ...formData, [category]: sliderCatergory });
-    console.log('category is ' + category);
+    console.log(event.target.value);
+    setFormData(prev => ({ ...prev, category: event.target.value }));
+    // console.log('category is ' + category);
   };
 
   const [loading, setLoading] = useState(false);
   const history = useHistory();
-  const [values, setValues] = useState([
-    new DateObject({ calendar: persian, locale: persian_fa }), //امروز,
-    new DateObject({ calendar: persian, locale: persian_fa }).add(1, 'day'), //فردا
-  ]);
+  // const [values, setValues] = useState([
+  //   new DateObject({ calendar: persian, locale: persian_fa }), //امروز,
+  //   new DateObject({ calendar: persian, locale: persian_fa }).add(1, 'day'), //فردا
+  // ]);
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
@@ -187,7 +185,9 @@ const CreateCourseStepOne = ({ formData, setFormData }) => {
                 // className="step-one-input-field"
                 value={courseName}
                 // onChange={formik.handleChange}
-                onChange={setFormData}
+                onChange={e => {
+                  setFormData(prev => ({ ...prev, courseName: e.target.value }));
+                }}
                 // error={formik.touched.email && Boolean(formik.errors.email)}
                 // helperText={formik.touched.email && formik.errors.email}
                 // sx={{ mb: 3 }}
@@ -198,7 +198,7 @@ const CreateCourseStepOne = ({ formData, setFormData }) => {
                   labelId="demo-simple-select-helper-label"
                   id="demo-simple-select-helper"
                   // value={category}
-                  value={sliderCatergory}
+                  value={category}
                   margin="normal"
                   fullWidth
                   label="موضوع"
@@ -265,8 +265,11 @@ const CreateCourseStepOne = ({ formData, setFormData }) => {
                 <DatePicker
                   multiple
                   // render={<InputIcon className="step-one-datePicker" />}
-                  value={values}
-                  onChange={setValues}
+                  value={dates}
+                  onChange={dateObject => {
+                    console.log(dateObject);
+                    setFormData(prev => ({ ...prev, dates: dateObject }));
+                  }}
                   calendar={persian}
                   locale={persian_fa}
                   inputClass="step-one-datePicker"
@@ -314,12 +317,12 @@ const CreateCourseStepOne = ({ formData, setFormData }) => {
               </label>
               <Grid sx={{ display: 'grid', alignItems: 'center', justifyContent: 'center' }}>
                 <img
-                  src={file}
+                  src={courseImage}
                   style={{
-                    border: file ? '2px solid blue' : '0px',
-                    width: file ? '65vmin' : '0px',
-                    height: file ? '65vmin' : '0px',
-                    display: file ? 'block' : 'none',
+                    border: courseImage ? '2px solid blue' : '0px',
+                    width: courseImage ? '65vmin' : '0px',
+                    height: courseImage ? '65vmin' : '0px',
+                    display: courseImage ? 'block' : 'none',
                     borderRadius: '5px',
                   }}
                   className="step-one-image"

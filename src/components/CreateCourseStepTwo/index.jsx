@@ -68,6 +68,8 @@ const validationSchema = yup.object({
 });
 
 function CreateCourseStepTwo(props) {
+  const { formData, setFormData } = props;
+  const { objectives } = formData;
   const [age, setAge] = useState('');
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -230,36 +232,26 @@ function CreateCourseStepTwo(props) {
 
               <h3 className="step-two-dynamic-input-title">با شرکت در کلاس شما، چه چیزی یاد می‌گیریم؟</h3>
 
-              {learnings.map((learnItem, index) => (
+              {objectives.map((objective, index) => (
                 <div key={index} className="step-two-dynamic-input-fields">
-                  <IconButton>
-                    <AddIcon
-                      style={{ color: 'green' }}
-                      onClick={() => handleAddLearnings()}
-                      className="step-two-dynamic-input-buttons"
-                    ></AddIcon>
-                  </IconButton>
-                  <IconButton>
-                    <RemoveIcon
-                      style={{ color: 'red' }}
-                      onClick={index => handleRemoveLearnings(index)}
-                      className="step-two-dynamic-input-buttons"
-                    ></RemoveIcon>
-                  </IconButton>
-
-                  {/* {(text = index + 'مورد')} */}
                   <TextField
                     name="learningItem"
                     label={text}
                     variant="outlined"
-                    value={learnItem.learningItem}
-                    sx={{ width: { md: '40vmin  ', sm: '40vmin', xs: '70vmin' } }}
-                    onChange={event => handleLearningChange(index, event)}
+                    value={objective}
+                    sx={{ width: { md: '65vmin  ', sm: '65vmin', xs: '90vmin' } }}
+                    onChange={e =>
+                      setFormData(prev => {
+                        const newObjectives = prev.objectives;
+                        newObjectives[index] = e.target.value;
+                        return { ...prev, objectives: newObjectives };
+                      })
+                    }
                   ></TextField>
                 </div>
               ))}
 
-              <h3 className="step-two-dynamic-input-title">پیش نیازهای شرکت در کلاس</h3>
+              {/* <h3 className="step-two-dynamic-input-title">پیش نیازهای شرکت در کلاس</h3>
 
               {prerequisites.map((prerequisitiesItem, index) => (
                 <div key={index} className="step-two-dynamic-input-fields">
@@ -286,7 +278,7 @@ function CreateCourseStepTwo(props) {
                     onChange={event => handlePrerequistiesChange(index, event)}
                   ></TextField>
                 </div>
-              ))}
+              ))} */}
             </Box>
           </Box>
         </Container>

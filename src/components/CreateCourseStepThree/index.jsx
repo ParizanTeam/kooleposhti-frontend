@@ -57,7 +57,8 @@ const validationSchema = yup.object({
 });
 
 function CreateCourseStepThree(props) {
-  console.log(props);
+  const { formData, setFormData } = props;
+  const { tags } = formData;
   const [age, setAge] = useState('');
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -181,36 +182,26 @@ function CreateCourseStepThree(props) {
                 توجه شود که با انتخاب تگ های مناسب، امکان دیده شدن درس شما و نمایش آن در نتابج جست و جو بیشتر می‌شود
               </p>
 
-              {learnings.map((learnItem, index) => (
+              {tags.map((tag, index) => (
                 <div key={index} className="step-two-dynamic-input-fields">
-                  <IconButton>
-                    <AddIcon
-                      style={{ color: 'green' }}
-                      onClick={() => handleAddLearnings()}
-                      className="step-two-dynamic-input-buttons"
-                    ></AddIcon>
-                  </IconButton>
-                  <IconButton>
-                    <RemoveIcon
-                      style={{ color: 'red' }}
-                      onClick={index => handleRemoveLearnings(index)}
-                      className="step-two-dynamic-input-buttons"
-                    ></RemoveIcon>
-                  </IconButton>
-
-                  {/* {(text = index + 'مورد')} */}
                   <TextField
                     name="learningItem"
                     label={text}
                     variant="outlined"
-                    value={learnItem.learningItem}
+                    value={tag}
                     sx={{ width: { md: '65vmin  ', sm: '65vmin', xs: '90vmin' } }}
-                    onChange={event => handleLearningChange(index, event)}
+                    onChange={e =>
+                      setFormData(prev => {
+                        const newTags = prev.tags;
+                        newTags[index] = e.target.value;
+                        return { ...prev, tags: newTags };
+                      })
+                    }
                   ></TextField>
                 </div>
               ))}
 
-              <h3 className="step-two-dynamic-input-title">سرفصل‌های درس</h3>
+              {/* <h3 className="step-two-dynamic-input-title">سرفصل‌های درس</h3>
               <p sx={{ marginTop: 2 }}>
                 اگر درس شما نظم و برنامه‌ی منظمی داشته باشد، دانش آموزان با آن بهتر ارتباط برقرار می‌کنند و احتمال فروش
                 کلاس شما بیشتر خواهد شد.
@@ -241,7 +232,7 @@ function CreateCourseStepThree(props) {
                     onChange={event => handlePrerequistiesChange(index, event)}
                   ></TextField>
                 </div>
-              ))}
+              ))} */}
             </Box>
           </Box>
         </Container>

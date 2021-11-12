@@ -9,7 +9,6 @@ import createCache from '@emotion/cache';
 import CreateCourseStepOne from '../CreateCourseStepOne';
 import CreateCourseStepTwo from '../CreateCourseStepTwo';
 import CreateCourseStepThree from '../CreateCourseStepThree';
-import { useForm, useStep } from 'react-hooks-helper';
 import './style.scss';
 
 const steps = ['مشخصات کلی کلاس', 'مشخصات شرکت کنندگان', 'مرحله آخر'];
@@ -42,12 +41,14 @@ const defaultData = {
   dates: '',
   description: '',
   courseImage: '',
+  objectives: ['', '', '', ''],
+  tags: ['', '', '', ''],
 };
 
 // const stepsNew = [{ id: 'مشخصات کلی کلاس' }, { id: 'مشخصات شرکت کنندگان' }, { id: 'مشخصات کلی کلاس' }];
 
 function CreateCourseForm() {
-  const [formData, setFormData] = useForm(defaultData);
+  const [formData, setFormData] = useState(defaultData);
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   // const { step, navigation } = useStep({
