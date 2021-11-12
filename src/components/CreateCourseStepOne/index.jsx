@@ -91,8 +91,12 @@ const CreateCourseStepOne = ({ formData, setFormData }) => {
     setSliderCatergory(event.target.value);
     // console.log(sliderCatergory);
     // category = event.target.value;
-    // setFormData({ ...formData, [category]: sliderCatergory });
+    setFormData({ ...formData, category: sliderCatergory });
     console.log('category is ' + category);
+  };
+
+  const handleSelectChange = event => {
+    handleChange(event);
   };
 
   const [loading, setLoading] = useState(false);
@@ -204,7 +208,7 @@ const CreateCourseStepOne = ({ formData, setFormData }) => {
                   label="موضوع"
                   // sx={{ mb: 1 }}
 
-                  onChange={handleChange}
+                  onChange={handleSelectChange}
                 >
                   <MenuItem value={1}>مد و لباس</MenuItem>
                   <MenuItem value={2}>زیبایی</MenuItem>
