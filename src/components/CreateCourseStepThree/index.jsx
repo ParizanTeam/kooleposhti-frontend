@@ -39,6 +39,7 @@ import { Helmet } from 'react-helmet';
 import ReactLoading from 'react-loading';
 import './style.scss';
 import { margin } from '@mui/system';
+import apiInstance from '../../utils/axiosConfig';
 
 const cacheRtl = createCache({
   key: 'muirtl',
@@ -71,15 +72,12 @@ function CreateCourseStepThree(props) {
   const [learnings, setLearnings] = useState([{ learningItem: '' }]);
   const [prerequisites, setPrerequisites] = useState([{ prerequisity: '' }]);
 
-  const handleNext = () => {
+  const handleNext = async () => {
     // console.log(formData);
     setPriceBlured(true);
     setDurationBlured(true);
     console.log(localStorage.getItem('access_token'));
     if (price != '' && duration != '' && /^[0-9]+$/i.test(price) && /^[0-9]+$/i.test(duration)) {
-      const headers = {
-        Authorization: 'JWT ' + localStorage.getItem('access_token'),
-      };
       const data = {
         category: formData.category,
         duration: formData.duration,
@@ -96,11 +94,46 @@ function CreateCourseStepThree(props) {
           start_time: `${date.hour}:${date.minute}`,
         })),
       };
-      console.log(data);
-
-      axios
-        .post('https://kooleposhti.herokuapp.com/courses/', data, { headers: headers })
-        .then(res => console.log(res));
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      // const data = new FormData();
+      // data.append('category', formData.category);
+      // data.append('duration', formData.duration);
+      // data.append('price', formData.price);
+      // data.append('tags', JSON.stringify(formData.tags.map(tag => ({ name: tag })).filter(tag => tag.name != '')));
+      // data.append(
+      //   'goals',
+      //   JSON.stringify(
+      //     formData.objectives.map(objective => ({ text: objective })).filter(objective => objective.text != '')
+      //   )
+      // );
+      // data.append('description', formData.description);
+      // data.append('title', formData.courseName);
+      // data.append('min_age', formData.startAge);
+      // data.append('max_age', formData.endAge);
+      // data.append('max_students', formData.capacity);
+      // data.append(
+      //   'sessions',
+      //   JSON.stringify(
+      //     formData.dates.map(date => ({
+      //       date: `${date.year}-${date.month}-${date.day}`,
+      //       start_time: `${date.hour}:${date.minute}`,
+      //     }))
+      //   )
+      // );
+      // data.append('image', formData.image);
+      // console.log(data);
+      const imageData = new FormData();
+      imageData.append('image', formData.image);
+      let id;
+      await apiInstance.post('https://kooleposhti.herokuapp.com/courses/', data).then(res => {
+        console.log(res);
+        id = res.data.id;
+      });
+      apiInstance.patch(`https://kooleposhti.herokuapp.com/courses/${id}/`, imageData, {
+        headers,
+      });
     }
   };
   const handleLast = () => {

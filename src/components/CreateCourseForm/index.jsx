@@ -47,6 +47,7 @@ const defaultData = {
   startAge: '',
   endAge: '',
   age: '',
+  image: null,
 };
 
 // const stepsNew = [{ id: 'مشخصات کلی کلاس' }, { id: 'مشخصات شرکت کنندگان' }, { id: 'مشخصات کلی کلاس' }];

@@ -51,12 +51,13 @@ jMoment.loadPersian({ dialect: 'persian-modern', usePersianDigits: true });
 
 const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep }) => {
   console.log(activeStep);
-  const { courseName, category, price, duration, dates, description, courseImage } = formData;
+  const { courseName, category, image, price, duration, dates, description, courseImage } = formData;
   const [courseNameBlured, setCourseNameBlured] = useState(false);
   const [categoryBlured, setCategoryBlured] = useState(false);
   const [datePickerBlured, setDatePickerBlured] = useState(false);
   const handleChangeFile = e => {
     setFormData(prev => ({ ...prev, courseImage: URL.createObjectURL(e.target.files[0]) }));
+    setFormData(prev => ({ ...prev, image: e.target.files[0] }));
   };
 
   const handleChange = event => {
