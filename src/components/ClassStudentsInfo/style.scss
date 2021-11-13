@@ -1,0 +1,32 @@
+@import '/src/theme/main.scss';
+
+.student-info-form__close-icon {
+  color: red;
+  border: 2px solid red;
+  border-radius: 5px;
+}
+
+.student-info-form__close-icon:hover {
+  color: rgb(126, 12, 12);
+  cursor: pointer;
+  border: 2px solid rgb(190, 13, 13);
+  border-radius: 5px;
+}
+
+.student-info-table-container {
+  padding-right: 20px !important;
+  padding-left: 10px !important;
+}
+
+.student-info-table {
+  border: 1px solid #184e67;
+  box-shadow: 5px 5px 10px;
+  margin: 10px;
+  //   padding: 10px !important;
+}
+
+td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-alignCenter.MuiTableCell-sizeMedium.course-student-info-table__image-holder.muirtl-1ozjs9z-MuiTableCell-root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
