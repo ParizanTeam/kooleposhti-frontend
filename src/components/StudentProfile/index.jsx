@@ -2,16 +2,9 @@ import Pro from './Pro';
 import ProBar from './Pro/ProBar';
 import ComeBack from '../../assets/images/StudentProfile/ComeBack.png';
 
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
-import {
-  Button,
-  TextField,
-  Grid,
-  Box,
-  Typography,
-  Container,
-} from '@mui/material';
+import { Button, TextField, Grid, Box, Typography, Container } from '@mui/material';
 import { Link } from 'react-router-dom';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { CacheProvider } from '@emotion/react';
@@ -22,60 +15,37 @@ import FormData from 'form-data';
 import { Formik } from 'formik';
 import profile_1 from '../../assets/images/StudentProfile/UsreIcon.png';
 import './style.scss';
-import axios from 'axios';
+import axios from '../../utils/axiosConfig';
+import { baseUrl } from '../../utils/constants';
+import { login } from '../../store/actions';
 
 import Navbar from '../Navbar';
 
 import FormDialog from '../InfoDialog';
+import { useDispatch, useSelector } from 'react-redux';
+import ReactLoading from 'react-loading';
 
 function SProfile(props) {
   const [validateAfterSubmit, setValidateAfterSubmit] = useState(false);
-  const [apiResponse, setApiResponse] = useState(false);
   const [values, setValues] = useState({});
   const [loading, setLoading] = useState(false);
   const [binaryFile, setBinaryFile] = useState(null);
-  const [student_data, setteacherData] = useState({});
-
-
-
-  const token = 'JWT ' + localStorage.getItem('access_token');
-  console.log(token);
-
-  useEffect(() => {
-    async function fetchData(){
-      const res = await axios
-      .get(
-        'https://kooleposhti.herokuapp.com/accounts/instructors/me/',
-        {
-          headers: {
-            Authorization: token,
-            'Content-Type': 'application/json',
-          },
-        }
-      )
-      .then(response => {
-        console.log("get response: ",response);
-        setteacherData(response.data);
-        setFile(response.data.image.image);
-        
-      })
-      .catch(err => {
-        console.log('error: ', err);
-      });
-    }
-    fetchData();
-  }, []);
+  const userData = useSelector(state => state.auth);
+  const dispatch = useDispatch();
+  // setFile(response.data.image.image);
+  console.log(userData);
 
   const [file, setFile] = useState(profile_1);
   console.log(file);
 
   const handleChange = e => {
     setFile(URL.createObjectURL(e.target.files[0]));
-    console.log(e.target.files[0]);
-    /*console.log('picture', picture);*/
-    /*setBinaryFile(picture);*/
-  };
 
+    let picture = e.target.files[0];
+    console.log('picture', picture);
+    setBinaryFile(picture);
+
+  };
   const cacheRtl = createCache({
     key: 'muirtl',
 
@@ -84,7 +54,7 @@ function SProfile(props) {
     prepend: true,
   });
 
-  console.log(student_data.username);
+  console.log(userData.username);
   return (
     <CacheProvider value={cacheRtl}>
       <div dir="rtl">
@@ -103,10 +73,14 @@ function SProfile(props) {
               fontFamily: 'iranyekan',
             }}
           >
-            <Typography component="h2" variant="Button" sx={{ color: 'rgb(122, 0, 71);' ,fontSize:{sm:"3vmin" , xs:"4vmin"}}}>
+            <Typography
+              component="h2"
+              variant="Button"
+              sx={{ color: 'rgb(122, 0, 71);', fontSize: { sm: '3vmin', xs: '4vmin' } }}
+            >
               ویرایش حساب کاربری
             </Typography>
-            <Avatar src={file} alt="profile" sx={{mt: 1, width:"auto", height:"18vmin", borderRadius: '50%' }} />
+            <Avatar src={file} alt="profile" sx={{ mt: 1, width: 'auto', height: '18vmin', borderRadius: '50%' }} />
 
             <Button
               variant="contained"
@@ -122,39 +96,36 @@ function SProfile(props) {
             <Formik
               enableReinitialize={true}
               initialValues={{
-                username: student_data.username ,
-                email: student_data.email,
-                password: student_data.password,
-                first_name: student_data.first_name ,
-                last_name: student_data.last_name ,
-                phone_no: student_data.phone_no  ,
+                username: userData.username,
+                email: userData.email,
+                password: userData.password,
+                first_name: userData.first_name,
+                last_name: userData.last_name,
+                phone_no: userData.phone_no,
               }}
               onSubmit={async values => {
                 try {
                   setLoading(true);
 
-                  console.log(token);
                   console.log('pass: ', document.getElementById('password').value);
                   console.log('binary file', binaryFile);
 
                   const formdata = new FormData();
-                  
-                  const data = {... values , "image.image":binaryFile};
-                  formdata.append('username',values.username);
-                  formdata.append('email',values.email);
-                  formdata.append('first_name',values.first_name);
-                  formdata.append('last_name',values.last_name);
-                  formdata.append('password',values.password);
+
+                  const data = { ...values, 'image.image': binaryFile };
+                  formdata.append('username', values.username);
+                  formdata.append('email', values.email);
+                  formdata.append('first_name', values.first_name);
+                  formdata.append('last_name', values.last_name);
+                  formdata.append('password', values.password);
                   formdata.append('phone_no', values.phone_no);
 
                   formdata.append('image.image', binaryFile);
                   console.log('form data', formdata);
-                  
 
                   axios
-                    .put('https://kooleposhti.herokuapp.com/accounts/instructors/me/', formdata, {
+                    .put(`${baseUrl}/accounts/students/me/`, formdata, {
                       headers: {
-                        Authorization: token,
                         'Content-Type': 'application/json',
                       },
                     })
@@ -171,10 +142,11 @@ function SProfile(props) {
                         theme: 'dark',
                       });
                       setLoading(false);
+                      dispatch(login());
                     })
                     .catch(err => {
                       setLoading(false);
-                      console.log('error');
+                      console.log('error: ',err.response);
                       toast.error('شرمنده یه بار دیگه امتحان کن !!!', {
                         position: 'bottom-center',
                         autoClose: 5000,
@@ -239,116 +211,124 @@ function SProfile(props) {
                 return error;
               }}
             >
-            {({ handleSubmit, handleChange, setFieldValue, values, errors, handleBlur }) => (
-            <Box component="form" noValidate sx={{ mt: 3 }}
-            id="profile-form"
-            onSubmit={e => {
-              e.preventDefault();
-              setValidateAfterSubmit(true);
-              handleSubmit();
-            }}>
-              <Grid container spacing={2}>
-                <Grid item sm={6} xs={12}>
-                  <TextField
-                    value={values.first_name}
-                    InputLabelProps={{ shrink: values.first_name }}
-                    autoComplete="given-name"
-                    name="first_name"
-                    fullWidth
-                    id="first_name"
-                    label="نام "
-                    autoFocus
-                    onChange={handleChange}
-                    helperText={validateAfterSubmit ? errors.first_name : null}
-                    error={Boolean(errors.first_name)}
-                  />
-                </Grid>
-                <Grid item sm={6} xs={12}>
-                  <TextField
-                    autoComplete="given-name"
-                    InputLabelProps={{ shrink: values.last_name }}
-                    name="last_name"
-                    fullWidth
-                    id="last_name"
-                    label="نام خانوادگی"
-                    value={values.last_name}
-                    onChange={handleChange}
-                    helperText={validateAfterSubmit ? errors.last_name : null}
-                    error={Boolean(errors.last_name)}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                   value={values.username}
-                   InputLabelProps={{ shrink: values.username }}
-                   autoComplete="given-name"
-                   name="username"
-                   required
-                   fullWidth
-                   id="username"
-                   label="نام کاربری"
-                   onChange={handleChange}
-                   helperText={validateAfterSubmit ? errors.username : null}
-                   error={Boolean(errors.username)}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField 
-                  required
-                  InputLabelProps={{ shrink: values.email }}
-                  fullWidth
-                  id="email"
-                  label="ایمیل"
-                  name="email"
-                  autoComplete="email"
-                  value={values.email}
-                  onChange={handleChange}
-                  helperText={validateAfterSubmit ? errors.email : null}
-                  error={Boolean(errors.email)}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    name="password"
-                    InputLabelProps={{ shrink: values.password }}
-                    label="رمز عبور جدید"
-                    type="password"
-                    id="password"
-                    autoComplete="new-password"
-                    value={values.password}
-                    onChange={handleChange}
-                    helperText={validateAfterSubmit ? errors.password : null}
-                    error={Boolean(errors.password)}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField 
-                  fullWidth
-                  InputLabelProps={{ shrink: values.phone_no }}
-                  name="phone_no"
-                  label="شماره موبایل"
-                  type="phone"
-                  id="phone_no"
-                  value={values.phone_no}
-                  onChange={handleChange}
-                  helperText={validateAfterSubmit ? errors.phone_no : null}
-                  error={Boolean(errors.phone_no)}
-                  />
-                </Grid>
-              </Grid>
-
-              <Grid item>
-                <Button
-                  fullWidth
-                  type="submit"
-                  variant="contained"
-                  sx={{ mt: 3, backgroundColor: 'rgb(122, 0, 71); !important' }}
+              {({ handleSubmit, handleChange, setFieldValue, values, errors, handleBlur }) => (
+                <Box
+                  component="form"
+                  noValidate
+                  sx={{ mt: 3 }}
+                  id="profile-form"
+                  onSubmit={e => {
+                    e.preventDefault();
+                    setValidateAfterSubmit(true);
+                    handleSubmit();
+                  }}
                 >
-                  تایید
-                </Button>
-              </Grid>
-            </Box>)}
+                  <Grid container spacing={2}>
+                    <Grid item sm={6} xs={12}>
+                      <TextField
+                        value={values.first_name}
+                        InputLabelProps={{ shrink: values.first_name }}
+                        autoComplete="given-name"
+                        name="first_name"
+                        fullWidth
+                        id="first_name"
+                        label="نام "
+                        autoFocus
+                        onChange={handleChange}
+                        helperText={validateAfterSubmit ? errors.first_name : null}
+                        error={Boolean(errors.first_name)}
+                      />
+                    </Grid>
+                    <Grid item sm={6} xs={12}>
+                      <TextField
+                        autoComplete="given-name"
+                        InputLabelProps={{ shrink: values.last_name }}
+                        name="last_name"
+                        fullWidth
+                        id="last_name"
+                        label="نام خانوادگی"
+                        value={values.last_name}
+                        onChange={handleChange}
+                        helperText={validateAfterSubmit ? errors.last_name : null}
+                        error={Boolean(errors.last_name)}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        value={values.username}
+                        InputLabelProps={{ shrink: values.username }}
+                        autoComplete="given-name"
+                        name="username"
+                        required
+                        fullWidth
+                        id="username"
+                        label="نام کاربری"
+                        onChange={handleChange}
+                        helperText={validateAfterSubmit ? errors.username : null}
+                        error={Boolean(errors.username)}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        required
+                        InputLabelProps={{ shrink: values.email }}
+                        fullWidth
+                        id="email"
+                        label="ایمیل"
+                        name="email"
+                        autoComplete="email"
+                        value={values.email}
+                        onChange={handleChange}
+                        helperText={validateAfterSubmit ? errors.email : null}
+                        error={Boolean(errors.email)}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        fullWidth
+                        name="password"
+                        InputLabelProps={{ shrink: values.password }}
+                        label="رمز عبور جدید"
+                        type="password"
+                        id="password"
+                        autoComplete="new-password"
+                        value={values.password}
+                        onChange={handleChange}
+                        helperText={validateAfterSubmit ? errors.password : null}
+                        error={Boolean(errors.password)}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        fullWidth
+                        InputLabelProps={{ shrink: values.phone_no }}
+                        name="phone_no"
+                        label="شماره موبایل"
+                        type="phone"
+                        id="phone_no"
+                        value={values.phone_no}
+                        onChange={handleChange}
+                        helperText={validateAfterSubmit ? errors.phone_no : null}
+                        error={Boolean(errors.phone_no)}
+                      />
+                    </Grid>
+                  </Grid>
+
+                  <Grid item>
+                    <Button
+                      fullWidth
+                      type="submit"
+                      variant="contained"
+                      sx={{ mt: 3, backgroundColor: 'rgb(122, 0, 71); !important' }}
+                      typeof="submit"
+                    >
+                      {loading ? <ReactLoading type="bubbles" color="#fff" className="loading-signup" />
+                      : <span>تایید</span>}
+
+                    </Button>
+                  </Grid>
+                </Box>
+              )}
             </Formik>
           </Box>
         </Container>
@@ -357,27 +337,26 @@ function SProfile(props) {
   );
 }
 
-
 const StudentProfile = () => {
   return (
     <div>
-      <FormDialog/>
-    <Navbar color="#7a0047"/>
-    <div className='mainPro'>
-        <div className='RightBar'>
+      <FormDialog />
+      <Navbar color="#7a0047" />
+      <div className="mainPro">
+        <div className="RightBar">
           <ProBar />
           <Pro />
           <Link to="/">
-          <div className='PB'>
-          <img src={ComeBack} alt="PB" className='PB__media'/>
-          <span className='PB__content'>برگردیم خونه؟</span>
-        </div></Link>
+            <div className="PB">
+              <img src={ComeBack} alt="PB" className="PB__media" />
+              <span className="PB__content">برگردیم خونه؟</span>
+            </div>
+          </Link>
         </div>
-        <div className='Forms'>
-            <SProfile/>
+        <div className="Forms">
+          <SProfile />
         </div>
-      
-    </div>
+      </div>
     </div>
   );
 };
