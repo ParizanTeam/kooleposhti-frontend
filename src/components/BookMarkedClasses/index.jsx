@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Keyboard } from 'swiper/core';
 import CourseCard from '../CourseCard';
 import { useMobile } from '../../utils/detectSource';
-import { coursesData } from '../CourseSlider/coursesData';
+import { coursesData } from './coursesData.js';
 import 'swiper/swiper-bundle.min.css';
 import './style.scss';
 import MyClassesFooter from '../MyClasses/MyClassesFooter';

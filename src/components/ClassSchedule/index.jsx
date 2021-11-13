@@ -1,14 +1,13 @@
 //import { useMobile } from '../../utils/detectSource';
 import MyClasses from '../MyClasses';
 import React from 'react';
-import CourseSlider from '../CourseSlider';
 import MyClassesFooter from '../MyClasses/MyClassesFooter';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Keyboard } from 'swiper/core';
 import CourseCard from '../CourseCard';
 import { useMobile } from '../../utils/detectSource';
-import { coursesData } from '../CourseSlider/coursesData';
+import { coursesData } from './coursesData';
 import 'swiper/swiper-bundle.min.css';
 import './style.scss';
 
