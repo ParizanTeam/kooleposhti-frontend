@@ -60,6 +60,8 @@ function CreateCourseStepThree(props) {
   const { formData, setFormData, activeStep, setActiveStep } = props;
   console.log(activeStep);
   const { tags, price, duration } = formData;
+  const [priceBlured, setPriceBlured] = useState(false);
+  const [durationBlured, setDurationBlured] = useState(false);
   const [age, setAge] = useState('');
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -70,8 +72,35 @@ function CreateCourseStepThree(props) {
   const [prerequisites, setPrerequisites] = useState([{ prerequisity: '' }]);
 
   const handleNext = () => {
-    if (price != '' && duration != '' && !/^[0-9]+$/i.test(price) && !/^[0-9]+$/i.test(duration)) {
-      setActiveStep(prevActiveStep => prevActiveStep + 1);
+    // console.log(formData);
+    setPriceBlured(true);
+    setDurationBlured(true);
+    console.log(localStorage.getItem('access_token'));
+    if (price != '' && duration != '' && /^[0-9]+$/i.test(price) && /^[0-9]+$/i.test(duration)) {
+      const headers = {
+        Authorization: 'JWT ' + localStorage.getItem('access_token'),
+      };
+      const data = {
+        category: formData.category,
+        duration: formData.duration,
+        price: formData.price,
+        tags: formData.tags.map(tag => ({ name: tag })).filter(tag => tag.name != ''),
+        goals: formData.objectives.map(objective => ({ text: objective })).filter(objective => objective.text != ''),
+        description: formData.description,
+        title: formData.courseName,
+        min_age: formData.startAge,
+        max_age: formData.endAge,
+        max_students: formData.capacity,
+        sessions: formData.dates.map(date => ({
+          date: `${date.year}-${date.month}-${date.day}`,
+          start_time: `${date.hour}:${date.minute}`,
+        })),
+      };
+      console.log(data);
+
+      axios
+        .post('https://kooleposhti.herokuapp.com/courses/', data, { headers: headers })
+        .then(res => console.log(res));
     }
   };
   const handleLast = () => {
@@ -200,12 +229,14 @@ function CreateCourseStepThree(props) {
                 id="class-name"
                 label="هزینه شرکت در کلاس(تومان)"
                 name="class-price"
+                autoFocus
                 value={price}
-                error={price == '' || !/^[0-9]+$/i.test(price)}
+                onBlur={() => setPriceBlured(true)}
+                error={(price == '' || !/^[0-9]+$/i.test(price)) && priceBlured}
                 helperText={
-                  price == ''
+                  price == '' && priceBlured
                     ? 'پر کردن این فیلد الزامی است '
-                    : '' || !/^[0-9]+$/i.test(price)
+                    : priceBlured && !/^[0-9]+$/i.test(price)
                     ? 'باید مقدار عددی وارد کنید.'
                     : ''
                 }
@@ -228,14 +259,15 @@ function CreateCourseStepThree(props) {
                 // className="step-one-input-field"
                 //value={formik.values.email}
                 value={duration}
+                onBlur={() => setDurationBlured(true)}
                 onChange={e => {
                   setFormData(prev => ({ ...prev, duration: e.target.value }));
                 }}
-                error={duration == '' || !/^[0-9]+$/i.test(duration)}
+                error={(duration == '' || !/^[0-9]+$/i.test(duration)) && durationBlured}
                 helperText={
-                  duration == ''
+                  duration == '' && durationBlured
                     ? 'پر کردن این فیلد الزامی است '
-                    : '' || !/^[0-9]+$/i.test(duration)
+                    : durationBlured && !/^[0-9]+$/i.test(duration)
                     ? 'باید مقدار عددی وارد کنید.'
                     : ''
                 }
@@ -252,6 +284,9 @@ function CreateCourseStepThree(props) {
                     name="learningItem"
                     label={text}
                     variant="outlined"
+                    label={`تگ ${
+                      index == 0 ? 'اول' : index == 1 ? 'دوم' : index == 2 ? 'سوم' : index == 3 ? 'چهارم' : ''
+                    }`}
                     value={tag}
                     sx={{ width: { md: '65vmin  ', sm: '65vmin', xs: '90vmin' } }}
                     onChange={e =>
