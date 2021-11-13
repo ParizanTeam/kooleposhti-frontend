@@ -109,7 +109,7 @@ function CreateCourseStepTwo(props) {
   };
 
   const handleNext = () => {
-    if (capacity != '' && age != '' && !/^[0-9]+$/i.test(capacity)) {
+    if (capacity != '' && age != '' && /^[0-9]+$/i.test(capacity)) {
       setActiveStep(prevActiveStep => prevActiveStep + 1);
     }
   };
