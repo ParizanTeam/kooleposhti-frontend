@@ -63,7 +63,6 @@ function ClassStudentInfo(props) {
         .catch(err => {
           console.log('error: ', err);
         });
-      //   const delRes = await apiInstance.put(`https://kooleposhti.herokuapp.com/courses/36/delete-student/1/`);
     }
     fetchData();
   }, []);
@@ -96,8 +95,8 @@ function ClassStudentInfo(props) {
     },
   }));
 
-  function createData(id, img, studentName) {
-    return { id, img, studentName };
+  function createData(img, studentName, email, id) {
+    return { img, studentName, email, id };
   }
 
   //ask why
@@ -106,28 +105,34 @@ function ClassStudentInfo(props) {
   studentsInfo.forEach(item => {
     rows.push(
       createData(
-        item.id,
         <Avatar src={item.image} alt="profile" sx={{ height: '0', width: '7vmin', borderRadius: '50%' }} />,
-        item.username
+        item.username,
+        item.email,
+        item.id
       )
     );
   });
 
-  const DeleteStudent = inputRow => {
+  const DeleteStudent = async inputRow => {
+    console.log('hello world');
     setConfirmDialog({ ...confirmDialog, isOpen: false });
-    console.log(inputRow);
-    async function fetchData() {
-      const delRes = await apiInstance
-        .put(`https://kooleposhti.herokuapp.com/courses/${courseId}/delete-student/${inputRow.id}/`)
-        .then(response => {
-          console.log('get response: ', response);
-          const updatedTable = studentsInfo.filter(row => row != inputRow);
-          setStudentsInfo(updatedTable);
-        })
-        .catch(err => {
-          console.log('error: ', err);
-        });
-    }
+    console.log('row before is: ' + inputRow);
+    console.log('students info before: ' + studentsInfo);
+    // async function fetchData() {
+    const delRes = await apiInstance
+      .put(`https://kooleposhti.herokuapp.com/courses/${courseId}/delete-student/${inputRow.id}/`)
+      .then(response => {
+        console.log('get response: ', response);
+        console.log(inputRow.id);
+        const updatedTable = studentsInfo.filter(row => row.id != inputRow.id);
+        setStudentsInfo(updatedTable);
+        console.log(studentsInfo);
+        console.log(updatedTable);
+      })
+      .catch(err => {
+        console.log('error: ', err);
+      });
+    // }
     // const updatedTable = studentsInfo.filter(row => row != inputRow);
     // setStudentsInfo(updatedTable);
   };
@@ -158,25 +163,27 @@ function ClassStudentInfo(props) {
                       align="center"
                       sx={{ fontSize: 14, backgroundColor: 'rgba(10, 67, 94, 0.942)', color: 'white' }}
                     >
-                      آیدی دانش‌آموز
+                      عکس دانش‌آموز
                     </StyledTableCell>
-                    <StyledTableCell align="center">عکس دانش‌آموز</StyledTableCell>
                     <StyledTableCell align="center">اسم دانش‌آموز</StyledTableCell>
+                    <StyledTableCell align="center">ایمیل دانش‌آموز</StyledTableCell>
                     <StyledTableCell align="center">حذف دانش‌آموز</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {rows.map(row => (
-                    <StyledTableRow key={row.subject}>
-                      <StyledTableCell align="center">{row.id}</StyledTableCell>
+                    <StyledTableRow key={row.id}>
                       <StyledTableCell align="center" className="course-student-info-table__image-holder">
                         {row.img}
                       </StyledTableCell>
                       <StyledTableCell align="center">{row.studentName}</StyledTableCell>
+                      <StyledTableCell align="center">{row.email}</StyledTableCell>
                       <StyledTableCell align="center">
                         {/* ask why */}
                         <CloseIcon
                           onClick={() => {
+                            console.log('hahahah');
+                            console.log(row.id);
                             //   DeleteStudent(row);
                             setConfirmDialog({
                               isOpen: true,

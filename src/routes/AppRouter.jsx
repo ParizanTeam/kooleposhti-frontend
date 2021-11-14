@@ -43,6 +43,9 @@ const AppRouter = () => {
         <Route path="/class/:courseId/students" exact>
           <ClassStudentInfo></ClassStudentInfo>
         </Route>
+        <Route path="/edit-course/:courseId">
+          <CreateCourseForm />
+        </Route>
         <Route path="*">
           <NotFoundPage />
         </Route>

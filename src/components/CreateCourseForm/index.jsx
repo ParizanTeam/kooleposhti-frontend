@@ -9,9 +9,10 @@ import createCache from '@emotion/cache';
 import CreateCourseStepOne from '../CreateCourseStepOne';
 import CreateCourseStepTwo from '../CreateCourseStepTwo';
 import CreateCourseStepThree from '../CreateCourseStepThree';
+import { useParams } from 'react-router';
 import './style.scss';
 
-const steps = ['مشخصات کلی کلاس', 'مشخصات شرکت کنندگان', 'مرحله آخر'];
+const steps = ['صفحه‌ی اول', 'صفحه‌ی دوم', 'صفحه‌ی آخر'];
 //const classes = useStyle();
 
 const useStyles = makeStyles({
@@ -53,37 +54,18 @@ const defaultData = {
 // const stepsNew = [{ id: 'مشخصات کلی کلاس' }, { id: 'مشخصات شرکت کنندگان' }, { id: 'مشخصات کلی کلاس' }];
 
 function CreateCourseForm() {
+  const params = useParams();
+  console.log(params.courseId);
+  const courseId = params.courseId;
+
   const [formData, setFormData] = useState(defaultData);
   const [activeStep, setActiveStep] = useState(0);
-  // const { step, navigation } = useStep({
-  //   stepsNew,
-  //   initialStep: 0,
-  // });
+  
   function getSteps() {
     return ['مشخصات کلی کلاس', 'مشخصات شرکت کنندگان', 'مرحله آخر'];
   }
 
   const steps = getSteps();
-
-  const handleNext = () => {
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
-  };
-  const handleLast = () => {
-    if (activeStep != 0) {
-      setActiveStep(prevActiveStep => prevActiveStep - 1);
-    } else {
-      setActiveStep(0);
-    }
-  };
-
-  // switch (step.id) {
-  //   case 'مشخصات کلی کلاس':
-  //     return <CreateCourseStepOne {...props}></CreateCourseStepOne>;
-  //   case 'مشخصات شرکت کنندگان':
-  //     return <CreateCourseStepTwo {...props}></CreateCourseStepTwo>;
-  //   case 'مرحله آخر':
-  //     return <CreateCourseStepThree {...props}></CreateCourseStepThree>;
-  // }
 
   function getStepsContent(stepIndex) {
     const props = { formData, setFormData, activeStep, setActiveStep };
