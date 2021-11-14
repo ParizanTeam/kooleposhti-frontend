@@ -7,10 +7,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Box, ButtonGroup, Button, ClickAwayListener, BackdropUnstyled } from '@mui/material';
 import { coursesData } from '../CourseSlider/coursesData';
 import './style.scss';
+import {navbarProps} from './constants'
 
-const Tags = () => {
-  return <div>hey</div>;
-};
+
 
 export default function SearchBar({ onClose }) {
   return (
@@ -30,7 +29,7 @@ export default function SearchBar({ onClose }) {
             zIndex: '25',
           }}
         >
-          <IconButton type="submit" sx={{ p: '10px', color: '#fd576c' }} aria-label="search">
+          <IconButton type="submit" sx={{ p: '10px', color: navbarProps.baseColor }} aria-label="search">
             <SearchIcon />
           </IconButton>
           <InputBase
@@ -38,32 +37,11 @@ export default function SearchBar({ onClose }) {
             placeholder="چی میخوای یاد بگیری؟"
             inputProps={{ 'aria-label': 'سرچ دوره ها' }}
           />
-          <IconButton onClick={onClose} sx={{ p: '10px', color: '#fd576c' }} aria-label="search">
+          <IconButton onClick={onClose} sx={{ p: '10px', color: navbarProps.baseColor }} aria-label="search">
             <CloseIcon />
           </IconButton>
 
         </Paper>
-        {/* <Box
-          sx={{
-            backgroundColor:"white",
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            width: '100%',
-            marginTop: '122px',
-            position: 'fixed',
-            zIndex: '25',
-            '& > *': {
-              m: 1,
-            },
-          }}
-        >
-          <ButtonGroup variant="text" aria-label="text button group">
-            <Button>همه</Button>
-            <Button>دروس</Button>
-            <Button>مدرسین</Button>
-          </ButtonGroup>
-        </Box> */}
 
       </div>
     </ClickAwayListener>

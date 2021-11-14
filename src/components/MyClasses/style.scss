@@ -1,0 +1,245 @@
+@import '/src/theme/main.scss';
+
+.My{
+    position: absolute;
+    width: 100%;
+    margin-top: 65px;
+    @media (max-width: 600px) {
+        margin-top: 62px;
+    }
+}
+.Head{
+    position: absolute;
+    width: 100%;
+    box-shadow: rgb(241, 196, 154) 0px 1px 4px;
+    &__content{
+        color: rgb(224, 89, 35);
+        font-size: x-large;
+        font-weight: 700;
+        margin-right: 18%;
+        margin-top: 120px;
+    }
+}
+.HeadSub{
+    display:flex;
+    flex-direction: row;
+    text-align: center;
+    margin-inline-start: 16%;
+    @media (max-width: 600px) {
+        margin-inline-start: 1%;
+    }
+    &__Ia{
+        margin-top: 6px;
+        height: 50px;
+        border-top-right-radius: 30%;
+        border-top-left-radius: 50%;
+        width: 25%;
+        text-align: center;
+        font-size: large;
+        font-weight: 700;
+        color: rgb(255, 255, 255);
+        background-color:orangered;
+        &:hover {
+            margin-top: 0px;
+            height: 56px;
+        }
+    @media (max-width: 600px) {
+        width: 33%;
+    }
+    &__cont{
+        text-align: center;
+        font-size: large;
+        font-weight: 700;
+        color: rgb(255, 255, 255);
+        position: relative;
+        line-height: 50px;
+        display: block;
+        @media (max-width: 800px) {
+            display: none;
+        }
+    }
+    &__cont-b{
+        color: rgb(255, 255, 255);
+        position: relative;
+        line-height: 54px;
+        font-size: medium;
+        display: none;
+        @media (max-width: 800px) {
+            display: block;
+        }
+    }
+    }
+    &__Ib{
+        margin-top: 6px;
+        height: 50px;
+        border-top-right-radius: 50%;
+        border-top-left-radius: 30%;
+        width: 25%;
+        text-align: center;
+        font-size: large;
+        font-weight: 700;
+        color: rgb(255, 255, 255);
+        background-color:red;
+        &:hover {
+            margin-top: 0px;
+            height: 56px;
+        }
+    @media (max-width: 600px) {
+        width: 33%;
+    }
+    &__cont{
+        text-align: center;
+        font-size: large;
+        font-weight: 700;
+        color: rgb(255, 255, 255);
+        position: relative;
+        line-height: 50px;
+        display: block;
+        @media (max-width: 800px) {
+            display: none;
+        }
+    }
+    &__cont-b{
+        color: rgb(255, 255, 255);
+        position: relative;
+        line-height: 54px;
+        font-size: medium;
+        display: none;
+        @media (max-width: 800px) {
+            display: block;
+        }
+    }
+    }
+    &__Ic{
+        margin-top: 6px;
+        height: 50px;
+        border-top-right-radius: 50%;
+        border-top-left-radius: 50%;
+        width: 25%;
+        text-align: center;
+        font-size: large;
+        font-weight: 800;
+        color: rgb(255, 51, 0);
+        background-color:rgb(251, 255, 0);
+        &:hover {
+            margin-top: 0px;
+            height: 56px;
+        }
+    @media (max-width: 600px) {
+        width: 33%;
+    }
+    &__cont{
+        text-align: center;
+        font-size: large;
+        font-weight: 800;
+        color: rgb(255, 51, 0);
+        position: relative;
+        line-height: 50px;
+        display: block;
+        @media (max-width: 800px) {
+            display: none;
+        }
+    }
+    &__cont-b{
+        position: relative;
+        line-height: 54px;
+        font-size: medium;
+        display: none;
+        color: rgb(255, 51, 0);
+        @media (max-width: 800px) {
+            display: block;
+        }
+    }
+    }
+    
+    &__ClickedOnMe{
+        font-size: xx-large;
+        font-weight: 900;
+        display:flex;
+        flex-direction: row;
+        text-align: center;
+        margin-top: 37px;
+        @media (max-width: 600px) {
+            margin-inline-start: 1%;
+        }
+        color: brown;
+        &__a{
+            color: brown;
+            margin-inline-start: 25%;
+            display: block;
+            @media (max-width: 600px) {
+                margin-inline-start: 14%;
+            }
+        }
+        &__b{
+            margin-inline-start: 47%;
+            display: none;
+            @media (max-width: 600px) {
+                margin-inline-start: 28%;
+            }
+        }
+        &__c{
+            margin-inline-start: 68%;
+            display: none;
+            @media (max-width: 600px) {
+                margin-inline-start: 27%;
+            }
+        }
+    }
+}
+
+@keyframes beat {
+  to {
+    transform: scale(1.4);
+  }
+}
+.MCmy-footer {
+
+  @media (max-width: 600px) {
+    width: 80%;
+  }
+  &__bylove {
+    padding: 5px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(104, 16, 16);
+    font-weight: 700;
+  }
+  &__content {
+    padding: 20px;
+    font-size: 20px;
+    font-weight: 800;
+    text-align: center;
+    @media (max-width: 600px) {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    &__s {
+      bottom: auto;
+      font-size: medium;
+      font-weight: bold;
+      text-align: center;
+    }
+    &__h {
+      color: rgb(231, 3, 3);
+      padding: 8px;
+      bottom: auto;
+      font-size: x-large;
+      animation: beat 0.25s infinite alternate;
+    }
+  }
+}
+
+.MCappbarWrapperforfooter {
+    background-color: #ffffff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 40' width='80' height='40'%3E%3Cpath fill='%23faa28b' fill-opacity='0.41' d='M0 40a19.96 19.96 0 0 1 5.9-14.11 20.17 20.17 0 0 1 19.44-5.2A20 20 0 0 1 20.2 40H0zM65.32.75A20.02 20.02 0 0 1 40.8 25.26 20.02 20.02 0 0 1 65.32.76zM.07 0h20.1l-.08.07A20.02 20.02 0 0 1 .75 5.25 20.08 20.08 0 0 1 .07 0zm1.94 40h2.53l4.26-4.24v-9.78A17.96 17.96 0 0 0 2 40zm5.38 0h9.8a17.98 17.98 0 0 0 6.67-16.42L7.4 40zm3.43-15.42v9.17l11.62-11.59c-3.97-.5-8.08.3-11.62 2.42zm32.86-.78A18 18 0 0 0 63.85 3.63L43.68 23.8zm7.2-19.17v9.15L62.43 2.22c-3.96-.5-8.05.3-11.57 2.4zm-3.49 2.72c-4.1 4.1-5.81 9.69-5.13 15.03l6.61-6.6V6.02c-.51.41-1 .85-1.48 1.33zM17.18 0H7.42L3.64 3.78A18 18 0 0 0 17.18 0zM2.08 0c-.01.8.04 1.58.14 2.37L4.59 0H2.07z'%3E%3C/path%3E%3C/svg%3E");
+    overflow: hidden;
+    text-align: center;
+    box-shadow: rgba(241, 212, 148, 0.5) 0px 2px 10px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin-bottom: 0px;
+}
