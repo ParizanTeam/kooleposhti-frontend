@@ -1,7 +1,7 @@
 export const getDate = date => {
     const JDate = require('jalali-date');
     const jdate = new JDate;
-    return new Date(jdate.getFullYear(), jdate.getMonth(), jdate.getDate());
+    return new Date(jdate.getFullYear(), jdate.getMonth()-1, jdate.getDate());
 };
 
 export const checkDate = date =>

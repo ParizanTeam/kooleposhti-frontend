@@ -32,6 +32,7 @@ export default class Monthly extends React.Component {
 
   returnCalendar() {
     let calendar = getCalendarMonth(this.props.month, this.props.year);
+    console.log("Calender2: ",calendar)
     calendar = getEventsForCalendar(this.props.events, calendar);
     if (Array.isArray(calendar) && calendar.length) {
       return calendar.map((week, i) => {

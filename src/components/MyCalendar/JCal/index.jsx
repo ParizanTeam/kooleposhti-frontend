@@ -28,7 +28,7 @@ class Calendar extends React.PureComponent {
     this.state = {
       mode: monthlyMode,
       day: currentDate.getDate(),
-      month: currentDate.getMonth(),
+      month: currentDate.getMonth()-1,
       year: currentDate.getFullYear(),
     };
     this.onClickDay = this.onClickDay.bind(this);
