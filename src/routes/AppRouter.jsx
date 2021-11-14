@@ -46,19 +46,19 @@ const AppRouter = () => {
 
         {/* student dasgboard classes url */}
         <Switch>
-          <Route path="/dashboard/student/Schedule" exact>
+          <Route path="/dashboard/student/schedule" exact>
             <ClassSchedule/>
           </Route>
-          <Route path="/dashboard/student/Bookmarks" exact>
+          <Route path="/dashboard/student/bookmarks" exact>
             <BookMarkedClasses/>
           </Route>
           <Route path="/dashboard/student/" exact>
-            <Redirect to="/dashboard/student/Profile" />
+            <Redirect to="/dashboard/student/profile" />
           </Route>
-          <Route path="/dashboard/student/Calendar">
+          <Route path="/dashboard/student/calendar">
             <ClassCalendar />
           </Route>  
-          <Route path="/dashboard/student/Profile">
+          <Route path="/dashboard/student/profile">
             <StudentProfile />
           </Route> 
         <Route path="*">

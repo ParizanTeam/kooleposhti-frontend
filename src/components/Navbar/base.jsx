@@ -28,26 +28,31 @@ import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import CastForEducationIcon from '@mui/icons-material/CastForEducation';
+
 
 //Redux
-import { useSelector,useDispatch  } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../store/actions';
-
 
 import { navbarProps } from './constants';
 const LogoutBtn = () => {
   const dispatch = useDispatch();
   return useMobile ? (
     <div style={{ marginBottom: '5 px' }}>
-    <Button onClick={()=>dispatch(logout())} style={{ color: '#000', width: '100%', justifyContent: 'flex-start', padding: '16px' }} variant="text">
-      <Logout style={{ color: navbarProps.baseColor }} />
-      <span style={{ marginRight: '5px' }}>خروج</span>
-    </Button>
-  </div>
-
+      <Button
+        onClick={() => dispatch(logout())}
+        style={{ color: '#000', width: '100%', justifyContent: 'flex-start', padding: '16px' }}
+        variant="text"
+      >
+        <Logout style={{ color: navbarProps.baseColor }} />
+        <span style={{ marginRight: '5px' }}>خروج</span>
+      </Button>
+    </div>
   ) : (
-    <MenuItem onClick={()=>dispatch(logout())}>
-      <ListItemIcon >
+    <MenuItem onClick={() => dispatch(logout())}>
+      <ListItemIcon>
         <Logout style={{ color: navbarProps.baseColor }} fontSize="small" />
       </ListItemIcon>
       خروج
@@ -57,22 +62,26 @@ const LogoutBtn = () => {
 export const MyClasses = () => {
   return (
     <>
-      <RightBtn Icon={SchoolIcon} text="کلاس‌های من" linkTo="/classes" />
+      <RightBtn Icon={SchoolIcon} text="کلاس‌های من" linkTo="/dashboard/student/Schedule" />
     </>
   );
 };
 export const ProfileMenu = props => {
   const username = useSelector(state => state.auth.username);
+  let role = useSelector(state => state.auth.roles)[0];
+  if(role=="instructor")
+    role="teacher"
+  console.log("role: ",role)
   const profileMenuItems = {
     student: [
-      { icon: <FavoriteBorder style={{ color: navbarProps.baseColor }} fontSize="small" />, label: 'علاقمندی‌هام' },
-      { icon: <CalendarToday style={{ color: navbarProps.baseColor }} fontSize="small" />, label: 'برنامه کلاس‌هام' },
-      { icon: <ForumOutlinedIcon style={{ color: navbarProps.baseColor }} fontSize="small" />, label: 'گفت‌وگو ها' },
+      { icon: FavoriteBorder, label: 'علاقمندی‌هام', to: '/dashboard/student/bookmarks' },
+      { icon: CalendarToday, label: 'برنامه کلاس‌هام', to: '/dashboard/student/calendar' },
+      { icon: ForumOutlinedIcon, label: 'گفت‌وگو ها', to: '#' },
     ],
     teacher: [
-      { icon: <FavoriteBorder style={{ color: navbarProps.baseColor }} fontSize="small" />, label: 'علاقمندی‌هام' },
-      { icon: <CalendarToday style={{ color: navbarProps.baseColor }} fontSize="small" />, label: 'برنامه کلاس‌هام' },
-      { icon: <ForumOutlinedIcon style={{ color: navbarProps.baseColor }} fontSize="small" />, label: 'گفت‌وگو ها' },
+      { icon: CastForEducationIcon, label: 'کلاس ها', to: '/dashboard/teacher/classes' },
+      { icon: AccountBalanceIcon, label: 'کیف پول', to: '/dashboard/teacher/wallet' },
+      { icon: ForumOutlinedIcon, label: 'گفت‌وگو ها', to: '#' },
     ],
   };
 
@@ -116,13 +125,15 @@ export const ProfileMenu = props => {
             disableScrollLock={true}
           >
             <MenuItem>
-              <Avatar component={Link} to="/dashboard/student/Profile" sx={{ width: 30, height: 30, ml: '15px' }} />
+              <Avatar component={Link} to={`/dashboard/${role}/profile`} sx={{ width: 30, height: 30, ml: '15px' }} />
               {username}
             </MenuItem>
             <Divider />
-            {profileMenuItems['student'].map((item, i) => (
-              <MenuItem key={i}>
-                <ListItemIcon>{item.icon}</ListItemIcon>
+            {profileMenuItems[role].map((item, i) => (
+              <MenuItem key={i} component={Link} to={item.to}>
+                <ListItemIcon>
+                  <item.icon style={{ color: navbarProps.baseColor }} fontSize="small" />
+                </ListItemIcon>
                 {item.label}
               </MenuItem>
             ))}
@@ -136,9 +147,9 @@ export const ProfileMenu = props => {
             {username}
           </MenuItem>
           <Divider />
-          <MenuButton Icon={FavoriteBorder} text="علاقمندی‌هام" linkTo="/students/" />
-          <MenuButton Icon={CalendarToday} text="برنامه کلاس‌هام" linkTo="/students/" />
-          <MenuButton Icon={ForumOutlinedIcon} text="گفت‌و‌گو ها" linkTo="/students/" />
+          {profileMenuItems[role].map((item, i) => (
+            <MenuButton Icon={item.icon} text={item.label} linkTo={item.to} />
+          ))}
           <Divider style={{ marginTop: '20 px' }} />
           <MenuButton Icon={HelpIcon} text="راهنما" linkTo="/help" />
           <LogoutBtn />
