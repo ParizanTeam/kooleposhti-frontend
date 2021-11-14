@@ -25,7 +25,7 @@ import { Formik } from 'formik';
 import profile_1 from '../../assets/images/profile_2.png';
 import ReactLoading from 'react-loading';
 import './style.scss';
-import axios from 'axios';
+import axios from '../../utils/axiosConfig';
 
 function DashboardTeacherProfile(props) {
   const [validateAfterSubmit, setValidateAfterSubmit] = useState(false);
@@ -35,36 +35,31 @@ function DashboardTeacherProfile(props) {
   const [binaryFile, setBinaryFile] = useState(null);
   const [teacher_data, setteacherData] = useState({});
 
-
-
   const token = 'JWT ' + localStorage.getItem('access_token');
   console.log(token);
 
   useEffect(() => {
-    async function fetchData(){
+    async function fetchData() {
       const res = await axios
-      .get(
-        'https://kooleposhti.herokuapp.com/accounts/instructors/me/',
-        {
+        .get('https://kooleposhti.herokuapp.com/accounts/instructors/me/', {
           headers: {
             Authorization: token,
             'Content-Type': 'application/json',
           },
-        }
-      )
-      .then(response => {
-        console.log("get response: ",response);
-        setteacherData(response.data);
-        setFile(response.data.image.image);
-        
-      })
-      .catch(err => {
-        console.log('error: ', err);
-      });
+        })
+        .then(response => {
+          console.log('get response: ', response);
+          setteacherData(response.data);
+          if (response.data.image.image !== null || response.data.image.image !== undefined) {
+            setFile(response.data.image.image);
+          }
+        })
+        .catch(err => {
+          console.log('error: ', err);
+        });
     }
     fetchData();
   }, []);
-
 
   const [file, setFile] = useState(profile_1);
   console.log(file);
@@ -75,7 +70,6 @@ function DashboardTeacherProfile(props) {
     let picture = e.target.files[0];
     console.log('picture', picture);
     setBinaryFile(picture);
-
   };
 
   const cacheRtl = createCache({
@@ -128,12 +122,12 @@ function DashboardTeacherProfile(props) {
             <Formik
               enableReinitialize={true}
               initialValues={{
-                username: teacher_data.username ,
+                username: teacher_data.username,
                 email: teacher_data.email,
                 password: teacher_data.password,
-                first_name: teacher_data.first_name ,
-                last_name: teacher_data.last_name ,
-                phone_no: teacher_data.phone_no  ,
+                first_name: teacher_data.first_name,
+                last_name: teacher_data.last_name,
+                phone_no: teacher_data.phone_no,
               }}
               onSubmit={async values => {
                 try {
@@ -144,18 +138,17 @@ function DashboardTeacherProfile(props) {
                   console.log('binary file', binaryFile);
 
                   const formdata = new FormData();
-                  
-                  const data = {... values , "image.image":binaryFile};
-                  formdata.append('username',values.username);
-                  formdata.append('email',values.email);
-                  formdata.append('first_name',values.first_name);
-                  formdata.append('last_name',values.last_name);
-                  formdata.append('password',values.password);
+
+                  const data = { ...values, 'image.image': binaryFile };
+                  formdata.append('username', values.username);
+                  formdata.append('email', values.email);
+                  formdata.append('first_name', values.first_name);
+                  formdata.append('last_name', values.last_name);
+                  formdata.append('password', values.password);
                   formdata.append('phone_no', values.phone_no);
 
                   formdata.append('image.image', binaryFile);
                   console.log('form data', formdata);
-                  
 
                   axios
                     .put('https://kooleposhti.herokuapp.com/accounts/instructors/me/', formdata, {

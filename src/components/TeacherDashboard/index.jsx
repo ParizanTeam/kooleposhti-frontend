@@ -53,62 +53,6 @@ function TeacherDashboard(props) {
         history.push(`/dashboard/teacher/${tabs[4]}`);
       },
     },
-    {
-      text: 'کلاس ها',
-      icon: <SignupIcon />,
-      onClick: () => {
-        history.push(`/dashboard/teacher/${tabs[1]}`);
-      },
-    },
-    {
-      text: 'کیف پول',
-      icon: <LoginIcon />,
-      onClick: () => {
-        history.push(`/dashboard/teacher/${tabs[2]}`);
-      },
-    },
-    {
-      text: 'دریافت ها',
-      icon: <LoginIcon />,
-      onClick: () => {
-        history.push(`/dashboard/teacher/${tabs[3]}`);
-      },
-    },
-    {
-      text: 'حساب بانکی',
-      icon: <SignupIcon />,
-      onClick: () => {
-        history.push(`/dashboard/teacher/${tabs[4]}`);
-      },
-    },
-    {
-      text: 'کلاس ها',
-      icon: <SignupIcon />,
-      onClick: () => {
-        history.push(`/dashboard/teacher/${tabs[1]}`);
-      },
-    },
-    {
-      text: 'کیف پول',
-      icon: <LoginIcon />,
-      onClick: () => {
-        history.push(`/dashboard/teacher/${tabs[2]}`);
-      },
-    },
-    {
-      text: 'دریافت ها',
-      icon: <LoginIcon />,
-      onClick: () => {
-        history.push(`/dashboard/teacher/${tabs[3]}`);
-      },
-    },
-    {
-      text: 'حساب بانکی',
-      icon: <SignupIcon />,
-      onClick: () => {
-        history.push(`/dashboard/teacher/${tabs[4]}`);
-      },
-    },
   ];
 
   const profile = (
