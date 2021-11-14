@@ -72,7 +72,6 @@ const LoginPage = () => {
         const res = await axios.post('https://kooleposhti.herokuapp.com/accounts/jwt/create/', body);
         localStorage.setItem('access_token', res.data.access);
         localStorage.setItem('refresh_token', res.data.refresh);
-        dispatch(login());
         setLoading(false);
         toast.success('با موفقیت وارد شدی.');
         apiInstance
@@ -80,7 +79,8 @@ const LoginPage = () => {
           .then(res => {
             setTimeout(() => {
               console.log(res);
-              if (res.data.roles[0] == 'instructor') {
+              dispatch(login());
+              if (res.data.roles[0] === 'instructor') {
                 history.push('/dashboard/teacher');
               } else {
                 history.push('/dashboard/student');
