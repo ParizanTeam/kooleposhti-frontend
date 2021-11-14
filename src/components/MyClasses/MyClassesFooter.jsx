@@ -4,7 +4,7 @@ const MyClassesFooter = () => {
   return (
     <div
       className="MCappbarWrapperforfooter"
-      style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+      style={{ justifyContent: 'center', alignItems: 'center' }}
     >
 
       <div className="MCmy-footer__bylove">
