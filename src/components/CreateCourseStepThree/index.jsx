@@ -141,22 +141,27 @@ function CreateCourseStepThree(props) {
           headers,
         });
       } else {
+        setLoading(true);
         await apiInstance
           .post('https://kooleposhti.herokuapp.com/courses/', data)
           .then(res => {
             console.log(res);
             id = res.data.id;
+            toast.success('دوره با موفقیت ایجاد شد.');
+            setTimeout(() => {
+              history.replace('/dashboard/teacher/classes');
+              setLoading(false);
+            }, 2000);
           })
           .catch(err => console.log(err));
         apiInstance
           .patch(`https://kooleposhti.herokuapp.com/courses/${id}/`, imageData, {
             headers,
           })
-          .then(() => {
-            toast.success('دوره با موفقیت ایجاد شد.');
-            history.replace('/dashboard/teacher/classes');
-          })
-          .catch(err => console.log(err));
+          .catch(err => {
+            console.log(err);
+            setLoading(false);
+          });
       }
     }
   };
@@ -408,7 +413,8 @@ function CreateCourseStepThree(props) {
                   className="steeper-button"
                   onClick={handleNext}
                 >
-                  {activeStep == 2 ? 'پایان' : 'صفحه‌ی بعد'}
+                  {loading && <ReactLoading className="create-loading" />}
+                  {!loading && (activeStep == 2 ? 'پایان' : 'صفحه‌ی بعد')}
                 </Button>
               </div>
             </Box>

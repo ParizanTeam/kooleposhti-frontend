@@ -17,7 +17,9 @@ const TeacherProfileCard = ({ instructor }) => {
             {instructor.title && <p className="teacher-profile__title">{instructor.title}</p>}
           </div>
           <a href="">
-            <div className="teacher-profile__avatar">{instructor.image && <img src={instructor.image} alt="" />}</div>
+            <div className="teacher-profile__avatar">
+              {instructor.image && <img src={instructor.image.image} alt="" />}
+            </div>
           </a>
         </div>
         {instructor.description && (

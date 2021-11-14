@@ -87,8 +87,8 @@ function DashboardTeacherClasses(props) {
     },
   }));
 
-  function createData(img, subject, start_date, end_date, capacity , edit) {
-    return { img, subject, start_date, end_date, capacity , edit };
+  function createData(img, subject, start_date, end_date, capacity, edit) {
+    return { img, subject, start_date, end_date, capacity, edit };
   }
 
   const rows = [];
@@ -96,17 +96,19 @@ function DashboardTeacherClasses(props) {
     rows.push(
       createData(
         <Link to={`/courses/${item.id}`}>
-        <Avatar
-          src={'https://kooleposhti.herokuapp.com' + item.image}
-          alt="profile"
-          sx={{ height: '7vmin', width: '7vmin', borderRadius: '50%' }}
-        />
+          <Avatar
+            src={'https://kooleposhti.herokuapp.com' + item.image}
+            alt="profile"
+            sx={{ height: '7vmin', width: '7vmin', borderRadius: '50%' }}
+          />
         </Link>,
         item.title,
         item.start_date,
         item.end_date,
         item.max_students,
-        <Link to={`/edit-course/${item.id}`}><EditIcon sx={{color:"green"}}/></Link>,
+        <Link to={`/edit-course/${item.id}`}>
+          <EditIcon sx={{ color: 'green' }} />
+        </Link>
       )
     );
   });

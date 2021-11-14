@@ -163,8 +163,8 @@ const CoursePage = () => {
   }, []);
 
   useEffect(() => {
-    apiInstance.get(`https://kooleposhti.herokuapp.com​/courses/${courseId}/is-inrolled/`).then(res => {
-      setShowRegister(!res.data.enrolled);
+    apiInstance.get(`https://kooleposhti.herokuapp.com​/courses/${courseId}/can-enroll/`).then(res => {
+      setShowRegister(res.data.enroll);
       console.log(res.data);
     });
   }, []);
