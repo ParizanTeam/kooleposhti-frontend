@@ -70,13 +70,13 @@ export const MyClasses = () => {
 };
 export const ProfileMenu = props => {
   const username = useSelector(state => state.auth.username);
-  let profileImage = useSelector(state => state.auth.image);
+  /*let profileImage = useSelector(state => state.auth.image);
   if( profileImage.image){
     profileImage = profileImage.image
   }else{
     profileImage=""
   }
-  console.log("Profile Image",profileImage)
+  console.log("Profile Image",profileImage)*/
   let role = useSelector(state => state.auth.roles)[0];
   if (role == 'instructor') role = 'teacher';
   console.log('role: ', role);
@@ -133,7 +133,7 @@ export const ProfileMenu = props => {
             disableScrollLock={true}
           >
             <MenuItem component={Link} to={`/dashboard/${role}/profile`}>
-              <Avatar src={profileImage} sx={{ width: 45, height: 45, ml: '15px' }} />
+              <Avatar src={AccountCircleIcon} sx={{ width: 45, height: 45, ml: '15px' }} />
               {username}
             </MenuItem>
             <Divider />
@@ -151,7 +151,7 @@ export const ProfileMenu = props => {
       ) : (
         <>
           <MenuItem component={Link} to={`/dashboard/${role}/profile`}>
-            <Avatar src={profileImage} sx={{ width: 45, height: 45, ml: '15px' }}  />
+            <Avatar src={AccountCircleIcon} sx={{ width: 45, height: 45, ml: '15px' }}  />
             {username}
           </MenuItem>
           <Divider />
