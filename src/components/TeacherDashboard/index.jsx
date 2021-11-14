@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import BaseDashboard from '../BaseDashboard';
 import { Grid, ListItem, Avatar, Toolbar } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Apple';
-import LoginIcon from '@mui/icons-material/AccountBalance';
+import BankAccount from '@mui/icons-material/AccountBalance';
+import RecievedCash from '@mui/icons-material/AttachMoney';
+import Wallet from '@mui/icons-material/AccountBalanceWallet';
 import SignupIcon from '@mui/icons-material/AccountCircle';
+import Classes from '@mui/icons-material/AutoStories';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import { Box } from '@mui/system';
@@ -27,30 +30,30 @@ function TeacherDashboard(props) {
   const items = [
     {
       text: 'کلاس ها',
-      icon: <SignupIcon />,
+      icon: <Classes />,
       onClick: () => {
         history.push(`/dashboard/teacher/${tabs[1]}`);
       },
     },
     {
       text: 'کیف پول',
-      icon: <LoginIcon />,
+      icon: <Wallet />,
       onClick: () => {
         history.push(`/dashboard/teacher/${tabs[2]}`);
       },
     },
     {
-      text: 'دریافت ها',
-      icon: <LoginIcon />,
+      text: 'حساب بانکی',
+      icon: <BankAccount />,
       onClick: () => {
-        history.push(`/dashboard/teacher/${tabs[3]}`);
+        history.push(`/dashboard/teacher/${tabs[4]}`);
       },
     },
     {
-      text: 'حساب بانکی',
-      icon: <SignupIcon />,
+      text: 'دریافت ها',
+      icon: <RecievedCash />,
       onClick: () => {
-        history.push(`/dashboard/teacher/${tabs[4]}`);
+        history.push(`/dashboard/teacher/${tabs[3]}`);
       },
     },
   ];

@@ -23,7 +23,7 @@ import createCache from '@emotion/cache';
 import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
-import SchoolIcon from '@mui/icons-material/School';
+import Wallet from '@mui/icons-material/AccountBalanceWallet';
 import HelpIcon from '@mui/icons-material/Help';
 import LogoutIcon from '@mui/icons-material/Logout';
 

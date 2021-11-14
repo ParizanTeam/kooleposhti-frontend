@@ -30,6 +30,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import axios from '../../utils/axiosConfig';
+import EditIcon from '@mui/icons-material/Edit';
 import { styled } from '@mui/material/styles';
 
 import './style.scss';
@@ -86,23 +87,26 @@ function DashboardTeacherClasses(props) {
     },
   }));
 
-  function createData(img, subject, start_date, end_date, capacity) {
-    return { img, subject, start_date, end_date, capacity };
+  function createData(img, subject, start_date, end_date, capacity , edit) {
+    return { img, subject, start_date, end_date, capacity , edit };
   }
 
   const rows = [];
   classData.forEach(item => {
     rows.push(
       createData(
+        <Link to={`/courses/${item.id}`}>
         <Avatar
           src={'https://kooleposhti.herokuapp.com' + item.image}
           alt="profile"
           sx={{ height: '7vmin', width: '7vmin', borderRadius: '50%' }}
-        />,
+        />
+        </Link>,
         item.title,
         item.start_date,
         item.end_date,
-        item.max_students
+        item.max_students,
+        <Link to={`/edit-course/${item.id}`}><EditIcon/></Link>,
       )
     );
   });
@@ -149,6 +153,7 @@ function DashboardTeacherClasses(props) {
                   <StyledTableCell align="left">تاریخ شروع کلاس</StyledTableCell>
                   <StyledTableCell align="left">تاریخ پایان کلاس</StyledTableCell>
                   <StyledTableCell align="left">ظرفیت کلاس</StyledTableCell>
+                  <StyledTableCell align="left">ویرایش</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -161,6 +166,7 @@ function DashboardTeacherClasses(props) {
                     <StyledTableCell align="left">{row.start_date}</StyledTableCell>
                     <StyledTableCell align="left">{row.end_date}</StyledTableCell>
                     <StyledTableCell align="left">{row.capacity}</StyledTableCell>
+                    <StyledTableCell align="left">{row.edit}</StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>
