@@ -10,11 +10,18 @@ import CreateCourseForm from '../components/CreateCourseForm';
 import CoursePage from '../components/CoursePage';
 import ClassDashboard from '../components/ClassDashboard';
 import ClassStudentInfo from '../components/ClassStudentsInfo';
+import TeacherDashboard from '../components/TeacherDashboard';
+import ClassSchedule from '../components/ClassSchedule';
+import BookMarkedClasses from '../components/BookMarkedClasses';
+import { Redirect } from 'react-router';
+import StudentProfile from '../components/StudentProfile';
+import ClassCalendar from '../components/ClassCalendar';
 
 const AppRouter = () => {
   return (
     <Router>
       <Switch>
+
         <Route path="/" exact>
           <HomePage />
         </Route>
@@ -23,7 +30,13 @@ const AppRouter = () => {
           <LoginPage />
         </Route>
         <Route path="/signup" exact>
-          <SignupPage />
+          {<SignupPage />}
+        </Route>
+        <Route path="/dashboard/teacher/" exact>
+          <Redirect to="/dashboard/teacher/profile" />
+        </Route>
+        <Route path="/dashboard/teacher/">
+          <TeacherDashboard />
         </Route>
         <Route path="/forget-password" exact>
           <ForgetPasswordPage />
@@ -46,10 +59,33 @@ const AppRouter = () => {
         <Route path="/edit-course/:courseId">
           <CreateCourseForm edit />
         </Route>
+        {/* student dasgboard classes url */}
+        <Switch>
+          <Route path="/dashboard/student/schedule" exact>
+            <ClassSchedule/>
+          </Route>
+          <Route path="/dashboard/student/bookmarks" exact>
+            <BookMarkedClasses/>
+          </Route>
+          <Route path="/dashboard/student/" exact>
+            <Redirect to="/dashboard/student/profile" />
+          </Route>
+          <Route path="/dashboard/student/calendar">
+            <ClassCalendar />
+          </Route>  
+          <Route path="/dashboard/student/profile">
+            <StudentProfile />
+          </Route> 
         <Route path="*">
-          <NotFoundPage />
-        </Route>
+            <NotFoundPage />
+          </Route>
+        </Switch>
+     
+        {/* end student dasgboard classes url */}
+
       </Switch>
+
+
     </Router>
   );
 };

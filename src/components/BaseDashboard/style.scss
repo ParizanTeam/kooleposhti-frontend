@@ -1,0 +1,17 @@
+@import "../../theme/main.scss";
+
+
+.list-item{
+    &:hover{
+        background-color: rgba(127, 204, 240, 0.542) !important;
+    }
+}
+
+.dashboard-sidebar-profile-title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto 5px auto !important;
+    padding: 5px 1vmin 15px 1vmin;
+    color: white;
+}

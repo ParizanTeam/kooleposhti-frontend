@@ -1,0 +1,31 @@
+@import '/src/theme/main.scss';
+@keyframes HandWave {
+  to {
+    transform:rotate(25deg);
+  }
+}
+.BPro {
+  display: flex;
+  flex-direction: row;
+  box-shadow: inset;
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+  &__Hello{
+      position: absolute;
+      margin: 10px;
+      background-color: rgb(255, 211, 185);
+      padding: 5px;
+      border-radius: 10%;
+      text-align: center;
+      font-size: large;
+      font-weight: 700;
+      color:rgb(255, 29, 29);
+      box-shadow: inset;
+      &__media{
+          position: relative;
+          width: 70%;
+          border-radius: 10%;
+      }
+  }
+}
