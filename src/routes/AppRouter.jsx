@@ -44,7 +44,7 @@ const AppRouter = () => {
           <ClassStudentInfo></ClassStudentInfo>
         </Route>
         <Route path="/edit-course/:courseId">
-          <CreateCourseForm />
+          <CreateCourseForm edit />
         </Route>
         <Route path="*">
           <NotFoundPage />

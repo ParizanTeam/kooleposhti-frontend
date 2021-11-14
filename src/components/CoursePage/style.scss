@@ -1,5 +1,9 @@
 @import '/src/theme/main.scss';
 
+.Toastify__toast--error {
+  color: #fff !important;
+}
+
 .course-page {
   max-width: 1048px;
   margin: auto;
@@ -11,6 +15,7 @@
   border-radius: 16px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
   &__categories {
     display: flex;

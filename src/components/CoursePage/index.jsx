@@ -22,6 +22,8 @@ import { Helmet } from 'react-helmet';
 import CourseLoader from '../CourseLoader';
 import { Fragment } from 'react';
 import apiInstance from '../../utils/axiosConfig';
+import { ToastContainer, toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 import './style.scss';
 
 import skirt from '../../assets/images/skirt.png';
@@ -107,12 +109,14 @@ export const categoriesData = [
 
 const CoursePage = () => {
   const params = useParams();
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const courseId = params.courseId;
   const history = useHistory();
   const datesRef = useRef(null);
   const [showMore, setShowMore] = useState(true);
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [showRegister, setShowRegister] = useState(false);
   const [title, setTitle] = useState('');
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -158,15 +162,36 @@ const CoursePage = () => {
       });
   }, []);
 
+  useEffect(() => {
+    apiInstance.get(`https://kooleposhti.herokuapp.com​/courses/${courseId}/is-inrolled/`).then(res => {
+      setShowRegister(!res.data.enrolled);
+      console.log(res.data);
+    });
+  }, []);
+
   const register = () => {
+    if (!isAuthenticated) {
+      toast.error('باید قبلش وارد حسابت بشی.');
+      return;
+    }
     apiInstance
       .post(`https://kooleposhti.herokuapp.com/courses/${courseId}/enroll/`)
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
+      .then(res => {
+        console.log(res);
+        toast.success('با موفقیت ثبت‌نام‌ شدی.');
+        setTimeout(() => {
+          history.push(`/dashboard/class/${courseId}`);
+        }, 2000);
+      })
+      .catch(err => {
+        console.log(err);
+        toast.error('مشکلی در سامانه به وجود اومده.');
+      });
   };
 
   return (
     <Fragment>
+      <ToastContainer rtl={true} position="bottom-center" />
       {isLoading && <CourseLoader />}
       {!isLoading && (
         <div className="course-page">
@@ -211,9 +236,11 @@ const CoursePage = () => {
                 <button onClick={scrollToDates} className="course-header__goto-times">
                   مشاهده زمان جلسه‌ها
                 </button>
-                <button className="course-header__register" onClick={handleOpen}>
-                  ثبت‌نام‌ در کلاس
-                </button>
+                {showRegister && (
+                  <button className="course-header__register" onClick={handleOpen}>
+                    ثبت‌نام‌ در کلاس
+                  </button>
+                )}
               </div>
               <p className="course-header__remain">ظرفیت باقیمانده: {convertNumberToPersian(data.capacity)} نفر</p>
             </div>
@@ -265,12 +292,7 @@ const CoursePage = () => {
               </div>
             </div>
           )}
-          <TeacherProfileCard
-            teacherName={teacherName}
-            teacherTitle={teacherTitle}
-            teacherDescription={teacherDescription}
-            teacherImgSrc={teacherImgSrc}
-          />
+          <TeacherProfileCard instructor={data.instructor} />
           <CourseDates ref={datesRef} sessions={data.sessions} />
           <Modal
             aria-labelledby="transition-modal-title"

@@ -16,8 +16,8 @@ import {
 import DatePicker from 'react-multi-date-picker';
 import TimePicker from 'react-multi-date-picker/plugins/time_picker';
 import persian from 'react-date-object/calendars/persian';
-import DatePanel from 'react-multi-date-picker/plugins/date_panel';
 import persian_fa from 'react-date-object/locales/persian_fa';
+import DatePanel from 'react-multi-date-picker/plugins/date_panel';
 import jMoment from 'moment-jalaali';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { CacheProvider } from '@emotion/react';

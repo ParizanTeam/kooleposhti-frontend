@@ -12,10 +12,12 @@ import IconButton from '@mui/material/IconButton';
 import { useMediaQuery } from '@mui/material';
 import patternSrc from '../../assets/images/pattern2.png';
 import './style.scss';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const ClassDashboard = () => {
   const [showDrawer, setShowDrawer] = useState(false);
+  const params = useParams()
+  const classId = params.classId;
 
   const toggleDrawer = open => event => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -52,7 +54,7 @@ const ClassDashboard = () => {
             <p>بازخوردها</p>
             <FeedbackIcon />
           </div>
-          <Link to="/courses/1234">
+          <Link to={`/courses/${classId}`}>
             <div className={baseClass + '__item'}>
               <p>صفحه درس</p>
               <RemoveRedEyeIcon />

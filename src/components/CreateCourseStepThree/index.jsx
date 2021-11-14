@@ -24,7 +24,7 @@ import {
 } from '@mui/material';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
-import { useHistory, Link as routerLink } from 'react-router-dom';
+import { useHistory, Link as routerLink, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import createCache from '@emotion/cache';
@@ -58,9 +58,14 @@ const validationSchema = yup.object({
 });
 
 function CreateCourseStepThree(props) {
-  const { formData, setFormData, activeStep, setActiveStep } = props;
+  const { formData, setFormData, activeStep, setActiveStep, edit } = props;
   console.log(activeStep);
   const { tags, price, duration } = formData;
+  const params = useParams();
+  let courseId;
+  if (edit) {
+    courseId = params.courseId;
+  }
   const [priceBlured, setPriceBlured] = useState(false);
   const [durationBlured, setDurationBlured] = useState(false);
   const [age, setAge] = useState('');
@@ -127,13 +132,22 @@ function CreateCourseStepThree(props) {
       const imageData = new FormData();
       imageData.append('image', formData.image);
       let id;
-      await apiInstance.post('https://kooleposhti.herokuapp.com/courses/', data).then(res => {
-        console.log(res);
-        id = res.data.id;
-      });
-      apiInstance.patch(`https://kooleposhti.herokuapp.com/courses/${id}/`, imageData, {
-        headers,
-      });
+      if (edit) {
+        await apiInstance.put(`https://kooleposhti.herokuapp.com/courses/${courseId}/`, data).then(res => {
+          console.log(res);
+        });
+        apiInstance.patch(`https://kooleposhti.herokuapp.com/courses/${courseId}/`, imageData, {
+          headers,
+        });
+      } else {
+        await apiInstance.post('https://kooleposhti.herokuapp.com/courses/', data).then(res => {
+          console.log(res);
+          id = res.data.id;
+        });
+        apiInstance.patch(`https://kooleposhti.herokuapp.com/courses/${id}/`, imageData, {
+          headers,
+        });
+      }
     }
   };
   const handleLast = () => {
