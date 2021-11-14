@@ -105,7 +105,7 @@ function ClassStudentInfo(props) {
   studentsInfo.forEach(item => {
     rows.push(
       createData(
-        <Avatar src={item.image} alt="profile" sx={{ height: '0', width: '7vmin', borderRadius: '50%' }} />,
+        <Avatar src={item.image} alt="profile" sx={{ borderRadius: '50%' }} />,
         item.username,
         item.email,
         item.id
