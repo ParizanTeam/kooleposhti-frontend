@@ -5,7 +5,7 @@ const TeacherProfileCard = ({ instructor }) => {
   const [showMore, setShowMore] = useState(true);
   const showMoreText = 'نمایش بیشتر...';
   const showLessText = 'نمایش کمتر...';
-  if (instructor.first_name && instructor.last_name) {
+  if (instructor.first_name != 'null' && instructor.last_name != 'null') {
     return (
       <div className="teacher-profile">
         <div className="teacher-profile__title-img-wrapper">

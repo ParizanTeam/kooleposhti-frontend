@@ -124,19 +124,19 @@ function DashboardTeacherClasses(props) {
         <Box component="form" noValidate sx={{ mt: 5 }}>
           <Grid container spacing={2}>
             <Grid item sm={6} xs={12}>
-              <Link to="/create-course">
-                <Button
-                  variant="contained"
-                  sx={{
-                    backgroundColor: 'rgba(10, 67, 94, 0.942)',
-                    width: { sm: '22.5vmin', xs: '140px' },
-                    display: 'flex',
-                    flexGrow: 1,
-                  }}
-                >
-                  <Typography variant="body">ایجاد کلاس جدید</Typography>
-                </Button>
-              </Link>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: 'rgba(10, 67, 94, 0.942)',
+                  width: { sm: '22.5vmin', xs: '140px' },
+                  display: 'flex',
+                  flexGrow: 1,
+                }}
+              >
+                <Link to="/create-course">
+                  <Typography variant="body" sx={{color: "#fff"}}>ایجاد کلاس جدید</Typography>
+                </Link>
+              </Button>
             </Grid>
             <Grid item sm={6} xs={12}></Grid>
           </Grid>

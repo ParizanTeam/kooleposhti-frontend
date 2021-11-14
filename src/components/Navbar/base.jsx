@@ -141,7 +141,7 @@ export const ProfileMenu = props => {
         </>
       ) : (
         <>
-          <MenuItem>
+          <MenuItem component={Link} to={`/dashboard/${role}/profile`}>
             <Avatar sx={{ width: 30, height: 30, ml: '15px' }} />
             {username}
           </MenuItem>
