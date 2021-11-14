@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import BaseDashboard from '../BaseDashboard';
 import { Grid, ListItem, Avatar, Toolbar } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Apple';
@@ -17,9 +17,34 @@ import DashboardTeacherWallet from '../DashboardTeacherWallet';
 import DashboardTeacherRecieved from '../DashboardTeacherRecieved';
 import DashboardTeacherBankAccount from '../DashboardTeacherBankAccount';
 import profile_1 from '../../assets/images/profile_1.png';
+import axios from "axios"
 import './style.scss';
 
 function TeacherDashboard(props) {
+
+  const token = 'JWT ' + localStorage.getItem('access_token');
+  const [profile_username , setProfileUserName] = useState("");
+  useEffect(() => {
+    async function fetchData() {
+      const res = await axios
+        .get('https://kooleposhti.herokuapp.com/accounts/instructors/me/', {
+          headers: {
+            Authorization: token,
+            'Content-Type': 'application/json',
+          },
+        })
+        .then(response => {
+          console.log('get response: ', response);
+          setProfileUserName(response.data.username);
+        })
+        .catch(err => {
+          console.log('error: ', err);
+        });
+    }
+    fetchData();
+  }, []);
+
+
   let history = useHistory();
   let notValidPath = false;
 
@@ -67,7 +92,7 @@ function TeacherDashboard(props) {
 
         <Grid item xs={12} sm={12}>
           <ListItem button className="dashboard-avatar-item">
-            <p className="dashboard-avatar-item__info-name">سید عماد موسوی</p>
+            <p className="dashboard-avatar-item__info-name">{profile_username}</p>
           </ListItem>
           <ListItem button className="dashboard-avatar-item">
             <Link to={`/dashboard/teacher/${tabs[0]}`}>

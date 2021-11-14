@@ -106,7 +106,7 @@ function DashboardTeacherClasses(props) {
         item.start_date,
         item.end_date,
         item.max_students,
-        <Link to={`/edit-course/${item.id}`}><EditIcon/></Link>,
+        <Link to={`/edit-course/${item.id}`}><EditIcon sx={{color:"green"}}/></Link>,
       )
     );
   });
