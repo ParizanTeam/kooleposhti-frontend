@@ -28,10 +28,14 @@
     direction: ltr;
     display: flex;
     justify-content: flex-end;
-    align-items: flex-end;
-    font-size: 16px;
+    align-items: flex-start;
+    font-size: 20px;
     font-weight: 800;
     color: rgb(253, 200, 64);
+
+    &--number {
+      margin-left: 8px;
+    }
   }
 
   &__description {

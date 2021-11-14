@@ -15,16 +15,99 @@ import TeacherProfileCard from '../TeacherProfileCard';
 import CourseCategory from '../CourseCategory';
 import { categoryData } from '../Categories/categoriesData';
 import { coursesData } from './coursesData';
-import { convertNumberToPersian } from '../../utils/helpers';
+import { convertNumberToPersian, formatPrice } from '../../utils/helpers';
 import CourseDates from '../CourseDates';
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
 import CourseLoader from '../CourseLoader';
-import './style.scss';
 import { Fragment } from 'react';
+import apiInstance from '../../utils/axiosConfig';
+import './style.scss';
+
+import skirt from '../../assets/images/skirt.png';
+import lip from '../../assets/images/lip.png';
+import ketab from '../../assets/images/ketab.png';
+import home from '../../assets/images/home.png';
+import yummy from '../../assets/images/yummy.png';
+import sparkle from '../../assets/images/sparkle.png';
+import game from '../../assets/images/game.png';
+import nini from '../../assets/images/nini.png';
+import olympic from '../../assets/images/olympic.png';
+import ship from '../../assets/images/ship.png';
+import pets from '../../assets/images/pets.png';
+
+export const categoriesData = [
+  {
+    imgSrc: ship,
+    title: 'مسافرت',
+    color: '#ceaea2',
+    theme: 'light',
+  },
+  {
+    imgSrc: lip,
+    title: 'زیبایی',
+    color: '#ff80ab',
+    theme: 'light',
+  },
+  {
+    imgSrc: pets,
+    title: 'حیوانات',
+    color: '#aebac5',
+    theme: 'light',
+  },
+  {
+    imgSrc: game,
+    title: 'بازی',
+    color: '#ececec',
+    theme: 'dark',
+  },
+  {
+    imgSrc: skirt,
+    title: 'مد و لباس',
+    color: '#ff979d',
+    theme: 'light',
+  },
+  {
+    imgSrc: ketab,
+    title: 'کتاب',
+    color: '#d1b9fc',
+    theme: 'light',
+  },
+  {
+    imgSrc: home,
+    title: 'ساختن',
+    color: '#88bde8',
+    theme: 'light',
+  },
+  {
+    imgSrc: yummy,
+    title: 'خوشمزه',
+    color: '#ffa588',
+    theme: 'light',
+  },
+  {
+    imgSrc: sparkle,
+    title: 'کاردستی',
+    color: '#b4f0e1',
+    theme: 'dark',
+  },
+  {
+    imgSrc: nini,
+    title: 'نوزاد',
+    color: '#ffe3b9',
+    theme: 'dark',
+  },
+  {
+    imgSrc: olympic,
+    title: 'ورزشی',
+    color: '#e0edff',
+    theme: 'dark',
+  },
+];
 
 const CoursePage = () => {
   const params = useParams();
+  const courseId = params.courseId;
   const history = useHistory();
   const datesRef = useRef(null);
   const [showMore, setShowMore] = useState(true);
@@ -56,7 +139,6 @@ const CoursePage = () => {
       behavior: 'smooth',
     });
     setIsLoading(true);
-    const courseId = params.courseId;
     axios
       .get(`https://kooleposhti.herokuapp.com/courses/${courseId}`)
       .then(res => {
@@ -76,45 +158,50 @@ const CoursePage = () => {
       });
   }, []);
 
+  const register = () => {
+    apiInstance
+      .post(`https://kooleposhti.herokuapp.com/courses/${courseId}/enroll/`)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  };
+
   return (
     <Fragment>
       {isLoading && <CourseLoader />}
       {!isLoading && (
         <div className="course-page">
           <Helmet>
-            <title>{title}</title>
+            <title>{data.title}</title>
           </Helmet>
           <div className="course-header">
             <div className="course-header__first-section-wrapper">
               <div className="course-header__categories">
-                {categoryData.slice(3, 4).map(category => (
-                  <CourseCategory
-                    color={category.color}
-                    imgSrc={category.imgSrc}
-                    theme={category.theme}
-                    title={category.title}
-                  />
-                ))}
+                <CourseCategory
+                  color={categoriesData[data.category - 1].color}
+                  imgSrc={categoriesData[data.category - 1].imgSrc}
+                  theme={categoriesData[data.category - 1].theme}
+                  title={categoriesData[data.category - 1].title}
+                />
               </div>
-              <div className="course-header__title">{coursesData.title}</div>
+              <div className="course-header__title">{data.title}</div>
               <div className="course-header__rating">
                 <Rating
                   size="large"
                   name="customized-color"
-                  value={coursesData.rate}
+                  value={data.rate}
                   precision={0.5}
                   icon={<StarRoundedIcon />}
                   emptyIcon={<StarOutlineRoundedIcon />}
                   readOnly
                 />
-                {' ' + convertNumberToPersian(coursesData.rate)}
+                <span className="course-header__rating--number">{' ' + convertNumberToPersian(data.rate)}</span>
               </div>
 
               <div className="course-header__description">
-                {coursesData.description.length <= 250 && coursesData.description}
-                {coursesData.description.length > 250 && showMore && coursesData.description.slice(0, 250) + '... '}
-                {coursesData.description.length > 250 && !showMore && coursesData.description}
-                {coursesData.description.length > 250 && (
+                {data.description.length <= 250 && data.description}
+                {data.description.length > 250 && showMore && data.description.slice(0, 250) + '... '}
+                {data.description.length > 250 && !showMore && data.description}
+                {data.description.length > 250 && (
                   <button className="showmore" onClick={() => setShowMore(state => !state)}>
                     {showMore ? showMoreText : showLessText}
                   </button>
@@ -128,10 +215,10 @@ const CoursePage = () => {
                   ثبت‌نام‌ در کلاس
                 </button>
               </div>
-              <p className="course-header__remain">ظرفیت باقیمانده: {convertNumberToPersian(2)} نفر</p>
+              <p className="course-header__remain">ظرفیت باقیمانده: {convertNumberToPersian(data.capacity)} نفر</p>
             </div>
             <div className="course-header__img">
-              <img src={coursesData.imgSrc} alt="" />
+              <img src={data.image} alt="" />
             </div>
           </div>
           <div className="course-tags">
@@ -147,39 +234,44 @@ const CoursePage = () => {
           <div className="course-info">
             <div className="course-info__item">
               <ScheduleOutlinedIcon />
-              <p>۳۰ دقیقه</p>
+              <p>{convertNumberToPersian(data.duration)} دقیقه</p>
             </div>
             <div className="course-info__item">
               <PeopleOutlineIcon />
-              <p>۶ نفر در هر کلاس</p>
+              <p>{convertNumberToPersian(data.max_students)} نفر در هر کلاس</p>
             </div>
             <div className="course-info__item">
               <CakeOutlinedIcon />
-              <p>۴ تا ۱۰ ساله‌ها</p>
+              <p>
+                {convertNumberToPersian(data.min_age)} تا {convertNumberToPersian(data.max_age)} ساله‌ها
+              </p>
             </div>
             <div className="course-info__item">
               <LocalOfferOutlinedIcon />
-              <p>۱۰۰,۰۰۰ تومان</p>
+              <p>{formatPrice(convertNumberToPersian(data.price))} تومان</p>
             </div>
           </div>
-          <div className="course-objectives">
-            <p className="course-objectives__title">مهارت‌هایی که در پایان کلاس خواهید آموخت:</p>
-            <div className="course-objectives__items">
-              {coursesData.objectives.map((obj, i) => (
-                <div className="course-objectives__item">
-                  <DoneAllIcon />
-                  <p>{obj}</p>
-                </div>
-              ))}
+
+          {data.goals.length > 0 && (
+            <div className="course-objectives">
+              <p className="course-objectives__title">مهارت‌هایی که در پایان کلاس خواهید آموخت:</p>
+              <div className="course-objectives__items">
+                {data.goals.map((goal, i) => (
+                  <div className="course-objectives__item">
+                    <DoneAllIcon />
+                    <p>{goal.text}</p>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
           <TeacherProfileCard
             teacherName={teacherName}
             teacherTitle={teacherTitle}
             teacherDescription={teacherDescription}
             teacherImgSrc={teacherImgSrc}
           />
-          <CourseDates ref={datesRef} />
+          <CourseDates ref={datesRef} sessions={data.sessions} />
           <Modal
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
@@ -194,7 +286,9 @@ const CoursePage = () => {
             <Fade in={open}>
               <div className="register-modal">
                 <h4 className="register-modal__title">آیا از شرکت توی این کلاس مطمئنی؟</h4>
-                <button className="register-modal__confirm">ثبت‌نام</button>
+                <button className="register-modal__confirm" onClick={register}>
+                  ثبت‌نام
+                </button>
                 <button className="register-modal__cancel" onClick={handleClose}>
                   بازگشت
                 </button>
