@@ -6,6 +6,10 @@ import NotFoundPage from '../components/NotFoundPage';
 import EmailVerification from '../components/EmailVerification';
 import ForgetPasswordPage from '../components/ForgetPasswordPage';
 import ResetPasswordPage from '../components/ResetPasswordPage';
+import CreateCourseForm from '../components/CreateCourseForm';
+import CoursePage from '../components/CoursePage';
+import ClassDashboard from '../components/ClassDashboard';
+import ClassStudentInfo from '../components/ClassStudentsInfo';
 import TeacherDashboard from '../components/TeacherDashboard';
 import ClassSchedule from '../components/ClassSchedule';
 import BookMarkedClasses from '../components/BookMarkedClasses';
@@ -40,10 +44,21 @@ const AppRouter = () => {
         <Route path="/reset-password" exact>
           <ResetPasswordPage />
         </Route>
-
-        
-
-
+        <Route path="/create-course" exact>
+          <CreateCourseForm />
+        </Route>
+        <Route path="/courses/:courseId" exact>
+          <CoursePage />
+        </Route>
+        <Route path="/dashboard/class/:classId" exact>
+          <ClassDashboard />
+        </Route>
+        <Route path="/class/:courseId/students" exact>
+          <ClassStudentInfo></ClassStudentInfo>
+        </Route>
+        <Route path="/edit-course/:courseId">
+          <CreateCourseForm edit />
+        </Route>
         {/* student dasgboard classes url */}
         <Switch>
           <Route path="/dashboard/student/schedule" exact>
