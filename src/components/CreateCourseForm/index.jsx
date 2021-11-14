@@ -183,7 +183,7 @@ function CreateCourseForm({ edit }) {
       case 1:
         return <CreateCourseStepTwo {...props}></CreateCourseStepTwo>;
       case 2:
-        return <CreateCourseStepThree edit {...props}></CreateCourseStepThree>;
+        return <CreateCourseStepThree edit={edit} {...props}></CreateCourseStepThree>;
     }
   }
 

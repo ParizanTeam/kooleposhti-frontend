@@ -15,7 +15,7 @@ import createCache from '@emotion/cache';
 import { useFormik } from 'formik';
 import { Helmet } from 'react-helmet';
 import { ToastContainer, toast } from 'react-toastify';
-import { useHistory, Link as routerLink } from 'react-router-dom';
+import { useHistory, Link as routerLink, Redirect } from 'react-router-dom';
 import * as yup from 'yup';
 import rtl from 'jss-rtl';
 import axios from 'axios';
@@ -25,6 +25,9 @@ import imageSrc from '../../assets/images/teaching-students-online-internet-lear
 import 'react-toastify/dist/ReactToastify.css';
 import ReactLoading from 'react-loading';
 import './style.scss';
+import { useSelector } from 'react-redux';
+import { baseUrl } from '../../utils/constants';
+import apiInstance from '../../utils/axiosConfig';
 
 const cacheRtl = createCache({
   key: 'muirtl',
@@ -37,13 +40,13 @@ const cacheLtr = createCache({
   prepend: true,
 });
 
-
 const validationSchema = yup.object({
   email: yup.string('').required('باید حتما ایمیل یا نام کاربریت رو بنویسی تا بتونی وارد بشی.'),
   password: yup.string('').required('باید حتما رمز عبورت رو بنویسی تا بتونی وارد بشی.'),
 });
 
 const LoginPage = () => {
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -72,9 +75,21 @@ const LoginPage = () => {
         dispatch(login());
         setLoading(false);
         toast.success('با موفقیت وارد شدی.');
-        setTimeout(() => {
-          history.push('/');
-        }, 2000);
+        apiInstance
+          .get(`${baseUrl}/accounts/users/me`)
+          .then(res => {
+            setTimeout(() => {
+              console.log(res);
+              if (res.data.roles[0] == 'instructor') {
+                history.push('/dashboard/teacher');
+              } else {
+                history.push('/dashboard/student');
+              }
+            }, 2000);
+          })
+          .catch(err => {
+            history.push('/');
+          });
       } catch (error) {
         setLoading(false);
         toast.error('نام کاربری یا رمز عبورت اشتباهه!', {
@@ -93,6 +108,9 @@ const LoginPage = () => {
     validationSchema: validationSchema,
   });
 
+  if (isAuthenticated) {
+    return <Redirect to="/" />;
+  }
   return (
     <CacheProvider value={rtl ? cacheRtl : cacheLtr}>
       <div dir="rtl">

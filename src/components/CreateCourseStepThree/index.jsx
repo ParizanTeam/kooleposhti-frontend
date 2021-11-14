@@ -58,7 +58,7 @@ const validationSchema = yup.object({
 });
 
 function CreateCourseStepThree(props) {
-  const { formData, setFormData, activeStep, setActiveStep, edit } = props;
+  const { formData, setFormData, activeStep, setActiveStep, edit = false } = props;
   console.log(activeStep);
   const { tags, price, duration } = formData;
   const params = useParams();
@@ -132,6 +132,7 @@ function CreateCourseStepThree(props) {
       const imageData = new FormData();
       imageData.append('image', formData.image);
       let id;
+      console.log('edit:', edit);
       if (edit) {
         await apiInstance.put(`https://kooleposhti.herokuapp.com/courses/${courseId}/`, data).then(res => {
           console.log(res);
@@ -140,13 +141,22 @@ function CreateCourseStepThree(props) {
           headers,
         });
       } else {
-        await apiInstance.post('https://kooleposhti.herokuapp.com/courses/', data).then(res => {
-          console.log(res);
-          id = res.data.id;
-        });
-        apiInstance.patch(`https://kooleposhti.herokuapp.com/courses/${id}/`, imageData, {
-          headers,
-        });
+        await apiInstance
+          .post('https://kooleposhti.herokuapp.com/courses/', data)
+          .then(res => {
+            console.log(res);
+            id = res.data.id;
+          })
+          .catch(err => console.log(err));
+        apiInstance
+          .patch(`https://kooleposhti.herokuapp.com/courses/${id}/`, imageData, {
+            headers,
+          })
+          .then(() => {
+            toast.success('دوره با موفقیت ایجاد شد.');
+            history.replace('/dashboard/teacher/classes');
+          })
+          .catch(err => console.log(err));
       }
     }
   };

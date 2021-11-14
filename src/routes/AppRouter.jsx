@@ -21,7 +21,6 @@ const AppRouter = () => {
   return (
     <Router>
       <Switch>
-
         <Route path="/" exact>
           <HomePage />
         </Route>
@@ -62,30 +61,27 @@ const AppRouter = () => {
         {/* student dasgboard classes url */}
         <Switch>
           <Route path="/dashboard/student/schedule" exact>
-            <ClassSchedule/>
+            <ClassSchedule />
           </Route>
           <Route path="/dashboard/student/bookmarks" exact>
-            <BookMarkedClasses/>
+            <BookMarkedClasses />
           </Route>
           <Route path="/dashboard/student/" exact>
             <Redirect to="/dashboard/student/profile" />
           </Route>
           <Route path="/dashboard/student/calendar">
             <ClassCalendar />
-          </Route>  
+          </Route>
           <Route path="/dashboard/student/profile">
             <StudentProfile />
-          </Route> 
-        <Route path="*">
+          </Route>
+          <Route path="*">
             <NotFoundPage />
           </Route>
         </Switch>
-     
+
         {/* end student dasgboard classes url */}
-
       </Switch>
-
-
     </Router>
   );
 };

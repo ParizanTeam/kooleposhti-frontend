@@ -30,7 +30,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import CastForEducationIcon from '@mui/icons-material/CastForEducation';
-
+import { convertNumberToPersian } from '../../utils/helpers';
 
 //Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -69,9 +69,8 @@ export const MyClasses = () => {
 export const ProfileMenu = props => {
   const username = useSelector(state => state.auth.username);
   let role = useSelector(state => state.auth.roles)[0];
-  if(role=="instructor")
-    role="teacher"
-  console.log("role: ",role)
+  if (role == 'instructor') role = 'teacher';
+  console.log('role: ', role);
   const profileMenuItems = {
     student: [
       { icon: FavoriteBorder, label: 'علاقمندی‌هام', to: '/dashboard/student/bookmarks' },
@@ -104,7 +103,7 @@ export const ProfileMenu = props => {
             }}
           >
             <Button variant="text" style={{ color: '#000' }}>
-              <Badge badgeContent={4} style={{ color: navbarProps.baseColor }}>
+              <Badge badgeContent={convertNumberToPersian(4)} style={{ color: navbarProps.baseColor }}>
                 <NotificationsNoneIcon style={{ color: navbarProps.baseColor, marginRight: '5px', fontSize: '30' }} />
               </Badge>
             </Button>
@@ -124,8 +123,8 @@ export const ProfileMenu = props => {
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             disableScrollLock={true}
           >
-            <MenuItem>
-              <Avatar component={Link} to={`/dashboard/${role}/profile`} sx={{ width: 30, height: 30, ml: '15px' }} />
+            <MenuItem component={Link} to={`/dashboard/${role}/profile`}>
+              <Avatar sx={{ width: 30, height: 30, ml: '15px' }} />
               {username}
             </MenuItem>
             <Divider />

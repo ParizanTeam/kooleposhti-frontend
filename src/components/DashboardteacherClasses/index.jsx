@@ -1,4 +1,4 @@
-import React, { useState , useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import SignupIcon from '@mui/icons-material/AccountCircle';
 import Avatar from '@mui/material/Avatar';
 import {
@@ -29,35 +29,31 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import axios from '../../utils/axiosConfig'
+import axios from '../../utils/axiosConfig';
 import { styled } from '@mui/material/styles';
 
 import './style.scss';
 function DashboardTeacherClasses(props) {
-
-  const [classData , setClassData] = useState([]);
+  const [classData, setClassData] = useState([]);
 
   const token = 'JWT ' + localStorage.getItem('access_token');
 
   useEffect(() => {
-    async function fetchData(){
+    async function fetchData() {
       const res = await axios
-      .get(
-        'https://kooleposhti.herokuapp.com/accounts/instructors/classes/',
-        {
+        .get('https://kooleposhti.herokuapp.com/accounts/instructors/classes/', {
           headers: {
             Authorization: token,
             'Content-Type': 'application/json',
           },
-        }
-      )
-      .then(response => {
-        console.log("get response: ",response);
-        setClassData(response.data);
-      })
-      .catch(err => {
-        console.log('error: ', err);
-      });
+        })
+        .then(response => {
+          console.log('get response: ', response);
+          setClassData(response.data);
+        })
+        .catch(err => {
+          console.log('error: ', err);
+        });
     }
     fetchData();
   }, []);
@@ -95,17 +91,22 @@ function DashboardTeacherClasses(props) {
   }
 
   const rows = [];
-  classData.forEach( (item) => {
-    rows.push(createData(
-      <Avatar src={item.image} alt="profile" sx={{ height: '0', width: '7vmin', borderRadius: '50%' }} />,
-      item.title,
-      item.start_date,
-      item.end_date,
-      item.max_students
-    ));
+  classData.forEach(item => {
+    rows.push(
+      createData(
+        <Avatar
+          src={'https://kooleposhti.herokuapp.com' + item.image}
+          alt="profile"
+          sx={{ height: '7vmin', width: '7vmin', borderRadius: '50%' }}
+        />,
+        item.title,
+        item.start_date,
+        item.end_date,
+        item.max_students
+      )
+    );
   });
 
- 
   return (
     <CacheProvider value={cacheRtl}>
       <div dir="rtl">
@@ -117,18 +118,19 @@ function DashboardTeacherClasses(props) {
         <Box component="form" noValidate sx={{ mt: 5 }}>
           <Grid container spacing={2}>
             <Grid item sm={6} xs={12}>
-              <Button
-                variant="contained"
-                sx={{
-                  backgroundColor: 'rgba(10, 67, 94, 0.942)',
-                  width: {sm:'22.5vmin' , xs:"140px"},
-                  display: 'flex',
-                  flexGrow: 1,
-                  
-                }}
-              >
-                <Typography variant="body" >ایجاد کلاس جدید</Typography>
-              </Button>
+              <Link to="/create-course">
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: 'rgba(10, 67, 94, 0.942)',
+                    width: { sm: '22.5vmin', xs: '140px' },
+                    display: 'flex',
+                    flexGrow: 1,
+                  }}
+                >
+                  <Typography variant="body">ایجاد کلاس جدید</Typography>
+                </Button>
+              </Link>
             </Grid>
             <Grid item sm={6} xs={12}></Grid>
           </Grid>
@@ -136,7 +138,7 @@ function DashboardTeacherClasses(props) {
 
         <Grid sx={{ margin: '40px 10px 10px 0px' }}>
           <ToastContainer rtl={true} />
-          <TableContainer >
+          <TableContainer>
             <Table aria-label="customized table">
               <TableHead>
                 <TableRow>

@@ -15,6 +15,7 @@ import {
   useMediaQuery,
   Button,
 } from '@mui/material';
+import HomeIcon from '@mui/icons-material/Home';
 import MenuIcon from '@mui/icons-material/Menu';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { CacheProvider } from '@emotion/react';
@@ -97,7 +98,6 @@ function BaseDashboard(props) {
               component="nav"
               sx={{ width: { md: drawerWidth, sm: '34vmin' }, flexShrink: { sm: 0 } }}
               aria-label="mailbox folders"
-              
             >
               {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
               <Drawer
@@ -150,11 +150,11 @@ function BaseDashboard(props) {
                 >
                   <MenuIcon />
                 </IconButton>
-
-                <Button variant="text" component={Link} to="/singup" sx={{ mr: 2 }}>
-                  <SchoolIcon sx={{ color: 'rgba(123, 234, 242, 0.857)', mr: 1.5 }} />
+                
+                <Button variant="text" component={Link} to="/" sx={{ mr: 2 }}>
+                  <HomeIcon sx={{ color: 'rgba(123, 234, 242, 0.857)', mr: 1.5 }} />
                   <Typography variant="body" noWrap component="div" sx={{ color: 'white', fontSize: '0.7rem' }}>
-                    تدریس کن
+                    خانه
                   </Typography>
                 </Button>
                 <Button variant="text" component={Link} to="/Help">
