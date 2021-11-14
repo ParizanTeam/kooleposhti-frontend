@@ -3,11 +3,15 @@
 .My{
     position: absolute;
     width: 100%;
+    margin-top: 65px;
+    @media (max-width: 600px) {
+        margin-top: 62px;
+    }
 }
 .Head{
     position: absolute;
     width: 100%;
-    box-shadow: rgb(228, 195, 134) 0px 1px 4px;
+    box-shadow: rgb(241, 196, 154) 0px 1px 4px;
     &__content{
         color: rgb(224, 89, 35);
         font-size: x-large;

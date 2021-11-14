@@ -1,10 +1,14 @@
 //import { useMobile } from '../../utils/detectSource';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
+import Navbar from '../Navbar';
+
 import './style.scss';
 
 const MyClasses = () => {
   return (
+    <div>
+    <Navbar color="#ff4400"/>
     <div className="My">
         <div className="Head">
             <img
@@ -44,6 +48,7 @@ const MyClasses = () => {
         <div className="SubCont">
 
         </div>
+    </div>
     </div>
   );
 };
