@@ -1,0 +1,42 @@
+@import '/src/theme/main.scss';
+
+.create-course-stepper {
+  display: block !important;
+}
+
+.form-holder-main-class {
+  width: 70%;
+  align-items: center;
+  margin: auto;
+  margin-top: 64px;
+  margin-bottom: 64px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+  border-radius: 16px;
+  padding: 8px;
+  padding-bottom: 32px;
+
+  @media (max-width: 768px) {
+    margin: 0;
+  }
+}
+
+.steeper-button__holder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.steeper-button {
+  margin-bottom: 15px !important;
+  margin-right: 15px !important;
+  margin-left: 15px !important;
+  margin-top: 20px !important;
+}
+
+@media only screen and (max-width: 600px) {
+  .form-holder-main-class {
+    width: 100%;
+    border: none;
+  }
+}

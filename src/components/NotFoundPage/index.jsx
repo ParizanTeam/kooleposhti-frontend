@@ -6,13 +6,15 @@ import './style.scss';
 
 const NotFoundPage = () => (
   <div className="back">
+    
     <div className="NotF">
       <img src={notfound} alt="404" className="NotF__Media" />
       <h1 className="NotF__Content">اوه! هیچی اینجا نیست...</h1>
     </div>
     <div className="ComebackHome">
       <img src={comebackHome} alt="404" className="ComebackHome__Media" />
-      <Link to="/">برگردیم خونه؟</Link>
+      <div className="ComebackHome__Content">
+      <Link to="/" className="ComebackHome__Content_Sub">برگردیم خونه؟</Link></div>
     </div>
   </div>
 );
