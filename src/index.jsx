@@ -40,18 +40,4 @@ function App() {
   );
 }
 
-let token = localStorage.getItem('access_token');
-if (token) {
-  store
-    .dispatch(login())
-    .then(() => {
-      ReactDOM.render(<App />, document.getElementById('root'));
-    })
-    .catch(error => {
-      console.log(error);
-      store.dispatch(logout());
-      ReactDOM.render(<App />, document.getElementById('root'));
-    });
-} else {
-  ReactDOM.render(<App />, document.getElementById('root'));
-}
+ReactDOM.render(<App />, document.getElementById('root'));
