@@ -40,4 +40,22 @@ function App() {
   );
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+
+let token = localStorage.getItem('access_token');
+if (token === undefined || token === "undefined") {
+  store.dispatch(logout());
+  ReactDOM.render(<App />, document.getElementById('root'));
+} else if (token) {
+  store
+    .dispatch(login())
+    .then(() => {
+      ReactDOM.render(<App />, document.getElementById('root'));
+    })
+    .catch(error => {
+      console.log(error);
+      store.dispatch(logout());
+      ReactDOM.render(<App />, document.getElementById('root'));
+    });
+} else {
+  ReactDOM.render(<App />, document.getElementById('root'));
+}

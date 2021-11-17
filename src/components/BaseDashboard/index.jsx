@@ -165,7 +165,7 @@ function BaseDashboard(props) {
                 </Button>
 
                 <Box display="flex" flexGrow={1} sx={{ direction: 'rtl' }}>
-                  <Button variant="text" component={Link} to="/" onClick={()=>{localStorage.removeItem("access_token")}}>
+                  <Button variant="text"  href="/" onClick={()=>{localStorage.removeItem("access_token")}}>
                     <LogoutIcon sx={{ color: 'rgba(123, 234, 242, 0.857)', ml: 1.5 }} />
                     <Typography variant="body" noWrap component="div" sx={{ color: 'white', fontSize: '0.7rem' }}>
                       خروج

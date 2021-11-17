@@ -122,20 +122,41 @@ function DashboardTeacherProfile(props) {
             <Formik
               enableReinitialize={true}
               initialValues={{
-                username: teacher_data.username === "null" ? "" : teacher_data.username,
-                email: teacher_data.email === "null" ? "" : teacher_data.email,
-                password: teacher_data.password === "null" ? "" : teacher_data.password,
-                first_name: teacher_data.first_name === "null" ? "" : teacher_data.first_name,
-                last_name: teacher_data.last_name === "null" ? "" : teacher_data.last_name,
-                phone_no: teacher_data.phone_no === "null" ? "" : teacher_data.phone_no,
+                username: teacher_data.username === "null" ? null : teacher_data.username,
+                email: teacher_data.email === "null" ? null : teacher_data.email,
+                password: teacher_data.password === "null" ? null : teacher_data.password,
+                first_name: teacher_data.first_name === "null" ? null : teacher_data.first_name,
+                last_name: teacher_data.last_name === "null" ? null : teacher_data.last_name,
+                phone_no: teacher_data.phone_no === "null" ? null : teacher_data.phone_no,
               }}
               onSubmit={async values => {
                 try {
                   setLoading(true);
 
-                  console.log(token);
-                  console.log('pass: ', document.getElementById('password').value);
-                  console.log('binary file', binaryFile);
+                  /* const res = await axios
+                  .post('https://kooleposhti.herokuapp.com/accounts/checkusername/', JSON.stringify(values), {
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                  })
+                  .then(response => {})
+                  .catch(err => {
+                    setLoading(false);
+                    throw 'username';
+                  });
+
+                const res2 = await axios
+                  .post('https://kooleposhti.herokuapp.com/accounts/checkemail/', JSON.stringify(values), {
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                  })
+                  .then(response => {})
+                  .catch(err => {
+                    setLoading(false);
+                    throw 'email';
+                  });
+ */
 
                   const formdata = new FormData();
 
@@ -149,6 +170,7 @@ function DashboardTeacherProfile(props) {
 
                   formdata.append('image.image', binaryFile);
                   console.log('form data', formdata);
+                  console.log("pass ",values.password);
 
                   axios
                     .put('https://kooleposhti.herokuapp.com/accounts/instructors/me/', formdata, {
@@ -174,17 +196,7 @@ function DashboardTeacherProfile(props) {
                     .catch(err => {
                       setLoading(false);
                       console.log('error');
-                      toast.error('شرمنده یه بار دیگه امتحان کن !!!', {
-                        position: 'bottom-center',
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-
-                        theme: 'dark',
-                      });
+                      throw "edit"
                     });
                 } catch (error) {
                   if (error === 'username') {
@@ -209,8 +221,8 @@ function DashboardTeacherProfile(props) {
                       progress: undefined,
                       theme: 'dark',
                     });
-                  } else if (error === 'activate') {
-                    toast.error('مشکلی پیش اومده بعدا دوباره امتحان کن', {
+                  } else if (error === 'edit') {
+                    toast.error('شرمنده یه بار دیگه امتحان کن', {
                       position: 'bottom-center',
                       autoClose: 5000,
                       hideProgressBar: false,
@@ -224,16 +236,24 @@ function DashboardTeacherProfile(props) {
                 }
               }}
               validateOnChange={validateAfterSubmit}
-              validate={values => {
+              validate={ values => {
                 let error = {};
-
-                if (!values.username) {
+                
+                if (values.first_name && !/^[a-zA-z -]{1,}[0-9]{0}$/i.test(values.first_name)) {
+                  error.first_name = 'نام فقط باید از حروف تشکیل بشه';
+                }else if (values.last_name &&  !/^[a-zA-z -]{1,}[0-9]{0}$/i.test(values.last_name)) {
+                  error.last_name = 'نام خانوادگی فقط باید از حروف تشکیل بشه';
+                } else if (!values.username) {
                   error.username = ' نام کاربری خودت رو وارد کن';
                 } else if (!values.email) {
                   error.email = ' ایمیل خودت رو وارد کن';
                 } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
                   error.email = 'ایمیل نامعتبر';
-                }
+                }else if (values.password && values.password.length < 8) {
+                  error.password = 'طول رمز نباید کمتر از 8 کاراکتر باشه';
+                } else if (/^\d+$/i.test(values.password) && values.password) {
+                  error.password = 'رمز عبورت نباید فقط از اعداد تشکیل شده باشه';
+                }  
 
                 return error;
               }}
