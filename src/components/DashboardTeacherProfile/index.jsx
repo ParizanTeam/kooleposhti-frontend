@@ -341,6 +341,9 @@ function DashboardTeacherProfile(props) {
                     <Grid item xs={12}>
                       <TextField
                         required
+                        InputProps={{
+                          readOnly: true,
+                        }}
                         InputLabelProps={{ shrink: values.email }}
                         fullWidth
                         id="email"

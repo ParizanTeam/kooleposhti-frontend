@@ -1,14 +1,45 @@
 @import '../../theme/main.scss';
 
-.card-container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: auto;
+.card-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
 }
 
-.card-item{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.card-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.expand {
+  position: relative;
+  float: right;
+}
+
+.edit-icon {
+  background-color: rgb(33, 119, 33) !important;
+  &:hover {
+    background-color: rgb(5, 75, 5) !important;
+  }
+  color: white !important;
+}
+
+.enter-icon {
+  background-color: rgb(33, 119, 33) !important;
+  &:hover {
+    background-color: rgb(5, 75, 5) !important;
+  }
+  color: white !important;
+}
+
+.grid {
+
+}
+
+@media  (max-width: 1200px) and (min-width:900px) {
+  .grid {
+    width: 50% !important;
+  }
 }

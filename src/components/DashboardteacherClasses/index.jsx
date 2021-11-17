@@ -18,6 +18,7 @@ import {
   CardHeader,
   Collapse,
   Divider,
+  useMediaQuery,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import rtlPlugin from 'stylis-plugin-rtl';
@@ -26,7 +27,7 @@ import createCache from '@emotion/cache';
 import { ToastContainer, toast } from 'react-toastify';
 import { Helmet } from 'react-helmet';
 import profile_1 from '../../assets/images/profile_2.png';
-
+import DateRangeIcon from '@mui/icons-material/DateRange';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -103,28 +104,35 @@ function DashboardTeacherClasses(props) {
     },
   }));
 
-  function createData(img, subject, start_date, end_date, capacity, edit) {
-    return { img, subject, start_date, end_date, capacity, edit };
+  function createData(img, subject, start_date, end_date, capacity, edit, classPage) {
+    return { img, subject, start_date, end_date, capacity, edit, classPage };
   }
 
   const rows = [];
   classData.forEach(item => {
     rows.push(
       createData(
-        <Link to={`/courses/${item.id}`}>
-          <Avatar
-            src={'https://kooleposhti.herokuapp.com' + item.image}
-            alt="profile"
-            sx={{ height: '7vmin', width: '7vmin', borderRadius: '50%' }}
-          />
-        </Link>,
+        'https://kooleposhti.herokuapp.com' + item.image,
         item.title,
         item.start_date,
         item.end_date,
         item.max_students,
-        <Link to={`/edit-course/${item.id}`}>
-          <EditIcon sx={{ color: 'green' }} />
-        </Link>
+        <Button
+          component={Link}
+          variant="contained"
+          to={`/edit-course/${item.id}`}
+          className="edit-icon"
+          sx={{ ml: 1 }}
+        >
+          <Typography variant="body2" sx={{ color: 'white' }}>
+            ویرایش
+          </Typography>
+        </Button>,
+        <Button component={Link} variant="contained" to={`/courses/${item.id}`} className="enter-icon" sx={{ ml: 1 }}>
+          <Typography variant="body2" sx={{ color: 'white' }}>
+            ورود به کلاس
+          </Typography>
+        </Button>
       )
     );
   });
@@ -145,6 +153,8 @@ function DashboardTeacherClasses(props) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  let breakpoint = useMediaQuery('(min-width: 1200px)');
 
   return (
     <CacheProvider value={cacheRtl}>
@@ -209,56 +219,53 @@ function DashboardTeacherClasses(props) {
               </TableBody>
             </Table>
           </TableContainer> */}
-        <Grid container spacing={10}>
-          {rows.map(row =>(
-         <Grid item md={4} sm={6} xs={12}>
-         <Card sx={{minWidth:"316px"}}>
-         <CardMedia component="img" height="194" image={row.img} alt="Paella dish" />
-         <CardContent className="card-item">
-           <Typography variant="h6" color="text.secondary">
-          {row.subject}
-           </Typography>
-         </CardContent>
-         <CardActions disableSpacing >
-         
-           <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more" >
-             <ExpandMoreIcon />
-           </ExpandMore>
-           <Typography variant="body3">مشخصات</Typography>
-           <IconButton aria-label="add to favorites" sx={{"margin":"6px 0 0 50% "}}>
-          {row.edit}
-        </IconButton>
-         </CardActions>
-       
-         <Collapse in={expanded} timeout="auto" unmountOnExit>
-           <Divider sx={{ml:2.5 , mr:2.5}}/>
-         <CardContent className="card-item" sx={{"margin":"0 0 -20px 0 "}}>
-             <Typography variant="body1" sx={{fontWeight:"bold"}}>‌ظرفیت کلاس:</Typography>
-           </CardContent>
-           <CardContent className="card-item">
-             <Typography variant="body1">{row.capacity}}</Typography>
-           </CardContent>
-           <Divider sx={{ml:2.5 , mr:2.5}}/>
-           <CardContent className="card-item" sx={{"margin":"0 0 -20px 0 "}}>
-             <Typography variant="body1" sx={{fontWeight:"bold"}}>تاریخ شروع کلاس:</Typography>
-           </CardContent>
-           <CardContent className="card-item" sx={{"margin":"0 0 -20px 0 "}}>
-             <Typography variant="body1"  sx={{"margin":"0 0 20px 0 "}}>{row.start_date}</Typography>
-           </CardContent>
-           <Divider sx={{ml:2.5 , mr:2.5}}/>
-           <CardContent className="card-item" sx={{"margin":"0 0 -20px 0 "}}>
-             <Typography variant="body1" sx={{fontWeight:"bold"}}>تاریخ پایان کلاس:</Typography>
-           </CardContent>
-           <CardContent className="card-item">
-             <Typography variant="body1">{row.end_date}</Typography>
-           </CardContent>
+          <Grid container spacing={10}>
+            {rows.map(row => (
+              <Grid item md={breakpoint ? 4 : 6} sm={12} xs={12} className="grid">
+                <Card sx={{ minWidth: '30vmin' }}>
+                  <CardMedia component="img" height="194" image={image} alt="Paella dish" />
+                  <CardContent className="card-item">
+                    <Typography variant="h6" color="text.secondary">
+                      {row.subject}
+                    </Typography>
+                  </CardContent>
 
-         </Collapse>
-       </Card>
-       </Grid>
-          ))}
-      </Grid>
-          
+                  <Divider sx={{ ml: 2.5, mr: 2.5 }} />
+                  <CardContent className="card-item" sx={{ margin: '0 0 0 0 ' }}>
+                    <Typography variant="body1" sx={{ fontWeight: 'bold', mr: 1 }}>
+                      ‌ظرفیت کلاس:
+                    </Typography>
+
+                    <Typography variant="body1">{row.capacity}</Typography>
+                  </CardContent>
+
+                  <Divider sx={{ ml: 2.5, mr: 2.5 }} />
+                  <CardContent className="card-item" sx={{ margin: '0 0 0 0 ' }}>
+                    <Typography variant="body1" sx={{ fontWeight: 'bold', mr: 1 }}>
+                      تاریخ شروع کلاس:
+                    </Typography>
+
+                    <Typography variant="body1" sx={{ margin: '0 0 0 0 ' }}>
+                      {row.start_date}
+                    </Typography>
+                  </CardContent>
+                  <Divider sx={{ ml: 2.5, mr: 2.5 }} />
+                  <CardContent className="card-item" sx={{ margin: '0 0 0 0 ' }}>
+                    <Typography variant="body1" sx={{ fontWeight: 'bold', mr: 1 }}>
+                      تاریخ پایان کلاس:
+                    </Typography>
+
+                    <Typography variant="body1">{row.end_date}</Typography>
+                  </CardContent>
+                  <Divider sx={{ ml: 2.5, mr: 2.5 }} />
+                  <CardActions disableSpacing sx={{ margin: '20px 0 10px 0' }}>
+                    {row.edit}
+                    {row.classPage}
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
         </Grid>
       </div>
     </CacheProvider>
