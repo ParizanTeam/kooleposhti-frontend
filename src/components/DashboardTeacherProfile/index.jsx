@@ -34,6 +34,7 @@ function DashboardTeacherProfile(props) {
   const [loading, setLoading] = useState(false);
   const [binaryFile, setBinaryFile] = useState(null);
   const [teacher_data, setteacherData] = useState({});
+  const [changeImage, setChangeImage] = useState(false);
 
   const token = 'JWT ' + localStorage.getItem('access_token');
   console.log(token);
@@ -66,6 +67,7 @@ function DashboardTeacherProfile(props) {
 
   const handleChange = e => {
     setFile(URL.createObjectURL(e.target.files[0]));
+    setChangeImage(true);
 
     let picture = e.target.files[0];
     console.log('picture', picture);
@@ -122,12 +124,12 @@ function DashboardTeacherProfile(props) {
             <Formik
               enableReinitialize={true}
               initialValues={{
-                username: teacher_data.username === "null" ? null : teacher_data.username,
-                email: teacher_data.email === "null" ? null : teacher_data.email,
-                password: teacher_data.password === "null" ? null : teacher_data.password,
-                first_name: teacher_data.first_name === "null" ? null : teacher_data.first_name,
-                last_name: teacher_data.last_name === "null" ? null : teacher_data.last_name,
-                phone_no: teacher_data.phone_no === "null" ? null : teacher_data.phone_no,
+                username: teacher_data.username === 'null' ? null : teacher_data.username,
+                email: teacher_data.email === 'null' ? null : teacher_data.email,
+                password: teacher_data.password === 'null' ? null : teacher_data.password,
+                first_name: teacher_data.first_name === 'null' ? null : teacher_data.first_name,
+                last_name: teacher_data.last_name === 'null' ? null : teacher_data.last_name,
+                phone_no: teacher_data.phone_no === 'null' ? null : teacher_data.phone_no,
               }}
               onSubmit={async values => {
                 try {
@@ -160,27 +162,43 @@ function DashboardTeacherProfile(props) {
 
                   const formdata = new FormData();
 
-                  const data = { ...values, 'image.image': binaryFile };
-                  formdata.append('username', values.username);
+                  /* formdata.append('username', values.username);
                   formdata.append('email', values.email);
                   formdata.append('first_name', values.first_name);
                   formdata.append('last_name', values.last_name);
                   formdata.append('password', values.password);
-                  formdata.append('phone_no', values.phone_no);
-
-                  formdata.append('image.image', binaryFile);
+                  formdata.append('phone_no', values.phone_no); */
+                  let body = { ...values };
                   console.log('form data', formdata);
-                  console.log("pass ",values.password);
+                  console.log('pass ', values.password);
+                  formdata.append('image', binaryFile);
+                  if (changeImage) {
+                    const res = await axios
+                      .post('https://kooleposhti.herokuapp.com/images/', formdata, {
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                      })
+                      .then(res => {
+                        console.log('res', res);
+                        console.log('res image', res.data.image);
+                        body = { ...values, image_url: res.data.image };
+                      })
+                      .catch(err => {
+                        console.log('error', err);
+                      });
+                  }
 
+                  console.log('body ', body);
                   axios
-                    .put('https://kooleposhti.herokuapp.com/accounts/instructors/me/', formdata, {
+                    .put('https://kooleposhti.herokuapp.com/accounts/instructors/me/', JSON.stringify(body), {
                       headers: {
                         Authorization: token,
                         'Content-Type': 'application/json',
                       },
                     })
                     .then(response => {
-                      console.log(response);
+                      console.log('response ', response);
                       toast.success('با موفقیت به‌روز شد', {
                         position: 'bottom-center',
                         autoClose: 5000,
@@ -195,53 +213,53 @@ function DashboardTeacherProfile(props) {
                     })
                     .catch(err => {
                       setLoading(false);
-                      console.log('error');
-                      throw "edit"
+                      console.log('error', err.response.data.message);
+                      if (err.response.data.message === 'This username is already taken.') {
+                        toast.error('نام کاربری قبلا انتخاب شده', {
+                          position: 'bottom-center',
+                          autoClose: 5000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: 'dark',
+                        });
+                      } else if (err.response.data.message === 'This email is already taken.') {
+                        toast.error('ایمیل قبلا انتخاب شده', {
+                          position: 'bottom-center',
+                          autoClose: 5000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: 'dark',
+                        });
+                      } else {
+                        toast.error('شرمنده یه بار دیگه امتحان کن', {
+                          position: 'bottom-center',
+                          autoClose: 5000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: 'dark',
+                        });
+                      }
                     });
                 } catch (error) {
-                  if (error === 'username') {
-                    toast.error('این نام کاربری قبلا انتخاب شده', {
-                      position: 'bottom-center',
-                      autoClose: 5000,
-                      hideProgressBar: false,
-                      closeOnClick: true,
-                      pauseOnHover: true,
-                      draggable: true,
-                      progress: undefined,
-                      theme: 'dark',
-                    });
-                  } else if (error === 'email') {
-                    toast.error('این ایمیل قبلا در سیستم ثبت شده', {
-                      position: 'bottom-center',
-                      autoClose: 5000,
-                      hideProgressBar: false,
-                      closeOnClick: true,
-                      pauseOnHover: true,
-                      draggable: true,
-                      progress: undefined,
-                      theme: 'dark',
-                    });
-                  } else if (error === 'edit') {
-                    toast.error('شرمنده یه بار دیگه امتحان کن', {
-                      position: 'bottom-center',
-                      autoClose: 5000,
-                      hideProgressBar: false,
-                      closeOnClick: true,
-                      pauseOnHover: true,
-                      draggable: true,
-                      progress: undefined,
-                      theme: 'dark',
-                    });
-                  }
+                  console.log('error');
                 }
               }}
               validateOnChange={validateAfterSubmit}
-              validate={ values => {
+              validate={values => {
                 let error = {};
-                
+
                 if (values.first_name && !/^[a-zA-z -]{1,}[0-9]{0}$/i.test(values.first_name)) {
                   error.first_name = 'نام فقط باید از حروف تشکیل بشه';
-                }else if (values.last_name &&  !/^[a-zA-z -]{1,}[0-9]{0}$/i.test(values.last_name)) {
+                } else if (values.last_name && !/^[a-zA-z -]{1,}[0-9]{0}$/i.test(values.last_name)) {
                   error.last_name = 'نام خانوادگی فقط باید از حروف تشکیل بشه';
                 } else if (!values.username) {
                   error.username = ' نام کاربری خودت رو وارد کن';
@@ -249,11 +267,15 @@ function DashboardTeacherProfile(props) {
                   error.email = ' ایمیل خودت رو وارد کن';
                 } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
                   error.email = 'ایمیل نامعتبر';
-                }else if (values.password && values.password.length < 8) {
+                } else if (values.password && values.password.length < 8) {
                   error.password = 'طول رمز نباید کمتر از 8 کاراکتر باشه';
                 } else if (/^\d+$/i.test(values.password) && values.password) {
                   error.password = 'رمز عبورت نباید فقط از اعداد تشکیل شده باشه';
-                }  
+                }else if(!/[0-9]{11}$/i.test(values.phone_no) && values.phone_no)
+                {
+                  error.phone_no = 'شماره موبایل نامعتبر';
+                }
+
 
                 return error;
               }}

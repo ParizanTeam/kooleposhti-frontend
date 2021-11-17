@@ -42,10 +42,7 @@ function App() {
 
 
 let token = localStorage.getItem('access_token');
-if (token === undefined || token === "undefined") {
-  store.dispatch(logout());
-  ReactDOM.render(<App />, document.getElementById('root'));
-} else if (token) {
+if (token) {
   store
     .dispatch(login())
     .then(() => {

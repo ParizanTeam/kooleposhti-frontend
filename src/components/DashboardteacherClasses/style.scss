@@ -1,1 +1,14 @@
 @import '../../theme/main.scss';
+
+.card-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+
+.card-item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
