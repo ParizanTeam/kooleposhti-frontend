@@ -122,12 +122,12 @@ function DashboardTeacherProfile(props) {
             <Formik
               enableReinitialize={true}
               initialValues={{
-                username: teacher_data.username,
-                email: teacher_data.email,
-                password: teacher_data.password,
-                first_name: teacher_data.first_name,
-                last_name: teacher_data.last_name,
-                phone_no: teacher_data.phone_no,
+                username: teacher_data.username === "null" ? "" : teacher_data.username,
+                email: teacher_data.email === "null" ? "" : teacher_data.email,
+                password: teacher_data.password === "null" ? "" : teacher_data.password,
+                first_name: teacher_data.first_name === "null" ? "" : teacher_data.first_name,
+                last_name: teacher_data.last_name === "null" ? "" : teacher_data.last_name,
+                phone_no: teacher_data.phone_no === "null" ? "" : teacher_data.phone_no,
               }}
               onSubmit={async values => {
                 try {
