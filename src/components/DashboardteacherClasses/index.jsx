@@ -221,8 +221,8 @@ function DashboardTeacherClasses(props) {
           </TableContainer> */}
           <Grid container spacing={10}>
             {rows.map(row => (
-              <Grid item md={breakpoint ? 4 : 6} sm={12} xs={12} className="grid">
-                <Card sx={{ minWidth: '30vmin' }}>
+              <Grid item md={breakpoint ? 4 : 6} sm={12} xs={12} >
+                <Card sx={{ minWidth: '30vmin' }} className="grid">
                   <CardMedia component="img" height="194" image={image} alt="Paella dish" />
                   <CardContent className="card-item">
                     <Typography variant="h6" color="text.secondary">

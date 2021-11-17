@@ -35,11 +35,5 @@
 }
 
 .grid {
-
-}
-
-@media  (max-width: 1200px) and (min-width:900px) {
-  .grid {
-    width: 50% !important;
-  }
+    box-shadow:rgba(0, 0, 0, 0.60) 0px 2px 8px !important;
 }
