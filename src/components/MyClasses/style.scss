@@ -57,6 +57,10 @@
         position: relative;
         line-height: 50px;
         display: block;
+        @media (max-width: 1010px) {
+            line-height: 40px;
+            font-size: medium;
+        }
         @media (max-width: 800px) {
             display: none;
         }
@@ -98,6 +102,10 @@
         position: relative;
         line-height: 50px;
         display: block;
+        @media (max-width: 1010px) {
+            line-height: 40px;
+            font-size: medium;
+        }
         @media (max-width: 800px) {
             display: none;
         }
@@ -139,6 +147,10 @@
         position: relative;
         line-height: 50px;
         display: block;
+        @media (max-width: 1010px) {
+            line-height: 40px;
+            font-size: medium;
+        }
         @media (max-width: 800px) {
             display: none;
         }

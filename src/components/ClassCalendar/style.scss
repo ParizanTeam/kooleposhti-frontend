@@ -13,4 +13,19 @@
   background-color: #feffd1;
   overflow-y: auto;
 };
+.ccImg{
+  width: 32px;
+  margin-top: 351px;
+  margin-right: 38%;
+  height: 30px;
+  position: absolute;
+  @media (max-width: 800px) {
+    margin-right: 37%;
+  }
+  @media (max-width: 600px) {
+    width: 28px;
+    margin-right: 35%;
+    margin-top: 348px;
+  }
+}
 

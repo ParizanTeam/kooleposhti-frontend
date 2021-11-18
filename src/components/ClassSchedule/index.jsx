@@ -181,10 +181,11 @@ const ClassSchedule = () => {
   return (
     <div>
       <MyClasses />
+      <img src='https://8pic.ir/uploads/1307925801537355428-128.png' alt='cs' className='csImg'/>
       <br />
       <div className="afterMyC-c">
         <div style={{marginRight:"100px"}}> 
-          <Select value={showClass} onChange={handleChange} displayEmpty  MenuProps={{ disableScrollLock: true }} >
+          <Select value={showClass} onChange={handleChange} displayEmpty  MenuProps={{ disableScrollLock: true }}>
             <MenuItem value="">کلاس های فعال</MenuItem>
             <MenuItem value="pastClasses">کلاس های گذشته</MenuItem>
           </Select>
