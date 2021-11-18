@@ -34,8 +34,8 @@ const MyClasses = () => {
             </div>
             <div className="HeadSub__Ic">
                 <Button component={Link} to="/dashboard/student/Calendar" sx={{ '&:hover': { color: 'transparent' } }}>
-                  <p className="HeadSub__Ic__cont">تقویم کلاسهای من</p>
-                  <p className="HeadSub__Ic__cont-b">تقویم من</p>
+                  <p className="HeadSub__Ic__cont">چالشهای من</p>
+                  <p className="HeadSub__Ic__cont-b">چالشهای من</p>
                 </Button>
 
             </div>
