@@ -32,10 +32,10 @@ function MyAssignments(){
         >
           <img src={AwakenFox} alt='Sleeping Fox'className='FoxP__a'/>
           <div className='Text'>
-          <Typography sx={{ width: '33%', flexShrink: 0 }}>
+          <Typography sx={{ width: '33%', flexShrink: 0 ,margin: 1}}>
             چالش سخنرانی در جمع
           </Typography>
-          <Typography sx={{ color: 'text.secondary' }}>فردا وقت تحویله!</Typography></div>
+          <Typography sx={{ color: 'text.secondary', margin: 1}}>فردا وقت تحویله!</Typography></div>
         </AccordionSummary>
         <AccordionDetails>
           <div className='rangi'>
@@ -52,8 +52,8 @@ function MyAssignments(){
         >
           <img src={SleepingFox} alt='AwakenFox'className='FoxP__s'/>
           <div className='Text'>
-          <Typography sx={{ width: '33%', flexShrink: 0 }}>چالش نقاشی دایناسور</Typography>
-          <Typography sx={{ color: 'text.secondary' }}>
+          <Typography sx={{ width: '33%', flexShrink: 0,margin: 1 }}>چالش نقاشی دایناسور</Typography>
+          <Typography sx={{ color: 'text.secondary',margin: 1 }}>
             تا شنبه وقت داری!
           </Typography></div>
         </AccordionSummary>
@@ -72,10 +72,10 @@ function MyAssignments(){
         >
           <img src={SleepingFox} alt='PlayfulFox'className='FoxP__s'/>
           <div className='Text'>
-          <Typography sx={{ width: '33%', flexShrink: 0 }}>
+          <Typography sx={{ width: '33%', flexShrink: 0,margin: 1 }}>
             چالش شطرنج
           </Typography>
-          <Typography sx={{ color: 'text.secondary' }}>
+          <Typography sx={{ color: 'text.secondary' ,margin: 1}}>
             دوشنبه آخرین فرصته...
           </Typography></div>
         </AccordionSummary>
@@ -94,8 +94,8 @@ function MyAssignments(){
         >
           <img src={SleepingFox} alt='HappyFox'className='FoxP__s'/>
           <div className='Text'>
-          <Typography sx={{ width: '33%', flexShrink: 0 }}>چالش نویسندگی خلاقانه</Typography>
-          <Typography sx={{ color: 'text.secondary' }}>
+          <Typography sx={{ width: '33%', flexShrink: 0 ,margin: 1}}>چالش نویسندگی خلاقانه</Typography>
+          <Typography sx={{ color: 'text.secondary',margin: 1 }}>
             تا پنجشنبه فقط وقت داری
           </Typography>
           </div>
