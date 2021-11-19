@@ -28,7 +28,7 @@ const MyClasses = () => {
             <div className="HeadSub__Ia">
                 <Button component={Link} to="/dashboard/student/Bookmarks" sx={{ '&:hover': { color: 'transparent' } }}>
                   <p className="HeadSub__Ia__cont">کلاسهای محبوب من</p>
-                  <p className="HeadSub__Ia__cont-b">محبوب های من</p>
+                  <p className="HeadSub__Ia__cont-b">محبوبهای من</p>
                 </Button>
 
             </div>

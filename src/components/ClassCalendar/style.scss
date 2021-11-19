@@ -13,6 +13,12 @@
   background-color: #f74444;
   /*background-color: #feffd1;*/
   overflow-y: auto;
+  @media (max-width: 800px) {
+    margin-top: 370px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 30px;
+  }
 };
 .ccImg{
   width: 32px;

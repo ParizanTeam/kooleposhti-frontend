@@ -15,7 +15,6 @@ import MyClassesFooter from '../MyClasses/MyClassesFooter';
 import './style.scss';
 
 function MyAssignments(){
-
   const [expanded, setExpanded] = React.useState(false);
 
   const handleChange = (panel) => (event, isExpanded) => {
