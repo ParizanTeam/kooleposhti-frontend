@@ -55,9 +55,21 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
   const [courseNameBlured, setCourseNameBlured] = useState(false);
   const [categoryBlured, setCategoryBlured] = useState(false);
   const [datePickerBlured, setDatePickerBlured] = useState(false);
+  const [fileError, setFileError] = useState(false);
   const handleChangeFile = e => {
-    setFormData(prev => ({ ...prev, courseImage: URL.createObjectURL(e.target.files[0]) }));
-    setFormData(prev => ({ ...prev, image: e.target.files[0] }));
+    var ext = e.target.value.match(/\.([^\.]+)$/)[1];
+    switch (ext) {
+      case 'jpg':
+      case 'bmp':
+      case 'png':
+      case 'tif':
+        setFileError(false);
+        setFormData(prev => ({ ...prev, courseImage: URL.createObjectURL(e.target.files[0]) }));
+        setFormData(prev => ({ ...prev, image: e.target.files[0] }));
+        break;
+      default:
+        setFileError(true);
+    }
   };
 
   const handleChange = event => {
@@ -198,6 +210,7 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
               <input
                 id="contained-button-file"
                 type="file"
+                accept="image/*"
                 style={{ display: 'none', mt: 1, mb: 1 }}
                 onChange={handleChangeFile}
               />
@@ -216,6 +229,9 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
                   >
                     انتخاب فایل
                   </Button>
+                  <FormHelperText style={{ color: '#D32F2F', marginRight: 14 }}>
+                    {fileError && 'فرمت فایل انتخابی صحیح نمی‌باشد.'}
+                  </FormHelperText>
                 </span>
               </label>
               <Grid sx={{ display: 'grid', alignItems: 'center', justifyContent: 'center' }}>
