@@ -6,7 +6,7 @@ import store from './store/store';
 import './theme/main.scss';
 import IranyekanWoff2 from './assets/fonts/woff2/IRANYekanWebRegular.woff2';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { login, logout } from './store/actions';
+import { login, remove_token } from './store/actions';
 
 const theme = createTheme({
   typography: {
@@ -27,6 +27,8 @@ const theme = createTheme({
     },
   },
 });
+
+
 
 function App() {
   return (
@@ -50,7 +52,7 @@ if (token) {
     })
     .catch(error => {
       console.log(error);
-      store.dispatch(logout());
+      store.dispatch(remove_token());
       ReactDOM.render(<App />, document.getElementById('root'));
     });
 } else {

@@ -16,10 +16,11 @@ import BookMarkedClasses from '../components/BookMarkedClasses';
 import { Redirect } from 'react-router';
 import StudentProfile from '../components/StudentProfile';
 import ClassCalendar from '../components/ClassCalendar';
+import {history} from '../utils/constants';
 
 const AppRouter = () => {
   return (
-    <Router>
+    <Router  history={history}>
       <Switch>
         <Route path="/" exact>
           <HomePage />

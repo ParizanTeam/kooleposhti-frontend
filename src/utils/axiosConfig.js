@@ -21,7 +21,8 @@ apiInstance.interceptors.response.use(
   async error => {
     if (error.response) {
       const originalConfig = error.config;
-      if (error.response.status === 401) {
+      if (error.response.status === 401 && !originalConfig._retry) {
+        originalConfig._retry = true;
         axios
           .post('https://kooleposhti.herokuapp.com/accounts/jwt/refresh', {
             refresh: localStorage.getItem('refresh_token'),
