@@ -6,7 +6,9 @@ import BankAccount from '@mui/icons-material/AccountBalance';
 import RecievedCash from '@mui/icons-material/AttachMoney';
 import Wallet from '@mui/icons-material/AccountBalanceWallet';
 import SignupIcon from '@mui/icons-material/AccountCircle';
+import AboutMe from '@mui/icons-material/AccountBox';
 import Classes from '@mui/icons-material/AutoStories';
+import PublicProfile from '@mui/icons-material/Person';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import { Box } from '@mui/system';
@@ -16,6 +18,8 @@ import DashboardTeacherClasses from '../DashboardteacherClasses';
 import DashboardTeacherWallet from '../DashboardTeacherWallet';
 import DashboardTeacherRecieved from '../DashboardTeacherRecieved';
 import DashboardTeacherBankAccount from '../DashboardTeacherBankAccount';
+import DashboardTeacherAboutMe from '../DashboardTeacherAboutMe';
+import TeacherPublicProfile from '../TeacherPublicProfile';
 import profile_1 from '../../assets/images/profile_1.png';
 import axios from "axios"
 import './style.scss';
@@ -50,7 +54,7 @@ function TeacherDashboard(props) {
 
   const [file, setFile] = useState(profile_1);
 
-  const tabs = ['profile', 'classes', 'wallet', 'received', 'bankaccount'];
+  const tabs = ['profile', 'classes', 'wallet', 'received', 'bankaccount' , 'about-me' , 'public-profile'];
 
   const items = [
     {
@@ -68,6 +72,13 @@ function TeacherDashboard(props) {
       },
     },
     {
+      text: 'دریافت ها',
+      icon: <RecievedCash />,
+      onClick: () => {
+        history.push(`/dashboard/teacher/${tabs[3]}`);
+      },
+    },
+    {
       text: 'حساب بانکی',
       icon: <BankAccount />,
       onClick: () => {
@@ -75,10 +86,17 @@ function TeacherDashboard(props) {
       },
     },
     {
-      text: 'دریافت ها',
-      icon: <RecievedCash />,
+      text: 'درباره من',
+      icon: <AboutMe />,
       onClick: () => {
-        history.push(`/dashboard/teacher/${tabs[3]}`);
+        history.push(`/dashboard/teacher/${tabs[5]}`);
+      },
+    },
+    {
+      text: 'پروفایل عمومی',
+      icon: <PublicProfile />,
+      onClick: () => {
+        history.push(`/dashboard/teacher/${tabs[6]}`);
       },
     },
   ];
@@ -138,6 +156,17 @@ function TeacherDashboard(props) {
           <DashboardTeacherBankAccount />
         </BaseDashboard>
       )}
+      {location.pathname === '/dashboard/teacher/about-me' && (
+        <BaseDashboard items={items} profile={profile} className="drawer">
+          <DashboardTeacherAboutMe />
+        </BaseDashboard>
+      )}
+      {location.pathname === '/dashboard/teacher/public-profile' && (
+        <BaseDashboard items={items} profile={profile} className="drawer">
+          <TeacherPublicProfile />
+        </BaseDashboard>
+      )}
+      
 
       <BaseDashboard items={items} profile={profile} className="drawer">
         {props.children}

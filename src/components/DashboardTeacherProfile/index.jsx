@@ -257,9 +257,9 @@ function DashboardTeacherProfile(props) {
               validate={values => {
                 let error = {};
 
-                if (values.first_name && !/^[a-zA-z -]{1,}[0-9]{0}$/i.test(values.first_name)) {
+                if (values.first_name && !/^([^0-9!@#$%^&*(),./\\]*)$/i.test(values.first_name)) {
                   error.first_name = 'نام فقط باید از حروف تشکیل بشه';
-                } else if (values.last_name && !/^[a-zA-z -]{1,}[0-9]{0}$/i.test(values.last_name)) {
+                } else if (values.last_name && !/^([^0-9!@#$%^&*(),./\\]*)$/i.test(values.last_name)) {
                   error.last_name = 'نام خانوادگی فقط باید از حروف تشکیل بشه';
                 } else if (!values.username) {
                   error.username = ' نام کاربری خودت رو وارد کن';

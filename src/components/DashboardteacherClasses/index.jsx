@@ -189,40 +189,10 @@ function DashboardTeacherClasses(props) {
 
         <Grid sx={{ margin: '40px 10px 10px 0px' }} className="card-container">
           <ToastContainer rtl={true} />
-          {/*  <TableContainer>
-            <Table aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell sx={{ fontSize: 14, backgroundColor: 'rgba(10, 67, 94, 0.942)', color: 'white' }}>
-                    تصویر کلاس
-                  </StyledTableCell>
-                  <StyledTableCell align="left">عنوان کلاس</StyledTableCell>
-                  <StyledTableCell align="left">تاریخ شروع کلاس</StyledTableCell>
-                  <StyledTableCell align="left">تاریخ پایان کلاس</StyledTableCell>
-                  <StyledTableCell align="left">ظرفیت کلاس</StyledTableCell>
-                  <StyledTableCell align="left">ویرایش</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map(row => (
-                  <StyledTableRow key={row.subject}>
-                    <StyledTableCell component="th" scope="row">
-                      {row.img}
-                    </StyledTableCell>
-                    <StyledTableCell align="left">{row.subject}</StyledTableCell>
-                    <StyledTableCell align="left">{row.start_date}</StyledTableCell>
-                    <StyledTableCell align="left">{row.end_date}</StyledTableCell>
-                    <StyledTableCell align="left">{row.capacity}</StyledTableCell>
-                    <StyledTableCell align="left">{row.edit}</StyledTableCell>
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer> */}
           <Grid container spacing={10}>
             {rows.map(row => (
               <Grid item md={breakpoint ? 4 : 6} sm={12} xs={12} >
-                <Card sx={{ minWidth: '30vmin' }} className="grid">
+                <Card sx={{ minWidth: '30vmin' , borderRadius:"25px" }} className="grid">
                   <CardMedia component="img" height="194" image={image} alt="Paella dish" />
                   <CardContent className="card-item">
                     <Typography variant="h6" color="text.secondary">

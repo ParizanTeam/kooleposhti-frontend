@@ -1,0 +1,98 @@
+@import '../../theme/main.scss';
+
+
+.image{
+    width: 83%;
+    height: auto;
+    margin:0;
+    padding:0;
+}
+
+.about-me{
+    text-align: justify !important;
+    
+}
+
+.abut-me_wrapper{
+    box-shadow:rgba(0, 0, 0, 0.60) 0px 2px 8px !important;
+    border: 3px solid rgb(25, 114, 129);
+    padding: 20px;
+    border-radius: 25px;
+}
+
+.afterMyC-a{
+    margin-top: 385px;
+    text-align: center;
+  };
+  
+  .My-courses-section {
+    text-align: center;
+    margin-bottom: 96px;
+  
+    &__title {
+      font-size: 24px;
+      font-weight: 800;
+      color: $c-black;
+      margin-bottom: 32px;
+    }
+  
+    &__highlight {
+      color: #ff8c77;
+    }
+  
+    .My-carousal-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  
+      .swiper-slide {
+        padding: 10px 0;
+        width: 260px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+  
+      .swiper-button-prev {
+        width: 48px;
+        height: 110%;
+        top: 0;
+        right: 0 !important;
+        background: linear-gradient(to right, transparent 0%, white 20%);
+        padding: 10px;
+        &::after {
+          font-weight: bolder;
+          color: #666;
+          font-size: 24px;
+        }
+      }
+      .swiper-button-next {
+        width: 48px;
+        height: 110%;
+        top: 0;
+        left: 0 !important;
+        background: linear-gradient(to left, transparent 0%, white 20%);
+  
+        &::after {
+          font-weight: bolder;
+          color: #666;
+          font-size: 24px;
+        }
+      }
+    }
+  }
+  .bmImg{
+    width: 32px;
+    height: 30px;
+    margin-top: 351px;
+    margin-right: 17%;
+    position: absolute;
+    @media (max-width: 800px) {
+      margin-right: 16%;
+    }
+    @media (max-width: 600px) {
+      width: 28px;
+      margin-right: 2%;
+      margin-top: 348px;
+    }
+  }
