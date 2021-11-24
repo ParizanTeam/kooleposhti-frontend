@@ -1,0 +1,110 @@
+@import '/src/theme/main.scss';
+.Apic{
+    margin-top: 20px;
+    width: 50px;
+    height: fit-content;
+}
+
+.txt{
+  margin-right: 20px;
+  margin-top: 28px;
+  margin-bottom: 28px;
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+}
+.Clful{
+  font-weight: 800;
+  border-radius: 1%;
+  border:#f74444;
+  margin-left: 5px;
+  margin-right: 75px;
+  padding: 10px;
+  @media (max-width: 800px) {
+    margin: auto;
+}
+  //background-color: #fdd8c2;
+}
+
+#drop-area {
+    border: 2px dashed #ccc;
+    border-radius: 20px;
+    width: 480px;
+    font-family: sans-serif;
+    margin: 100px auto;
+    padding: 20px;
+  }
+  #drop-area.highlight {
+    border-color: purple;
+  }
+  p {
+    margin-top: 0;
+  }
+  .my-form {
+    margin-bottom: 10px;
+  }
+  #gallery {
+    margin-top: 10px;
+  }
+  #gallery img {
+    width: 150px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  .button {
+    display: inline-block;
+    padding: 10px;
+    background: #ccc;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  .button:hover {
+    background: #ddd;
+  }
+  #fileElem {
+    display: none;
+  }
+
+  .App {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    @media (max-width: 800px) {
+      margin: auto;
+  }
+  }
+  label {
+    width: 350px;
+    box-sizing: border-box;
+  }
+  .Uplr{
+    margin: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    @media (max-width: 600px) {
+      flex-direction: column;
+  }
+  }
+  .MyHeader{
+    font-size: x-large;
+    color: rgb(32, 0, 61);
+    padding-bottom: 15px ;
+  }
+  .Box{
+    padding: 10px;
+    margin-top: 3px;
+    margin-right: 20px;
+    @media (max-width: 600px) {
+      margin: auto;
+  }
+  }
+  .editor{
+    background-color: rgb(203, 217, 255);
+    min-height: 80px;
+    max-height: max-content;
+    border-radius: 1%;
+    margin-bottom: 20px;
+  }
