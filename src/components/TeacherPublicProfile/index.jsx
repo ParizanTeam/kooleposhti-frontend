@@ -68,7 +68,7 @@ function TeacherPublicProfile(props) {
 
   const teacher_profile1 = (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <img src={back_profile2} alt="sky" className="image" style={{ minWidth: '320px' }} />
+      <img src={back_profile2} alt="teacher_profile" className="image" style={{ minWidth: '320px' , maxWidth: '1000px'}} />
       <Grid sx={{ position: 'absolute', marginTop: { sm: '1%' } }}>
         <Grid
           container
@@ -83,13 +83,13 @@ function TeacherPublicProfile(props) {
             alt="profile"
             sx={{
               width: {
-                lg: breakpoint2 ? '15vmin' : '28vmin',
+                lg: breakpoint2 ? '15vmin' : '23vmin',
                 md: breakpoint1 ? '9vmin' : '10vmin',
                 sm: '10vmin',
                 xs: '14vmin',
               },
               height: {
-                lg: breakpoint2 ? '15vmin' : '28vmin',
+                lg: breakpoint2 ? '15vmin' : '23vmin',
                 md: breakpoint1 ? '9vmin' : '10vmin',
                 sm: '10vmin',
                 xs: '14vmin',
@@ -159,13 +159,13 @@ function TeacherPublicProfile(props) {
     </div>
   );
 
- /*  SwiperCore.use([Navigation, Keyboard]); */
+  /*  SwiperCore.use([Navigation, Keyboard]); */
   const TeacherClasses = () => {
     return (
       <div className="My-courses-section">
         <h2 className="My-courses-section__title">لیست کلاس ها</h2>
         <div className="My-carousal-container">
-          <Grid sx={{width:{md:"85%" , xs:"90vmin"}}}>
+          <Grid sx={{ width: { md: '85%', xs: '90vmin' } }}>
             <Swiper
               spaceBetween={10}
               slidesPerView={'auto'}
@@ -211,7 +211,32 @@ function TeacherPublicProfile(props) {
         <Grid item xs={12} maxWidth="1180px" sx={{ mt: 5 }}>
           <div className="abut-me_wrapper">
             <Typography variant="body" className="about-me">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi voluptatibus praesentium magnam magni, sequi velit, dolorum esse id obcaecati numquam tenetur, in rem saepe. Rem, dolore! Distinctio in harum ipsa ad, error atque nobis voluptate commodi corrupti veniam ex obcaecati reprehenderit velit, sequi, molestiae itaque eos porro accusantium. Quam dolor voluptatibus recusandae id, qui adipisci eaque consequuntur ducimus minima consequatur sunt? Illo quam alias quisquam! A pariatur officiis nulla reprehenderit labore recusandae molestias nobis, doloremque, reiciendis assumenda dolorem consectetur repudiandae magni asperiores nostrum esse amet. Eos unde dicta hic, aspernatur quo tempore exercitationem autem dolorum illo totam amet aliquid commodi ipsa neque quibusdam perferendis ab delectus ea, deserunt sapiente est. Aspernatur quod ex aliquam quos optio, minima, rem hic earum molestias cum fugit? Mollitia, optio, earum ad minima rem reprehenderit, accusantium temporibus assumenda vel illum ullam? Sed hic debitis accusamus quo accusantium necessitatibus praesentium deleniti nesciunt, in illum totam nisi distinctio atque dicta ex suscipit dolorum enim aperiam ad id temporibus quaerat ratione laboriosam ipsam. Aliquid repudiandae nam explicabo saepe ut tenetur, distinctio repellat sapiente aut magnam dignissimos repellendus libero laudantium, quas ipsum nesciunt assumenda molestiae omnis! Harum voluptatum reprehenderit atque enim neque deleniti nostrum, in alias est impedit optio. Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, quibusdam praesentium. Quo cupiditate dolor numquam aliquid minima atque illum est! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestiae modi similique, ea deleniti aperiam veritatis? Atque earum, aliquid quidem, dicta distinctio ullam saepe similique voluptas facilis provident assumenda repudiandae fugiat impedit sit rerum maiores. Ut beatae tempore deserunt ea ex perferendis nam repellendus cum neque dolores explicabo, nobis voluptatibus atque? Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, enim, quo repudiandae eveniet laborum rem excepturi iusto illum, voluptatem alias animi molestias veritatis expedita asperiores deserunt quam adipisci quod! Dolore cum veniam dolorem? Obcaecati ducimus odio, quas, laboriosam porro consequuntur tenetur iste debitis beatae numquam, animi quo similique deleniti officiis iusto. Placeat impedit modi quo sapiente quae asperiores natus eligendi inventore itaque! Delectus exercitationem velit vitae nam minus. Ipsa nam quos saepe. Ducimus beatae ex, commodi officiis quae et eum.
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi voluptatibus praesentium magnam magni,
+              sequi velit, dolorum esse id obcaecati numquam tenetur, in rem saepe. Rem, dolore! Distinctio in harum
+              ipsa ad, error atque nobis voluptate commodi corrupti veniam ex obcaecati reprehenderit velit, sequi,
+              molestiae itaque eos porro accusantium. Quam dolor voluptatibus recusandae id, qui adipisci eaque
+              consequuntur ducimus minima consequatur sunt? Illo quam alias quisquam! A pariatur officiis nulla
+              reprehenderit labore recusandae molestias nobis, doloremque, reiciendis assumenda dolorem consectetur
+              repudiandae magni asperiores nostrum esse amet. Eos unde dicta hic, aspernatur quo tempore exercitationem
+              autem dolorum illo totam amet aliquid commodi ipsa neque quibusdam perferendis ab delectus ea, deserunt
+              sapiente est. Aspernatur quod ex aliquam quos optio, minima, rem hic earum molestias cum fugit? Mollitia,
+              optio, earum ad minima rem reprehenderit, accusantium temporibus assumenda vel illum ullam? Sed hic
+              debitis accusamus quo accusantium necessitatibus praesentium deleniti nesciunt, in illum totam nisi
+              distinctio atque dicta ex suscipit dolorum enim aperiam ad id temporibus quaerat ratione laboriosam ipsam.
+              Aliquid repudiandae nam explicabo saepe ut tenetur, distinctio repellat sapiente aut magnam dignissimos
+              repellendus libero laudantium, quas ipsum nesciunt assumenda molestiae omnis! Harum voluptatum
+              reprehenderit atque enim neque deleniti nostrum, in alias est impedit optio. Lorem ipsum dolor sit amet
+              consectetur adipisicing elit. Dignissimos, quibusdam praesentium. Quo cupiditate dolor numquam aliquid
+              minima atque illum est! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestiae modi
+              similique, ea deleniti aperiam veritatis? Atque earum, aliquid quidem, dicta distinctio ullam saepe
+              similique voluptas facilis provident assumenda repudiandae fugiat impedit sit rerum maiores. Ut beatae
+              tempore deserunt ea ex perferendis nam repellendus cum neque dolores explicabo, nobis voluptatibus atque?
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, enim, quo repudiandae eveniet laborum rem
+              excepturi iusto illum, voluptatem alias animi molestias veritatis expedita asperiores deserunt quam
+              adipisci quod! Dolore cum veniam dolorem? Obcaecati ducimus odio, quas, laboriosam porro consequuntur
+              tenetur iste debitis beatae numquam, animi quo similique deleniti officiis iusto. Placeat impedit modi quo
+              sapiente quae asperiores natus eligendi inventore itaque! Delectus exercitationem velit vitae nam minus.
+              Ipsa nam quos saepe. Ducimus beatae ex, commodi officiis quae et eum.
             </Typography>
           </div>
         </Grid>

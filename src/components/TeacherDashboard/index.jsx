@@ -1,4 +1,4 @@
-import React, { useState , useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import BaseDashboard from '../BaseDashboard';
 import { Grid, ListItem, Avatar, Toolbar } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Apple';
@@ -21,13 +21,12 @@ import DashboardTeacherBankAccount from '../DashboardTeacherBankAccount';
 import DashboardTeacherAboutMe from '../DashboardTeacherAboutMe';
 import TeacherPublicProfile from '../TeacherPublicProfile';
 import profile_1 from '../../assets/images/profile_1.png';
-import axios from "axios"
+import axios from 'axios';
 import './style.scss';
 
 function TeacherDashboard(props) {
-
   const token = 'JWT ' + localStorage.getItem('access_token');
-  const [profile_username , setProfileUserName] = useState("");
+  const [profile_username, setProfileUserName] = useState('');
   useEffect(() => {
     async function fetchData() {
       const res = await axios
@@ -48,13 +47,12 @@ function TeacherDashboard(props) {
     fetchData();
   }, []);
 
-
   let history = useHistory();
   let notValidPath = false;
 
   const [file, setFile] = useState(profile_1);
 
-  const tabs = ['profile', 'classes', 'wallet', 'received', 'bankaccount' , 'about-me' , 'public-profile'];
+  const tabs = ['profile', 'classes', 'wallet', 'received', 'bankaccount', 'about-me', 'public-profile'];
 
   const items = [
     {
@@ -166,7 +164,6 @@ function TeacherDashboard(props) {
           <TeacherPublicProfile />
         </BaseDashboard>
       )}
-      
 
       <BaseDashboard items={items} profile={profile} className="drawer">
         {props.children}

@@ -154,7 +154,7 @@ function DashboardTeacherClasses(props) {
     setExpanded(!expanded);
   };
 
-  let breakpoint = useMediaQuery('(min-width: 1200px)');
+  let breakpoint = useMediaQuery('(min-width: 1000px)');
 
   return (
     <CacheProvider value={cacheRtl}>
@@ -189,10 +189,17 @@ function DashboardTeacherClasses(props) {
 
         <Grid sx={{ margin: '40px 10px 10px 0px' }} className="card-container">
           <ToastContainer rtl={true} />
-          <Grid container spacing={10}>
+          <Grid
+            container
+            spacing={3}
+            sx={{
+              margin: { xl: '0 13vmin', lg: 'auto', md: breakpoint ? '0vmin' : '0 7vmin', sm: '0 4vmin', xs: '0' },
+              paddingRight: '1.5vmin',
+            }}
+          >
             {rows.map(row => (
-              <Grid item md={breakpoint ? 4 : 6} sm={12} xs={12} >
-                <Card sx={{ minWidth: '30vmin' , borderRadius:"25px" }} className="grid">
+              <Grid item lg={4} md={breakpoint ? 6 : 12} sm={12} xs={12}>
+                <Card sx={{ minWidth: '30vmin', borderRadius: '25px' }} className="grid">
                   <CardMedia component="img" height="194" image={image} alt="Paella dish" />
                   <CardContent className="card-item">
                     <Typography variant="h6" color="text.secondary">
@@ -200,7 +207,7 @@ function DashboardTeacherClasses(props) {
                     </Typography>
                   </CardContent>
 
-                  <Divider sx={{ ml: 2.5, mr: 2.5 }} />
+                  {/* <Divider sx={{ ml: 2.5, mr: 2.5 }} /> */}
                   <CardContent className="card-item" sx={{ margin: '0 0 0 0 ' }}>
                     <Typography variant="body1" sx={{ fontWeight: 'bold', mr: 1 }}>
                       ‌ظرفیت کلاس:
@@ -209,7 +216,7 @@ function DashboardTeacherClasses(props) {
                     <Typography variant="body1">{row.capacity}</Typography>
                   </CardContent>
 
-                  <Divider sx={{ ml: 2.5, mr: 2.5 }} />
+                  {/*  <Divider sx={{ ml: 2.5, mr: 2.5 }} /> */}
                   <CardContent className="card-item" sx={{ margin: '0 0 0 0 ' }}>
                     <Typography variant="body1" sx={{ fontWeight: 'bold', mr: 1 }}>
                       تاریخ شروع کلاس:
@@ -219,7 +226,7 @@ function DashboardTeacherClasses(props) {
                       {row.start_date}
                     </Typography>
                   </CardContent>
-                  <Divider sx={{ ml: 2.5, mr: 2.5 }} />
+                  {/*  <Divider sx={{ ml: 2.5, mr: 2.5 }} /> */}
                   <CardContent className="card-item" sx={{ margin: '0 0 0 0 ' }}>
                     <Typography variant="body1" sx={{ fontWeight: 'bold', mr: 1 }}>
                       تاریخ پایان کلاس:
@@ -227,8 +234,11 @@ function DashboardTeacherClasses(props) {
 
                     <Typography variant="body1">{row.end_date}</Typography>
                   </CardContent>
-                  <Divider sx={{ ml: 2.5, mr: 2.5 }} />
-                  <CardActions disableSpacing sx={{ margin: '20px 0 10px 0' }}>
+                  {/* <Divider sx={{ ml: 2.5, mr: 2.5 }} /> */}
+                  <CardActions
+                    disableSpacing
+                    sx={{ margin: '20px 0 10px 0', alignItems: 'center', display: 'flex', justifyContent: 'center' }}
+                  >
                     {row.edit}
                     {row.classPage}
                   </CardActions>
