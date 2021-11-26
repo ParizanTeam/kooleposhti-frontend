@@ -18,10 +18,11 @@ import StudentProfile from '../components/StudentProfile';
 import ClassCalendar from '../components/ClassCalendar';
 import StudentAssignments from '../components/StudentAssignments';
 import StudentAssignmentslist from '../components/StudentAssignmentslist';
+import {history} from '../utils/constants';
 
 const AppRouter = () => {
   return (
-    <Router>
+    <Router  history={history}>
       <Switch>
         <Route path="/" exact>
           <HomePage />
