@@ -4,5 +4,5 @@ export const history = createBrowserHistory();
 
 
 
-export const baseUrl = 'https://kooleposhti.herokuapp.com';
+export const baseUrl = 'http://185.239.106.239';
 

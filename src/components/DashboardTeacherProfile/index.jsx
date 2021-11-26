@@ -24,8 +24,9 @@ import FormData from 'form-data';
 import { Formik } from 'formik';
 import profile_1 from '../../assets/images/profile_2.png';
 import ReactLoading from 'react-loading';
-import './style.scss';
 import axios from '../../utils/axiosConfig';
+import {baseUrl} from '../../utils/constants';
+import './style.scss';
 
 function DashboardTeacherProfile(props) {
   const [validateAfterSubmit, setValidateAfterSubmit] = useState(false);
@@ -42,7 +43,7 @@ function DashboardTeacherProfile(props) {
   useEffect(() => {
     async function fetchData() {
       const res = await axios
-        .get('https://kooleposhti.herokuapp.com/accounts/instructors/me/', {
+        .get(`${baseUrl}/accounts/instructors/me/`, {
           headers: {
             Authorization: token,
             'Content-Type': 'application/json',
@@ -174,7 +175,7 @@ function DashboardTeacherProfile(props) {
                   formdata.append('image', binaryFile);
                   if (changeImage) {
                     const res = await axios
-                      .post('https://kooleposhti.herokuapp.com/images/', formdata, {
+                      .post(`${baseUrl}/images/`, formdata, {
                         headers: {
                           'Content-Type': 'application/json',
                         },
@@ -191,7 +192,7 @@ function DashboardTeacherProfile(props) {
 
                   console.log('body ', body);
                   axios
-                    .put('https://kooleposhti.herokuapp.com/accounts/instructors/me/', JSON.stringify(body), {
+                    .put(`${baseUrl}/accounts/instructors/me/`, JSON.stringify(body), {
                       headers: {
                         Authorization: token,
                         'Content-Type': 'application/json',

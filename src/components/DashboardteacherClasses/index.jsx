@@ -47,7 +47,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-
+import {baseUrl} from '../../utils/constants';
 import image from '../../assets/images/banner.png';
 
 import './style.scss';
@@ -59,7 +59,7 @@ function DashboardTeacherClasses(props) {
   useEffect(() => {
     async function fetchData() {
       const res = await axios
-        .get('https://kooleposhti.herokuapp.com/accounts/instructors/classes/', {
+        .get(`${baseUrl}/accounts/instructors/classes/`, {
           headers: {
             Authorization: token,
             'Content-Type': 'application/json',
@@ -112,7 +112,7 @@ function DashboardTeacherClasses(props) {
   classData.forEach(item => {
     rows.push(
       createData(
-        'https://kooleposhti.herokuapp.com' + item.image,
+        `${baseUrl}` + item.image,
         item.title,
         item.start_date,
         item.end_date,

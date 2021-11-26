@@ -26,6 +26,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { Helmet } from 'react-helmet';
 import ReactLoading from 'react-loading';
 import validator from "validator";
+import {baseUrl} from '../../utils/constants';
 import './style.scss';
 
 const cacheRtl = createCache({
@@ -91,7 +92,7 @@ export default function SignUp() {
                     try {
                       setLoading(true);
                       const res = await axios
-                        .post('https://kooleposhti.herokuapp.com/accounts/checkusername/', JSON.stringify(values), {
+                        .post(`${baseUrl}/accounts/checkusername/`, JSON.stringify(values), {
                           headers: {
                             'Content-Type': 'application/json',
                           },
@@ -103,7 +104,7 @@ export default function SignUp() {
                         });
 
                       const res2 = await axios
-                        .post('https://kooleposhti.herokuapp.com/accounts/checkemail/', JSON.stringify(values), {
+                        .post(`${baseUrl}/accounts/checkemail/`, JSON.stringify(values), {
                           headers: {
                             'Content-Type': 'application/json',
                           },
@@ -115,7 +116,7 @@ export default function SignUp() {
                         });
 
                       const res3 = await axios
-                        .post('https://kooleposhti.herokuapp.com/accounts/activate/', JSON.stringify(values), {
+                        .post(`${baseUrl}/accounts/activate/`, JSON.stringify(values), {
                           headers: {
                             'Content-Type': 'application/json',
                           },

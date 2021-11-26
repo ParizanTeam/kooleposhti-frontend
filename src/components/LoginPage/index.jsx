@@ -29,6 +29,7 @@ import { useSelector } from 'react-redux';
 import { baseUrl } from '../../utils/constants';
 import apiInstance from '../../utils/axiosConfig';
 
+
 const cacheRtl = createCache({
   key: 'muirtl',
   stylisPlugins: [rtlPlugin],
@@ -69,7 +70,7 @@ const LoginPage = () => {
           body.username = values.email;
         }
         setLoading(true);
-        const res = await axios.post('https://kooleposhti.herokuapp.com/accounts/jwt/create/', body);
+        const res = await axios.post(`${baseUrl}/accounts/jwt/create/`, body);
         localStorage.setItem('access_token', res.data.access);
         localStorage.setItem('refresh_token', res.data.refresh);
         setLoading(false);
