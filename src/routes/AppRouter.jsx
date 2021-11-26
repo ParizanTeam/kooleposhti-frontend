@@ -16,6 +16,8 @@ import BookMarkedClasses from '../components/BookMarkedClasses';
 import { Redirect } from 'react-router';
 import StudentProfile from '../components/StudentProfile';
 import ClassCalendar from '../components/ClassCalendar';
+import StudentAssignments from '../components/StudentAssignments';
+import StudentAssignmentslist from '../components/StudentAssignmentslist';
 
 const AppRouter = () => {
   return (
@@ -74,6 +76,12 @@ const AppRouter = () => {
           </Route>
           <Route path="/dashboard/student/profile">
             <StudentProfile />
+          </Route>
+          <Route path="/Student/CourseAssignmentsList">
+            <StudentAssignmentslist />
+          </Route>
+          <Route path="/Student/CourseAssignments">
+            <StudentAssignments />
           </Route>
           <Route path="*">
             <NotFoundPage />

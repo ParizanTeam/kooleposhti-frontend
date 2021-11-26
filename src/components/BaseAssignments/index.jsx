@@ -51,7 +51,7 @@ function BaseAssignments(){
 
   return (
     <div>
-      <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+      <Accordion expanded={true} onChange={handleChange('panel1')}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1bh-content"
@@ -60,72 +60,14 @@ function BaseAssignments(){
           <img src={Pen} alt='Sleeping Fox'className='Apic'/>
           <div className='txt'>
           <Typography sx={{ width: '33%', flexShrink: 0 ,margin: 1}}>
-            سوال 1
+            تمرین 1
           </Typography>
-          <Typography sx={{ color: '#292269', margin: 1}}>حل شده</Typography></div>
+          <Typography sx={{ color: '#292269', margin: 1}}>حل نشده &#128542;</Typography></div>
         </AccordionSummary>
         <AccordionDetails>
           <div className='Clful'>
-          <DragDrop/>
-          </div>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2bh-content"
-          id="panel2bh-header"
-        >
-          <img src={Pen} alt='AwakenFox'className='Apic'/>
-          <div className='txt'>
-          <Typography sx={{ width: '33%', flexShrink: 0,margin: 1 }}>سوال 2</Typography>
-          <Typography sx={{ color: '#292269',margin: 1 }}>
-            حل نشده
-          </Typography></div>
-        </AccordionSummary>
-        <AccordionDetails>
-        <div className='Clful'>
-          <DragDrop/>
-          </div>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3bh-content"
-          id="panel3bh-header"
-        >
-          <img src={Pen} alt='PlayfulFox'className='Apic'/>
-          <div className='txt'>
-          <Typography sx={{ width: '33%', flexShrink: 0,margin: 1 }}>
-            سوال 3
-          </Typography>
-          <Typography sx={{ color: '#292269' ,margin: 1}}>
-            حل شده 
-          </Typography></div>
-        </AccordionSummary>
-        <AccordionDetails>
-        <div className='Clful'>
-          <DragDrop/>
-          </div>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')} > 
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel4bh-content"
-          id="panel4bh-header"
-        >
-          <img src={Pen} alt='HappyFox'className='Apic'/>
-          <div className='txt'>
-          <Typography sx={{ width: '33%', flexShrink: 0 ,margin: 1}}>سوال 4</Typography>
-          <Typography sx={{ color: '#292269',margin: 1 }}>
-            حل نشده
-          </Typography>
-          </div>
-        </AccordionSummary>
-        <AccordionDetails>
-        <div className='Clful'>
+          <p className='mytxt'>&#x2618; گربه ای در یک اتاق شش گوشه خوابیده است این گربه چند زاویه می بیند؟</p>
+          <br/>
           <DragDrop/>
           </div>
         </AccordionDetails>

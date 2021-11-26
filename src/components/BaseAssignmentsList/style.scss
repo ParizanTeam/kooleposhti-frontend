@@ -17,9 +17,8 @@
   font-weight: 800;
   border-radius: 1%;
   border:#f74444;
-  margin-left: 65px;
-  margin-right: 65px;
-  margin-bottom: 20px;
+  margin-left: 5px;
+  margin-right: 75px;
   padding: 10px;
   @media (max-width: 800px) {
     margin: auto;
@@ -82,7 +81,6 @@
   }
   .Uplr{
     margin: auto;
-    margin-top: 50px;
     text-align: center;
     display: flex;
     flex-direction: row;
@@ -105,13 +103,21 @@
   }
   .editor{
     background-color: rgb(203, 217, 255);
-    min-height: 270px;
+    min-height: 80px;
     max-height: max-content;
     border-radius: 1%;
     margin-bottom: 20px;
   }
-  .mytxt{
-    font-size: large;
-    font-weight: 800;
-    color: rgb(65, 0, 126);
+
+  .newCol{
+    color: rgb(80, 92, 255);
+    text-align: left;
+    margin-left: 15px;
+    margin-bottom: 5px;
+    align-items:flex-end;
+  }
+  .deadline{
+    @media (max-width: 800px) {
+      display: none;
+  }
   }
