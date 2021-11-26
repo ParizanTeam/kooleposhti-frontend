@@ -15,6 +15,7 @@ import apiInstance from '../../utils/axiosConfig';
 import { DateObject } from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
+import {baseUrl} from '../../utils/constants';
 
 const steps = ['صفحه‌ی اول', 'صفحه‌ی دوم', 'صفحه‌ی آخر'];
 //const classes = useStyle();
@@ -66,7 +67,7 @@ function CreateCourseForm({ edit }) {
   useEffect(() => {
     if (edit) {
       apiInstance
-        .get(`https://kooleposhti.herokuapp.com/courses/${courseId}`)
+        .get(`${baseUrl}/courses/${courseId}`)
         .then(res => {
           console.log(res.data);
           const {

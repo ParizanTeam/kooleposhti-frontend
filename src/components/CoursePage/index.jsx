@@ -24,6 +24,7 @@ import { Fragment } from 'react';
 import apiInstance from '../../utils/axiosConfig';
 import { ToastContainer, toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
+import {baseUrl} from '../../utils/constants';
 import './style.scss';
 
 import skirt from '../../assets/images/skirt.png';
@@ -144,7 +145,7 @@ const CoursePage = () => {
     });
     setIsLoading(true);
     axios
-      .get(`https://kooleposhti.herokuapp.com/courses/${courseId}`)
+      .get(`${baseUrl}/courses/${courseId}`)
       .then(res => {
         setData(res.data);
         console.log(res.data);
@@ -163,7 +164,7 @@ const CoursePage = () => {
   }, []);
 
   useEffect(() => {
-    apiInstance.get(`https://kooleposhti.herokuapp.com​/courses/${courseId}/can-enroll/`).then(res => {
+    apiInstance.get(`${baseUrl}​/courses/${courseId}/can-enroll/`).then(res => {
       setShowRegister(res.data.enroll);
       console.log(res.data);
     });
@@ -175,7 +176,7 @@ const CoursePage = () => {
       return;
     }
     apiInstance
-      .post(`https://kooleposhti.herokuapp.com/courses/${courseId}/enroll/`)
+      .post(`${baseUrl}/courses/${courseId}/enroll/`)
       .then(res => {
         console.log(res);
         toast.success('با موفقیت ثبت‌نام‌ شدی.');

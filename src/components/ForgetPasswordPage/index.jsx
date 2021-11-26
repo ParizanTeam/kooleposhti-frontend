@@ -23,6 +23,7 @@ import img from '../../assets/images/forget-password.png';
 import './style.scss';
 import { useMediaQuery } from '@mui/material';
 import ReactLoading from 'react-loading';
+import {baseUrl} from '../../utils/constants';
 
 const cacheRtl = createCache({
   key: 'muirtl',
@@ -50,7 +51,7 @@ const ForgetPasswordPage = () => {
     onSubmit: async values => {
       try {
         setLoading(true);
-        const res = await axios.post('https://kooleposhti.herokuapp.com/accounts/users/reset_password/', {
+        const res = await axios.post(`${baseUrl}/accounts/users/reset_password/`, {
           email: values.email,
         });
         console.log(res);

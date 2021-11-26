@@ -25,7 +25,7 @@ import { Formik } from 'formik';
 import profile_1 from '../../assets/images/profile_2.png';
 import ReactLoading from 'react-loading';
 import axios from '../../utils/axiosConfig';
-import {baseUrl} from '../../utils/constants';
+import { baseUrl } from '../../utils/constants';
 import './style.scss';
 
 function DashboardTeacherProfile(props) {
@@ -170,6 +170,7 @@ function DashboardTeacherProfile(props) {
                   formdata.append('password', values.password);
                   formdata.append('phone_no', values.phone_no); */
                   let body = { ...values };
+                  let imag_uploaded = true;
                   console.log('form data', formdata);
                   console.log('pass ', values.password);
                   formdata.append('image', binaryFile);
@@ -187,6 +188,7 @@ function DashboardTeacherProfile(props) {
                       })
                       .catch(err => {
                         console.log('error', err);
+                        imag_uploaded = false;
                       });
                   }
 
@@ -200,22 +202,29 @@ function DashboardTeacherProfile(props) {
                     })
                     .then(response => {
                       console.log('response ', response);
-                      toast.success('با موفقیت به‌روز شد', {
-                        position: 'bottom-center',
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: 'dark',
-                      });
+                      if (imag_uploaded) {
+                        toast.success('با موفقیت به‌روز شد', {
+                          position: 'bottom-center',
+                          autoClose: 5000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: 'dark',
+                        });
+                      } else {
+                        throw 'image not uploaded';
+                      }
                       setLoading(false);
                     })
                     .catch(err => {
                       setLoading(false);
-                      console.log('error', err.response.data.message);
-                      if (err.response.data.message === 'This username is already taken.') {
+                      if (err.response) {
+                        console.log('error', err.response.data.message);
+                      }
+
+                      if (err.response && err.response.data.message === 'This username is already taken.') {
                         toast.error('نام کاربری قبلا انتخاب شده', {
                           position: 'bottom-center',
                           autoClose: 5000,
@@ -226,7 +235,7 @@ function DashboardTeacherProfile(props) {
                           progress: undefined,
                           theme: 'dark',
                         });
-                      } else if (err.response.data.message === 'This email is already taken.') {
+                      } else if (err.response && err.response.data.message === 'This email is already taken.') {
                         toast.error('ایمیل قبلا انتخاب شده', {
                           position: 'bottom-center',
                           autoClose: 5000,
@@ -272,11 +281,9 @@ function DashboardTeacherProfile(props) {
                   error.password = 'طول رمز نباید کمتر از 8 کاراکتر باشه';
                 } else if (/^\d+$/i.test(values.password) && values.password) {
                   error.password = 'رمز عبورت نباید فقط از اعداد تشکیل شده باشه';
-                }else if(!/[0-9]{11}$/i.test(values.phone_no) && values.phone_no)
-                {
+                } else if (!/[0-9]{11}$/i.test(values.phone_no) && values.phone_no) {
                   error.phone_no = 'شماره موبایل نامعتبر';
                 }
-
 
                 return error;
               }}

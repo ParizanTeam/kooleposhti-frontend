@@ -21,6 +21,7 @@ import DashboardTeacherBankAccount from '../DashboardTeacherBankAccount';
 import DashboardTeacherAboutMe from '../DashboardTeacherAboutMe';
 import TeacherPublicProfile from '../TeacherPublicProfile';
 import profile_1 from '../../assets/images/profile_1.png';
+import {baseUrl} from '../../utils/constants';
 import axios from 'axios';
 import './style.scss';
 
@@ -30,7 +31,7 @@ function TeacherDashboard(props) {
   useEffect(() => {
     async function fetchData() {
       const res = await axios
-        .get('https://kooleposhti.herokuapp.com/accounts/instructors/me/', {
+        .get(`${baseUrl}/accounts/instructors/me/`, {
           headers: {
             Authorization: token,
             'Content-Type': 'application/json',

@@ -19,6 +19,7 @@ import { Formik } from 'formik';
 import ReactLoading from 'react-loading';
 import axios from '../../utils/axiosConfig';
 import JoditEditor from "jodit-react";
+import {baseUrl} from '../../utils/constants';
 import './style.scss';
 
 function DashboardTeacherAboutMe(props) {
@@ -35,7 +36,7 @@ function DashboardTeacherAboutMe(props) {
   useEffect(() => {
     async function fetchData() {
       const res = await axios
-        .get('https://kooleposhti.herokuapp.com/accounts/instructors/me/', {
+        .get(`${baseUrl}/accounts/instructors/me/`, {
           headers: {
             Authorization: token,
             'Content-Type': 'application/json',
@@ -113,7 +114,7 @@ function DashboardTeacherAboutMe(props) {
                   setLoading(true);
 
                   axios
-                    .put('https://kooleposhti.herokuapp.com/accounts/instructors/me/', JSON.stringify(values), {
+                    .put(`${baseUrl}/accounts/instructors/me/`, JSON.stringify(values), {
                       headers: {
                         Authorization: token,
                         'Content-Type': 'application/json',
