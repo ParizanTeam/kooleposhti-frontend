@@ -1,0 +1,127 @@
+@import '/src/theme/main.scss';
+
+.assignments {
+  &__create-btn {
+    box-shadow: 0 0 20px rgba(48, 213, 160, 0.5);
+    border: 1px solid #30d5a0;
+    border-radius: 16px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 700;
+    background-color: #30d5a0;
+    color: #fff;
+    margin:0 16px 16px;
+    transition: all 0.5s;
+    &:hover {
+      border: 1px solid #30d5a0;
+      background-color: #fff;
+      color: #000;
+    }
+  }
+
+  &__no-assignment {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 32px;
+    padding: 16px;
+
+    img {
+      width: 350px;
+      height: 300px;
+      max-width: 100%;
+      opacity: 0.9;
+    }
+
+    p {
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
+
+  @media (max-width: 768px) {
+    &__no-assignment {
+      img {
+        height: 240px;
+      }
+    }
+  }
+}
+
+.assignment-card {
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin: 16px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+
+  &__title {
+    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: 500;
+    border-bottom: 2px solid #ccc;
+  }
+
+  &__body {
+    padding: 12px 24px;
+  }
+
+  &__dates {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__button-icon {
+    display: flex;
+    width: auto;
+    background-color: #ccc;
+    border-radius: 16px;
+    padding: 8px 16px;
+    margin: 16px 0;
+    margin-left: 16px;
+    font-weight: 500;
+    text-align: center;
+    span {
+      margin-left: 4px;
+    }
+    svg {
+      color: #fff;
+      margin-left: 8px;
+    }
+  }
+
+  &__buttons-wrapper {
+    margin: 8px 0 16px;
+    display: flex;
+  }
+
+  .info-btn, .orange-btn {
+    margin-left: 16px;
+  }
+
+
+  @media (max-width: 768px) {
+    &__dates {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &__button-icon {
+      margin-left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .info-btn, .orange-btn {
+      margin-bottom: 8px;
+      margin-left: 0;
+    }
+
+    &__buttons-wrapper {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}
