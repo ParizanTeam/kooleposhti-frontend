@@ -37,7 +37,7 @@ import nini from '../../assets/images/nini.png';
 import olympic from '../../assets/images/olympic.png';
 import ship from '../../assets/images/ship.png';
 import pets from '../../assets/images/pets.png';
-
+import {baseUrl} from "../../utils/constants";
 export const categoriesData = [
   {
     imgSrc: ship,
@@ -144,7 +144,7 @@ const CoursePage = () => {
     });
     setIsLoading(true);
     axios
-      .get(`https://kooleposhti.herokuapp.com/courses/${courseId}`)
+      .get(`http://185.239.106.239/courses/${courseId}`)
       .then(res => {
         setData(res.data);
         console.log(res.data);
@@ -163,7 +163,7 @@ const CoursePage = () => {
   }, []);
 
   useEffect(() => {
-    apiInstance.get(`https://kooleposhti.herokuapp.com​/courses/${courseId}/can-enroll/`).then(res => {
+    apiInstance.get(`http://185.239.106.239/​/courses/${courseId}/can-enroll/`).then(res => {
       setShowRegister(res.data.enroll);
       console.log(res.data);
     });
@@ -175,7 +175,7 @@ const CoursePage = () => {
       return;
     }
     apiInstance
-      .post(`https://kooleposhti.herokuapp.com/courses/${courseId}/enroll/`)
+      .post(`http://185.239.106.239/courses/${courseId}/enroll/`)
       .then(res => {
         console.log(res);
         toast.success('با موفقیت ثبت‌نام‌ شدی.');

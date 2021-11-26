@@ -19,15 +19,14 @@ import DashboardTeacherBankAccount from '../DashboardTeacherBankAccount';
 import profile_1 from '../../assets/images/profile_1.png';
 import axios from "axios"
 import './style.scss';
-
-function TeacherDashboard(props) {
+import {baseUrl} from "../../utils/constants";function TeacherDashboard(props) {
 
   const token = 'JWT ' + localStorage.getItem('access_token');
   const [profile_username , setProfileUserName] = useState("");
   useEffect(() => {
     async function fetchData() {
       const res = await axios
-        .get('https://kooleposhti.herokuapp.com/accounts/instructors/me/', {
+        .get(`http://${baseUrl}/accounts/instructors/me/`, {
           headers: {
             Authorization: token,
             'Content-Type': 'application/json',

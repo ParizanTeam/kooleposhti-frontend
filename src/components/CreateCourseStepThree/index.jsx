@@ -40,7 +40,7 @@ import ReactLoading from 'react-loading';
 import './style.scss';
 import { margin } from '@mui/system';
 import apiInstance from '../../utils/axiosConfig';
-
+import {baseUrl} from "../../utils/constants";
 const cacheRtl = createCache({
   key: 'muirtl',
   stylisPlugins: [rtlPlugin],
@@ -134,16 +134,16 @@ function CreateCourseStepThree(props) {
       let id;
       console.log('edit:', edit);
       if (edit) {
-        await apiInstance.put(`https://kooleposhti.herokuapp.com/courses/${courseId}/`, data).then(res => {
+        await apiInstance.put(`http://185.239.106.239/courses/${courseId}/`, data).then(res => {
           console.log(res);
         });
-        apiInstance.patch(`https://kooleposhti.herokuapp.com/courses/${courseId}/`, imageData, {
+        apiInstance.patch(`http://185.239.106.239/courses/${courseId}/`, imageData, {
           headers,
         });
       } else {
         setLoading(true);
         await apiInstance
-          .post('https://kooleposhti.herokuapp.com/courses/', data)
+          .post(`${baseUrl}/courses/`, data)
           .then(res => {
             console.log(res);
             id = res.data.id;
@@ -155,7 +155,7 @@ function CreateCourseStepThree(props) {
           })
           .catch(err => console.log(err));
         apiInstance
-          .patch(`https://kooleposhti.herokuapp.com/courses/${id}/`, imageData, {
+          .patch(`http://185.239.106.239/courses/${id}/`, imageData, {
             headers,
           })
           .catch(err => {
@@ -192,7 +192,7 @@ function CreateCourseStepThree(props) {
           body.username = values.email;
         }
         setLoading(true);
-        const res = await axios.post('https://kooleposhti.herokuapp.com/accounts/jwt/create/', body);
+        const res = await axios.post(`${baseUrl}/accounts/jwt/create/`, body);
         localStorage.setItem('access_token', res.data.access);
         localStorage.setItem('refresh_token', res.data.refresh);
         dispatch(login());
