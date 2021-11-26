@@ -1,13 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import SignupIcon from '@mui/icons-material/AccountCircle';
 import Avatar from '@mui/material/Avatar';
-import {
-  Button,
-  Grid,
-  Box,
-  Typography,
-  Container,
-} from '@mui/material';
+import { Button, Grid, Box, Typography, Container } from '@mui/material';
 import { Link } from 'react-router-dom';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { CacheProvider } from '@emotion/react';
@@ -18,8 +12,10 @@ import FormData from 'form-data';
 import { Formik } from 'formik';
 import ReactLoading from 'react-loading';
 import axios from '../../utils/axiosConfig';
-import JoditEditor from "jodit-react";
-import {baseUrl} from '../../utils/constants';
+import { Editor } from 'react-draft-wysiwyg';
+import { EditorState } from 'draft-js';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { baseUrl } from '../../utils/constants';
 import './style.scss';
 
 function DashboardTeacherAboutMe(props) {
@@ -28,7 +24,7 @@ function DashboardTeacherAboutMe(props) {
   const [values, setValues] = useState({});
   const [loading, setLoading] = useState(false);
   const [teacher_data, setteacherData] = useState({});
-
+  const [editorState , setEditorState] = useState(EditorState.createEmpty())
 
   const token = 'JWT ' + localStorage.getItem('access_token');
   console.log(token);
@@ -53,8 +49,6 @@ function DashboardTeacherAboutMe(props) {
     fetchData();
   }, []);
 
-
-
   const cacheRtl = createCache({
     key: 'muirtl',
 
@@ -67,12 +61,16 @@ function DashboardTeacherAboutMe(props) {
   const [content, setContent] = useState('');
   const config = {
     readonly: false, // all options from https://xdsoft.net/jodit/doc/
-    placeholder:"درباره من ...",
-    minHeight:500,
-    editorCssClass : "about-me",
-    statusbar:false
-}
+    placeholder: 'درباره من ...',
+    minHeight: 500,
+    editorCssClass: 'about-me',
+    statusbar: false,
+  };
 
+  const onEditorStateChange = (editorstate) =>
+  {
+    setEditorState(editorstate);
+  }
 
   return (
     <CacheProvider value={cacheRtl}>
@@ -97,18 +95,14 @@ function DashboardTeacherAboutMe(props) {
               variant="Button"
               sx={{ color: 'rgba(10, 67, 94, 0.942)', fontSize: { sm: '3vmin', xs: '4vmin' } }}
             >
-               درباره من
+              درباره من
             </Typography>
-
 
             <ToastContainer rtl={true} />
 
             <Formik
               enableReinitialize={true}
-              initialValues={{
-
-
-              }}
+              initialValues={{}}
               onSubmit={async values => {
                 try {
                   setLoading(true);
@@ -137,16 +131,16 @@ function DashboardTeacherAboutMe(props) {
                     .catch(err => {
                       setLoading(false);
                       console.log('error', err.response.data.message);
-                        toast.error('شرمنده یه بار دیگه امتحان کن', {
-                          position: 'bottom-center',
-                          autoClose: 5000,
-                          hideProgressBar: false,
-                          closeOnClick: true,
-                          pauseOnHover: true,
-                          draggable: true,
-                          progress: undefined,
-                          theme: 'dark',
-                        });
+                      toast.error('شرمنده یه بار دیگه امتحان کن', {
+                        position: 'bottom-center',
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: 'dark',
+                      });
                     });
                 } catch (error) {
                   console.log('error');
@@ -155,7 +149,6 @@ function DashboardTeacherAboutMe(props) {
               validateOnChange={validateAfterSubmit}
               validate={values => {
                 let error = {};
-
 
                 return error;
               }}
@@ -175,17 +168,14 @@ function DashboardTeacherAboutMe(props) {
                   <ToastContainer rtl={true} />
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
-                    <div  className="wrapper">
-                    <JoditEditor
-                        
-            	        ref={editor}
-                        value={content}
-                        config={config}
-		                tabIndex={1} // tabIndex of textarea
-		                onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
-                        onChange={newContent => {}}
-                    />
-                    </div>
+                      <div className="wrapper">
+                        <Editor
+                          editorState={editorState}
+                          wrapperClassName="editor-wrapper"
+                          editorClassName="editor-main"
+                          onEditorStateChange={onEditorStateChange}
+                        />
+                      </div>
                     </Grid>
                   </Grid>
 
