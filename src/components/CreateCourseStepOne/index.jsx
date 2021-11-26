@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Grid,
   Box,
@@ -22,6 +22,8 @@ import jMoment from 'moment-jalaali';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Chip from '@mui/material/Chip';
 import rtl from 'jss-rtl';
 import './style.scss';
 
@@ -127,7 +129,7 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
                 error={courseName == '' && courseNameBlured}
                 autoFocus
                 value={courseName}
-                helperText={courseName == '' && courseNameBlured ? 'پر کردن این فیلد الزامی است.' : ''}
+                helperText={courseName == '' && courseNameBlured ? 'پرکردن این فیلد الزامی است.' : ''}
                 onBlur={() => setCourseNameBlured(true)}
                 onChange={e => {
                   setFormData(prev => ({ ...prev, courseName: e.target.value }));
@@ -135,7 +137,7 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
               />
               <FormControl className="step-one-select-holder" margin="normal" fullWidth>
                 <InputLabel id="demo-simple-select-helper-label">موضوع</InputLabel>
-                <Select
+                {/* <Select
                   labelId="demo-simple-select-helper-label"
                   id="demo-simple-select-helper"
                   value={category}
@@ -158,9 +160,43 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
                   <MenuItem value={9}>کاردستی</MenuItem>
                   <MenuItem value={10}>نوزاد</MenuItem>
                   <MenuItem value={11}>ورزشی</MenuItem>
+                </Select> */}
+                <Select
+                  labelId="demo-multiple-chip-label"
+                  id="demo-multiple-chip"
+                  multiple
+                  value={category}
+                  input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                  renderValue={selected => (
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                      {selected.map(value => (
+                        <Chip key={value} label={value} />
+                      ))}
+                    </Box>
+                  )}
+                  MenuProps={MenuProps}
+                  margin="normal"
+                  fullWidth
+                  label="موضوع"
+                  required
+                  error={category == '' && categoryBlured}
+                  name="categoryField"
+                  onChange={handleSelectChange}
+                >
+                  <MenuItem value={'مسافرت'}>مسافرت</MenuItem>
+                  <MenuItem value={'زیبایی'}>زیبایی</MenuItem>
+                  <MenuItem value={'حیوانات'}>حیوانات</MenuItem>
+                  <MenuItem value={'بازی'}>بازی</MenuItem>
+                  <MenuItem value={'مد و لباس'}>مد و لباس</MenuItem>
+                  <MenuItem value={'کتاب'}>کتاب</MenuItem>
+                  <MenuItem value={'ساختن'}>ساختن</MenuItem>
+                  <MenuItem value={'خوشمزه'}>خوشمزه</MenuItem>
+                  <MenuItem value={'کاردستی'}>کاردستی</MenuItem>
+                  <MenuItem value={'نوزاد'}>نوزاد</MenuItem>
+                  <MenuItem value={'ورزشی'}>ورزشی</MenuItem>
                 </Select>
                 <FormHelperText style={{ color: '#D32F2F' }}>
-                  {category == '' && categoryBlured ? 'باید یک گزینه را انتخاب کنید.' : ''}
+                  {category == '' && categoryBlured ? 'باید حداقل یک گزینه را انتخاب کنید.' : ''}
                 </FormHelperText>
               </FormControl>
 
@@ -183,7 +219,7 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
                   format="HH:mm:ss | YYYY/MM/DD "
                   name="datesAndTimes"
                   minDate={new Date()}
-                  plugins={[<TimePicker position="bottom" />, <DatePanel position="left" />]}
+                  plugins={[<TimePicker hideSeconds position="bottom" />, <DatePanel position="left" />]}
                   calendarPosition="bottom-right"
                   id="calender"
                 />
@@ -211,19 +247,22 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
                 id="contained-button-file"
                 type="file"
                 accept="image/*"
-                style={{ display: 'none', mt: 1, mb: 1 }}
+                style={{ display: 'none' }}
                 onChange={handleChangeFile}
               />
               <label htmlFor="contained-button-file">
                 <span style={{ display: 'block' }}>
-                  <label for="upload-image" className="step-one-calender__label" style={{ display: 'block' }}>
-                    عکس کلاس
+                  <label
+                    for="upload-image"
+                    className="step-one-calender__label"
+                    style={{ display: 'block', marginTop: 32 }}
+                  >
+                    تصویر کلاس:
                   </label>
                   <Button
                     variant="contained"
                     color="primary"
                     component="span"
-                    style={{ mt: 1, mb: 1 }}
                     id="upload-image"
                     className="step-one-button"
                   >
@@ -240,7 +279,7 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
                   style={{
                     border: courseImage ? '2px solid blue' : '0px',
                     width: courseImage ? '65vmin' : '0px',
-                    height: courseImage ? '65vmin' : '0px',
+                    // height: courseImage ? '65vmin' : '0px',
                     display: courseImage ? 'block' : 'none',
                     borderRadius: '5px',
                   }}

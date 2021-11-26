@@ -15,6 +15,7 @@ import apiInstance from '../../utils/axiosConfig';
 import { DateObject } from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
+import { convertNumberToPersian } from '../../utils/helpers';
 
 const steps = ['صفحه‌ی اول', 'صفحه‌ی دوم', 'صفحه‌ی آخر'];
 //const classes = useStyle();
@@ -40,14 +41,14 @@ const cacheLtr = createCache({
 
 const defaultData = {
   courseName: '',
-  category: '',
+  category: [],
   price: '',
   duration: '',
   dates: '',
   description: '',
   courseImage: '',
   objectives: ['', '', '', ''],
-  tags: ['', '', '', ''],
+  tags: [],
   capacity: '',
   startAge: '',
   endAge: '',
@@ -59,9 +60,17 @@ const defaultData = {
 
 function CreateCourseForm({ edit }) {
   const params = useParams();
+  const [activeStep, setActiveStep] = useState(0);
   console.log(params.courseId);
   const courseId = params.courseId;
   const [formData, setFormData] = useState(defaultData);
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, [activeStep]);
 
   useEffect(() => {
     if (edit) {
@@ -167,8 +176,6 @@ function CreateCourseForm({ edit }) {
     }
   }, []);
 
-  const [activeStep, setActiveStep] = useState(0);
-
   function getSteps() {
     return ['مشخصات کلی کلاس', 'مشخصات شرکت کنندگان', 'مرحله آخر'];
   }
@@ -191,9 +198,9 @@ function CreateCourseForm({ edit }) {
     <CacheProvider value={rtl ? cacheRtl : cacheLtr}>
       <div className="form-holder-main-class">
         <Stepper alternativeLabel activeStep={activeStep} sx={{ mt: 5, pt: 2, pb: 2 }}>
-          {steps.map(label => (
+          {steps.map((label, i) => (
             <Step key={label}>
-              <StepLabel>{label}</StepLabel>
+              <StepLabel icon={convertNumberToPersian(i + 1)}>{label}</StepLabel>
             </Step>
           ))}
         </Stepper>
