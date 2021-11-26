@@ -14,6 +14,7 @@ import { FileUploader } from "react-drag-drop-files";
 
 
 import {Editor, EditorState} from 'draft-js';
+import { Button } from '@mui/material';
 
 const RichtextEditor = () => {
   const [editorState, setEditorState] = useState(()=> EditorState.createEmpty())
@@ -38,6 +39,10 @@ function DragDrop() {
       <div className='Uplr'>
       <FileUploader handleChange={handleChange} name="file" types={fileTypes}/>
       <p className='Box'>{file ? `File name: ${file.name}` : "هنوز فایلی آپلود نشده!"}</p></div>
+      <div className='Bt'>
+        <Button>
+        <p className='Bt__txt'>ثبت</p></Button>
+      </div>
     </div>
   );
 }
