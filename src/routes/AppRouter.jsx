@@ -49,7 +49,7 @@ const AppRouter = () => {
         <Route path="/courses/:courseId" exact>
           <CoursePage />
         </Route>
-        <Route path="/dashboard/class/:classId" exact>
+        <Route path="/dashboard/class/:classId">
           <ClassDashboard />
         </Route>
         <Route path="/class/:courseId/students" exact>

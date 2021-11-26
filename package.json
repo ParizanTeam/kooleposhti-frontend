@@ -23,6 +23,7 @@
     "formik": "^2.2.9",
     "jalali-date": "^1.1.4",
     "jalali-react-datepicker": "^1.2.1",
+    "jodit-react": "^1.1.14",
     "jss-rtl": "^0.3.0",
     "material-ui-image": "^3.3.2",
     "material-ui-persian-date-picker-utils": "^0.1.2",
