@@ -60,7 +60,7 @@ const AppRouter = () => {
         <Route path="/edit-course/:courseId">
           <CreateCourseForm edit />
         </Route>
-        <Route path="/:studentId/student-profile">
+        <Route path="/:studentUsername/student-profile">
           <StudentProfileCard />
         </Route>
         {/* student dasgboard classes url */}
