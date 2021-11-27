@@ -12,14 +12,23 @@ const ClassAtendees = () => {
 
     apiInstance.get(`https://kooleposhti.herokuapp.com/courses/${classId}/students/`).then(res => {
       console.log(res.data);
+      setStudents(res.data);
     });
-    apiInstance.get(`https://kooleposhti.herokuapp.com/courses/${classId}/role/`).then(res => {
-      console.log(res.data);
-    });
+    //*** finding role */
+    // apiInstance.get(`https://kooleposhti.herokuapp.com/courses/${classId}/role/`).then(res => {
+    //   console.log(res.data);
+    // });
   }, []);
   return (
     <div>
       <h3>لیست شرکت‌کنندگان کلاس</h3>
+      {students.length == 0 && <div> هنوز دانش‌آموزی در این کلاس ثبت‌نام نکرده‌است.</div>}
+      {students.length > 0 &&
+        students.map(student => (
+          <div>
+            <img src={student} alt="" />
+          </div>
+        ))}
     </div>
   );
 };
