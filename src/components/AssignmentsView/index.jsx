@@ -25,6 +25,11 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import AttachmentViewer from '../AttachmentViewer';
+import samplePDF from '../../assets/samples/Sample PDF.pdf';
+import sampleVideo from '../../assets/samples/Sample Video.mp4';
+import sampleImage from '../../assets/samples/Sample Image.jpg';
 
 function TablePaginationActions(props) {
   const { count, page, rowsPerPage, onPageChange } = props;
@@ -130,7 +135,6 @@ const headCells = [
     disablePadding: true,
   },
 ];
-
 function Row(props) {
   console.log(props);
   const { row } = props;
@@ -156,6 +160,55 @@ function Row(props) {
 
     props.setSelected(newSelected);
   };
+  const [attachmentToView, setAttachmentToView] = React.useState(null);
+  const attachmentFiles = [
+    {
+      id: 1,
+      uploader: {
+        username: `${row.firstname} ${row.lastname}`,
+        userImage: row.studentImage,
+      },
+      name: 'Sample PDF.pdf',
+      link: samplePDF,
+      createdAt: convertNumberToPersian('شنبه 6 آذر 1400'),
+      mimetype: 'application/pdf',
+    },
+
+    {
+      id: 2,
+      uploader: {
+        username: `${row.firstname} ${row.lastname}`,
+        userImage: row.studentImage,
+      },
+      name: 'Sample Video.mp4',
+      link: sampleVideo,
+      createdAt: convertNumberToPersian('شنبه 6 آذر 1400'),
+      mimetype: 'video/mp4',
+    },
+
+    {
+      id: 3,
+      uploader: {
+        username: `${row.firstname} ${row.lastname}`,
+        userImage: row.studentImage,
+      },
+      name: 'Sample Image.jpg',
+      link: sampleImage,
+      createdAt: convertNumberToPersian('شنبه 6 آذر 1400'),
+      mimetype: 'image/jpeg',
+    },
+    {
+      id: 4,
+      uploader: {
+        username: `${row.firstname} ${row.lastname}`,
+        userImage: row.studentImage,
+      },
+      name: 'Sample Document.docx',
+      link: 'https://file-examples-com.github.io/uploads/2017/02/file-sample_100kB.docx',
+      createdAt: convertNumberToPersian('شنبه 6 آذر 1400'),
+      mimetype: 'document/docx',
+    },
+  ];
   return (
     <React.Fragment>
       <TableRow
@@ -191,10 +244,34 @@ function Row(props) {
               <Typography variant="h6" gutterBottom component="div">
                 تکلیف ارسال شده:
               </Typography>
-              بلد نبودم.
+              <Typography variant="p" gutterBottom component="div">
+                پاسخ متنی
+              </Typography>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+                  <AttachFileIcon />
+                  پیوست ها:
+                </div>
+                {attachmentToView ? (
+                  <AttachmentViewer
+                    attachment={attachmentToView}
+                    // onDelete={}
+                    onClose={() => setAttachmentToView(null)}
+                  />
+                ) : null}
+                {attachmentFiles.map(attachment => (
+                  <div>
+                    <Button style={{textTransform: 'none'}} key={attachment.id} onClick={() => setAttachmentToView(attachment)}>
+                      {attachment.name}
+                    </Button>
+                  </div>
+                ))}
+              </div>
               <div>
                 <div>
-                  <p style={{ color: 'blue', margin: '50px 0 20px' }}>بازخورد:</p>
+                  <Typography variant="body1" component="div" style={{ margin: '50px 0 20px' }}>
+                    ثبت بازخورد:
+                  </Typography>
                   {/* <TextField
                     id="outlined-multiline-static"
                     multiline
@@ -210,9 +287,9 @@ function Row(props) {
                     // toolbarStyle={<toolbarStyleObject>}
                   />
                 </div>
-                <Button variant="outlined" style={{ marginTop: '20px' }}>
-                  ثبت بازخورد
-                </Button>
+                <Box style={{ marginTop: '20px', marginRight: 'auto' }}>
+                  <Button variant="outlined">ارسال</Button>
+                </Box>
               </div>
             </Box>
           </Collapse>
@@ -361,7 +438,6 @@ export default function AssignmentPage() {
           labelDisplayedRows={({ from, to, count }) =>
             convertNumberToPersian(`${from}–${to} از ${count !== -1 ? count : `${to}بیشتر از`}`)
           }
-          sx={{ alignContent: '‏right' }}
         />
       </Paper>
     </Box>

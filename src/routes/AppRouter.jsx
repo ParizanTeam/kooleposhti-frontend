@@ -19,7 +19,6 @@ import ClassCalendar from '../components/ClassCalendar';
 import StudentAssignments from '../components/StudentAssignments';
 import StudentAssignmentslist from '../components/StudentAssignmentslist';
 import {history} from '../utils/constants';
-import AssigmentsPage from '../components/AssigmentsPage';
 
 const AppRouter = () => {
   return (
@@ -58,9 +57,6 @@ const AppRouter = () => {
         </Route>
         <Route path="/class/:courseId/students" exact>
           <ClassStudentInfo></ClassStudentInfo>
-        </Route>
-        <Route path="/class/:courseId/assignments">
-          <AssigmentsPage />
         </Route>
         <Route path="/edit-course/:courseId">
           <CreateCourseForm edit />

@@ -13,7 +13,7 @@ import CreateAssignment from '../CreateAssignment';
 import { toast, ToastContainer } from 'react-toastify';
 import { Modal, Fade, Backdrop } from '@mui/material';
 
-import AssigmentsPage from '../AssigmentsPage';
+import AssignmentsView from '../AssignmentsView';
 import StudentAssignments from '../StudentAssignments';
 import BaseAssignments from '../BaseAssignments';
 
@@ -150,7 +150,7 @@ const ClassDashboard = () => {
             <EditAssignment />
           </Route>
           <Route path="/dashboard/class/:classId/assignments/homeworks" exact>
-            <AssigmentsPage />
+            <AssignmentsView />
           </Route>
           <Route path="/dashboard/class/:classId/assignments/preview" exact>
             <BaseAssignments />
