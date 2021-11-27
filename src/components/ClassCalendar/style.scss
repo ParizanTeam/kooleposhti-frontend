@@ -67,3 +67,35 @@
   padding: 10px;
   background-color: #fdd8c2;
 }
+.firstBt{
+  margin-inline-start: 15%;
+  @media (max-width: 1000px) {
+    margin-inline-start: 7%;
+  }
+  @media (max-width: 800px) {
+    margin-inline-start: 6%;
+  }
+  @media (max-width: 600px) {
+    margin-inline-start: 1%;
+  }
+}
+.SecBt{
+  margin-inline-start: 45%;
+  @media (max-width: 1000px) {
+    margin-inline-start: 43%;
+  }
+  @media (max-width: 800px) {
+    margin-inline-start: 27%;
+  }
+  @media (max-width: 600px) {
+    margin-inline-start: 21%;
+  }
+}
+.BtRow{
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+}
+.Mycolor{
+  color: #f74444;
+}
