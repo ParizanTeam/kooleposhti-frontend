@@ -44,7 +44,7 @@ const defaultData = {
   category: [],
   price: '',
   duration: '',
-  dates: '',
+  dates: [],
   description: '',
   courseImage: '',
   objectives: ['', '', '', ''],

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Grid,
   Box,
@@ -13,7 +13,7 @@ import {
   FormHelperText,
   Button,
 } from '@mui/material';
-import DatePicker from 'react-multi-date-picker';
+import DatePicker, { DateObject } from 'react-multi-date-picker';
 import TimePicker from 'react-multi-date-picker/plugins/time_picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
@@ -26,6 +26,8 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import Chip from '@mui/material/Chip';
 import rtl from 'jss-rtl';
 import './style.scss';
+import 'react-multi-date-picker/styles/layouts/mobile.css';
+import { convertNumberToPersian } from '../../utils/helpers';
 
 const cacheRtl = createCache({
   key: 'muirtl',
@@ -56,6 +58,22 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
   const { courseName, category, image, price, duration, dates, description, courseImage } = formData;
   const [courseNameBlured, setCourseNameBlured] = useState(false);
   const [categoryBlured, setCategoryBlured] = useState(false);
+  const datePickerRef = useRef(null);
+  useEffect(() => {
+    const newDate1 = new DateObject({
+      date: '1400/05/14 | 18:35',
+      format: 'YYYY/MM/DD | HH:mm',
+      calendar: persian,
+      locale: persian_fa,
+    });
+    const newDate2 = new DateObject({
+      date: '1400/05/20 | 18:35',
+      format: 'YYYY/MM/DD | HH:mm',
+      calendar: persian,
+      locale: persian_fa,
+    });
+    setFormData(prev => ({ ...prev, dates: [...prev.dates, newDate1, newDate2] }));
+  }, []);
   const [datePickerBlured, setDatePickerBlured] = useState(false);
   const [fileError, setFileError] = useState(false);
   const handleChangeFile = e => {
@@ -204,7 +222,18 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
                 تاریخ و زمان کلاس‌ها:
               </label>
               <Grid sx={{ width: { md: '65vmin', sm: '65vmin', xs: '92vmin' } }}>
+                <input
+                  onClick={() => {
+                    datePickerRef.current.openCalendar();
+                  }}
+                  placeholder="انتخاب زمان جلسه‌ها"
+                  type="text"
+                  className={`step-one-datePicker${dates == '' && datePickerBlured ? ' error' : ''}`}
+                />
                 <DatePicker
+                  sort
+                  className="rmdp-mobile"
+                  ref={datePickerRef}
                   onBlur={() => setDatePickerBlured(true)}
                   multiple
                   value={dates}
@@ -215,10 +244,10 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
                   placeholder="تاریخ و زمان کلاس‌ها"
                   calendar={persian}
                   locale={persian_fa}
-                  inputClass={`step-one-datePicker${dates == '' && datePickerBlured ? ' error' : ''}`}
-                  format="HH:mm:ss | YYYY/MM/DD "
+                  inputClass="hidden-date-picker"
+                  format="HH:mm | YYYY/MM/DD "
                   name="datesAndTimes"
-                  minDate={new Date()}
+                  // minDate={new Date()}
                   plugins={[<TimePicker hideSeconds position="bottom" />, <DatePanel position="left" />]}
                   calendarPosition="bottom-right"
                   id="calender"
@@ -226,6 +255,13 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
                 <FormHelperText style={{ color: '#D32F2F', marginRight: 14 }}>
                   {dates == '' && datePickerBlured ? 'باید حتما یک روز را انتخاب کنید.' : ''}
                 </FormHelperText>
+                <div>
+                  {dates.map(date => (
+                    <div>
+                      {convertNumberToPersian(`${date.toString().split('|')[1]} ساعت ${date.toString().split('|')[0]}`)}
+                    </div>
+                  ))}
+                </div>
               </Grid>
 
               <TextField
