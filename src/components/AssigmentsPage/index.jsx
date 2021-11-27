@@ -17,7 +17,58 @@ import { StudentList } from './studentList';
 import Avatar from '@mui/material/Avatar';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { Collapse, Typography, IconButton, Button,TextField } from '@mui/material';
+import { Collapse, Typography, IconButton, Button, TextField } from '@mui/material';
+import { convertNumberToPersian } from '../../utils/helpers';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import LastPageIcon from '@mui/icons-material/LastPage';
+
+function TablePaginationActions(props) {
+  const { count, page, rowsPerPage, onPageChange } = props;
+
+  const handleFirstPageButtonClick = event => {
+    onPageChange(event, 0);
+  };
+
+  const handleBackButtonClick = event => {
+    onPageChange(event, page - 1);
+  };
+
+  const handleNextButtonClick = event => {
+    onPageChange(event, page + 1);
+  };
+
+  const handleLastPageButtonClick = event => {
+    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+  };
+
+  return (
+    <Box sx={{ flexShrink: 0, ml: 2.5 }}>
+      <IconButton onClick={handleFirstPageButtonClick} disabled={page === 0} aria-label="first page">
+        <LastPageIcon />
+      </IconButton>
+      <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label="previous page">
+        <KeyboardArrowRight />
+      </IconButton>
+      <IconButton
+        onClick={handleNextButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="next page"
+      >
+        <KeyboardArrowLeft />
+      </IconButton>
+      <IconButton
+        onClick={handleLastPageButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="last page"
+      >
+        <FirstPageIcon />
+      </IconButton>
+    </Box>
+  );
+}
+
 function createData(id, studentImage, firstname, lastname, status) {
   return {
     id,
@@ -141,13 +192,13 @@ function Row(props) {
               بلد نبودم.
               <div>
                 <div>
-                <p style={{color:"blue",marginTop:"50px"}}>بازخورد:</p>
-                <TextField
-                  id="outlined-multiline-static"
-                  multiline
-                  rows={4}
-                  sx={{paddingTop:"10px",paddingBottom:"10px"}}
-                />
+                  <p style={{ color: 'blue', marginTop: '50px' }}>بازخورد:</p>
+                  <TextField
+                    id="outlined-multiline-static"
+                    multiline
+                    rows={4}
+                    sx={{ paddingTop: '10px', paddingBottom: '10px' }}
+                  />
                 </div>
                 <Button variant="outlined">ثبت بازخورد</Button>
               </div>
@@ -283,13 +334,22 @@ export default function AssignmentPage() {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 15]}
+          rowsPerPageOptions={[
+            { label: '۵', value: 5 },
+            { label: '۱۰', value: 10 },
+            { label: '۱۵', value: 15 },
+          ]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          ActionsComponent={TablePaginationActions}
+          labelDisplayedRows={({ from, to, count }) =>
+            convertNumberToPersian(`${from}–${to} از ${count !== -1 ? count : `${to}بیشتر از`}`)
+          }
+          sx={{ alignContent: '‏right' }}
         />
       </Paper>
     </Box>
