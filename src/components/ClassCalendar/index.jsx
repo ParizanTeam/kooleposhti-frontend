@@ -60,7 +60,7 @@ function MyAssignments(){
           aria-controls="panel2bh-content"
           id="panel2bh-header"
         >
-          <img src={SleepingFox} alt='AwakenFox'className='FoxP'/>
+          <img src={(expanded === 'panel2')?AwakenFox:SleepingFox} alt='AwakenFox'className='FoxP'/>
           <div className='Text'>
           <Typography sx={{ width: '33%', flexShrink: 0,margin: 1 }}>چالش نقاشی دایناسور</Typography>
           <Typography sx={{ color: 'text.secondary',margin: 1, marginRight:3 }}>
@@ -89,7 +89,7 @@ function MyAssignments(){
           aria-controls="panel3bh-content"
           id="panel3bh-header"
         >
-          <img src={SleepingFox} alt='PlayfulFox'className='FoxP'/>
+          <img src={(expanded === 'panel3')?AwakenFox:SleepingFox} alt='PlayfulFox'className='FoxP'/>
           <div className='Text'>
           <Typography sx={{ width: '33%', flexShrink: 0,margin: 1 }}>
             چالش شطرنج
@@ -120,7 +120,7 @@ function MyAssignments(){
           aria-controls="panel4bh-content"
           id="panel4bh-header"
         >
-          <img src={SleepingFox} alt='HappyFox'className='FoxP'/>
+          <img src={(expanded === 'panel4')?AwakenFox:SleepingFox} alt='HappyFox'className='FoxP'/>
           <div className='Text'>
           <Typography sx={{ width: '33%', flexShrink: 0 ,margin: 1}}>چالش نویسندگی خلاقانه</Typography>
           <Typography sx={{ color: 'text.secondary',margin: 1 , marginRight:3}}>
