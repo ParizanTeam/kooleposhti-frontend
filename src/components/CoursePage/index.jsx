@@ -37,6 +37,7 @@ import nini from '../../assets/images/nini.png';
 import olympic from '../../assets/images/olympic.png';
 import ship from '../../assets/images/ship.png';
 import pets from '../../assets/images/pets.png';
+import { baseUrl } from '../../utils/constants';
 
 export const categoriesData = [
   {
@@ -155,7 +156,7 @@ const CoursePage = () => {
     });
     setIsLoading(true);
     axios
-      .get(`https://kooleposhti.herokuapp.com/courses/${courseId}`)
+      .get(`${baseUrl}/courses/${courseId}`)
       .then(res => {
         setData(res.data);
         console.log(res.data);
