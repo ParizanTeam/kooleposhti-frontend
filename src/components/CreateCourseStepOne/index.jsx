@@ -55,19 +55,19 @@ jMoment.loadPersian({ dialect: 'persian-modern', usePersianDigits: true });
 
 const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep }) => {
   console.log(activeStep);
-  const { courseName, category, image, price, duration, dates, description, courseImage } = formData;
+  const { courseName, categories, image, price, duration, dates, description, courseImage } = formData;
   const [courseNameBlured, setCourseNameBlured] = useState(false);
   const [categoryBlured, setCategoryBlured] = useState(false);
   const datePickerRef = useRef(null);
   useEffect(() => {
     const newDate1 = new DateObject({
-      date: '1400/05/14 | 18:35',
+      date: '1400/10/14 | 18:35',
       format: 'YYYY/MM/DD | HH:mm',
       calendar: persian,
       locale: persian_fa,
     });
     const newDate2 = new DateObject({
-      date: '1400/05/20 | 18:35',
+      date: '1400/10/20 | 18:35',
       format: 'YYYY/MM/DD | HH:mm',
       calendar: persian,
       locale: persian_fa,
@@ -92,19 +92,15 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
     }
   };
 
-  const handleChange = event => {
-    setFormData(prev => ({ ...prev, category: event.target.value }));
-  };
-
-  const handleSelectChange = event => {
-    handleChange(event);
+  const handleSelectChange = e => {
+    setFormData(prev => ({ ...prev, categories: e.target.value }));
   };
 
   const handleNext = () => {
     setCourseNameBlured(true);
     setCategoryBlured(true);
     setDatePickerBlured(true);
-    if (courseName != '' && category != '' && dates != '') {
+    if (courseName != '' && categories.length != 0 && dates != '') {
       setActiveStep(prevActiveStep => prevActiveStep + 1);
       console.log(dates);
     }
@@ -183,7 +179,7 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
                   labelId="demo-multiple-chip-label"
                   id="demo-multiple-chip"
                   multiple
-                  value={category}
+                  value={categories}
                   input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
                   renderValue={selected => (
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
@@ -197,7 +193,7 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
                   fullWidth
                   label="موضوع"
                   required
-                  error={category == '' && categoryBlured}
+                  error={categories.length == 0 && categoryBlured}
                   name="categoryField"
                   onChange={handleSelectChange}
                 >
@@ -214,7 +210,7 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
                   <MenuItem value={'ورزشی'}>ورزشی</MenuItem>
                 </Select>
                 <FormHelperText style={{ color: '#D32F2F' }}>
-                  {category == '' && categoryBlured ? 'باید حداقل یک گزینه را انتخاب کنید.' : ''}
+                  {categories.length == 0 && categoryBlured ? 'باید حداقل یک گزینه را انتخاب کنید.' : ''}
                 </FormHelperText>
               </FormControl>
 
@@ -247,7 +243,7 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
                   inputClass="hidden-date-picker"
                   format="HH:mm | YYYY/MM/DD "
                   name="datesAndTimes"
-                  // minDate={new Date()}
+                  minDate={new Date()}
                   plugins={[<TimePicker hideSeconds position="bottom" />, <DatePanel position="left" />]}
                   calendarPosition="bottom-right"
                   id="calender"

@@ -41,7 +41,7 @@ const cacheLtr = createCache({
 
 const defaultData = {
   courseName: '',
-  category: [],
+  categories: [],
   price: '',
   duration: '',
   dates: [],

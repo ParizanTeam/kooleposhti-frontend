@@ -40,6 +40,8 @@ import ReactLoading from 'react-loading';
 import './style.scss';
 import { margin } from '@mui/system';
 import apiInstance from '../../utils/axiosConfig';
+import { baseUrl } from '../../utils/constants';
+import { categoriesData } from '../CoursePage';
 
 const cacheRtl = createCache({
   key: 'muirtl',
@@ -85,7 +87,8 @@ function CreateCourseStepThree(props) {
     console.log(localStorage.getItem('access_token'));
     if (price != '' && duration != '' && /^[0-9]+$/i.test(price) && /^[0-9]+$/i.test(duration)) {
       const data = {
-        category: formData.category,
+        // categories: formData.category,
+        categories: formData.categories.map(item => categoriesData.find(elem => elem.title == item)).map(item => item.id),
         duration: formData.duration,
         price: formData.price,
         tags: formData.tags.map(tag => ({ name: tag })).filter(tag => tag.name != ''),
@@ -135,16 +138,16 @@ function CreateCourseStepThree(props) {
       let id;
       console.log('edit:', edit);
       if (edit) {
-        await apiInstance.put(`https://kooleposhti.herokuapp.com/courses/${courseId}/`, data).then(res => {
+        await apiInstance.put(`${baseUrl}/courses/${courseId}/`, data).then(res => {
           console.log(res);
         });
-        apiInstance.patch(`https://kooleposhti.herokuapp.com/courses/${courseId}/`, imageData, {
+        apiInstance.patch(`${baseUrl}/courses/${courseId}/`, imageData, {
           headers,
         });
       } else {
         setLoading(true);
         await apiInstance
-          .post('https://kooleposhti.herokuapp.com/courses/', data)
+          .post(`${baseUrl}/courses/`, data)
           .then(res => {
             console.log(res);
             id = res.data.id;
@@ -156,7 +159,7 @@ function CreateCourseStepThree(props) {
           })
           .catch(err => console.log(err));
         apiInstance
-          .patch(`https://kooleposhti.herokuapp.com/courses/${id}/`, imageData, {
+          .patch(`${baseUrl}/courses/${id}/`, imageData, {
             headers,
           })
           .catch(err => {
@@ -336,7 +339,7 @@ function CreateCourseStepThree(props) {
                 }
                 sx={{ mb: 1 }}
               />
-              <h3 style={{marginTop: 16, marginBottom: 8}}>تگ‌های درس</h3>
+              <h3 style={{ marginTop: 16, marginBottom: 8 }}>تگ‌های درس</h3>
               <p>
                 توجه شود که با انتخاب تگ‌های مناسب، امکان دیده‌شدن درس شما و نمایش آن در نتایج جست‌وجو بیشتر می‌شود.
               </p>
