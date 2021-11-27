@@ -45,10 +45,10 @@ function MyAssignments(){
           </Typography></div>
           <div className='BtRow'>
           <div className='firstBt'>
-          <Link to='*'><Button>
+          <Link to='/Student/CourseAssignmentsList'><Button>
             <p className='Mycolor'>همه تمرینهای این درس</p>
           </Button></Link></div>
-          <div className='SecBt'><Link to='*'><Button>
+          <div className='SecBt'><Link to='/Student/CourseAssignments'><Button>
           <p className='Mycolor'>بریم به صفحه این تمرین</p>
           </Button></Link></div>
         </div>
