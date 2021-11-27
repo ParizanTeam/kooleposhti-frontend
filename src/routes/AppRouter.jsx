@@ -16,11 +16,12 @@ import BookMarkedClasses from '../components/BookMarkedClasses';
 import { Redirect } from 'react-router';
 import StudentProfile from '../components/StudentProfile';
 import ClassCalendar from '../components/ClassCalendar';
-import {history} from '../utils/constants';
+import StudentProfileCard from '../components/StudentProfileCard';
+import { history } from '../utils/constants';
 
 const AppRouter = () => {
   return (
-    <Router  history={history}>
+    <Router history={history}>
       <Switch>
         <Route path="/" exact>
           <HomePage />
@@ -58,6 +59,9 @@ const AppRouter = () => {
         </Route>
         <Route path="/edit-course/:courseId">
           <CreateCourseForm edit />
+        </Route>
+        <Route path="/:studentId/student-profile">
+          <StudentProfileCard />
         </Route>
         {/* student dasgboard classes url */}
         <Switch>
