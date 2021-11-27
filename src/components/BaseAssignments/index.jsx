@@ -37,7 +37,11 @@ function DragDrop() {
       <h1 className='MyHeader'>پاسخ شما:</h1>
       <RichtextEditor/>
       <div className='Uplr'>
-      <FileUploader handleChange={handleChange} name="file" types={fileTypes}/>
+      <div><FileUploader handleChange={handleChange} name="file" types={fileTypes}/></div>
+      <div className='ovL' style={{zIndex:1, position: 'absolute'}}>
+        <p>فایل را بکشید و</p>
+        <p>در قسمت سفید رنگ رها کنید</p>
+      </div>
       <p className='Box'>{file ? `File name: ${file.name}` : "هنوز فایلی آپلود نشده!"}</p></div>
       <div className='Bt'>
         <Button>

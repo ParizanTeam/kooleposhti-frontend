@@ -120,32 +120,27 @@
   }
   .Bt{
     width: max-content;
-    height: 60px;
-    padding: 10px;
-    margin-top: 3px;
-    margin-right: 90%;
+    height: 45px;
+    padding: 1px;
+    margin-top: 5px;
+    margin-right: auto;
     border-radius: 10%;
-    background-color: rgb(181, 200, 253);
-    border-style: dotted;
-    border-color:darkslateblue;
-    @media (max-width: 1400px) {
-      margin-right: 86%;
-    }
-    @media (max-width: 1200px) {
-      margin-right: 84%;
-    }
-    @media (max-width: 1000px) {
-      margin-right: 82%;
-    }
-    @media (max-width: 800px) {
-      margin-right: 80%;
-    }
-    @media (max-width: 600px) {
-      margin-right: 78%;
-    }
+    background-color: rgb(75, 67, 126);
+    border-style:double;
+    border-color:rgb(181, 200, 253);
     &__txt{
+      margin: auto;
       font-size: medium;
       font-weight: 800;
-      color: #3b0618;
+      color: #ffffff;
     }
+  }
+  .ovL{
+    font-weight: 600;
+    font-size: medium;
+    background-color: rgb(225, 220, 255);
+    margin: 2px;
+    height: 43px;
+    width: 255px;
+    border-radius: 1%;
   }
