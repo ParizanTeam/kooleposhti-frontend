@@ -62,7 +62,6 @@ function BaseAssignments(){
     <div>
       <Accordion expanded={true} onChange={handleChange('panel1')}>
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
