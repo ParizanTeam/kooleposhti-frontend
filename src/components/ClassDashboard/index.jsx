@@ -5,10 +5,13 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import FeedbackIcon from '@mui/icons-material/Feedback';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import GroupsIcon from '@mui/icons-material/Groups';
 import MenuIcon from '@mui/icons-material/Menu';
 import Assignments from '../Assignments';
 import CreateAssignment from '../CreateAssignment';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import { Modal, Fade, Backdrop } from '@mui/material';
 
 import AssigmentsPage from '../AssigmentsPage';
 import StudentAssignments from '../StudentAssignments';
@@ -19,14 +22,38 @@ import IconButton from '@mui/material/IconButton';
 import { useMediaQuery } from '@mui/material';
 import patternSrc from '../../assets/images/pattern2.png';
 import './style.scss';
-import { Link, Route, useLocation, useParams } from 'react-router-dom';
+import { Link, Route, useHistory, useLocation, useParams } from 'react-router-dom';
 import EditAssignment from '../EditAssignment';
+
+import apiInstance from '../../utils/axiosConfig';
+import ClassAtendees from '../ClassAtendees';
 
 const ClassDashboard = () => {
   const [showDrawer, setShowDrawer] = useState(false);
   const params = useParams();
   const location = useLocation();
   const classId = params.classId;
+  const history = useHistory();
+  const [openModal, setOpenModal] = useState(false);
+  const handleClose = () => {
+    setOpenModal(false);
+  };
+
+  const leaveClass = () => {
+    apiInstance
+      .post(`http://185.239.106.239/courses/${classId}/leave/`)
+      .then(res => {
+        console.log(res);
+        toast.success('با موفقیت از کلاس خارج شدید.');
+        setTimeout(() => {
+          history.push(`/courses/${classId}`);
+        }, 2000);
+      })
+      .catch(err => {
+        console.log(err);
+        toast.error('مشکلی در سامانه به وجود اومده.');
+      });
+  };
 
   useEffect(() => {
     window.scrollTo({
@@ -51,10 +78,12 @@ const ClassDashboard = () => {
         <img className={baseClass + '__img-bottom'} src={patternSrc} alt="" />
         <div className={baseClass + '__box-1'}></div>
         <div className={baseClass + '__items-container'}>
-          <div className={baseClass + '__item'}>
-            <p>اطلاعات کلی کلاس</p>
-            <DashboardIcon />
-          </div>
+          <Link to={`/dashboard/class/${classId}/`}>
+            <div className={baseClass + '__item'}>
+              <p>اطلاعات کلی کلاس</p>
+              <DashboardIcon />
+            </div>
+          </Link>
           <div className={baseClass + '__item'}>
             <p>چت با استاد</p>
             <ChatIcon />
@@ -79,6 +108,16 @@ const ClassDashboard = () => {
               <RemoveRedEyeIcon />
             </div>
           </Link>
+          <Link to={`/dashboard/class/${classId}/attendees`}>
+            <div className={baseClass + '__item'}>
+              <p>شرکت‌کنندگان کلاس</p>
+              <GroupsIcon />
+            </div>
+          </Link>
+          <div style={{ color: '#f22613' }} onClick={() => setOpenModal(true)} className={baseClass + '__item'}>
+            <p>خروج از کلاس</p>
+            <ExitToAppIcon />
+          </div>
         </div>
         <div className={baseClass + '__box-1'}></div>
       </div>
@@ -116,9 +155,35 @@ const ClassDashboard = () => {
           <Route path="/dashboard/class/:classId/assignments/preview" exact>
             <BaseAssignments />
           </Route>
+          <Route path="/dashboard/class/:classId/attendees" exact>
+            <ClassAtendees />
+          </Route>
         </div>
       </div>
       <ToastContainer rtl={true} position="bottom-center" />
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={openModal}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={openModal}>
+          <div className="register-modal">
+            <h4 className="register-modal__title">آیا از ترک این کلاس مطمئن هستید؟</h4>
+            <button className="register-modal__confirm" onClick={handleClose}>
+              بازگشت
+            </button>
+            <button className="register-modal__cancel" onClick={leaveClass}>
+              ترک کلاس
+            </button>
+          </div>
+        </Fade>
+      </Modal>
     </Fragment>
   );
 };

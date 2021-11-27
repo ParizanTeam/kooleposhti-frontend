@@ -23,6 +23,8 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 function TablePaginationActions(props) {
   const { count, page, rowsPerPage, onPageChange } = props;
@@ -192,15 +194,25 @@ function Row(props) {
               بلد نبودم.
               <div>
                 <div>
-                  <p style={{ color: 'blue', marginTop: '50px' }}>بازخورد:</p>
-                  <TextField
+                  <p style={{ color: 'blue', margin: '50px 0 20px' }}>بازخورد:</p>
+                  {/* <TextField
                     id="outlined-multiline-static"
                     multiline
                     rows={4}
                     sx={{ paddingTop: '10px', paddingBottom: '10px' }}
+                  /> */}
+                  <Editor
+                    wrapperClassName="rich-text-wrapper-class"
+                    editorClassName="rich-text-editor-class"
+                    toolbarClassName="rich-text-toolbar-class"
+                    // wrapperStyle={<wrapperStyleObject>}
+                    // editorStyle={<editorStyleObject>}
+                    // toolbarStyle={<toolbarStyleObject>}
                   />
                 </div>
-                <Button variant="outlined">ثبت بازخورد</Button>
+                <Button variant="outlined" style={{ marginTop: '20px' }}>
+                  ثبت بازخورد
+                </Button>
               </div>
             </Box>
           </Collapse>

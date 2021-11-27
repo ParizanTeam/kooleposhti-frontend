@@ -37,7 +37,7 @@ import nini from '../../assets/images/nini.png';
 import olympic from '../../assets/images/olympic.png';
 import ship from '../../assets/images/ship.png';
 import pets from '../../assets/images/pets.png';
-import {baseUrl} from "../../utils/constants";
+import { baseUrl } from '../../utils/constants';
 export const categoriesData = [
   {
     imgSrc: ship,
@@ -163,7 +163,7 @@ const CoursePage = () => {
   }, []);
 
   useEffect(() => {
-    apiInstance.get(`http://185.239.106.239/​/courses/${courseId}/can-enroll/`).then(res => {
+    apiInstance.get(`http://185.239.106.239/courses/${courseId}/can-enroll/`).then(res => {
       setShowRegister(res.data.enroll);
       console.log(res.data);
     });
@@ -201,12 +201,14 @@ const CoursePage = () => {
           <div className="course-header">
             <div className="course-header__first-section-wrapper">
               <div className="course-header__categories">
-                <CourseCategory
-                  color={categoriesData[data.category - 1].color}
-                  imgSrc={categoriesData[data.category - 1].imgSrc}
-                  theme={categoriesData[data.category - 1].theme}
-                  title={categoriesData[data.category - 1].title}
-                />
+                {data.categories.map(category => (
+                  <CourseCategory
+                    color={categoriesData[category - 1].color}
+                    imgSrc={categoriesData[category - 1].imgSrc}
+                    theme={categoriesData[category - 1].theme}
+                    title={categoriesData[category - 1].title}
+                  />
+                ))}
               </div>
               <div className="course-header__title">{data.title}</div>
               <div className="course-header__rating">
