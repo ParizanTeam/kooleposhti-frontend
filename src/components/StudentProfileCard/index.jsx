@@ -30,7 +30,7 @@ const StudentProfileCard = () => {
             </div>
           </div>
           <div className="student-profile-card-lower-part__bio">
-            <p>{bio}</p>
+            <p className="student-profile-card-lower-part__bio__text">{bio}</p>
           </div>
           <div className="student-profile-card-lower-part__age">
             <p>سن: {age}</p>

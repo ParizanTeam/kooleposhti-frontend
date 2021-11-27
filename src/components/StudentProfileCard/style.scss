@@ -10,7 +10,7 @@
 .student-profile-card-container {
   width: 300px;
   height: 500px;
-  box-shadow: 1px 1px 10px 5px black;
+  box-shadow: 1px 1px 10px 2px black;
   border-radius: 10px;
 }
 
@@ -21,6 +21,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  border-radius: 10px 10px 0px 0px;
 }
 
 .student-profile-card-upper-part__image img {
