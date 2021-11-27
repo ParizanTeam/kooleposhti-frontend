@@ -75,6 +75,14 @@ const Assignments = () => {
                 </div>
                 <div className="assignment-card__buttons-wrapper">
                   <button
+                    onClick={() => {
+                      history.push(`/dashboard/class/${classId}/assignments/preview`);
+                    }}
+                    className="pink-btn"
+                  >
+                    مشاهده تمرین
+                  </button>
+                  <button
                     className="info-btn"
                     onClick={() => {
                       history.push(`/dashboard/class/${classId}/assignments/edit`, {
@@ -84,7 +92,16 @@ const Assignments = () => {
                   >
                     ویرایش تمرین
                   </button>
-                  <button className="orange-btn">مشاهده تمرین</button>
+
+                  <button
+                    onClick={() => {
+                      history.push(`/dashboard/class/${classId}/assignments/homeworks`);
+                    }}
+                    className="orange-btn"
+                  >
+                    مشاهده تکالیف
+                  </button>
+
                   <button
                     className="danger-btn"
                     onClick={() => {

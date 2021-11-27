@@ -10,6 +10,10 @@ import Assignments from '../Assignments';
 import CreateAssignment from '../CreateAssignment';
 import { ToastContainer } from 'react-toastify';
 
+import AssigmentsPage from '../AssigmentsPage';
+import StudentAssignments from '../StudentAssignments';
+import BaseAssignments from '../BaseAssignments';
+
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import { useMediaQuery } from '@mui/material';
@@ -105,6 +109,12 @@ const ClassDashboard = () => {
           </Route>
           <Route path="/dashboard/class/:classId/assignments/edit" exact>
             <EditAssignment />
+          </Route>
+          <Route path="/dashboard/class/:classId/assignments/homeworks" exact>
+            <AssigmentsPage />
+          </Route>
+          <Route path="/dashboard/class/:classId/assignments/preview" exact>
+            <BaseAssignments />
           </Route>
         </div>
       </div>

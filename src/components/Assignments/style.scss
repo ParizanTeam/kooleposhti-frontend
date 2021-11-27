@@ -10,7 +10,7 @@
     font-weight: 700;
     background-color: #30d5a0;
     color: #fff;
-    margin:0 16px 16px;
+    margin: 0 16px 16px;
     transition: all 0.5s;
     &:hover {
       border: 1px solid #30d5a0;
@@ -96,10 +96,11 @@
     display: flex;
   }
 
-  .info-btn, .orange-btn {
+  .info-btn,
+  .orange-btn,
+  .pink-btn {
     margin-left: 16px;
   }
-
 
   @media (max-width: 768px) {
     &__dates {
@@ -114,7 +115,8 @@
       align-items: center;
     }
 
-    .info-btn, .orange-btn {
+    .info-btn,
+    .orange-btn {
       margin-bottom: 8px;
       margin-left: 0;
     }

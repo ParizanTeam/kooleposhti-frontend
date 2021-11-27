@@ -11,6 +11,9 @@ import { convertNumberToPersian } from '../../utils/helpers';
 
 import 'react-multi-date-picker/styles/layouts/mobile.css';
 
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
 import './style.scss';
 import { useHistory } from 'react-router-dom';
 
@@ -100,13 +103,21 @@ const CreateAssignment = () => {
         </div>
       </div>
       <label className="kp-text-input__label">متن صورت تمرین:</label>
-      <JoditEditor
+      {/* <JoditEditor
         ref={editor}
         value={content}
         config={config}
         tabIndex={1} // tabIndex of textarea
         onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
         // onChange={newContent => setContent(newContent)}
+      /> */}
+      <Editor
+        wrapperClassName="rich-text-wrapper-class"
+        editorClassName="rich-text-editor-class"
+        toolbarClassName="rich-text-toolbar-class"
+        // wrapperStyle={<wrapperStyleObject>}
+        // editorStyle={<editorStyleObject>}
+        // toolbarStyle={<toolbarStyleObject>}
       />
       <DatePicker
         ref={startDatePickerRef}
