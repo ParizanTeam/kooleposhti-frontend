@@ -4,7 +4,7 @@ import { themeProps } from '../constant';
 
 const Pro = ({ firstname }) => {
   return (
-    <di className="Pro__Hello" style={{ backgroundColor: themeProps.secondaryColor,
+    <div className="Pro__Hello" style={{ backgroundColor: themeProps.secondaryColor,
      color: themeProps.primaryColor,boxShadow:`${themeProps.primaryColor} 0px 2px 10px` }}>
       <br />
       <span>سلام </span>
@@ -13,7 +13,7 @@ const Pro = ({ firstname }) => {
       <p>به کوله پشتی خوش اومدی</p>
       <br />
       <img src={ProHello} alt="HelloDrearUser" className="Pro__Hello__media" />
-    </di>
+    </div>
   );
 };
 export default Pro;
