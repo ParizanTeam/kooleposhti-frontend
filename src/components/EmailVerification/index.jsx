@@ -11,6 +11,7 @@ import { Redirect } from 'react-router';
 import MyTimer from '../MyTimer';
 import { ToastContainer, toast } from 'react-toastify';
 import {baseUrl} from '../../utils/constants';
+import { convertNumberToPersian } from '../../utils/helpers';
 import './style.scss';
 function EmailVerification(props) {
   const token = useRef('');
@@ -150,7 +151,7 @@ function EmailVerification(props) {
                       لطفا کد تایید ایمیل رو وارد کن
                     </Typography>
                     <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 4 }}>
-                      کد 6 رقمی به <span>{props.location.state.values.email}</span> ارسال شده‌است
+                      کد {convertNumberToPersian(6)} رقمی به <span>{props.location.state.values.email}</span> ارسال شده‌است
                     </Typography>
                   </Grid>
                   <Grid item xs={12} component="form" sx={{ margin: '80px 10px 0 0' }} onSubmit={verifyAndSignUp}>
