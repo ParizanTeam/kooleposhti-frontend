@@ -12,8 +12,10 @@ import MyTimer from '../MyTimer';
 import { ToastContainer, toast } from 'react-toastify';
 import {baseUrl} from '../../utils/constants';
 import { convertNumberToPersian } from '../../utils/helpers';
+import ReactLoading from 'react-loading'
 import './style.scss';
 function EmailVerification(props) {
+  const[loading , setLoading] = useState(false);
   const token = useRef('');
   const [resend, setResend] = useState(false);
   const [isSignedUp, setIsSignedUp] = useState(false);
@@ -29,7 +31,7 @@ function EmailVerification(props) {
     console.log('verified');
     setResend(false);
     const info = { email: props.location.state.values.email, username: props.location.state.values.username };
-
+    
     axios
       .post(`${baseUrl}/accounts/activate/`, info, {
         headers: {
@@ -37,6 +39,7 @@ function EmailVerification(props) {
         },
       })
       .then(response => {
+        
         console.log('status is: ', response.status);
         toast.success('کد تایید با موفقیت ارسال شد', {
           position: 'bottom-center',
@@ -65,6 +68,7 @@ function EmailVerification(props) {
   };
   const verifyAndSignUp = async event => {
     event.preventDefault();
+    setLoading(true);
     const info = { email: props.location.state.values.email ?? null, token: token.current.value ?? null };
 
     try {
@@ -78,6 +82,7 @@ function EmailVerification(props) {
           console.log('status is: ', response.status);
         })
         .catch(err => {
+          setLoading(false);
           throw 'checkcode';
         });
 
@@ -88,6 +93,7 @@ function EmailVerification(props) {
           },
         })
         .then(res => {
+          setLoading(false);
           console.log('status is: ', res.status);
           toast.success('ثبت نام با موفقیت انجام شد', {
             position: 'bottom-center',
@@ -105,6 +111,7 @@ function EmailVerification(props) {
           }, 3000);
         })
         .catch(err => {
+          setLoading(false);
           throw 'signup';
         });
     } catch (error) {
@@ -171,7 +178,8 @@ function EmailVerification(props) {
                       variant="contained"
                       sx={{ mt: 4, backgroundColor: 'rgb(99, 36, 200) !important' }}
                     >
-                      تایید
+                      {!loading && <span>تایید</span>}
+                        {loading && <ReactLoading type="bubbles" color="#fff" className="loading-signup" />}
                     </Button>
                   </Grid>
                   <Grid item xs={12}>
