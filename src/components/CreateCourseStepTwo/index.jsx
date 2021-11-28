@@ -40,6 +40,8 @@ import ReactLoading from 'react-loading';
 import './style.scss';
 import { margin } from '@mui/system';
 import {baseUrl} from "../../utils/constants";
+import { convertNumberToPersian, isPersianNumber } from '../../utils/helpers';
+
 const cacheRtl = createCache({
   key: 'muirtl',
   stylisPlugins: [rtlPlugin],
@@ -113,7 +115,7 @@ function CreateCourseStepTwo(props) {
   const handleNext = () => {
     setCapacityBlured(true);
     setAgeRangeBlured(true);
-    if (capacity != '' && age != '' && /^[0-9]+$/i.test(capacity)) {
+    if (capacity != '' && age != '' && isPersianNumber(capacity)) {
       setActiveStep(prevActiveStep => prevActiveStep + 1);
     }
   };
@@ -241,18 +243,18 @@ function CreateCourseStepTwo(props) {
                 label="ظرفیت کلاس"
                 name="capacity"
                 autoFocus
-                value={capacity}
+                value={convertNumberToPersian(capacity)}
                 onBlur={() => setCapacityBlured(true)}
-                error={(capacity == '' || !/^[0-9]+$/i.test(capacity)) && capacityBlured}
+                error={(capacity == '' || !isPersianNumber(capacity)) && capacityBlured}
                 helperText={
                   capacity == '' && capacityBlured
                     ? 'پر کردن این فیلد الزامی است '
-                    : capacityBlured && !/^[0-9]+$/i.test(capacity)
+                    : capacityBlured && !isPersianNumber(capacity)
                     ? 'باید مقدار عددی وارد کنید.'
                     : ''
                 }
                 onChange={e => {
-                  setFormData(prev => ({ ...prev, capacity: e.target.value }));
+                  setFormData(prev => ({ ...prev, capacity: convertNumberToPersian(e.target.value) }));
                 }}
               />
               <FormControl

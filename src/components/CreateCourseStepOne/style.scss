@@ -1,5 +1,9 @@
 @import '/src/theme/main.scss';
 
+.hidden-date-picker {
+  display: none;
+}
+
 .step-one-title {
   align-items: center !important;
 }
@@ -25,7 +29,6 @@
 }
 
 .step-one-button {
-  margin-top: 1.5rem !important;
   margin-bottom: 1rem !important;
 }
 
