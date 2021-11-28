@@ -1,6 +1,6 @@
 import './style.scss';
 import React, { useState, useEffect } from 'react';
-import { Button, TextField } from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
@@ -12,10 +12,11 @@ import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { useDispatch, useSelector } from 'react-redux';
 import ReactLoading from 'react-loading';
+import ColorPlate from '../../assets/images/color_plate.png';
 
 const options = ['آبی', 'صورتی', 'بنفش'];
 
-export const ConfirmationDialogRaw=(props) => {
+export const ConfirmationDialogRaw = props => {
   const { onClose, value: valueProp, open, ...other } = props;
   const [value, setValue] = React.useState(valueProp);
   const radioGroupRef = React.useRef(null);
@@ -50,7 +51,7 @@ export const ConfirmationDialogRaw=(props) => {
       </DialogContent>
     </div>
   );
-}
+};
 
 ConfirmationDialogRaw.propTypes = {
   onClose: PropTypes.func.isRequired,
@@ -81,12 +82,9 @@ export const ColorModal = () => {
     setOpen(true);
   };
 
-  
   const handleClose = () => {
     setOpen(false);
-    
-  
-    
+
     // axios
     //   .put(`${baseUrl}/accounts/students/me/`, {first_name:userData.first_name,last_name:userData.last_name}, {
     //     headers: {
@@ -107,23 +105,40 @@ export const ColorModal = () => {
 
   return (
     <>
-      <Button variant="primary" onClick={handleClickOpen}>
-          <div className='PB__content'><p>رنگ پروفایل من</p></div>
+      <Button onClick={handleClickOpen} size="large">
+        <img src={ColorPlate} style={{width:"50px",marginLeft:"10px"}} />
+        <Typography variant="h5">
+        <span style={{color:"steelblue"}}>ر</span>
+        <span style={{color:"lightcoral"}}>ن&zwj;</span>
+        <span style={{color:"	mediumaquamarine"}}>گ</span>
+        &nbsp;
+        <span style={{color:"cornflowerblue"}}>پ&zwj;</span>
+        <span style={{color:"pink"}}>ر</span>
+        <span style={{color:"aqua"}}>و</span>
+        <span style={{color:"orange"}}>ف&zwj;</span>
+        <span style={{color:"indianred"}}>ا</span>
+        <span style={{color:"green"}}>ی&zwj;</span>
+        <span style={{color:"deepskyblue"}}>ل</span>
+        &nbsp;
+        <span style={{color:"mediumturquoise"}}>م&zwj;</span>
+        <span style={{color:"	slategray"}}>ن</span>
+        </Typography>
+
       </Button>
-    <CacheProvider value={cacheRtl}>
-      <div dir="rtl">
-        <Dialog open={open} onClose={handleClose}>
-              <List component="div" role="group"  className='Center'>
-                <ConfirmationDialogRaw id="color-menu" keepMounted open={open} onClose={handleClose} value={value} />
-              </List>
-            <DialogActions className='Center'>
-                <Button onClick={handleClose}>
-                    <p className='txtCol'>ثبت</p>
-                </Button>
+      <CacheProvider value={cacheRtl}>
+        <div dir="rtl">
+          <Dialog open={open} onClose={handleClose}>
+            <List component="div" role="group" className="Center">
+              <ConfirmationDialogRaw id="color-menu" keepMounted open={open} onClose={handleClose} value={value} />
+            </List>
+            <DialogActions className="Center">
+              <Button onClick={handleClose}>
+                <p className="txtCol">ثبت</p>
+              </Button>
             </DialogActions>
-        </Dialog>
-      </div>
-    </CacheProvider>
+          </Dialog>
+        </div>
+      </CacheProvider>
     </>
   );
 };

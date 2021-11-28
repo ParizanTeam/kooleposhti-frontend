@@ -346,8 +346,7 @@ const StudentProfile = () => {
           <ProBar firstname="مریم" lastname="شمس" />
           <Pro firstname="مریم" />
             <div className="PB" style={{ color: themeProps.primaryColor }}>
-              <img src={ComeBack} alt="PB" className="PB__media" />
-              <span className="PB__content"><ColorModal/></span>
+              <span><ColorModal/></span>
             </div>
         </div>
         <div
