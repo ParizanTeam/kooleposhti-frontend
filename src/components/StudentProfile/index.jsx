@@ -193,7 +193,7 @@ function StudentAboutMe(props) {
                   <ToastContainer rtl={true} />
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
-                      <div className="wrapper">
+                      <div className="wrapper" style={{boxShadow:`rgba(0, 0, 0, 0.60) 0px 2px 8px !important`,border: `3px solid ${themeProps.primaryColor}`}}>
                         <Editor
                           defaultEditorState={editorState}
                           editorState={editorState}

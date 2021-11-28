@@ -1,4 +1,3 @@
-import ProHello from '../../../assets/images/StudentProfile/ProHello.gif';
 import './style.scss';
 import { themeProps } from '../constant';
 
@@ -12,7 +11,7 @@ const Pro = ({ firstname }) => {
       <span>عزیز</span>
       <p>به کوله پشتی خوش اومدی</p>
       <br />
-      <img src={ProHello} alt="HelloDrearUser" className="Pro__Hello__media" />
+      <img src={themeProps.welcomeImage} alt="HelloDrearUser" className="Pro__Hello__media" />
     </div>
   );
 };

@@ -13,9 +13,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { useDispatch, useSelector } from 'react-redux';
 import ReactLoading from 'react-loading';
 import ColorPlate from '../../assets/images/color_plate.png';
-
+import color_papers from '../../assets/images/color_papers.jpg'
+import { setThemeColor,colorMap } from './constant';
+import { themeProps } from './constant';
 const options = ['آبی', 'صورتی', 'بنفش'];
-
 export const ConfirmationDialogRaw = props => {
   const { onClose, value: valueProp, open, ...other } = props;
   const [value, setValue] = React.useState(valueProp);
@@ -35,11 +36,12 @@ export const ConfirmationDialogRaw = props => {
 
   const handleChange = event => {
     setValue(event.target.value);
+    setThemeColor(colorMap[event.target.value]);
   };
 
   return (
     <div dir="rtl" className="BG">
-      <DialogTitle className="Center">رنگی که دوست داری رو انتخاب کن</DialogTitle>
+      <DialogTitle style={{align:"center",backgroundImage:`url(${color_papers})`,opacity:'0.7',marginTop:"-10px",color:"whitesmoke"}}>رنگی که دوست داری رو انتخاب کن</DialogTitle>
       <DialogContent dividers>
         <RadioGroup ref={radioGroupRef} aria-label="color" name="color" value={value} onChange={handleChange}>
           <div className="CenterB">
@@ -128,10 +130,10 @@ export const ColorModal = () => {
       <CacheProvider value={cacheRtl}>
         <div dir="rtl">
           <Dialog open={open} onClose={handleClose}>
-            <List component="div" role="group" className="Center">
+            <List component="div" role="group" style={{align:"center"}}>
               <ConfirmationDialogRaw id="color-menu" keepMounted open={open} onClose={handleClose} value={value} />
             </List>
-            <DialogActions className="Center">
+            <DialogActions style={{align:"center",borderTop: `3px dotted  ${themeProps.primaryColor}`,marginTop:"-10px"}}>
               <Button onClick={handleClose}>
                 <p className="txtCol">ثبت</p>
               </Button>
