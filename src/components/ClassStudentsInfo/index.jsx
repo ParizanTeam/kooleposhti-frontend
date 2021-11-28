@@ -39,7 +39,7 @@ import { styled } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
 import apiInstance from '../../utils/axiosConfig';
 import AlertDialog from '../AlertDialog';
-import {baseUrl} from '../../utils/constants';
+import { baseUrl } from '../../utils/constants';
 
 import './style.scss';
 
@@ -166,7 +166,7 @@ function ClassStudentInfo(props) {
                     >
                       عکس دانش‌آموز
                     </StyledTableCell>
-                    <StyledTableCell align="center">اسم دانش‌آموز</StyledTableCell>
+                    <StyledTableCell align="center">نام کاربری دانش‌آموز</StyledTableCell>
                     <StyledTableCell align="center">ایمیل دانش‌آموز</StyledTableCell>
                     <StyledTableCell align="center">حذف دانش‌آموز</StyledTableCell>
                   </TableRow>

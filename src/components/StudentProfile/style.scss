@@ -19,7 +19,7 @@
     flex-direction: row;
     margin: 20px;
     padding: 5px;
-    border-radius: 2%;
+    border-radius: 8px;
     @media (max-width: 800px) {
       margin: 20px auto;
       width: 91%;
@@ -52,19 +52,20 @@
       border-radius: 10%;
   }
   &__content{
+      font-size: large;
+      font-weight: 700;
       margin: auto;
       text-align: center;
-      margin-inline-start: 1%;
       border-radius: 10%;
   }
-  @media (max-width: 800px) {
-    display: none;
-  }
+  //@media (max-width: 800px) {
+   // display: none;
+  //}
 }
 
 .Center{
   text-align: center;
-  background-color:rgb(59, 231, 231);
+  background-color:rgb(148, 255, 255);
 }
 .CenterB{
   margin-right: 25px;
@@ -93,4 +94,9 @@
   margin: 5px;
   background-color: plum;
   color:indigo;
+}
+.txtCol{
+  color: black;
+  font-weight: 500;
+  font-size: large;
 }
