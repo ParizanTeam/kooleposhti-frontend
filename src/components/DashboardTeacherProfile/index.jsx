@@ -34,6 +34,7 @@ function DashboardTeacherProfile(props) {
   const [apiResponse, setApiResponse] = useState(false);
   const [values, setValues] = useState({});
   const [loading, setLoading] = useState(true);
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [binaryFile, setBinaryFile] = useState(null);
   const [teacher_data, setteacherData] = useState({});
   const [changeImage, setChangeImage] = useState(false);
@@ -89,8 +90,14 @@ function DashboardTeacherProfile(props) {
   console.log(teacher_data.username);
   return (
     <CacheProvider value={cacheRtl}>
-
-      
+      {loading && (
+        <Grid container direction="column" alignItems="center" justifyContent="center" style={{ minHeight: '100vh' }}>
+          <Grid item xs={12}>
+            <ReactLoading type="spinningBubbles" color="rgb(42, 105, 129)" height={100} width={100} />
+          </Grid>
+        </Grid>
+      )}
+      {!loading && (
         <div dir="rtl">
           <Helmet>
             <title>پروفایل</title>
@@ -139,7 +146,7 @@ function DashboardTeacherProfile(props) {
                 }}
                 onSubmit={async values => {
                   try {
-                    setLoading(true);
+                    setLoadingSubmit(true);
 
                     /* const res = await axios
                   .post('https://kooleposhti.herokuapp.com/accounts/checkusername/', JSON.stringify(values), {
@@ -221,10 +228,10 @@ function DashboardTeacherProfile(props) {
                         } else {
                           throw 'image not uploaded';
                         }
-                        setLoading(false);
+                        setLoadingSubmit(false);
                       })
                       .catch(err => {
-                        setLoading(false);
+                        setLoadingSubmit(false);
                         if (err.response) {
                           console.log('error', err.response.data.message);
                         }
@@ -408,8 +415,8 @@ function DashboardTeacherProfile(props) {
                         sx={{ mt: 3, backgroundColor: 'rgba(10, 67, 94, 0.942) !important' }}
                         typeof="submit"
                       >
-                        {!loading && <span>تایید</span>}
-                        {loading && <ReactLoading type="bubbles" color="#fff" className="loading-signup" />}
+                        {!loadingSubmit && <span>تایید</span>}
+                        {loadingSubmit && <ReactLoading type="bubbles" color="#fff" className="loading-signup" />}
                       </Button>
                     </Grid>
                   </Box>
@@ -418,7 +425,7 @@ function DashboardTeacherProfile(props) {
             </Box>
           </Container>
         </div>
-      
+      )}
     </CacheProvider>
   );
 }
