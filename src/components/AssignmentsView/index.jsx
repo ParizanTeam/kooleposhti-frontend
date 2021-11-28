@@ -2,14 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import { visuallyHidden } from '@mui/utils';
@@ -19,62 +12,14 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Collapse, Typography, IconButton, Button, TextField } from '@mui/material';
 import { convertNumberToPersian } from '../../utils/helpers';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import LastPageIcon from '@mui/icons-material/LastPage';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import AttachmentViewer from '../AttachmentViewer';
+import TablePagination from '../TablePagination';
 import samplePDF from '../../assets/samples/Sample PDF.pdf';
 import sampleVideo from '../../assets/samples/Sample Video.mp4';
 import sampleImage from '../../assets/samples/Sample Image.jpg';
-
-function TablePaginationActions(props) {
-  const { count, page, rowsPerPage, onPageChange } = props;
-
-  const handleFirstPageButtonClick = event => {
-    onPageChange(event, 0);
-  };
-
-  const handleBackButtonClick = event => {
-    onPageChange(event, page - 1);
-  };
-
-  const handleNextButtonClick = event => {
-    onPageChange(event, page + 1);
-  };
-
-  const handleLastPageButtonClick = event => {
-    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-  };
-
-  return (
-    <Box sx={{ flexShrink: 0, ml: 2.5 }}>
-      <IconButton onClick={handleFirstPageButtonClick} disabled={page === 0} aria-label="first page">
-        <LastPageIcon />
-      </IconButton>
-      <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label="previous page">
-        <KeyboardArrowRight />
-      </IconButton>
-      <IconButton
-        onClick={handleNextButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="next page"
-      >
-        <KeyboardArrowLeft />
-      </IconButton>
-      <IconButton
-        onClick={handleLastPageButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="last page"
-      >
-        <FirstPageIcon />
-      </IconButton>
-    </Box>
-  );
-}
 
 function createData(id, studentImage, firstname, lastname, status) {
   return {
@@ -261,7 +206,11 @@ function Row(props) {
                 ) : null}
                 {attachmentFiles.map(attachment => (
                   <div>
-                    <Button style={{textTransform: 'none'}} key={attachment.id} onClick={() => setAttachmentToView(attachment)}>
+                    <Button
+                      style={{ textTransform: 'none' }}
+                      key={attachment.id}
+                      onClick={() => setAttachmentToView(attachment)}
+                    >
                       {attachment.name}
                     </Button>
                   </div>
@@ -354,7 +303,7 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
-export default function AssignmentPage() {
+export default function AssignmentsView() {
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('firstname');
   const [selected, setSelected] = React.useState([]);
@@ -423,21 +372,11 @@ export default function AssignmentPage() {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[
-            { label: '۵', value: 5 },
-            { label: '۱۰', value: 10 },
-            { label: '۱۵', value: 15 },
-          ]}
-          component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
-          ActionsComponent={TablePaginationActions}
-          labelDisplayedRows={({ from, to, count }) =>
-            convertNumberToPersian(`${from}–${to} از ${count !== -1 ? count : `${to}بیشتر از`}`)
-          }
         />
       </Paper>
     </Box>
