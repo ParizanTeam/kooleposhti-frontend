@@ -24,6 +24,7 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Chip from '@mui/material/Chip';
+import CloseIcon from '@mui/icons-material/Close';
 import rtl from 'jss-rtl';
 import './style.scss';
 import 'react-multi-date-picker/styles/layouts/mobile.css';
@@ -59,21 +60,21 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
   const [courseNameBlured, setCourseNameBlured] = useState(false);
   const [categoryBlured, setCategoryBlured] = useState(false);
   const datePickerRef = useRef(null);
-  useEffect(() => {
-    const newDate1 = new DateObject({
-      date: '1400/10/14 | 18:35',
-      format: 'YYYY/MM/DD | HH:mm',
-      calendar: persian,
-      locale: persian_fa,
-    });
-    const newDate2 = new DateObject({
-      date: '1400/10/20 | 18:35',
-      format: 'YYYY/MM/DD | HH:mm',
-      calendar: persian,
-      locale: persian_fa,
-    });
-    setFormData(prev => ({ ...prev, dates: [...prev.dates, newDate1, newDate2] }));
-  }, []);
+  // useEffect(() => {
+  //   const newDate1 = new DateObject({
+  //     date: '1400/10/14 | 18:35',
+  //     format: 'YYYY/MM/DD | HH:mm',
+  //     calendar: persian,
+  //     locale: persian_fa,
+  //   });
+  //   const newDate2 = new DateObject({
+  //     date: '1400/10/20 | 18:35',
+  //     format: 'YYYY/MM/DD | HH:mm',
+  //     calendar: persian,
+  //     locale: persian_fa,
+  //   });
+  //   setFormData(prev => ({ ...prev, dates: [...prev.dates, newDate1, newDate2] }));
+  // }, []);
   const [datePickerBlured, setDatePickerBlured] = useState(false);
   const [fileError, setFileError] = useState(false);
   const handleChangeFile = e => {
@@ -86,6 +87,7 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
         setFileError(false);
         setFormData(prev => ({ ...prev, courseImage: URL.createObjectURL(e.target.files[0]) }));
         setFormData(prev => ({ ...prev, image: e.target.files[0] }));
+        setFormData(prev => ({ ...prev, imageChanged: true }));
         break;
       default:
         setFileError(true);
@@ -249,12 +251,44 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
                   id="calender"
                 />
                 <FormHelperText style={{ color: '#D32F2F', marginRight: 14 }}>
-                  {dates == '' && datePickerBlured ? 'باید حتما یک روز را انتخاب کنید.' : ''}
+                  {dates.length == 0 && datePickerBlured ? 'باید حتما یک روز را انتخاب کنید.' : ''}
                 </FormHelperText>
-                <div>
+                <div
+                  style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignContent: 'flex-start' }}
+                >
                   {dates.map(date => (
-                    <div>
-                      {convertNumberToPersian(`${date.toString().split('|')[1]} ساعت ${date.toString().split('|')[0]}`)}
+                    <div
+                      key={date.toString()}
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        padding: '8px',
+                        width: '96px',
+                        // backgroundColor: '#ff976d',
+                        backgroundColor: '#4885ff',
+                        borderRadius: '8px',
+                        margin: '4px',
+                      }}
+                    >
+                      {/* {convertNumberToPersian(`${date.toString().split('|')[1]} ساعت ${date.toString().split('|')[0]}`)} */}
+                      {/* <div style={{ alignSelf: 'flex-start', backgroundColor: "red" }}> */}
+                      <CloseIcon
+                        style={{ alignSelf: 'flex-start', backgroundColor: '#fff', borderRadius: '24px' }}
+                        fontSize="20"
+                        onClick={() =>
+                          setFormData(prev => ({
+                            ...prev,
+                            dates: prev.dates.filter(item => item.toString() != date.toString()),
+                          }))
+                        }
+                      />
+                      {/* </div> */}
+                      <div style={{ fontWeight: '600', color: '#fff' }}>
+                        {convertNumberToPersian(date.toString().split('|')[1])}
+                      </div>
+                      <div style={{ fontWeight: '600', color: '#fff' }}>{date.toString().split('|')[0]}</div>
                     </div>
                   ))}
                 </div>

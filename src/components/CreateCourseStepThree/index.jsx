@@ -42,6 +42,7 @@ import { margin } from '@mui/system';
 import apiInstance from '../../utils/axiosConfig';
 import { baseUrl } from '../../utils/constants';
 import { categoriesData } from '../CoursePage';
+import { convertNumberToPersian, isPersianNumber } from '../../utils/helpers';
 
 const cacheRtl = createCache({
   key: 'muirtl',
@@ -85,10 +86,12 @@ function CreateCourseStepThree(props) {
     setPriceBlured(true);
     setDurationBlured(true);
     console.log(localStorage.getItem('access_token'));
-    if (price != '' && duration != '' && /^[0-9]+$/i.test(price) && /^[0-9]+$/i.test(duration)) {
+    if (price != '' && duration != '' && isPersianNumber(price) && isPersianNumber(duration)) {
       const data = {
         // categories: formData.category,
-        categories: formData.categories.map(item => categoriesData.find(elem => elem.title == item)).map(item => item.id),
+        categories: formData.categories
+          .map(item => categoriesData.find(elem => elem.title == item))
+          .map(item => item.id),
         duration: formData.duration,
         price: formData.price,
         tags: formData.tags.map(tag => ({ name: tag })).filter(tag => tag.name != ''),
@@ -138,12 +141,34 @@ function CreateCourseStepThree(props) {
       let id;
       console.log('edit:', edit);
       if (edit) {
+        setLoading(true);
         await apiInstance.put(`${baseUrl}/courses/${courseId}/`, data).then(res => {
           console.log(res);
         });
-        apiInstance.patch(`${baseUrl}/courses/${courseId}/`, imageData, {
-          headers,
-        });
+        if (formData.imageChanged) {
+          apiInstance
+            .patch(`${baseUrl}/courses/${courseId}/`, imageData, {
+              headers,
+            })
+            .then(res => {
+              console.log(res.data);
+              toast.success('اطلاعات دوره با موفقیت تغییر یافت.');
+              setTimeout(() => {
+                history.replace('/dashboard/teacher/classes');
+                setLoading(false);
+              }, 2000);
+            })
+            .catch(err => {
+              console.log(err);
+              setLoading(false);
+            });
+        } else {
+          toast.success('اطلاعات دوره با موفقیت تغییر یافت.');
+          setTimeout(() => {
+            history.replace('/dashboard/teacher/classes');
+            setLoading(false);
+          }, 2000);
+        }
       } else {
         setLoading(true);
         await apiInstance
@@ -151,21 +176,37 @@ function CreateCourseStepThree(props) {
           .then(res => {
             console.log(res);
             id = res.data.id;
-            toast.success('دوره با موفقیت ایجاد شد.');
-            setTimeout(() => {
-              history.replace('/dashboard/teacher/classes');
-              setLoading(false);
-            }, 2000);
+            // toast.success('دوره با موفقیت ایجاد شد.');
+            // setTimeout(() => {
+            //   history.replace('/dashboard/teacher/classes');
+            //   setLoading(false);
+            // }, 2000);
           })
           .catch(err => console.log(err));
-        apiInstance
-          .patch(`${baseUrl}/courses/${id}/`, imageData, {
-            headers,
-          })
-          .catch(err => {
-            console.log(err);
+        if (formData.imageChanged) {
+          apiInstance
+            .patch(`${baseUrl}/courses/${id}/`, imageData, {
+              headers,
+            })
+            .then(res => {
+              console.log(res.data);
+              toast.success('دوره با موفقیت ایجاد شد.');
+              setTimeout(() => {
+                history.replace('/dashboard/teacher/classes');
+                setLoading(false);
+              }, 2000);
+            })
+            .catch(err => {
+              console.log(err);
+              setLoading(false);
+            });
+        } else {
+          toast.success('دوره با موفقیت ایجاد شد.');
+          setTimeout(() => {
+            history.replace('/dashboard/teacher/classes');
             setLoading(false);
-          });
+          }, 2000);
+        }
       }
     }
   };
@@ -296,20 +337,20 @@ function CreateCourseStepThree(props) {
                 label="هزینه شرکت در کلاس(تومان)"
                 name="class-price"
                 autoFocus
-                value={price}
+                value={convertNumberToPersian(price)}
                 onBlur={() => setPriceBlured(true)}
-                error={(price == '' || !/^[0-9]+$/i.test(price)) && priceBlured}
+                error={(price == '' || !isPersianNumber(price)) && priceBlured}
                 helperText={
                   price == '' && priceBlured
                     ? 'پر کردن این فیلد الزامی است '
-                    : priceBlured && !/^[0-9]+$/i.test(price)
+                    : priceBlured && !isPersianNumber(price)
                     ? 'باید مقدار عددی وارد کنید.'
                     : ''
                 }
                 // className="step-one-input-field"
                 // value={price}
                 onChange={e => {
-                  setFormData(prev => ({ ...prev, price: e.target.value }));
+                  setFormData(prev => ({ ...prev, price: convertNumberToPersian(e.target.value) }));
                 }}
 
                 // sx={{ mb: 1 }}
@@ -324,16 +365,16 @@ function CreateCourseStepThree(props) {
                 name="class-duration"
                 // className="step-one-input-field"
                 //value={formik.values.email}
-                value={duration}
+                value={convertNumberToPersian(duration)}
                 onBlur={() => setDurationBlured(true)}
                 onChange={e => {
-                  setFormData(prev => ({ ...prev, duration: e.target.value }));
+                  setFormData(prev => ({ ...prev, duration: convertNumberToPersian(e.target.value) }));
                 }}
-                error={(duration == '' || !/^[0-9]+$/i.test(duration)) && durationBlured}
+                error={(duration == '' || !isPersianNumber(duration)) && durationBlured}
                 helperText={
                   duration == '' && durationBlured
                     ? 'پر کردن این فیلد الزامی است '
-                    : durationBlured && !/^[0-9]+$/i.test(duration)
+                    : durationBlured && !isPersianNumber(duration)
                     ? 'باید مقدار عددی وارد کنید.'
                     : ''
                 }
