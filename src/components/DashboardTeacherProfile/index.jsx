@@ -91,7 +91,7 @@ function DashboardTeacherProfile(props) {
       {loading && (
         <Grid container direction="column" alignItems="center" justifyContent="center" style={{ minHeight: '100vh' }}>
           <Grid item xs={12}>
-            <ReactLoading type="spinningBubbles" color="rgb(10,68,94)" height={100} width={100} />
+            <ReactLoading type="spinningBubbles" color="rgb(42, 105, 129)" height={100} width={100} />
           </Grid>
         </Grid>
       )}

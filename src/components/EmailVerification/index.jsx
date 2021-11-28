@@ -159,8 +159,8 @@ function EmailVerification(props) {
                       removeDefaultStyles
                       dir="ltr"
                       classNames={{
-                        container: 'container',
-                        character: 'character',
+                        container: 'email-verification-container',
+                        character: 'email-verification-character',
                         characterInactive: 'character--inactive',
                         characterSelected: 'character--selected',
                       }}

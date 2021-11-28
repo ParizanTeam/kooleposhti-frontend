@@ -230,17 +230,6 @@ function TeacherPublicProfile(props) {
                   />
                 </SwiperSlide>
               ))}
-              {coursesData.map(item => (
-                <SwiperSlide key={item.id}>
-                  <CourseCard
-                    title={item.title}
-                    teacherName={item.teacherName}
-                    rate={item.rate}
-                    teacherImgSrc={item.teacherImgSrc}
-                    imgSrc={item.imgSrc}
-                  />
-                </SwiperSlide>
-              ))}
             </Swiper>
           </Grid>
         </div>
@@ -253,7 +242,7 @@ function TeacherPublicProfile(props) {
       {loading && (
         <Grid container direction="column" alignItems="center" justifyContent="center" style={{ minHeight: '100vh' }}>
           <Grid item xs={12}>
-            <ReactLoading type="spinningBubbles" color="rgb(10,68,94)" height={100} width={100} />
+            <ReactLoading type="spinningBubbles" color="rgb(42, 105, 129)" height={100} width={100} />
           </Grid>
         </Grid>
       )}
