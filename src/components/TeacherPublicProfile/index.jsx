@@ -225,7 +225,7 @@ function TeacherPublicProfile(props) {
                         : item.teacherName
                     }
                     rate={item.rate === undefined ? 2 : item.rate}
-                    teacherImgSrc={teacherData.image === undefined ? profile_1 : teacherData.image.image}
+                    teacherImgSrc={teacherData.image === null ? profile_1 : teacherData.image.image}
                     imgSrc={item.imgSrc === undefined ? image : item.imgSrc}
                   />
                 </SwiperSlide>
