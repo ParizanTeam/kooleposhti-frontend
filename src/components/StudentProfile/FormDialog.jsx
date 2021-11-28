@@ -6,7 +6,7 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { FormControl, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import List from '@mui/material/List';
-
+import { themeProps } from './constant';
 
 
 
@@ -59,12 +59,12 @@ export const FormDialog = () => {
 
   return (
 <CacheProvider value={cacheRtl}>
-    <div dir="rtl" className='Center'>
+    <div dir="rtl" style={{align:"center",backgroundColor: themeProps.secondaryColor}}>
       {/*<Button variant="outlined" onClick={handleClickOpen} >
         Open form dialog
         </Button>*/}
       <Dialog open={open} onClose={handleClose} >
-        <DialogTitle className='Center'>اسمت چیه؟</DialogTitle>
+        <DialogTitle style={{align:"center",backgroundColor: themeProps.secondaryColor}}>اسمت چیه؟</DialogTitle>
         <DialogContent dividers >
           <TextField
             autoFocus
@@ -88,7 +88,7 @@ export const FormDialog = () => {
           />
            <DialogContent/>   
         </DialogContent>
-        <DialogActions className='Center'>
+        <DialogActions style={{align:"center",backgroundColor: themeProps.secondaryColor}}>
           <Button onClick={handleClose}>
             <p className='txtCol'>ثبت</p>
           </Button>
