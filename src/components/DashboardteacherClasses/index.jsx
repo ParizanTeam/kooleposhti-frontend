@@ -49,7 +49,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {baseUrl} from '../../utils/constants';
 import image from '../../assets/images/banner.png';
-import image2 from '../../assets/images/banner.png';
+
 import './style.scss';
 function DashboardTeacherClasses(props) {
   const [classData, setClassData] = useState([]);
@@ -200,7 +200,7 @@ function DashboardTeacherClasses(props) {
             {rows.map(row => (
               <Grid item lg={4} md={breakpoint ? 6 : 12} sm={12} xs={12}>
                 <Card sx={{ minWidth: '30vmin', borderRadius: '25px' }} className="grid">
-                  <CardMedia component="img" height="194" image={image2} alt="Paella dish" className="card-media-image"/>
+                  <CardMedia component="img" height="194" image={row.img} alt="Paella dish" className="card-media-image"/>
                   <CardContent className="card-item">
                     <Typography variant="h6" color="text.secondary">
                       {row.subject}
