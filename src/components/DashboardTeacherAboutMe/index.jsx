@@ -12,8 +12,9 @@ import FormData from 'form-data';
 import { Formik } from 'formik';
 import ReactLoading from 'react-loading';
 import axios from '../../utils/axiosConfig';
+import draftToHtml from 'draftjs-to-html';
 import { Editor } from 'react-draft-wysiwyg';
-import { EditorState } from 'draft-js';
+import { EditorState, ContentState, convertFromHTML , convertToRaw  } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { baseUrl } from '../../utils/constants';
 import './style.scss';
@@ -24,27 +25,34 @@ function DashboardTeacherAboutMe(props) {
   const [values, setValues] = useState({});
   const [loading, setLoading] = useState(false);
   const [teacher_data, setteacherData] = useState({});
-  const [editorState , setEditorState] = useState(EditorState.createEmpty())
-
+  const [editorContent, setEditorContent] = useState(EditorState.createEmpty());
+  let init_content = ""
+  const [editorState, setEditorState] = useState(EditorState.createWithContent(
+    ContentState.createFromBlockArray(
+      convertFromHTML(`<p>درباره من ...</p>`)
+    )));
   const token = 'JWT ' + localStorage.getItem('access_token');
-  console.log(token);
 
   useEffect(() => {
     async function fetchData() {
       const res = await axios
-        .get(`${baseUrl}/accounts/instructors/me/`, {
+        .get(`${baseUrl}/accounts/profile/update-profile/`, {
           headers: {
             Authorization: token,
             'Content-Type': 'application/json',
           },
         })
         .then(response => {
-          console.log('get response: ', response);
-          setteacherData(response.data);
+          console.log(response.data.data.bio);
+          /* setEditorContent(response.data.data.bio); */
+          setEditorState(EditorState.createWithContent(
+            ContentState.createFromBlockArray(
+              convertFromHTML(response.data.data.bio)
+              )
+              ));
+          console.log("content:",editorContent)
         })
-        .catch(err => {
-          console.log('error: ', err);
-        });
+        .catch(err => {});
     }
     fetchData();
   }, []);
@@ -67,10 +75,15 @@ function DashboardTeacherAboutMe(props) {
     statusbar: false,
   };
 
-  const onEditorStateChange = (editorstate) =>
-  {
+  const onContentStateChange = editorcontent => {
+    setEditorContent(editorcontent);
+  };
+
+  const onEditorStateChange = editorstate => {
     setEditorState(editorstate);
-  }
+  };
+
+
 
   return (
     <CacheProvider value={cacheRtl}>
@@ -106,9 +119,10 @@ function DashboardTeacherAboutMe(props) {
               onSubmit={async values => {
                 try {
                   setLoading(true);
-
+                  console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
+                  const body = { bio: draftToHtml(convertToRaw(editorState.getCurrentContent())) };
                   axios
-                    .put(`${baseUrl}/accounts/instructors/me/`, JSON.stringify(values), {
+                    .put(`${baseUrl}/accounts/profile/update-profile/`, JSON.stringify(body), {
                       headers: {
                         Authorization: token,
                         'Content-Type': 'application/json',
@@ -170,10 +184,21 @@ function DashboardTeacherAboutMe(props) {
                     <Grid item xs={12}>
                       <div className="wrapper">
                         <Editor
+                          defaultEditorState={editorState}
                           editorState={editorState}
+                          editorContent={editorContent}
                           wrapperClassName="editor-wrapper"
                           editorClassName="editor-main"
+                          onContentStateChange={onContentStateChange}
                           onEditorStateChange={onEditorStateChange}
+                          toolbar={{
+                            inline:{inDropdown: true},
+                            list:{inDropdown: true},
+                            textAlign:{inDropdown: true},
+                            link:{inDropdown: true},
+                            history:{inDropdown: true},
+                            
+                          }}
                         />
                       </div>
                     </Grid>

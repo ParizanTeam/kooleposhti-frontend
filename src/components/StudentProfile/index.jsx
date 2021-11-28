@@ -18,17 +18,12 @@ import './style.scss';
 import axios from '../../utils/axiosConfig';
 import { baseUrl } from '../../utils/constants';
 import { login } from '../../store/actions';
-import { FormControl, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import PropTypes from 'prop-types';
-import List from '@mui/material/List';
-import RadioGroup from '@mui/material/RadioGroup';
-import Radio from '@mui/material/Radio';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Navbar from '../Navbar';
 import { themeProps } from './constant';
 import { useDispatch, useSelector } from 'react-redux';
 import ReactLoading from 'react-loading';
-import {FormDialog} from './FormDialog'
+import {FormDialog} from './FormDialog';
+import ColorModal from './ColorModal';
 
 function SProfile(props) {
   const [validateAfterSubmit, setValidateAfterSubmit] = useState(false);
@@ -350,12 +345,9 @@ const StudentProfile = () => {
         <div className="RightBar">
           <ProBar firstname="مریم" lastname="شمس" />
           <Pro firstname="مریم" />
-          <Link to="/">
             <div className="PB" style={{ color: themeProps.primaryColor }}>
-              <img src={ComeBack} alt="PB" className="PB__media" />
-              <span className="PB__content">برگردیم خونه؟</span>
+              <span><ColorModal/></span>
             </div>
-          </Link>
         </div>
         <div
           className="Forms"

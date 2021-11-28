@@ -28,11 +28,33 @@ import CourseCard from '../CourseCard';
 import { useMobile } from '../../utils/detectSource';
 import { coursesData } from './coursesData.js';
 import 'swiper/swiper-bundle.min.css';
+import { baseUrl } from '../../utils/constants';
 import './style.scss';
 
 import './style.scss';
 
 function TeacherPublicProfile(props) {
+  const token = 'JWT ' + localStorage.getItem('access_token');
+  const [teacherData, setTeacherData] = useState({bio:"" , courses:[{id:2 , title:"" , teacherName:"",teacherImgSrc:"#",imgSrc:"#",rate:0}],first_name:"",last_name:"",rate:0,username:"",image:{}});
+
+  useEffect(() => {
+     function fetchData() {
+      const res =  axios
+        .get(`${baseUrl}/accounts/profile/update-profile/`, {
+          headers: {
+            Authorization: token,
+            'Content-Type': 'application/json',
+          },
+        })
+        .then(response => {
+          console.log(response.data.data);
+          setTeacherData(response.data.data);
+        })
+        .catch(err => {});
+    }
+    fetchData();
+  }, []);
+
   const customIcons = {
     1: {
       icon: <SentimentVeryDissatisfiedIcon />,
@@ -63,12 +85,18 @@ function TeacherPublicProfile(props) {
 
   const breakpoint1 = useMediaQuery('(max-width: 1000px)');
   const breakpoint2 = useMediaQuery('(max-width: 1400px)');
+  const breakpoint3 = useMediaQuery('(max-width: 600px)');
 
   const [value, setValue] = React.useState(3);
 
   const teacher_profile1 = (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <img src={back_profile2} alt="teacher_profile" className="image" style={{ minWidth: '320px' , maxWidth: '1000px'}} />
+      <img
+        src={breakpoint3 ? back_profile1 : back_profile2}
+        alt="teacher_profile"
+        className="image"
+        style={{ minWidth: '320px', maxWidth: '1000px' }}
+      />
       <Grid sx={{ position: 'absolute', marginTop: { sm: '1%' } }}>
         <Grid
           container
@@ -79,23 +107,24 @@ function TeacherPublicProfile(props) {
           }}
         >
           <Avatar
-            src={profile_1}
+            src={teacherData.image.image}
             alt="profile"
             sx={{
               width: {
                 lg: breakpoint2 ? '15vmin' : '23vmin',
                 md: breakpoint1 ? '9vmin' : '10vmin',
                 sm: '10vmin',
-                xs: '14vmin',
+                xs: '20vmin',
               },
               height: {
                 lg: breakpoint2 ? '15vmin' : '23vmin',
                 md: breakpoint1 ? '9vmin' : '10vmin',
                 sm: '10vmin',
-                xs: '14vmin',
+                xs: '20vmin',
               },
               borderRadius: '50%',
-              mt: { lg: '12vmin', md: '8vmin', sm: '6vmin', xs: '10vmin' },
+              mt: { lg: '12vmin', md: '8vmin', sm: '6vmin', xs: '20vmin' },
+              border:"rgb(10,90,137) solid 3px"
             }}
           />
           <Typography
@@ -106,10 +135,10 @@ function TeacherPublicProfile(props) {
               fontSize: { lg: '1.5rem', sm: '1.5vmin', xs: '1.6vmax' },
               width: '20vmax',
               textAlign: 'center',
-              color: 'blue',
+              color: 'rgb(5,105,169) !important',
             }}
           >
-            EmadMousavi
+            {teacherData.username}
           </Typography>
           <Typography
             variant="body2"
@@ -118,15 +147,16 @@ function TeacherPublicProfile(props) {
               fontSize: { lg: '1.1rem', sm: '1.2vmin', xs: '1.3vmax' },
               width: '20vmax',
               textAlign: 'center',
+              color:"rgb(0,155,160) !important"
             }}
           >
-            سید عماد موسوی
+            {teacherData.first_name + " " + teacherData.last_name}
           </Typography>
           <Rating
             name="simple-controlled"
             readOnly
             precision={0.5}
-            value={value}
+            value={teacherData.rate === null ? 3 : teacherData.rate}
             onChange={(event, newValue) => {
               setValue(newValue);
             }}
@@ -175,6 +205,17 @@ function TeacherPublicProfile(props) {
               keyboard
               centeredSlides
             >
+              {teacherData.courses.map(item => (
+                <SwiperSlide key={item.id}>
+                  <CourseCard
+                    title={item.title === undefined ? "title" : item.title}
+                    teacherName={item.teacherName === undefined ? "title" : item.teacherName}
+                    rate={item.rate === undefined ? "title" : item.rate}
+                    teacherImgSrc={item.teacherImgSrc === undefined ? "title" : item.teacherImgSrc}
+                    imgSrc={item.imgSrc === undefined ? "title" : item.imgSrc}
+                  />
+                </SwiperSlide>
+              ))}
               {coursesData.map(item => (
                 <SwiperSlide key={item.id}>
                   <CourseCard
@@ -208,35 +249,10 @@ function TeacherPublicProfile(props) {
         <Grid item xs={12} sx={{ mt: 3 }}>
           <Typography variant="h4">درباره من</Typography>
         </Grid>
-        <Grid item xs={12} maxWidth="1180px" sx={{ mt: 5 }}>
-          <div className="abut-me_wrapper">
-            <Typography variant="body" className="about-me">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi voluptatibus praesentium magnam magni,
-              sequi velit, dolorum esse id obcaecati numquam tenetur, in rem saepe. Rem, dolore! Distinctio in harum
-              ipsa ad, error atque nobis voluptate commodi corrupti veniam ex obcaecati reprehenderit velit, sequi,
-              molestiae itaque eos porro accusantium. Quam dolor voluptatibus recusandae id, qui adipisci eaque
-              consequuntur ducimus minima consequatur sunt? Illo quam alias quisquam! A pariatur officiis nulla
-              reprehenderit labore recusandae molestias nobis, doloremque, reiciendis assumenda dolorem consectetur
-              repudiandae magni asperiores nostrum esse amet. Eos unde dicta hic, aspernatur quo tempore exercitationem
-              autem dolorum illo totam amet aliquid commodi ipsa neque quibusdam perferendis ab delectus ea, deserunt
-              sapiente est. Aspernatur quod ex aliquam quos optio, minima, rem hic earum molestias cum fugit? Mollitia,
-              optio, earum ad minima rem reprehenderit, accusantium temporibus assumenda vel illum ullam? Sed hic
-              debitis accusamus quo accusantium necessitatibus praesentium deleniti nesciunt, in illum totam nisi
-              distinctio atque dicta ex suscipit dolorum enim aperiam ad id temporibus quaerat ratione laboriosam ipsam.
-              Aliquid repudiandae nam explicabo saepe ut tenetur, distinctio repellat sapiente aut magnam dignissimos
-              repellendus libero laudantium, quas ipsum nesciunt assumenda molestiae omnis! Harum voluptatum
-              reprehenderit atque enim neque deleniti nostrum, in alias est impedit optio. Lorem ipsum dolor sit amet
-              consectetur adipisicing elit. Dignissimos, quibusdam praesentium. Quo cupiditate dolor numquam aliquid
-              minima atque illum est! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestiae modi
-              similique, ea deleniti aperiam veritatis? Atque earum, aliquid quidem, dicta distinctio ullam saepe
-              similique voluptas facilis provident assumenda repudiandae fugiat impedit sit rerum maiores. Ut beatae
-              tempore deserunt ea ex perferendis nam repellendus cum neque dolores explicabo, nobis voluptatibus atque?
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, enim, quo repudiandae eveniet laborum rem
-              excepturi iusto illum, voluptatem alias animi molestias veritatis expedita asperiores deserunt quam
-              adipisci quod! Dolore cum veniam dolorem? Obcaecati ducimus odio, quas, laboriosam porro consequuntur
-              tenetur iste debitis beatae numquam, animi quo similique deleniti officiis iusto. Placeat impedit modi quo
-              sapiente quae asperiores natus eligendi inventore itaque! Delectus exercitationem velit vitae nam minus.
-              Ipsa nam quos saepe. Ducimus beatae ex, commodi officiis quae et eum.
+        <Grid item xs={12} maxWidth="80%" sx={{ mt: 5 }} minWidth="80%" >
+          <div className="abut-me_wrapper" >
+            <Typography variant="body" className="about-me" >
+              {teacherData.bio}
             </Typography>
           </div>
         </Grid>
