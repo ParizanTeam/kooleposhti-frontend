@@ -26,7 +26,7 @@ import profile_1 from '../../assets/images/profile_2.png';
 import ReactLoading from 'react-loading';
 import './style.scss';
 import axios from '../../utils/axiosConfig';
-
+import {baseUrl} from "../../utils/constants";
 function DashboardTeacherProfile(props) {
   const [validateAfterSubmit, setValidateAfterSubmit] = useState(false);
   const [apiResponse, setApiResponse] = useState(false);
@@ -41,7 +41,7 @@ function DashboardTeacherProfile(props) {
   useEffect(() => {
     async function fetchData() {
       const res = await axios
-        .get('https://kooleposhti.herokuapp.com/accounts/instructors/me/', {
+        .get(`${baseUrl}/accounts/instructors/me/`, {
           headers: {
             Authorization: token,
             'Content-Type': 'application/json',
@@ -151,7 +151,7 @@ function DashboardTeacherProfile(props) {
                   console.log('form data', formdata);
 
                   axios
-                    .put('https://kooleposhti.herokuapp.com/accounts/instructors/me/', formdata, {
+                    .put(`${baseUrl}/accounts/instructors/me/`, formdata, {
                       headers: {
                         Authorization: token,
                         'Content-Type': 'application/json',

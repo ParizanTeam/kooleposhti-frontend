@@ -19,8 +19,8 @@
   padding-right: 16px;
 
   &__menu {
-      color: $c-gray-30 !important;
-      border-radius: 50%;
+    color: $c-gray-30 !important;
+    border-radius: 50%;
   }
 }
 
@@ -149,10 +149,14 @@
 }
 
 .main-content {
-  width: 100%;
+  width: calc(100% - 32px);
   background-color: #fff;
   border-radius: 16px;
   margin: 16px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
   padding: 32px;
+
+  @media (max-width: 600px) {
+    padding: 16px;
+  }
 }

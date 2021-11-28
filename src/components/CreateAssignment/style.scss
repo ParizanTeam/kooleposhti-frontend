@@ -1,0 +1,78 @@
+@import '/src/theme/main.scss';
+
+.create-assignment {
+  padding: 16px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+
+    button {
+      margin: 0 8px;
+    }
+  }
+  &__title {
+    font-size: 24px;
+  }
+
+  &__title-input {
+    margin-bottom: 16px;
+    input {
+      width: 100%;
+      &:focus {
+        border-bottom: 2px solid #555;
+      }
+    }
+  }
+
+  &__dates-wrapper {
+    display: flex;
+  }
+
+  &__start-date {
+    margin-left: 32px;
+  }
+
+  &__start-date,
+  &__end-date {
+    margin-bottom: 16px;
+    flex-grow: 1;
+    input {
+      width: 100%;
+    }
+  }
+
+  .date-input {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    &__start-date {
+      margin-left: 0;
+    }
+
+    &__dates-wrapper {
+      flex-direction: column;
+    }
+
+    &__header {
+      flex-direction: column;
+    }
+
+    &__title {
+      margin-bottom: 16px;
+    }
+  }
+}
+
+.rich-text-toolbar-class {
+  direction: ltr;
+}
+
+.rich-text-editor-class {
+  background-color: #eee;
+  min-height: 240px;
+  padding: 8px 16px;
+}

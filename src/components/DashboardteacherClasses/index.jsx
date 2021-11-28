@@ -32,7 +32,7 @@ import Paper from '@mui/material/Paper';
 import axios from '../../utils/axiosConfig';
 import EditIcon from '@mui/icons-material/Edit';
 import { styled } from '@mui/material/styles';
-
+import {baseUrl} from "../../utils/constants";
 import './style.scss';
 function DashboardTeacherClasses(props) {
   const [classData, setClassData] = useState([]);
@@ -42,7 +42,7 @@ function DashboardTeacherClasses(props) {
   useEffect(() => {
     async function fetchData() {
       const res = await axios
-        .get('https://kooleposhti.herokuapp.com/accounts/instructors/classes/', {
+        .get(`${baseUrl}/accounts/instructors/classes/`, {
           headers: {
             Authorization: token,
             'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ function DashboardTeacherClasses(props) {
       createData(
         <Link to={`/courses/${item.id}`}>
           <Avatar
-            src={'https://kooleposhti.herokuapp.com' + item.image}
+            src={`${baseUrl}/` + item.image}
             alt="profile"
             sx={{ height: '7vmin', width: '7vmin', borderRadius: '50%' }}
           />

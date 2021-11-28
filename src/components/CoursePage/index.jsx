@@ -175,7 +175,7 @@ const CoursePage = () => {
   }, []);
 
   useEffect(() => {
-    apiInstance.get(`https://kooleposhti.herokuapp.com​/courses/${courseId}/can-enroll/`).then(res => {
+    apiInstance.get(`http://185.239.106.239/courses/${courseId}/can-enroll/`).then(res => {
       setShowRegister(res.data.enroll);
       console.log(res.data);
     });
@@ -187,7 +187,7 @@ const CoursePage = () => {
       return;
     }
     apiInstance
-      .post(`https://kooleposhti.herokuapp.com/courses/${courseId}/enroll/`)
+      .post(`http://185.239.106.239/courses/${courseId}/enroll/`)
       .then(res => {
         console.log(res);
         toast.success('با موفقیت ثبت‌نام‌ شدی.');

@@ -1,0 +1,125 @@
+@import '/src/theme/main.scss';
+
+.AsDiv{
+  width: 70%;
+    border-radius: 1%;
+    margin: 25px;
+    padding: 15px;
+    background-color: rgb(98, 92, 150);
+    margin-top: 20px;
+    margin-bottom: auto;
+    height: fit-content;
+    @media (max-width: 800px) {
+      width: 90%;
+      margin: auto;
+      margin-top: 10px;
+    }
+}
+.HeadImg{
+  margin-top: 5px;
+    position: 'absolute';
+    width: 100%;
+}
+.HeaderTxt{
+  color: #eae4f5;
+  font-weight: 800;
+  font-size: large;
+  margin-top: 200px;
+}
+
+@keyframes beat {
+    to {
+      transform: scale(1.4);
+    }
+}
+.the-footer {
+  
+    @media (max-width: 600px) {
+      width: 80%;
+    }
+    &__bylove {
+      padding: 5px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: rgb(104, 16, 16);
+      font-weight: 700;
+    }
+    &__content {
+      padding: 20px;
+      font-size: 20px;
+      font-weight: 800;
+      text-align: center;
+      @media (max-width: 600px) {
+        font-size: 18px;
+        font-weight: 700;
+      }
+      &__s {
+        bottom: auto;
+        font-size: medium;
+        font-weight: bold;
+        text-align: center;
+      }
+      &__h {
+        color: rgb(231, 3, 3);
+        padding: 8px;
+        bottom: auto;
+        font-size: x-large;
+        animation: beat 0.25s infinite alternate;
+      }
+    }
+  }
+
+.Thefooter {
+  background-color: #eae4f5;
+background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%234d17a2' fill-opacity='0.14' fill-rule='evenodd'/%3E%3C/svg%3E");
+    overflow: hidden;
+    text-align: center;
+    box-shadow: rgba(148, 162, 241, 0.5) 0px 3px 10px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin-bottom: 0px;
+}
+
+.AssignH {
+  display: flex;
+  flex-direction: row;
+  box-shadow: inset;
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+  &__Hello{
+      box-shadow:rgba(2, 16, 63, 0.87) 0px 2px 10px;
+      margin: 20px;
+      background-color: rgb(170, 252, 255);
+      padding: 25px;
+      border-radius: 4%;
+      text-align: center;
+      font-size: x-large;
+      font-weight: 700;
+      color:rgb(12, 0, 122);
+      &__media{
+        width: 300px;
+          margin: 5px;
+          border-radius: 10%;
+      }
+      @media (max-width: 800px)
+      {
+        width: 90%;
+        margin: auto;
+        margin-bottom: 10px;
+      }
+  }
+}
+.mymain{
+  display: flex;
+  flex-direction: row;
+  margin-top: 80px;
+  margin-bottom: 10px;
+  @media (max-width: 800px) {
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+}

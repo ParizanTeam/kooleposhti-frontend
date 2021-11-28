@@ -39,7 +39,7 @@ import { styled } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
 import apiInstance from '../../utils/axiosConfig';
 import AlertDialog from '../AlertDialog';
-
+import {baseUrl} from "../../utils/constants";
 import './style.scss';
 
 function ClassStudentInfo(props) {
@@ -55,7 +55,7 @@ function ClassStudentInfo(props) {
   useEffect(() => {
     async function fetchData() {
       const res = await apiInstance
-        .get(`https://kooleposhti.herokuapp.com/courses/${courseId}/students/`)
+        .get(`http://185.239.106.239/courses/${courseId}/students/`)
         .then(response => {
           console.log('get response: ', response);
           setStudentsInfo(response.data);
@@ -120,7 +120,7 @@ function ClassStudentInfo(props) {
     console.log('students info before: ' + studentsInfo);
     // async function fetchData() {
     const delRes = await apiInstance
-      .put(`https://kooleposhti.herokuapp.com/courses/${courseId}/delete-student/${inputRow.id}/`)
+      .put(`http://185.239.106.239/courses/${courseId}/delete-student/${inputRow.id}/`)
       .then(response => {
         console.log('get response: ', response);
         console.log(inputRow.id);

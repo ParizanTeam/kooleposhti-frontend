@@ -16,10 +16,13 @@ import BookMarkedClasses from '../components/BookMarkedClasses';
 import { Redirect } from 'react-router';
 import StudentProfile from '../components/StudentProfile';
 import ClassCalendar from '../components/ClassCalendar';
+import StudentAssignments from '../components/StudentAssignments';
+import StudentAssignmentslist from '../components/StudentAssignmentslist';
+import {history} from '../utils/constants';
 
 const AppRouter = () => {
   return (
-    <Router>
+    <Router  history={history}>
       <Switch>
         <Route path="/" exact>
           <HomePage />
@@ -49,7 +52,7 @@ const AppRouter = () => {
         <Route path="/courses/:courseId" exact>
           <CoursePage />
         </Route>
-        <Route path="/dashboard/class/:classId" exact>
+        <Route path="/dashboard/class/:classId">
           <ClassDashboard />
         </Route>
         <Route path="/class/:courseId/students" exact>
@@ -74,6 +77,12 @@ const AppRouter = () => {
           </Route>
           <Route path="/dashboard/student/profile">
             <StudentProfile />
+          </Route>
+          <Route path="/Student/CourseAssignmentsList">
+            <StudentAssignmentslist />
+          </Route>
+          <Route path="/Student/CourseAssignments">
+            <StudentAssignments />
           </Route>
           <Route path="*">
             <NotFoundPage />

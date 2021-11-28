@@ -21,7 +21,7 @@ import rtl from 'jss-rtl';
 import axios from 'axios';
 import './style.scss';
 import 'react-toastify/dist/ReactToastify.css';
-
+import {baseUrl} from "../../utils/constants";
 const cacheRtl = createCache({
   key: 'muirtl',
   stylisPlugins: [rtlPlugin],
@@ -61,7 +61,7 @@ const ResetPasswordPage = () => {
     onSubmit: async values => {
       try {
         setLoading(true);
-        const res = await axios.post('https://kooleposhti.herokuapp.com/accounts/users/reset_password_confirm/', {
+        const res = await axios.post(`${baseUrl}/accounts/users/reset_password_confirm/`, {
           new_password: values.password1,
           re_new_password: values.password1,
           uid,

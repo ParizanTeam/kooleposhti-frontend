@@ -11,7 +11,7 @@ import { Redirect } from 'react-router';
 import MyTimer from '../MyTimer';
 import { ToastContainer, toast } from 'react-toastify';
 import './style.scss';
-
+import {baseUrl} from "../../utils/constants";
 function EmailVerification(props) {
   const token = useRef('');
   const [resend, setResend] = useState(false);
@@ -30,7 +30,7 @@ function EmailVerification(props) {
     const info = { email: props.location.state.values.email, username: props.location.state.values.username };
 
     axios
-      .post('https://kooleposhti.herokuapp.com/accounts/activate/', info, {
+      .post(`${baseUrl}/accounts/activate/`, info, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -68,7 +68,7 @@ function EmailVerification(props) {
 
     try {
       const res = await axios
-        .post('https://kooleposhti.herokuapp.com/accounts/checkcode/', info, {
+        .post(`${baseUrl}/accounts/checkcode/`, info, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -81,7 +81,7 @@ function EmailVerification(props) {
         });
 
       const res2 = await axios
-        .post('https://kooleposhti.herokuapp.com/accounts/signup/', JSON.stringify(props.location.state.values), {
+        .post(`${baseUrl}/accounts/signup/`, JSON.stringify(props.location.state.values), {
           headers: {
             'Content-Type': 'application/json',
           },
