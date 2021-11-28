@@ -21,7 +21,7 @@ import rtl from 'jss-rtl';
 import axios from 'axios';
 import './style.scss';
 import 'react-toastify/dist/ReactToastify.css';
-import {baseUrl} from '../../utils/constants';
+import { baseUrl } from '../../utils/constants';
 
 const cacheRtl = createCache({
   key: 'muirtl',

@@ -40,14 +40,14 @@ import CloseIcon from '@mui/icons-material/Close';
 import apiInstance from '../../utils/axiosConfig';
 import AlertDialog from '../AlertDialog';
 import { baseUrl } from '../../utils/constants';
-
+import StudentProfileModalCard from '../StudentProfileModalCard';
 import './style.scss';
 
 function ClassStudentInfo(props) {
   const [studentsInfo, setStudentsInfo] = useState([]);
+  const [showProfile, setShowProfile] = useState({ profileOpen: false, username: '' });
 
   const params = useParams();
-  const [openDialog, setOpenDialog] = useState(false);
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subtitle: '' });
 
   const token = 'JWT ' + localStorage.getItem('access_token');
@@ -174,7 +174,14 @@ function ClassStudentInfo(props) {
                 <TableBody>
                   {rows.map(row => (
                     <StyledTableRow key={row.id}>
-                      <StyledTableCell align="center" className="course-student-info-table__image-holder">
+                      <StyledTableCell
+                        align="center"
+                        className="course-student-info-table__image-holder"
+                        onClick={() => {
+                          setShowProfile({ profileOpen: true, username: row.studentName });
+                          console.log({ showProfile });
+                        }}
+                      >
                         {row.img}
                       </StyledTableCell>
                       <StyledTableCell align="center">{row.studentName}</StyledTableCell>
@@ -208,6 +215,7 @@ function ClassStudentInfo(props) {
         </div>
       </CacheProvider>
       <AlertDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
+      <StudentProfileModalCard showProfile={showProfile} setShowProfile={setShowProfile} />
     </>
   );
 }

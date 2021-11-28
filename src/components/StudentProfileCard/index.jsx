@@ -6,14 +6,7 @@ import { baseUrl } from '../../utils/constants';
 import './style.scss';
 
 const StudentProfileCard = () => {
-  const [username, setUsername] = useState('moshfa');
-  const [firstname, setFirstname] = useState('مرتضی');
-  const [lastname, setLastname] = useState('شهرابی فراهانی');
-  const [bio, setBio] = useState('یک دانشجوی مهندسی کامپیوتر که علاقه ی زیادی به یادگیری مطالب جدید و کاربردی دارد.');
-  const [age, setAge] = useState('۲۰');
-  const [image, setImage] = useState(imageSrc);
   const [resData, setResData] = useState([]);
-  console.log(image);
   const params = useParams();
 
   // const token = 'JWT ' + localStorage.getItem('access_token');
@@ -34,9 +27,6 @@ const StudentProfileCard = () => {
     fetchData();
   }, []);
 
-  console.log(username);
-  console.log(firstname);
-  console.log(age);
   return (
     <div className="student-profile-card-default-page-setting">
       <div className="student-profile-card-container">
