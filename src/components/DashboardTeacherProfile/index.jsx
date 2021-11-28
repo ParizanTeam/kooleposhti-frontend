@@ -89,14 +89,8 @@ function DashboardTeacherProfile(props) {
   console.log(teacher_data.username);
   return (
     <CacheProvider value={cacheRtl}>
-      {loading && (
-        <Grid container direction="column" alignItems="center" justifyContent="center" style={{ minHeight: '100vh' }}>
-          <Grid item xs={12}>
-            <ReactLoading type="spinningBubbles" color="rgb(42, 105, 129)" height={100} width={100} />
-          </Grid>
-        </Grid>
-      )}
-      {!loading && (
+
+      
         <div dir="rtl">
           <Helmet>
             <title>پروفایل</title>
@@ -424,7 +418,7 @@ function DashboardTeacherProfile(props) {
             </Box>
           </Container>
         </div>
-      )}
+      
     </CacheProvider>
   );
 }
