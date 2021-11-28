@@ -24,7 +24,8 @@ import { Fragment } from 'react';
 import apiInstance from '../../utils/axiosConfig';
 import { ToastContainer, toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
-import {baseUrl} from '../../utils/constants';
+import { baseUrl } from '../../utils/constants';
+import ReactLoading from 'react-loading';
 import './style.scss';
 
 import skirt from '../../assets/images/skirt.png';
@@ -128,6 +129,7 @@ const CoursePage = () => {
   const [showMore, setShowMore] = useState(true);
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [registerLoading, setRegisterLoading] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [title, setTitle] = useState('');
   const [open, setOpen] = useState(false);
@@ -186,11 +188,13 @@ const CoursePage = () => {
       toast.error('باید قبلش وارد حسابت بشی.');
       return;
     }
+    setRegisterLoading(true);
     apiInstance
       .post(`http://185.239.106.239/courses/${courseId}/enroll/`)
       .then(res => {
         console.log(res);
         toast.success('با موفقیت ثبت‌نام‌ شدی.');
+        setRegisterLoading(false);
         setTimeout(() => {
           history.push(`/dashboard/class/${courseId}`);
         }, 2000);
@@ -198,6 +202,7 @@ const CoursePage = () => {
       .catch(err => {
         console.log(err);
         toast.error('مشکلی در سامانه به وجود اومده.');
+        setRegisterLoading(false);
       });
   };
 
@@ -323,11 +328,14 @@ const CoursePage = () => {
               <div className="register-modal">
                 <h4 className="register-modal__title">آیا از شرکت توی این کلاس مطمئنی؟</h4>
                 <button className="register-modal__confirm" onClick={register}>
-                  ثبت‌نام
+                  ثبت نام
                 </button>
                 <button className="register-modal__cancel" onClick={handleClose}>
                   بازگشت
                 </button>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  {registerLoading && <ReactLoading type="bubbles" color="#000" />}
+                </div>
               </div>
             </Fade>
           </Modal>

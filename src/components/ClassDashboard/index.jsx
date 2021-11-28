@@ -13,6 +13,7 @@ import CreateAssignment from '../CreateAssignment';
 import { toast, ToastContainer } from 'react-toastify';
 import { Modal, Fade, Backdrop } from '@mui/material';
 import CourseLoader from '../CourseLoader';
+import ClassStudentsInfo from '../ClassStudentsInfo';
 
 import AssignmentsView from '../AssignmentsView';
 import StudentAssignments from '../StudentAssignments';
@@ -183,7 +184,7 @@ const ClassDashboard = () => {
                 <BaseAssignments role={role} />
               </Route>
               <Route path="/dashboard/class/:classId/attendees" exact>
-                <ClassAtendees role={role} />
+                {role == 'teacher' ? <ClassStudentsInfo /> : <ClassAtendees role={role} />}
               </Route>
             </div>
           </div>

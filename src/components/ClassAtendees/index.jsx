@@ -190,7 +190,7 @@ const ClassAtendees = () => {
 
   return (
     <div>
-      <h3>لیست شرکت‌کنندگان کلاس</h3>
+      <h3 style={{ marginBottom: 16 }}>لیست شرکت‌کنندگان کلاس</h3>
       {loading ? (
         <div style={{ display: 'flex', justifyContent: 'center', padding: 'auto', marginTop: 24 }}>
           <ReactLoading type="spinningBubbles" color="#EF006C" height={100} width={100} />
