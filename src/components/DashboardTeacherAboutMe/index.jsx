@@ -49,7 +49,9 @@ function DashboardTeacherAboutMe(props) {
           console.log('content:', editorContent);
           setLoading(false);
         })
-        .catch(err => {});
+        .catch(err => {
+          setLoading(false);
+        });
     }
     fetchData();
   }, []);

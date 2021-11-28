@@ -264,7 +264,11 @@ function TeacherPublicProfile(props) {
             <Grid item xs={12} maxWidth="80%" sx={{ mt: 5 }} minWidth="80%">
               <div className="abut-me_wrapper">
                 <Typography variant="body" className="about-me">
-                  {ReactHtmlParser(teacherData.bio)}
+                  {teacherData.bio && ReactHtmlParser(teacherData.bio)}
+
+                  {!teacherData.bio && (
+                    <p className="teacher-public-profile-about-me__text">متنی برای نمایش وجود نداره !!!</p>
+                  )}
                 </Typography>
               </div>
             </Grid>

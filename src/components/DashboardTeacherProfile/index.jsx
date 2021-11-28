@@ -26,7 +26,7 @@ import profile_1 from '../../assets/images/profile_2.png';
 import ReactLoading from 'react-loading';
 import axios from '../../utils/axiosConfig';
 import { baseUrl } from '../../utils/constants';
-import { convertNumberToPersian } from '../../utils/helpers';
+import { convertNumberToPersian, isPersianNumber } from '../../utils/helpers';
 import './style.scss';
 
 function DashboardTeacherProfile(props) {
@@ -59,6 +59,7 @@ function DashboardTeacherProfile(props) {
           setLoading(false);
         })
         .catch(err => {
+          setLoading(false);
           console.log('error: ', err);
         });
     }
@@ -291,7 +292,7 @@ function DashboardTeacherProfile(props) {
                     error.password = 'طول رمز نباید کمتر از 8 کاراکتر باشه';
                   } else if (/^\d+$/i.test(values.password) && values.password) {
                     error.password = 'رمز عبورت نباید فقط از اعداد تشکیل شده باشه';
-                  } else if (!/[0-9]{11}$/i.test(values.phone_no) && values.phone_no) {
+                  } else if (values.phone_no && values.phone_no.length != 11) {
                     error.phone_no = 'شماره موبایل نامعتبر';
                   }
 
@@ -397,9 +398,7 @@ function DashboardTeacherProfile(props) {
                           label="شماره موبایل"
                           type="phone"
                           id="phone_no"
-                          value={
-                            values.phone_no === undefined ? values.phone_no : convertNumberToPersian(values.phone_no)
-                          }
+                          value={values.phone_no === null ? values.phone_no : convertNumberToPersian(values.phone_no)}
                           onChange={handleChange}
                           helperText={validateAfterSubmit ? errors.phone_no : null}
                           error={Boolean(errors.phone_no)}
