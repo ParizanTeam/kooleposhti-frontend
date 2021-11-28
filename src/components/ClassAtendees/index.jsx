@@ -9,6 +9,7 @@ import { visuallyHidden } from '@mui/utils';
 import TablePagination from '../TablePagination';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { Link } from 'react-router-dom';
+import { baseUrl } from '../../utils/constants';
 
 function createData(id, image, firstname, lastname, username) {
   return {
@@ -16,7 +17,7 @@ function createData(id, image, firstname, lastname, username) {
     image,
     firstname,
     lastname,
-    username
+    username,
   };
 }
 
@@ -85,7 +86,9 @@ function Row(props) {
         <TableCell align="right">{row.lastname}</TableCell>
 
         <TableCell align="right" onClick={() => setOpen(!open)}>
-          <Button component={Link} to={`/${row.username}/student-profile`}>مشاهده پروفایل</Button>
+          <Button component={Link} to={`/${row.username}/student-profile`}>
+            مشاهده پروفایل
+          </Button>
         </TableCell>
       </TableRow>
     </React.Fragment>
@@ -150,9 +153,11 @@ const ClassAtendees = () => {
     // `http://185.239.106.239/courses/${classId}/students/`
 
     apiInstance
-      .get(`https://kooleposhti.herokuapp.com/courses/${classId}/students/`)
+      .get(`${baseUrl}/courses/${classId}/students/`)
       .then(res => {
-        const rows = res.data.map(item => createData(item.user_id, item.image, item.first_name, item.last_name,item.username));
+        const rows = res.data.map(item =>
+          createData(item.user_id, item.image, item.first_name, item.last_name, item.username)
+        );
         setStudents(rows);
         setLoading(false);
       })
@@ -187,7 +192,7 @@ const ClassAtendees = () => {
     <div>
       <h3>لیست شرکت‌کنندگان کلاس</h3>
       {loading ? (
-        <div style={{ display: 'flex', justifyContent: 'center', padding: 'auto' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', padding: 'auto', marginTop: 24 }}>
           <ReactLoading type="spinningBubbles" color="#EF006C" height={100} width={100} />
         </div>
       ) : (
@@ -195,7 +200,7 @@ const ClassAtendees = () => {
           {students.length == 0 ? (
             <div> هنوز دانش‌آموزی در این کلاس ثبت‌نام نکرده‌است.</div>
           ) : (
-            <Box sx={{ width: '100%',marginTop:"50px" }}>
+            <Box sx={{ width: '100%', marginTop: '50px' }}>
               <Paper sx={{ width: '100%', mb: 2 }}>
                 <TableContainer>
                   <Table sx={{ minWidth: 750 }} size="medium">

@@ -11,10 +11,13 @@ import { convertNumberToPersian } from '../../utils/helpers';
 
 import 'react-multi-date-picker/styles/layouts/mobile.css';
 
-import './style.scss';
-import { useHistory, useLocation } from 'react-router-dom';
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
-const EditAssignment = () => {
+import './style.scss';
+import { Redirect, useHistory, useLocation } from 'react-router-dom';
+
+const EditAssignment = ({ role }) => {
   const location = useLocation();
   const assignment = location.state.assignment;
   console.log(assignment.title);
@@ -40,6 +43,9 @@ const EditAssignment = () => {
   );
   const [content, setContent] = useState('');
   const history = useHistory();
+  const [titleBlured, setTitleBlured] = useState(false);
+  const [startDateBlured, setStartDateBlured] = useState(false);
+  const [endDateBlured, setEndDateBlured] = useState(false);
 
   const config = {
     readonly: false, // all options from https://xdsoft.net/jodit/doc/
@@ -56,10 +62,17 @@ const EditAssignment = () => {
           <button
             className="success-btn"
             onClick={() => {
-              toast.success('تمرین با موفقیت اضافه شد.');
-              setTimeout(() => {
-                history.goBack();
-              }, 1000);
+              setTitleBlured(true);
+              setStartDateBlured(true);
+              setEndDateBlured(true);
+              if (!title || !startDate || !endDate) {
+                toast.error('لطفا فیلدهای مربوطه را به درستی وارد کنید.');
+              } else {
+                toast.success('تمرین با موفقیت اضافه شد.');
+                setTimeout(() => {
+                  history.goBack();
+                }, 1000);
+              }
             }}
           >
             افزودن تمرین
@@ -79,6 +92,7 @@ const EditAssignment = () => {
           عنوان تمرین:
         </label>
         <input
+          onBlur={() => setTitleBlured(true)}
           value={title}
           onChange={e => setTitle(e.target.value)}
           className="kp-text-input__input"
@@ -86,6 +100,9 @@ const EditAssignment = () => {
           type="text"
           id="title"
         />
+        {titleBlured && title == '' && (
+          <div style={{ fontSize: 12, color: 'red' }}>عنوان تمرین نمی‌تواند خالی باشد.</div>
+        )}
       </div>
       <div className="create-assignment__dates-wrapper">
         <div className="kp-text-input create-assignment__start-date">
@@ -93,6 +110,7 @@ const EditAssignment = () => {
             زمان شروع:
           </label>
           <input
+            onBlur={() => setStartDateBlured(true)}
             onFocus={() => startDatePickerRef.current.openCalendar()}
             onClick={() => startDatePickerRef.current.openCalendar()}
             className="kp-text-input__input"
@@ -107,12 +125,16 @@ const EditAssignment = () => {
                 : ''
             }
           />
+          {startDateBlured && !startDate && (
+            <div style={{ fontSize: 12, color: 'red' }}>زمان شروع نمی‌تواند خالی باشد.</div>
+          )}
         </div>
         <div className="kp-text-input create-assignment__end-date">
           <label className="kp-text-input__label" htmlFor="end-date">
             زمان پایان:
           </label>
           <input
+            onBlur={() => setEndDateBlured(true)}
             onFocus={() => endDatePickerRef.current.openCalendar()}
             onClick={() => endDatePickerRef.current.openCalendar()}
             className="kp-text-input__input"
@@ -123,17 +145,28 @@ const EditAssignment = () => {
               endDate ? convertNumberToPersian(`${endDate.toString()} ساعت ${endDate.hour}:${endDate.minute}`) : ''
             }
           />
+          {endDateBlured && !endDate && (
+            <div style={{ fontSize: 12, color: 'red' }}>زمان پایان نمی‌تواند خالی باشد.</div>
+          )}
         </div>
       </div>
       <label className="kp-text-input__label">متن صورت تمرین:</label>
-      <JoditEditor
+      <Editor
+        wrapperClassName="rich-text-wrapper-class"
+        editorClassName="rich-text-editor-class"
+        toolbarClassName="rich-text-toolbar-class"
+        // wrapperStyle={<wrapperStyleObject>}
+        // editorStyle={<editorStyleObject>}
+        // toolbarStyle={<toolbarStyleObject>}
+      />
+      {/* <JoditEditor
         ref={editor}
         value={content}
         config={config}
         tabIndex={1} // tabIndex of textarea
         onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
         // onChange={newContent => setContent(newContent)}
-      />
+      /> */}
       <DatePicker
         ref={startDatePickerRef}
         currentDate={startDate}

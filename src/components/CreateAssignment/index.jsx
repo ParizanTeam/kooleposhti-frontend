@@ -15,9 +15,9 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import './style.scss';
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 
-const CreateAssignment = () => {
+const CreateAssignment = ({ role }) => {
   const editor = useRef(null);
   const startDatePickerRef = useRef(null);
   const endDatePickerRef = useRef(null);
@@ -26,6 +26,9 @@ const CreateAssignment = () => {
   const [endDate, setEndDate] = useState(null);
   const [content, setContent] = useState('');
   const history = useHistory();
+  const [titleBlured, setTitleBlured] = useState(false);
+  const [startDateBlured, setStartDateBlured] = useState(false);
+  const [endDateBlured, setEndDateBlured] = useState(false);
 
   const config = {
     readonly: false, // all options from https://xdsoft.net/jodit/doc/
@@ -42,10 +45,17 @@ const CreateAssignment = () => {
           <button
             className="success-btn"
             onClick={() => {
-              toast.success('تمرین با موفقیت اضافه شد.');
-              setTimeout(() => {
-                history.goBack();
-              }, 1000);
+              setTitleBlured(true);
+              setStartDateBlured(true);
+              setEndDateBlured(true);
+              if (!title || !startDate || !endDate) {
+                toast.error('لطفا فیلدهای مربوطه را به درستی وارد کنید.');
+              } else {
+                toast.success('تمرین با موفقیت اضافه شد.');
+                setTimeout(() => {
+                  history.goBack();
+                }, 1000);
+              }
             }}
           >
             افزودن تمرین
@@ -64,7 +74,18 @@ const CreateAssignment = () => {
         <label className="kp-text-input__label" htmlFor="title">
           عنوان تمرین:
         </label>
-        <input className="kp-text-input__input" placeholder="عنوان تمرین" type="text" id="title" />
+        <input
+          onBlur={() => setTitleBlured(true)}
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+          className="kp-text-input__input"
+          placeholder="عنوان تمرین"
+          type="text"
+          id="title"
+        />
+        {titleBlured && title == '' && (
+          <div style={{ fontSize: 12, color: 'red' }}>عنوان تمرین نمی‌تواند خالی باشد.</div>
+        )}
       </div>
       <div className="create-assignment__dates-wrapper">
         <div className="kp-text-input create-assignment__start-date">
@@ -72,6 +93,7 @@ const CreateAssignment = () => {
             زمان شروع:
           </label>
           <input
+            onBlur={() => setStartDateBlured(true)}
             onFocus={() => startDatePickerRef.current.openCalendar()}
             onClick={() => startDatePickerRef.current.openCalendar()}
             className="kp-text-input__input"
@@ -84,12 +106,16 @@ const CreateAssignment = () => {
                 : ''
             }
           />
+          {startDateBlured && !startDate && (
+            <div style={{ fontSize: 12, color: 'red' }}>زمان شروع نمی‌تواند خالی باشد.</div>
+          )}
         </div>
         <div className="kp-text-input create-assignment__end-date">
           <label className="kp-text-input__label" htmlFor="end-date">
             زمان پایان:
           </label>
           <input
+            onBlur={() => setEndDateBlured(true)}
             onFocus={() => endDatePickerRef.current.openCalendar()}
             onClick={() => endDatePickerRef.current.openCalendar()}
             className="kp-text-input__input"
@@ -100,6 +126,9 @@ const CreateAssignment = () => {
               endDate ? convertNumberToPersian(`${endDate.toString()} ساعت ${endDate.hour}:${endDate.minute}`) : ''
             }
           />
+          {endDateBlured && !endDate && (
+            <div style={{ fontSize: 12, color: 'red' }}>زمان پایان نمی‌تواند خالی باشد.</div>
+          )}
         </div>
       </div>
       <label className="kp-text-input__label">متن صورت تمرین:</label>

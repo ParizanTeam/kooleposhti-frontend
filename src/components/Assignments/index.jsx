@@ -7,6 +7,7 @@ import { Modal, Fade, Backdrop } from '@mui/material';
 
 import './style.scss';
 import { toast, ToastContainer } from 'react-toastify';
+import { Fragment } from 'react';
 
 const mockAssignments = [
   {
@@ -23,7 +24,7 @@ const mockAssignments = [
   },
 ];
 
-const Assignments = () => {
+const Assignments = ({ role }) => {
   const history = useHistory();
   const params = useParams();
   const classId = params.classId;
@@ -35,12 +36,14 @@ const Assignments = () => {
   };
   return (
     <div className="assignments">
-      <button
-        className="assignments__create-btn"
-        onClick={() => history.push(`/dashboard/class/${params.classId}/assignments/create`)}
-      >
-        ایجاد تمرین جدید
-      </button>
+      {role == 'teacher' && (
+        <button
+          className="assignments__create-btn"
+          onClick={() => history.push(`/dashboard/class/${params.classId}/assignments/create`)}
+        >
+          ایجاد تمرین جدید
+        </button>
+      )}
       {assignments.length == 0 && (
         <div className="assignments__no-assignment">
           <img src={assignmentImg} alt="assignment" />
@@ -82,41 +85,43 @@ const Assignments = () => {
                   >
                     مشاهده تمرین
                   </button>
-                  <button
-                    className="info-btn"
-                    onClick={() => {
-                      history.push(`/dashboard/class/${classId}/assignments/edit`, {
-                        assignment,
-                      });
-                    }}
-                  >
-                    ویرایش تمرین
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      history.push(`/dashboard/class/${classId}/assignments/homeworks`);
-                    }}
-                    className="orange-btn"
-                  >
-                    مشاهده تکالیف
-                  </button>
-
-                  <button
-                    className="danger-btn"
-                    onClick={() => {
-                      setOpenModal(true);
-                      setModalConfirm(() => {
-                        return () => {
-                          toast.success('تمرین با موفقیت حذف شد.');
-                          setAssignments(prev => prev.filter(item => item.id != assignment.id));
-                          setOpenModal(false);
-                        };
-                      });
-                    }}
-                  >
-                    حذف تمرین
-                  </button>
+                  {role == 'teacher' && (
+                    <Fragment>
+                      <button
+                        className="info-btn"
+                        onClick={() => {
+                          history.push(`/dashboard/class/${classId}/assignments/edit`, {
+                            assignment,
+                          });
+                        }}
+                      >
+                        ویرایش تمرین
+                      </button>
+                      <button
+                        onClick={() => {
+                          history.push(`/dashboard/class/${classId}/assignments/homeworks`);
+                        }}
+                        className="orange-btn"
+                      >
+                        مشاهده تکالیف
+                      </button>
+                      <button
+                        className="danger-btn"
+                        onClick={() => {
+                          setOpenModal(true);
+                          setModalConfirm(() => {
+                            return () => {
+                              toast.success('تمرین با موفقیت حذف شد.');
+                              setAssignments(prev => prev.filter(item => item.id != assignment.id));
+                              setOpenModal(false);
+                            };
+                          });
+                        }}
+                      >
+                        حذف تمرین
+                      </button>
+                    </Fragment>
+                  )}
                 </div>
               </div>
             </div>
