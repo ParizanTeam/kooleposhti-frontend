@@ -15,6 +15,11 @@ import apiInstance from '../../utils/axiosConfig';
 import { DateObject } from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
+import { convertNumberToPersian } from '../../utils/helpers';
+import { baseUrl } from '../../utils/constants';
+import { categoriesData } from '../CoursePage';
+import CourseLoader from '../CourseLoader';
+import { Fragment } from 'react';
 
 const steps = ['صفحه‌ی اول', 'صفحه‌ی دوم', 'صفحه‌ی آخر'];
 //const classes = useStyle();
@@ -40,37 +45,48 @@ const cacheLtr = createCache({
 
 const defaultData = {
   courseName: '',
-  category: '',
+  categories: [],
   price: '',
   duration: '',
-  dates: '',
+  dates: [],
   description: '',
   courseImage: '',
   objectives: ['', '', '', ''],
-  tags: ['', '', '', ''],
+  tags: [],
   capacity: '',
   startAge: '',
   endAge: '',
   age: '',
   image: null,
+  imageChanged: false,
 };
 
 // const stepsNew = [{ id: 'مشخصات کلی کلاس' }, { id: 'مشخصات شرکت کنندگان' }, { id: 'مشخصات کلی کلاس' }];
 
 function CreateCourseForm({ edit }) {
   const params = useParams();
+  const [activeStep, setActiveStep] = useState(0);
+  const [loadingData, setLoadingData] = useState(false);
   console.log(params.courseId);
   const courseId = params.courseId;
   const [formData, setFormData] = useState(defaultData);
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, [activeStep]);
 
   useEffect(() => {
     if (edit) {
+      setLoadingData(true);
       apiInstance
-        .get(`https://kooleposhti.herokuapp.com/courses/${courseId}`)
+        .get(`${baseUrl}/courses/${courseId}`)
         .then(res => {
           console.log(res.data);
           const {
-            category,
+            categories,
             tags,
             goals,
             description,
@@ -84,11 +100,7 @@ function CreateCourseForm({ edit }) {
             sessions,
           } = res.data;
           let age;
-          let defaultTags = ['', '', '', ''];
-          for (let i = 0; i < tags.length; i++) {
-            const element = tags[i];
-            defaultTags[i] = element.name;
-          }
+          let defaultTags = tags.map(tag => tag.name);
           let defaultGoals = ['', '', '', ''];
           for (let i = 0; i < goals.length; i++) {
             const element = goals[i];
@@ -96,23 +108,33 @@ function CreateCourseForm({ edit }) {
           }
           let defaultSessions = [];
           sessions.forEach(session => {
-            // console.log('sessoiin', session);
-            const dateNew = new DateObject({
-              year: 1400,
-              month: 10,
-              day: 22,
-              calender: persian,
-              locale: persian_fa,
-            });
-            const date = new DateObject({
-              year: 1400,
-              month: 10,
-              day: 22,
+            console.log('session:  ', session);
+            const newDate = new DateObject({
+              date: `${session.date.split('-')[0]}/${session.date.split('-')[1]}/${session.date.split('-')[2]} | ${
+                session.start_time.split(':')[0]
+              }:${session.start_time.split(':')[1]}`,
+              format: 'YYYY/MM/DD | HH:mm',
               calendar: persian,
               locale: persian_fa,
             });
-            console.log('*****************', dateNew);
-            console.log('#############', date);
+            defaultSessions.push(newDate);
+            // console.log('sessoiin', session);
+            // const dateNew = new DateObject({
+            //   year: 1400,
+            //   month: 10,
+            //   day: 22,
+            //   calender: persian,
+            //   locale: persian_fa,
+            // });
+            // const date = new DateObject({
+            //   year: 1400,
+            //   month: 10,
+            //   day: 22,
+            //   calendar: persian,
+            //   locale: persian_fa,
+            // });
+            // console.log('*****************', dateNew);
+            // console.log('#############', date);
             // date.setHour(session.start_time.slice(0, 2));
             // date.setMinute(session.start_time.slice(3, 5));
             // date.setSecond(0);
@@ -142,10 +164,11 @@ function CreateCourseForm({ edit }) {
           } else if (min_age == 4 && max_age == 18) {
             age = 7;
           }
+
           setFormData(prev => {
             return {
               ...prev,
-              category,
+              categories: categories.map(cat => categoriesData[cat - 1].title),
               capacity,
               courseName: title,
               price,
@@ -154,20 +177,19 @@ function CreateCourseForm({ edit }) {
               endAge: max_age,
               age,
               description,
-              courseImage: image,
+              courseImage: image == 'http://185.239.106.239/media/images/no_photo.jpg' ? null : image,
               tags: defaultTags,
               objectives: defaultGoals,
               dates: defaultSessions,
             };
           });
+          setLoadingData(false);
         })
         .catch(err => {
           console.log(err);
         });
     }
   }, []);
-
-  const [activeStep, setActiveStep] = useState(0);
 
   function getSteps() {
     return ['مشخصات کلی کلاس', 'مشخصات شرکت کنندگان', 'مرحله آخر'];
@@ -188,22 +210,25 @@ function CreateCourseForm({ edit }) {
   }
 
   return (
-    <CacheProvider value={rtl ? cacheRtl : cacheLtr}>
-      <div className="form-holder-main-class">
-        <Stepper alternativeLabel activeStep={activeStep} sx={{ mt: 5, pt: 2, pb: 2 }}>
-          {steps.map(label => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-        <>
-          {activeStep === steps.length ? (
-            'مراحل با موفقیت به اتمام رسید.'
-          ) : (
+    <Fragment>
+      {loadingData && <CourseLoader />}
+      {!loadingData && (
+        <CacheProvider value={rtl ? cacheRtl : cacheLtr}>
+          <div className="form-holder-main-class">
+            <Stepper alternativeLabel activeStep={activeStep} sx={{ mt: 5, pt: 2, pb: 2 }}>
+              {steps.map((label, i) => (
+                <Step key={label}>
+                  <StepLabel icon={convertNumberToPersian(i + 1)}>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
             <>
-              {getStepsContent(activeStep)}
-              {/* <div className="steeper-button__holder">
+              {activeStep === steps.length ? (
+                'مراحل با موفقیت به اتمام رسید.'
+              ) : (
+                <>
+                  {getStepsContent(activeStep)}
+                  {/* <div className="steeper-button__holder">
                 <Button
                   variant="contained"
                   color="primary"
@@ -225,11 +250,13 @@ function CreateCourseForm({ edit }) {
                   {activeStep == steps.length - 1 ? 'پایان' : 'صفحه‌ی بعد'}
                 </Button>
               </div> */}
+                </>
+              )}
             </>
-          )}
-        </>
-      </div>
-    </CacheProvider>
+          </div>
+        </CacheProvider>
+      )}
+    </Fragment>
   );
 }
 

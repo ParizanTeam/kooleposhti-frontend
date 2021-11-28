@@ -40,6 +40,9 @@ import ReactLoading from 'react-loading';
 import './style.scss';
 import { margin } from '@mui/system';
 import apiInstance from '../../utils/axiosConfig';
+import { baseUrl } from '../../utils/constants';
+import { categoriesData } from '../CoursePage';
+import { convertNumberToPersian, isPersianNumber } from '../../utils/helpers';
 
 const cacheRtl = createCache({
   key: 'muirtl',
@@ -69,6 +72,7 @@ function CreateCourseStepThree(props) {
   const [priceBlured, setPriceBlured] = useState(false);
   const [durationBlured, setDurationBlured] = useState(false);
   const [age, setAge] = useState('');
+  const [tag, setTag] = useState('');
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -82,9 +86,12 @@ function CreateCourseStepThree(props) {
     setPriceBlured(true);
     setDurationBlured(true);
     console.log(localStorage.getItem('access_token'));
-    if (price != '' && duration != '' && /^[0-9]+$/i.test(price) && /^[0-9]+$/i.test(duration)) {
+    if (price != '' && duration != '' && isPersianNumber(price) && isPersianNumber(duration)) {
       const data = {
-        category: formData.category,
+        // categories: formData.category,
+        categories: formData.categories
+          .map(item => categoriesData.find(elem => elem.title == item))
+          .map(item => item.id),
         duration: formData.duration,
         price: formData.price,
         tags: formData.tags.map(tag => ({ name: tag })).filter(tag => tag.name != ''),
@@ -134,34 +141,72 @@ function CreateCourseStepThree(props) {
       let id;
       console.log('edit:', edit);
       if (edit) {
-        await apiInstance.put(`https://kooleposhti.herokuapp.com/courses/${courseId}/`, data).then(res => {
+        setLoading(true);
+        await apiInstance.put(`${baseUrl}/courses/${courseId}/`, data).then(res => {
           console.log(res);
         });
-        apiInstance.patch(`https://kooleposhti.herokuapp.com/courses/${courseId}/`, imageData, {
-          headers,
-        });
+        if (formData.imageChanged) {
+          apiInstance
+            .patch(`${baseUrl}/courses/${courseId}/`, imageData, {
+              headers,
+            })
+            .then(res => {
+              console.log(res.data);
+              toast.success('اطلاعات دوره با موفقیت تغییر یافت.');
+              setTimeout(() => {
+                history.replace('/dashboard/teacher/classes');
+                setLoading(false);
+              }, 2000);
+            })
+            .catch(err => {
+              console.log(err);
+              setLoading(false);
+            });
+        } else {
+          toast.success('اطلاعات دوره با موفقیت تغییر یافت.');
+          setTimeout(() => {
+            history.replace('/dashboard/teacher/classes');
+            setLoading(false);
+          }, 2000);
+        }
       } else {
         setLoading(true);
         await apiInstance
-          .post('https://kooleposhti.herokuapp.com/courses/', data)
+          .post(`${baseUrl}/courses/`, data)
           .then(res => {
             console.log(res);
             id = res.data.id;
-            toast.success('دوره با موفقیت ایجاد شد.');
-            setTimeout(() => {
-              history.replace('/dashboard/teacher/classes');
-              setLoading(false);
-            }, 2000);
+            // toast.success('دوره با موفقیت ایجاد شد.');
+            // setTimeout(() => {
+            //   history.replace('/dashboard/teacher/classes');
+            //   setLoading(false);
+            // }, 2000);
           })
           .catch(err => console.log(err));
-        apiInstance
-          .patch(`https://kooleposhti.herokuapp.com/courses/${id}/`, imageData, {
-            headers,
-          })
-          .catch(err => {
-            console.log(err);
+        if (formData.imageChanged) {
+          apiInstance
+            .patch(`${baseUrl}/courses/${id}/`, imageData, {
+              headers,
+            })
+            .then(res => {
+              console.log(res.data);
+              toast.success('دوره با موفقیت ایجاد شد.');
+              setTimeout(() => {
+                history.replace('/dashboard/teacher/classes');
+                setLoading(false);
+              }, 2000);
+            })
+            .catch(err => {
+              console.log(err);
+              setLoading(false);
+            });
+        } else {
+          toast.success('دوره با موفقیت ایجاد شد.');
+          setTimeout(() => {
+            history.replace('/dashboard/teacher/classes');
             setLoading(false);
-          });
+          }, 2000);
+        }
       }
     }
   };
@@ -292,20 +337,20 @@ function CreateCourseStepThree(props) {
                 label="هزینه شرکت در کلاس(تومان)"
                 name="class-price"
                 autoFocus
-                value={price}
+                value={convertNumberToPersian(price)}
                 onBlur={() => setPriceBlured(true)}
-                error={(price == '' || !/^[0-9]+$/i.test(price)) && priceBlured}
+                error={(price == '' || !isPersianNumber(price)) && priceBlured}
                 helperText={
                   price == '' && priceBlured
                     ? 'پر کردن این فیلد الزامی است '
-                    : priceBlured && !/^[0-9]+$/i.test(price)
+                    : priceBlured && !isPersianNumber(price)
                     ? 'باید مقدار عددی وارد کنید.'
                     : ''
                 }
                 // className="step-one-input-field"
                 // value={price}
                 onChange={e => {
-                  setFormData(prev => ({ ...prev, price: e.target.value }));
+                  setFormData(prev => ({ ...prev, price: convertNumberToPersian(e.target.value) }));
                 }}
 
                 // sx={{ mb: 1 }}
@@ -320,27 +365,64 @@ function CreateCourseStepThree(props) {
                 name="class-duration"
                 // className="step-one-input-field"
                 //value={formik.values.email}
-                value={duration}
+                value={convertNumberToPersian(duration)}
                 onBlur={() => setDurationBlured(true)}
                 onChange={e => {
-                  setFormData(prev => ({ ...prev, duration: e.target.value }));
+                  setFormData(prev => ({ ...prev, duration: convertNumberToPersian(e.target.value) }));
                 }}
-                error={(duration == '' || !/^[0-9]+$/i.test(duration)) && durationBlured}
+                error={(duration == '' || !isPersianNumber(duration)) && durationBlured}
                 helperText={
                   duration == '' && durationBlured
                     ? 'پر کردن این فیلد الزامی است '
-                    : durationBlured && !/^[0-9]+$/i.test(duration)
+                    : durationBlured && !isPersianNumber(duration)
                     ? 'باید مقدار عددی وارد کنید.'
                     : ''
                 }
                 sx={{ mb: 1 }}
               />
-              <h3 className="step-two-dynamic-input-title">تگ های درس</h3>
+              <h3 style={{ marginTop: 16, marginBottom: 8 }}>تگ‌های درس</h3>
+              <p>
+                توجه شود که با انتخاب تگ‌های مناسب، امکان دیده‌شدن درس شما و نمایش آن در نتایج جست‌وجو بیشتر می‌شود.
+              </p>
+              <div className="step-two-dynamic-input-fields">
+                <TextField
+                  autoComplete="off"
+                  name="learningItem"
+                  variant="outlined"
+                  label="تگ‌ها"
+                  value={tag}
+                  sx={{ width: { md: '65vmin  ', sm: '65vmin', xs: '90vmin' }, marginBottom: 1 }}
+                  onChange={e => setTag(e.target.value)}
+                  onKeyDown={e => {
+                    if (e.keyCode == 13) {
+                      setFormData(prev => {
+                        return { ...prev, tags: [...prev.tags, tag] };
+                      });
+                      setTag('');
+                    }
+                  }}
+                ></TextField>
+                {formData.tags.map(tag => (
+                  <Chip
+                    style={{ margin: 4 }}
+                    label={tag}
+                    variant="outlined"
+                    onDelete={() => {
+                      setFormData(prev => {
+                        const index = prev.tags.findIndex(item => item == tag);
+                        return { ...prev, tags: prev.tags.filter((item, i) => i != index) };
+                      });
+                    }}
+                  />
+                ))}
+              </div>
+
+              {/* <h3 className="step-two-dynamic-input-title">تگ های درس</h3>
               <p>
                 توجه شود که با انتخاب تگ های مناسب، امکان دیده شدن درس شما و نمایش آن در نتابج جست و جو بیشتر می‌شود
-              </p>
+              </p> */}
 
-              {tags.map((tag, index) => (
+              {/* {tags.map((tag, index) => (
                 <div key={index} className="step-two-dynamic-input-fields">
                   <TextField
                     name="learningItem"
@@ -360,7 +442,7 @@ function CreateCourseStepThree(props) {
                     }
                   ></TextField>
                 </div>
-              ))}
+              ))} */}
 
               {/* <h3 className="step-two-dynamic-input-title">سرفصل‌های درس</h3>
               <p sx={{ marginTop: 2 }}>
