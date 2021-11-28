@@ -47,13 +47,15 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import {baseUrl} from '../../utils/constants';
+import { baseUrl } from '../../utils/constants';
+import ReactLoading from 'react-loading';
 import image from '../../assets/images/banner.png';
+import { convertNumberToPersian } from '../../utils/helpers';
 
 import './style.scss';
 function DashboardTeacherClasses(props) {
   const [classData, setClassData] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   const token = 'JWT ' + localStorage.getItem('access_token');
 
   useEffect(() => {
@@ -68,6 +70,7 @@ function DashboardTeacherClasses(props) {
         .then(response => {
           console.log('get response: ', response);
           setClassData(response.data);
+          setLoading(false);
         })
         .catch(err => {
           console.log('error: ', err);
@@ -112,11 +115,11 @@ function DashboardTeacherClasses(props) {
   classData.forEach(item => {
     rows.push(
       createData(
-        `${baseUrl}` + item.image,
+        item.image === null ? image : `${baseUrl}` + item.image,
         item.title,
-        item.start_date,
-        item.end_date,
-        item.max_students,
+        convertNumberToPersian(item.start_date),
+        convertNumberToPersian(item.end_date),
+        convertNumberToPersian(item.max_students),
         <Button
           component={Link}
           variant="contained"
@@ -128,7 +131,13 @@ function DashboardTeacherClasses(props) {
             ویرایش
           </Typography>
         </Button>,
-        <Button component={Link} variant="contained" to={`/courses/${item.id}`} className="enter-icon" sx={{ ml: 1 }}>
+        <Button
+          component={Link}
+          variant="contained"
+          to={`/dashboard/class/${item.id}`}
+          className="enter-icon"
+          sx={{ ml: 1 }}
+        >
           <Typography variant="body2" sx={{ color: 'white' }}>
             ورود به کلاس
           </Typography>
@@ -158,96 +167,111 @@ function DashboardTeacherClasses(props) {
 
   return (
     <CacheProvider value={cacheRtl}>
-      <div dir="rtl">
-        <Helmet>
-          <title>پروفایل</title>
-        </Helmet>
-        <ToastContainer />
-
-        <Box component="form" noValidate sx={{ mt: 5 }}>
-          <Grid container spacing={2}>
-            <Grid item sm={6} xs={12}>
-              <Button
-                variant="contained"
-                sx={{
-                  backgroundColor: 'rgba(10, 67, 94, 0.942)',
-                  width: { sm: '22.5vmin', xs: '140px' },
-                  display: 'flex',
-                  flexGrow: 1,
-                }}
-              >
-                <Link to="/create-course">
-                  <Typography variant="body" sx={{ color: '#fff' }}>
-                    ایجاد کلاس جدید
-                  </Typography>
-                </Link>
-              </Button>
-            </Grid>
-            <Grid item sm={6} xs={12}></Grid>
-          </Grid>
-        </Box>
-
-        <Grid sx={{ margin: '40px 10px 10px 0px' }} className="card-container">
-          <ToastContainer rtl={true} />
-          <Grid
-            container
-            spacing={3}
-            sx={{
-              margin: { xl: '0 13vmin', lg: 'auto', md: breakpoint ? '0vmin' : '0 7vmin', sm: '0 4vmin', xs: '0' },
-              paddingRight: '1.5vmin',
-            }}
-          >
-            {rows.map(row => (
-              <Grid item lg={4} md={breakpoint ? 6 : 12} sm={12} xs={12}>
-                <Card sx={{ minWidth: '30vmin', borderRadius: '25px' }} className="grid">
-                  <CardMedia component="img" height="194" image={row.img} alt="Paella dish" className="card-media-image"/>
-                  <CardContent className="card-item">
-                    <Typography variant="h6" color="text.secondary">
-                      {row.subject}
-                    </Typography>
-                  </CardContent>
-
-                  {/* <Divider sx={{ ml: 2.5, mr: 2.5 }} /> */}
-                  <CardContent className="card-item" sx={{ margin: '0 0 0 0 ' }}>
-                    <Typography variant="body1" sx={{ fontWeight: 'bold', mr: 1 }}>
-                      ‌ظرفیت کلاس:
-                    </Typography>
-
-                    <Typography variant="body1">{row.capacity}</Typography>
-                  </CardContent>
-
-                  {/*  <Divider sx={{ ml: 2.5, mr: 2.5 }} /> */}
-                  <CardContent className="card-item" sx={{ margin: '0 0 0 0 ' }}>
-                    <Typography variant="body1" sx={{ fontWeight: 'bold', mr: 1 }}>
-                      تاریخ شروع کلاس:
-                    </Typography>
-
-                    <Typography variant="body1" sx={{ margin: '0 0 0 0 ' }}>
-                      {row.start_date}
-                    </Typography>
-                  </CardContent>
-                  {/*  <Divider sx={{ ml: 2.5, mr: 2.5 }} /> */}
-                  <CardContent className="card-item" sx={{ margin: '0 0 0 0 ' }}>
-                    <Typography variant="body1" sx={{ fontWeight: 'bold', mr: 1 }}>
-                      تاریخ پایان کلاس:
-                    </Typography>
-
-                    <Typography variant="body1">{row.end_date}</Typography>
-                  </CardContent>
-                  {/* <Divider sx={{ ml: 2.5, mr: 2.5 }} /> */}
-                  <CardActions
-                    disableSpacing
-                    sx={{ margin: '20px 0 10px 0', alignItems: 'center', display: 'flex', justifyContent: 'center' }}
-                  >
-                    {row.edit}
-                    {row.classPage}
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
+      {loading && (
+        <Grid container direction="column" alignItems="center" justifyContent="center" style={{ minHeight: '100vh' }}>
+          <Grid item xs={12}>
+            <ReactLoading type="spinningBubbles" color="rgb(10,68,94)" height={100} width={100} />
           </Grid>
         </Grid>
-      </div>
+      )}
+      {!loading && (
+        <div dir="rtl">
+          <Helmet>
+            <title>پروفایل</title>
+          </Helmet>
+          <ToastContainer />
+
+          <Box component="form" noValidate sx={{ mt: 5 }}>
+            <Grid container spacing={2}>
+              <Grid item sm={6} xs={12}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: 'rgba(10, 67, 94, 0.942)',
+                    width: { sm: '22.5vmin', xs: '140px' },
+                    display: 'flex',
+                    flexGrow: 1,
+                  }}
+                >
+                  <Link to="/create-course">
+                    <Typography variant="body" sx={{ color: '#fff' }}>
+                      ایجاد کلاس جدید
+                    </Typography>
+                  </Link>
+                </Button>
+              </Grid>
+              <Grid item sm={6} xs={12}></Grid>
+            </Grid>
+          </Box>
+
+          <Grid sx={{ margin: '40px 10px 10px 0px' }} className="card-container">
+            <ToastContainer rtl={true} />
+            <Grid
+              container
+              spacing={3}
+              sx={{
+                margin: { xl: '0 13vmin', lg: 'auto', md: breakpoint ? '0vmin' : '0 7vmin', sm: '0 4vmin', xs: '0' },
+                paddingRight: '1.5vmin',
+              }}
+            >
+              {rows.map(row => (
+                <Grid item lg={4} md={breakpoint ? 6 : 12} sm={12} xs={12}>
+                  <Card sx={{ minWidth: '30vmin', borderRadius: '25px' }} className="grid">
+                    <CardMedia
+                      component="img"
+                      height="194"
+                      image={row.img}
+                      alt="Paella dish"
+                      className="card-media-image"
+                    />
+                    <CardContent className="card-item">
+                      <Typography variant="h6" color="text.secondary">
+                        {row.subject}
+                      </Typography>
+                    </CardContent>
+
+                    {/* <Divider sx={{ ml: 2.5, mr: 2.5 }} /> */}
+                    <CardContent className="card-item" sx={{ margin: '0 0 0 0 ' }}>
+                      <Typography variant="body1" sx={{ fontWeight: 'bold', mr: 1 }}>
+                        ‌ظرفیت کلاس:
+                      </Typography>
+
+                      <Typography variant="body1">{row.capacity}</Typography>
+                    </CardContent>
+
+                    {/*  <Divider sx={{ ml: 2.5, mr: 2.5 }} /> */}
+                    <CardContent className="card-item" sx={{ margin: '0 0 0 0 ' }}>
+                      <Typography variant="body1" sx={{ fontWeight: 'bold', mr: 1 }}>
+                        تاریخ شروع کلاس:
+                      </Typography>
+
+                      <Typography variant="body1" sx={{ margin: '0 0 0 0 ' }}>
+                        {row.start_date}
+                      </Typography>
+                    </CardContent>
+                    {/*  <Divider sx={{ ml: 2.5, mr: 2.5 }} /> */}
+                    <CardContent className="card-item" sx={{ margin: '0 0 0 0 ' }}>
+                      <Typography variant="body1" sx={{ fontWeight: 'bold', mr: 1 }}>
+                        تاریخ پایان کلاس:
+                      </Typography>
+
+                      <Typography variant="body1">{row.end_date}</Typography>
+                    </CardContent>
+                    {/* <Divider sx={{ ml: 2.5, mr: 2.5 }} /> */}
+                    <CardActions
+                      disableSpacing
+                      sx={{ margin: '20px 0 10px 0', alignItems: 'center', display: 'flex', justifyContent: 'center' }}
+                    >
+                      {row.edit}
+                      {row.classPage}
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          </Grid>
+        </div>
+      )}
     </CacheProvider>
   );
 }

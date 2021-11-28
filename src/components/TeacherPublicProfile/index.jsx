@@ -29,17 +29,26 @@ import { useMobile } from '../../utils/detectSource';
 import { coursesData } from './coursesData.js';
 import 'swiper/swiper-bundle.min.css';
 import { baseUrl } from '../../utils/constants';
-import './style.scss';
-
+import image from '../../assets/images/banner.png';
+import ReactHtmlParser from 'react-html-parser';
 import './style.scss';
 
 function TeacherPublicProfile(props) {
+  const [loading, setLoading] = useState(true);
   const token = 'JWT ' + localStorage.getItem('access_token');
-  const [teacherData, setTeacherData] = useState({bio:"" , courses:[{id:2 , title:"" , teacherName:"",teacherImgSrc:"#",imgSrc:"#",rate:0}],first_name:"",last_name:"",rate:0,username:"",image:{}});
+  const [teacherData, setTeacherData] = useState({
+    bio: '',
+    courses: [{ id: 2, title: '', teacherName: '', teacherImgSrc: '#', imgSrc: '#', rate: 0 }],
+    first_name: '',
+    last_name: '',
+    rate: 0,
+    username: '',
+    image: {},
+  });
 
   useEffect(() => {
-     function fetchData() {
-      const res =  axios
+    function fetchData() {
+      const res = axios
         .get(`${baseUrl}/accounts/profile/update-profile/`, {
           headers: {
             Authorization: token,
@@ -49,6 +58,7 @@ function TeacherPublicProfile(props) {
         .then(response => {
           console.log(response.data.data);
           setTeacherData(response.data.data);
+          setLoading(false);
         })
         .catch(err => {});
     }
@@ -107,7 +117,7 @@ function TeacherPublicProfile(props) {
           }}
         >
           <Avatar
-            src={teacherData.image.image}
+            src={teacherData.image ? teacherData.image.image : profile_1}
             alt="profile"
             sx={{
               width: {
@@ -124,7 +134,7 @@ function TeacherPublicProfile(props) {
               },
               borderRadius: '50%',
               mt: { lg: '12vmin', md: '8vmin', sm: '6vmin', xs: '20vmin' },
-              border:"rgb(10,90,137) solid 3px"
+              border: 'rgb(10,90,137) solid 3px',
             }}
           />
           <Typography
@@ -147,10 +157,10 @@ function TeacherPublicProfile(props) {
               fontSize: { lg: '1.1rem', sm: '1.2vmin', xs: '1.3vmax' },
               width: '20vmax',
               textAlign: 'center',
-              color:"rgb(0,155,160) !important"
+              color: 'rgb(0,155,160) !important',
             }}
           >
-            {teacherData.first_name + " " + teacherData.last_name}
+            {teacherData.first_name + ' ' + teacherData.last_name}
           </Typography>
           <Rating
             name="simple-controlled"
@@ -208,11 +218,15 @@ function TeacherPublicProfile(props) {
               {teacherData.courses.map(item => (
                 <SwiperSlide key={item.id}>
                   <CourseCard
-                    title={item.title === undefined ? "title" : item.title}
-                    teacherName={item.teacherName === undefined ? "title" : item.teacherName}
-                    rate={item.rate === undefined ? "title" : item.rate}
-                    teacherImgSrc={item.teacherImgSrc === undefined ? "title" : item.teacherImgSrc}
-                    imgSrc={item.imgSrc === undefined ? "title" : item.imgSrc}
+                    title={item.title === undefined ? 'title' : item.title}
+                    teacherName={
+                      item.teacherName === undefined
+                        ? teacherData.first_name + ' ' + teacherData.last_name
+                        : item.teacherName
+                    }
+                    rate={item.rate === undefined ? 2 : item.rate}
+                    teacherImgSrc={teacherData.image === undefined ? profile_1 : teacherData.image.image}
+                    imgSrc={item.imgSrc === undefined ? image : item.imgSrc}
                   />
                 </SwiperSlide>
               ))}
@@ -236,32 +250,43 @@ function TeacherPublicProfile(props) {
 
   return (
     <Box>
-      <div>{teacher_profile1}</div>
-      <Grid
-        container
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-        maxWidth={'xl'}
-      >
-        <Grid item xs={12} sx={{ mt: 3 }}>
-          <Typography variant="h4">درباره من</Typography>
+      {loading && (
+        <Grid container direction="column" alignItems="center" justifyContent="center" style={{ minHeight: '100vh' }}>
+          <Grid item xs={12}>
+            <ReactLoading type="spinningBubbles" color="rgb(10,68,94)" height={100} width={100} />
+          </Grid>
         </Grid>
-        <Grid item xs={12} maxWidth="80%" sx={{ mt: 5 }} minWidth="80%" >
-          <div className="abut-me_wrapper" >
-            <Typography variant="body" className="about-me" >
-              {teacherData.bio}
-            </Typography>
-          </div>
-        </Grid>
-        <Grid item xs={12} sx={{ mt: -30 }}>
-          <div className="afterMyC-a">
-            <TeacherClasses />
-          </div>
-        </Grid>
-      </Grid>
+      )}
+      {!loading && (
+        <div>
+          <div>{teacher_profile1}</div>
+          <Grid
+            container
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+            maxWidth={'xl'}
+          >
+            <Grid item xs={12} sx={{ mt: 3 }}>
+              <Typography variant="h4">درباره من</Typography>
+            </Grid>
+            <Grid item xs={12} maxWidth="80%" sx={{ mt: 5 }} minWidth="80%">
+              <div className="abut-me_wrapper">
+                <Typography variant="body" className="about-me">
+                  {ReactHtmlParser(teacherData.bio)}
+                </Typography>
+              </div>
+            </Grid>
+            <Grid item xs={12} sx={{ mt: -30 }}>
+              <div className="afterMyC-a">
+                <TeacherClasses />
+              </div>
+            </Grid>
+          </Grid>
+        </div>
+      )}
     </Box>
   );
 }

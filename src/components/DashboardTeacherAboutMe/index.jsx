@@ -14,7 +14,7 @@ import ReactLoading from 'react-loading';
 import axios from '../../utils/axiosConfig';
 import draftToHtml from 'draftjs-to-html';
 import { Editor } from 'react-draft-wysiwyg';
-import { EditorState, ContentState, convertFromHTML , convertToRaw  } from 'draft-js';
+import { EditorState, ContentState, convertFromHTML, convertToRaw } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { baseUrl } from '../../utils/constants';
 import './style.scss';
@@ -23,14 +23,12 @@ function DashboardTeacherAboutMe(props) {
   const [validateAfterSubmit, setValidateAfterSubmit] = useState(false);
   const [apiResponse, setApiResponse] = useState(false);
   const [values, setValues] = useState({});
-  const [loading, setLoading] = useState(false);
   const [teacher_data, setteacherData] = useState({});
   const [editorContent, setEditorContent] = useState(EditorState.createEmpty());
-  let init_content = ""
-  const [editorState, setEditorState] = useState(EditorState.createWithContent(
-    ContentState.createFromBlockArray(
-      convertFromHTML(`<p>درباره من ...</p>`)
-    )));
+  const [loading, setLoading] = useState(true);
+  const [editorState, setEditorState] = useState(
+    EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(`<p>درباره من ...</p>`)))
+  );
   const token = 'JWT ' + localStorage.getItem('access_token');
 
   useEffect(() => {
@@ -45,12 +43,11 @@ function DashboardTeacherAboutMe(props) {
         .then(response => {
           console.log(response.data.data.bio);
           /* setEditorContent(response.data.data.bio); */
-          setEditorState(EditorState.createWithContent(
-            ContentState.createFromBlockArray(
-              convertFromHTML(response.data.data.bio)
-              )
-              ));
-          console.log("content:",editorContent)
+          setEditorState(
+            EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(response.data.data.bio)))
+          );
+          console.log('content:', editorContent);
+          setLoading(false);
         })
         .catch(err => {});
     }
@@ -83,145 +80,151 @@ function DashboardTeacherAboutMe(props) {
     setEditorState(editorstate);
   };
 
-
-
   return (
     <CacheProvider value={cacheRtl}>
-      <div dir="rtl">
-        <Helmet>
-          <title>پروفایل</title>
-        </Helmet>
-        <ToastContainer />
+      {loading && (
+        <Grid container direction="column" alignItems="center" justifyContent="center" style={{ minHeight: '100vh' }}>
+          <Grid item xs={12}>
+            <ReactLoading type="spinningBubbles" color="rgb(10,68,94)" height={100} width={100} />
+          </Grid>
+        </Grid>
+      )}
+      {!loading && (
+        <div dir="rtl">
+          <Helmet>
+            <title>پروفایل</title>
+          </Helmet>
+          <ToastContainer />
 
-        <Container maxWidth="lg" component="main" sx={{ margin: 'auto auto 30px auto' }}>
-          <Box
-            sx={{
-              marginTop: 3,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              fontFamily: 'iranyekan',
-            }}
-          >
-            <Typography
-              component="h2"
-              variant="Button"
-              sx={{ color: 'rgba(10, 67, 94, 0.942)', fontSize: { sm: '3vmin', xs: '4vmin' } }}
-            >
-              درباره من
-            </Typography>
-
-            <ToastContainer rtl={true} />
-
-            <Formik
-              enableReinitialize={true}
-              initialValues={{}}
-              onSubmit={async values => {
-                try {
-                  setLoading(true);
-                  console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
-                  const body = { bio: draftToHtml(convertToRaw(editorState.getCurrentContent())) };
-                  axios
-                    .put(`${baseUrl}/accounts/profile/update-profile/`, JSON.stringify(body), {
-                      headers: {
-                        Authorization: token,
-                        'Content-Type': 'application/json',
-                      },
-                    })
-                    .then(response => {
-                      console.log('response ', response);
-                      toast.success('با موفقیت به‌روز شد', {
-                        position: 'bottom-center',
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: 'dark',
-                      });
-                      setLoading(false);
-                    })
-                    .catch(err => {
-                      setLoading(false);
-                      console.log('error', err.response.data.message);
-                      toast.error('شرمنده یه بار دیگه امتحان کن', {
-                        position: 'bottom-center',
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: 'dark',
-                      });
-                    });
-                } catch (error) {
-                  console.log('error');
-                }
-              }}
-              validateOnChange={validateAfterSubmit}
-              validate={values => {
-                let error = {};
-
-                return error;
+          <Container maxWidth="lg" component="main" sx={{ margin: 'auto auto 30px auto' }}>
+            <Box
+              sx={{
+                marginTop: 3,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                fontFamily: 'iranyekan',
               }}
             >
-              {({ handleSubmit, handleChange, setFieldValue, values, errors, handleBlur }) => (
-                <Box
-                  component="form"
-                  id="profile-form"
-                  noValidate
-                  sx={{ mt: 4 }}
-                  onSubmit={e => {
-                    e.preventDefault();
-                    setValidateAfterSubmit(true);
-                    handleSubmit();
-                  }}
-                >
-                  <ToastContainer rtl={true} />
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <div className="wrapper">
-                        <Editor
-                          defaultEditorState={editorState}
-                          editorState={editorState}
-                          editorContent={editorContent}
-                          wrapperClassName="editor-wrapper"
-                          editorClassName="editor-main"
-                          onContentStateChange={onContentStateChange}
-                          onEditorStateChange={onEditorStateChange}
-                          toolbar={{
-                            inline:{inDropdown: true},
-                            list:{inDropdown: true},
-                            textAlign:{inDropdown: true},
-                            link:{inDropdown: true},
-                            history:{inDropdown: true},
-                            
-                          }}
-                        />
-                      </div>
+              <Typography
+                component="h2"
+                variant="Button"
+                sx={{ color: 'rgba(10, 67, 94, 0.942)', fontSize: { sm: '3vmin', xs: '4vmin' } }}
+              >
+                درباره من
+              </Typography>
+
+              <ToastContainer rtl={true} />
+
+              <Formik
+                enableReinitialize={true}
+                initialValues={{}}
+                onSubmit={async values => {
+                  try {
+                    setLoading(true);
+                    console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
+                    const body = { bio: draftToHtml(convertToRaw(editorState.getCurrentContent())) };
+                    axios
+                      .put(`${baseUrl}/accounts/profile/update-profile/`, JSON.stringify(body), {
+                        headers: {
+                          Authorization: token,
+                          'Content-Type': 'application/json',
+                        },
+                      })
+                      .then(response => {
+                        console.log('response ', response);
+                        toast.success('با موفقیت به‌روز شد', {
+                          position: 'bottom-center',
+                          autoClose: 5000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: 'dark',
+                        });
+                        setLoading(false);
+                      })
+                      .catch(err => {
+                        setLoading(false);
+                        console.log('error', err.response.data.message);
+                        toast.error('شرمنده یه بار دیگه امتحان کن', {
+                          position: 'bottom-center',
+                          autoClose: 5000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: 'dark',
+                        });
+                      });
+                  } catch (error) {
+                    console.log('error');
+                  }
+                }}
+                validateOnChange={validateAfterSubmit}
+                validate={values => {
+                  let error = {};
+
+                  return error;
+                }}
+              >
+                {({ handleSubmit, handleChange, setFieldValue, values, errors, handleBlur }) => (
+                  <Box
+                    component="form"
+                    id="profile-form"
+                    noValidate
+                    sx={{ mt: 4 }}
+                    onSubmit={e => {
+                      e.preventDefault();
+                      setValidateAfterSubmit(true);
+                      handleSubmit();
+                    }}
+                  >
+                    <ToastContainer rtl={true} />
+                    <Grid container spacing={2}>
+                      <Grid item xs={12}>
+                        <div className="wrapper">
+                          <Editor
+                            defaultEditorState={editorState}
+                            editorState={editorState}
+                            editorContent={editorContent}
+                            wrapperClassName="editor-wrapper"
+                            editorClassName="editor-main"
+                            onContentStateChange={onContentStateChange}
+                            onEditorStateChange={onEditorStateChange}
+                            toolbar={{
+                              inline: { inDropdown: true },
+                              list: { inDropdown: true },
+                              textAlign: { inDropdown: true },
+                              link: { inDropdown: true },
+                              history: { inDropdown: true },
+                            }}
+                          />
+                        </div>
+                      </Grid>
                     </Grid>
-                  </Grid>
 
-                  <Grid item>
-                    <Button
-                      fullWidth
-                      type="submit"
-                      variant="contained"
-                      sx={{ mt: 3, backgroundColor: 'rgba(10, 67, 94, 0.942) !important' }}
-                      typeof="submit"
-                    >
-                      {!loading && <span>تایید</span>}
-                      {loading && <ReactLoading type="bubbles" color="#fff" className="loading-signup" />}
-                    </Button>
-                  </Grid>
-                </Box>
-              )}
-            </Formik>
-          </Box>
-        </Container>
-      </div>
+                    <Grid item>
+                      <Button
+                        fullWidth
+                        type="submit"
+                        variant="contained"
+                        sx={{ mt: 3, backgroundColor: 'rgba(10, 67, 94, 0.942) !important' }}
+                        typeof="submit"
+                      >
+                        {!loading && <span>تایید</span>}
+                        {loading && <ReactLoading type="bubbles" color="#fff" className="loading-signup" />}
+                      </Button>
+                    </Grid>
+                  </Box>
+                )}
+              </Formik>
+            </Box>
+          </Container>
+        </div>
+      )}
     </CacheProvider>
   );
 }
