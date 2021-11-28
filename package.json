@@ -22,6 +22,7 @@
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
     "formik": "^2.2.9",
+    "immutable": "^4.0.0",
     "jalali-date": "^1.1.4",
     "jalali-react-datepicker": "^1.2.1",
     "jodit-react": "^1.1.12",
