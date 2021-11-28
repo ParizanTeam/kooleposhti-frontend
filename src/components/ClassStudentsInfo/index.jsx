@@ -39,14 +39,15 @@ import { styled } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
 import apiInstance from '../../utils/axiosConfig';
 import AlertDialog from '../AlertDialog';
-import {baseUrl} from "../../utils/constants";
+import { baseUrl } from '../../utils/constants';
+import StudentProfileModalCard from '../StudentProfileModalCard';
 import './style.scss';
 
 function ClassStudentInfo(props) {
   const [studentsInfo, setStudentsInfo] = useState([]);
+  const [showProfile, setShowProfile] = useState({ profileOpen: false, username: '' });
 
   const params = useParams();
-  const [openDialog, setOpenDialog] = useState(false);
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subtitle: '' });
 
   const token = 'JWT ' + localStorage.getItem('access_token');
@@ -55,7 +56,7 @@ function ClassStudentInfo(props) {
   useEffect(() => {
     async function fetchData() {
       const res = await apiInstance
-        .get(`http://185.239.106.239/courses/${courseId}/students/`)
+        .get(`${baseUrl}/courses/${courseId}/students/`)
         .then(response => {
           console.log('get response: ', response);
           setStudentsInfo(response.data);
@@ -120,7 +121,7 @@ function ClassStudentInfo(props) {
     console.log('students info before: ' + studentsInfo);
     // async function fetchData() {
     const delRes = await apiInstance
-      .put(`http://185.239.106.239/courses/${courseId}/delete-student/${inputRow.id}/`)
+      .put(`${baseUrl}/courses/${courseId}/delete-student/${inputRow.id}/`)
       .then(response => {
         console.log('get response: ', response);
         console.log(inputRow.id);
@@ -165,7 +166,7 @@ function ClassStudentInfo(props) {
                     >
                       عکس دانش‌آموز
                     </StyledTableCell>
-                    <StyledTableCell align="center">اسم دانش‌آموز</StyledTableCell>
+                    <StyledTableCell align="center">نام کاربری دانش‌آموز</StyledTableCell>
                     <StyledTableCell align="center">ایمیل دانش‌آموز</StyledTableCell>
                     <StyledTableCell align="center">حذف دانش‌آموز</StyledTableCell>
                   </TableRow>
@@ -173,7 +174,14 @@ function ClassStudentInfo(props) {
                 <TableBody>
                   {rows.map(row => (
                     <StyledTableRow key={row.id}>
-                      <StyledTableCell align="center" className="course-student-info-table__image-holder">
+                      <StyledTableCell
+                        align="center"
+                        className="course-student-info-table__image-holder"
+                        onClick={() => {
+                          setShowProfile({ profileOpen: true, username: row.studentName });
+                          console.log({ showProfile });
+                        }}
+                      >
                         {row.img}
                       </StyledTableCell>
                       <StyledTableCell align="center">{row.studentName}</StyledTableCell>
@@ -207,6 +215,7 @@ function ClassStudentInfo(props) {
         </div>
       </CacheProvider>
       <AlertDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
+      <StudentProfileModalCard showProfile={showProfile} setShowProfile={setShowProfile} />
     </>
   );
 }

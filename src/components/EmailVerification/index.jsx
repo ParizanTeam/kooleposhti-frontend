@@ -10,8 +10,8 @@ import axios from 'axios';
 import { Redirect } from 'react-router';
 import MyTimer from '../MyTimer';
 import { ToastContainer, toast } from 'react-toastify';
+import {baseUrl} from '../../utils/constants';
 import './style.scss';
-import {baseUrl} from "../../utils/constants";
 function EmailVerification(props) {
   const token = useRef('');
   const [resend, setResend] = useState(false);

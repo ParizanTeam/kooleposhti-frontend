@@ -24,6 +24,7 @@ import { Fragment } from 'react';
 import apiInstance from '../../utils/axiosConfig';
 import { ToastContainer, toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
+import {baseUrl} from '../../utils/constants';
 import './style.scss';
 
 import skirt from '../../assets/images/skirt.png';
@@ -37,7 +38,6 @@ import nini from '../../assets/images/nini.png';
 import olympic from '../../assets/images/olympic.png';
 import ship from '../../assets/images/ship.png';
 import pets from '../../assets/images/pets.png';
-import { baseUrl } from '../../utils/constants';
 
 export const categoriesData = [
   {

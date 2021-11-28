@@ -18,11 +18,12 @@ import StudentProfile from '../components/StudentProfile';
 import ClassCalendar from '../components/ClassCalendar';
 import StudentAssignments from '../components/StudentAssignments';
 import StudentAssignmentslist from '../components/StudentAssignmentslist';
-import {history} from '../utils/constants';
+import StudentProfileCard from '../components/StudentProfileCard';
+import { history } from '../utils/constants';
 
 const AppRouter = () => {
   return (
-    <Router  history={history}>
+    <Router history={history}>
       <Switch>
         <Route path="/" exact>
           <HomePage />
@@ -60,6 +61,9 @@ const AppRouter = () => {
         </Route>
         <Route path="/edit-course/:courseId">
           <CreateCourseForm edit />
+        </Route>
+        <Route path="/:studentUsername/student-profile">
+          <StudentProfileCard />
         </Route>
         {/* student dasgboard classes url */}
         <Switch>

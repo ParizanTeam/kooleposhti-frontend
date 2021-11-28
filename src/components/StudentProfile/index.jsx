@@ -18,12 +18,12 @@ import './style.scss';
 import axios from '../../utils/axiosConfig';
 import { baseUrl } from '../../utils/constants';
 import { login } from '../../store/actions';
-
 import Navbar from '../Navbar';
-
-import FormDialog from '../InfoDialog';
+import { themeProps } from './constant';
 import { useDispatch, useSelector } from 'react-redux';
 import ReactLoading from 'react-loading';
+import {FormDialog} from './FormDialog';
+import ColorModal from './ColorModal';
 
 function SProfile(props) {
   const [validateAfterSubmit, setValidateAfterSubmit] = useState(false);
@@ -32,7 +32,6 @@ function SProfile(props) {
   const [binaryFile, setBinaryFile] = useState(null);
   const userData = useSelector(state => state.auth);
   const dispatch = useDispatch();
-  // setFile(response.data.image.image);
   console.log(userData);
 
   const [file, setFile] = useState(profile_1);
@@ -44,7 +43,6 @@ function SProfile(props) {
     let picture = e.target.files[0];
     console.log('picture', picture);
     setBinaryFile(picture);
-
   };
   const cacheRtl = createCache({
     key: 'muirtl',
@@ -54,7 +52,6 @@ function SProfile(props) {
     prepend: true,
   });
 
-  console.log(userData.username);
   return (
     <CacheProvider value={cacheRtl}>
       <div dir="rtl">
@@ -76,7 +73,7 @@ function SProfile(props) {
             <Typography
               component="h2"
               variant="Button"
-              sx={{ color: 'rgb(122, 0, 71);', fontSize: { sm: '3vmin', xs: '4vmin' } }}
+              sx={{ color: themeProps.primaryColor, fontSize: { sm: '3vmin', xs: '4vmin' } }}
             >
               ویرایش حساب کاربری
             </Typography>
@@ -85,7 +82,7 @@ function SProfile(props) {
             <Button
               variant="contained"
               component="label"
-              sx={{ backgroundColor: 'rgb(122, 0, 71);', color: 'white', width: '120px', mt: 2 }}
+              sx={{ backgroundColor: themeProps.primaryColor, color: 'white', width: '120px', mt: 2 }}
             >
               <p style={{ fontSize: '0.8rem' }}>انتخاب عکس</p>
               <input type="file" hidden onChange={handleChange} />
@@ -146,7 +143,7 @@ function SProfile(props) {
                     })
                     .catch(err => {
                       setLoading(false);
-                      console.log('error: ',err.response);
+                      console.log('error: ', err.response);
                       toast.error('شرمنده یه بار دیگه امتحان کن !!!', {
                         position: 'bottom-center',
                         autoClose: 5000,
@@ -319,12 +316,14 @@ function SProfile(props) {
                       fullWidth
                       type="submit"
                       variant="contained"
-                      sx={{ mt: 3, backgroundColor: 'rgb(122, 0, 71); !important' }}
+                      sx={{ mt: 3, backgroundColor: `${themeProps.primaryColor} !important` }}
                       typeof="submit"
                     >
-                      {loading ? <ReactLoading type="bubbles" color="#fff" className="loading-signup" />
-                      : <span>تایید</span>}
-
+                      {loading ? (
+                        <ReactLoading type="bubbles" color="#fff" className="loading-signup" />
+                      ) : (
+                        <span>تایید</span>
+                      )}
                     </Button>
                   </Grid>
                 </Box>
@@ -341,19 +340,19 @@ const StudentProfile = () => {
   return (
     <div>
       <FormDialog />
-      <Navbar color="#7a0047" />
+      <Navbar color={themeProps.primaryColor} />
       <div className="mainPro">
         <div className="RightBar">
-          <ProBar />
-          <Pro />
-          <Link to="/">
-            <div className="PB">
-              <img src={ComeBack} alt="PB" className="PB__media" />
-              <span className="PB__content">برگردیم خونه؟</span>
+          <ProBar firstname="مریم" lastname="شمس" />
+          <Pro firstname="مریم" />
+            <div className="PB" style={{ color: themeProps.primaryColor }}>
+              <span><ColorModal/></span>
             </div>
-          </Link>
         </div>
-        <div className="Forms">
+        <div
+          className="Forms"
+          style={{ backgroundColor: themeProps.secondaryColor, boxShadow: `${themeProps.primaryColor} 0px 2px 10px` }}
+        >
           <SProfile />
         </div>
       </div>

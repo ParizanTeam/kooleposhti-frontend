@@ -82,13 +82,9 @@
   }
   .Uplr{
     margin: auto;
-    margin-top: 50px;
+    margin-bottom: 20px;
+    justify-content: center;
     text-align: center;
-    display: flex;
-    flex-direction: row;
-    @media (max-width: 600px) {
-      flex-direction: column;
-  }
   }
   .MyHeader{
     font-size: x-large;
@@ -105,11 +101,11 @@
   }
   .editor{
     background-color: rgb(203, 217, 255);
-    // height: 220px;
+    min-height: 350px;
     border-radius: 1%;
     margin-bottom: 20px;
     padding: 15px;
-    border-style: dotted;
+    border-style:groove;
     border-color:darkslateblue;
   }
   .mytxt{
@@ -135,11 +131,26 @@
     }
   }
   .ovL{
+    padding: 2px;
     font-weight: 600;
-    font-size: medium;
+    font-size: 14px;
     background-color: rgb(225, 220, 255);
     margin: 2px;
     height: 43px;
     width: 255px;
     border-radius: 1%;
+  }
+  .MyUp{
+    background-color: rgb(203, 217, 255);
+    padding: 15px;
+    margin-bottom: 7px;
+    border-style:dashed;
+    border-color:darkslateblue;
+  }
+  .Border{
+    border-style:groove;
+    border-color:darkslateblue;
+  }
+  .color{
+    background-color:  rgb(249, 251, 255);
   }

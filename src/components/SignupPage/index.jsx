@@ -26,8 +26,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import { Helmet } from 'react-helmet';
 import ReactLoading from 'react-loading';
 import validator from "validator";
+import {baseUrl} from '../../utils/constants';
 import './style.scss';
-import {baseUrl} from "../../utils/constants";
 const cacheRtl = createCache({
   key: 'muirtl',
 

@@ -6,13 +6,13 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Pen from '../../assets/images/pen.png';
+import Uploader from '../Uploader'
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import './style.scss';
 
 import { useState } from 'react';
-import { FileUploader } from 'react-drag-drop-files';
 
 // import { Editor, EditorState } from 'draft-js';
 import { Button } from '@mui/material';
@@ -21,9 +21,9 @@ const RichtextEditor = () => {
   // const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
   return (
     <Editor
-      wrapperClassName="rich-text-wrapper-class editor"
-      editorClassName="rich-text-editor-class"
-      toolbarClassName="rich-text-toolbar-class"
+      wrapperClassName="rich-text-wrapper-class"
+      editorClassName="rich-text-editor-class color"
+      toolbarClassName="rich-text-toolbar-class Border"
       // wrapperStyle={<wrapperStyleObject>}
       // editorStyle={<editorStyleObject>}
       // toolbarStyle={<toolbarStyleObject>}
@@ -41,17 +41,22 @@ function DragDrop() {
   return (
     <div className="App">
       <h1 className="MyHeader">پاسخ شما:</h1>
-      <RichtextEditor />
-      <div className="Uplr">
-        <div>
-          <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
-        </div>
-        <div className="ovL" style={{ zIndex: 1, position: 'absolute' }}>
-          <p>فایل را بکشید و</p>
-          <p>در قسمت سفید رنگ رها کنید</p>
-        </div>
-        <p className="Box">{file ? `File name: ${file.name}` : 'هنوز فایلی آپلود نشده!'}</p>
-      </div>
+      <div className='editor'>
+      <RichtextEditor /></div>
+      <br/>
+      <div className='MyUp'>
+        <h2 className="MyHeader">آپلود فایل:</h2>
+        <div className="Uplr" dir='ltr'>
+          {/*<div>
+            <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
+          </div>
+          <div className="ovL" style={{ zIndex: 1, position: 'absolute' }}>
+            <p className='dis'>فایلت رو بکش و</p>
+            <p className='dis'>در قسمت سفید رنگ رها کن</p>
+          </div>
+          <p className="Box">{file ? `File name: ${file.name}` : 'هنوز فایلی آپلود نشده!'}</p>*/}
+          <Uploader/>
+        </div></div>
       <div className="Bt">
         <Button>
           <p className="Bt__txt">ثبت</p>
@@ -74,7 +79,7 @@ function BaseAssignments() {
         <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">
           <img src={Pen} alt="Sleeping Fox" className="Apic" />
           <div className="txt">
-            <Typography sx={{ width: '33%', flexShrink: 0, margin: 1 }}>تمرین 1</Typography>
+            <Typography sx={{ width: '33%', flexShrink: 0, margin: 1 }}>تمرین اول</Typography>
             <Typography sx={{ color: '#292269', margin: 1 }}>حل نشده &#128542;</Typography>
           </div>
         </AccordionSummary>
