@@ -97,3 +97,31 @@
   font-weight: 500;
   font-size: large;
 }
+
+
+.about-me{
+    
+}
+
+.wrapper
+{
+    box-shadow:rgba(0, 0, 0, 0.60) 0px 2px 8px !important;
+    border: 3px solid rgb(25, 114, 129);
+    padding: 20px;
+    border-radius: 25px;
+}
+
+.editor-wrapper{
+    direction: ltr;
+    
+}
+
+.editor-main{
+    min-height: 50vmin !important;
+}
+
+.myColo{
+  background-color: rgb(220, 230, 255);
+  padding-right: 20px;
+  padding-left: 20px;
+}
