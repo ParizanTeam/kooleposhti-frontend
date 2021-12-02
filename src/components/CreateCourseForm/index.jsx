@@ -177,7 +177,7 @@ function CreateCourseForm({ edit }) {
               endAge: max_age,
               age,
               description,
-              courseImage: image == 'http://185.239.106.239/media/images/no_photo.jpg' ? null : image,
+              courseImage: image == `${baseUrl}/media/images/no_photo.jpg` ? null : image,
               tags: defaultTags,
               objectives: defaultGoals,
               dates: defaultSessions,

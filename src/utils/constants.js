@@ -2,4 +2,4 @@
 import createBrowserHistory from 'history/createBrowserHistory'
 export const history = createBrowserHistory();
 
-export const baseUrl = 'http://185.239.106.239';
+export const baseUrl = 'https://kooleposhti.ml';

@@ -150,7 +150,6 @@ const ClassAtendees = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   useEffect(() => {
-    // `http://185.239.106.239/courses/${classId}/students/`
 
     apiInstance
       .get(`${baseUrl}/courses/${classId}/students/`)

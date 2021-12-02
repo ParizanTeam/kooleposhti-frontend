@@ -177,7 +177,7 @@ const CoursePage = () => {
   }, []);
 
   useEffect(() => {
-    apiInstance.get(`http://185.239.106.239/courses/${courseId}/can-enroll/`).then(res => {
+    apiInstance.get(`${baseUrl}/courses/${courseId}/can-enroll/`).then(res => {
       setShowRegister(res.data.enroll);
       console.log(res.data);
     });
@@ -190,7 +190,7 @@ const CoursePage = () => {
     }
     setRegisterLoading(true);
     apiInstance
-      .post(`http://185.239.106.239/courses/${courseId}/enroll/`)
+      .post(`${baseUrl}/courses/${courseId}/enroll/`)
       .then(res => {
         console.log(res);
         toast.success('با موفقیت ثبت‌نام‌ شدی.');
