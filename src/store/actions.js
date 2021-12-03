@@ -1,8 +1,8 @@
-import axios from '../utils/axiosConfig';
-import {baseUrl} from '../utils/constants';
+import apiInstance from '../utils/axiosConfig';
+import {baseUrl,history} from '../utils/constants';
 
 export const login = () => async (dispatch) => {
-  const response = await axios.get(`${baseUrl}/accounts/users/me`, {
+  const response = await apiInstance.get(`${baseUrl}/accounts/users/me`, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -12,6 +12,14 @@ export const login = () => async (dispatch) => {
     type: 'LOGIN',
     payload: userData
   });
+};
+
+export const remove_token = () => {
+  localStorage.removeItem('access_token');
+  history.push("/login");
+  return {
+    type: 'LOGOUT',
+  };
 };
 
 export const logout = () => {

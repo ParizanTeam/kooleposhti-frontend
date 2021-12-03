@@ -60,4 +60,18 @@
     }
   }
 }
-
+.bmImg{
+  width: 32px;
+  height: 30px;
+  margin-top: 351px;
+  margin-right: 17%;
+  position: absolute;
+  @media (max-width: 800px) {
+    margin-right: 16%;
+  }
+  @media (max-width: 600px) {
+    width: 28px;
+    margin-right: 2%;
+    margin-top: 348px;
+  }
+}

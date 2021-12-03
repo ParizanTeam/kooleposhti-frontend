@@ -50,6 +50,7 @@ const BookMarkedClasses = () => {
   return (
   <div>
     <MyClasses />
+    <img src='https://8pic.ir/uploads/1307925801537355428-128.png' alt='bm' className='bmImg'/>
     <br/><br/>
     <div className="afterMyC-a">
       <MyCourseSlider/>

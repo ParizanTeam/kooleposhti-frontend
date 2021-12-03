@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {convertNumberToPersian} from '../../utils/helpers';
 export default function MyTimer({ expire, resend, seconds }) {
   const [timer, setTimer] = React.useState(seconds);
   const id = React.useRef(null);
@@ -23,5 +23,5 @@ export default function MyTimer({ expire, resend, seconds }) {
     }
   }, [timer]);
 
-  return <span style={{ fontSize: '40px' }}>{timer}</span>;
+  return <span style={{ fontSize: '40px' }}>{convertNumberToPersian(timer)}</span>;
 }

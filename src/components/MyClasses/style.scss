@@ -57,6 +57,10 @@
         position: relative;
         line-height: 50px;
         display: block;
+        @media (max-width: 1010px) {
+            line-height: 40px;
+            font-size: medium;
+        }
         @media (max-width: 800px) {
             display: none;
         }
@@ -64,7 +68,7 @@
     &__cont-b{
         color: rgb(255, 255, 255);
         position: relative;
-        line-height: 54px;
+        line-height: 43px;
         font-size: medium;
         display: none;
         @media (max-width: 800px) {
@@ -98,6 +102,10 @@
         position: relative;
         line-height: 50px;
         display: block;
+        @media (max-width: 1010px) {
+            line-height: 40px;
+            font-size: medium;
+        }
         @media (max-width: 800px) {
             display: none;
         }
@@ -105,7 +113,7 @@
     &__cont-b{
         color: rgb(255, 255, 255);
         position: relative;
-        line-height: 54px;
+        line-height: 43px;
         font-size: medium;
         display: none;
         @media (max-width: 800px) {
@@ -123,7 +131,7 @@
         font-size: large;
         font-weight: 800;
         color: rgb(255, 51, 0);
-        background-color:rgb(251, 255, 0);
+        background-color:#DBD776;
         &:hover {
             margin-top: 0px;
             height: 56px;
@@ -139,13 +147,17 @@
         position: relative;
         line-height: 50px;
         display: block;
+        @media (max-width: 1010px) {
+            line-height: 40px;
+            font-size: medium;
+        }
         @media (max-width: 800px) {
             display: none;
         }
     }
     &__cont-b{
         position: relative;
-        line-height: 54px;
+        line-height: 43px;
         font-size: medium;
         display: none;
         color: rgb(255, 51, 0);

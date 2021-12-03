@@ -10,9 +10,12 @@ import axios from 'axios';
 import { Redirect } from 'react-router';
 import MyTimer from '../MyTimer';
 import { ToastContainer, toast } from 'react-toastify';
+import {baseUrl} from '../../utils/constants';
+import { convertNumberToPersian } from '../../utils/helpers';
+import ReactLoading from 'react-loading'
 import './style.scss';
-
 function EmailVerification(props) {
+  const[loading , setLoading] = useState(false);
   const token = useRef('');
   const [resend, setResend] = useState(false);
   const [isSignedUp, setIsSignedUp] = useState(false);
@@ -28,14 +31,15 @@ function EmailVerification(props) {
     console.log('verified');
     setResend(false);
     const info = { email: props.location.state.values.email, username: props.location.state.values.username };
-
+    
     axios
-      .post('https://kooleposhti.herokuapp.com/accounts/activate/', info, {
+      .post(`${baseUrl}/accounts/activate/`, info, {
         headers: {
           'Content-Type': 'application/json',
         },
       })
       .then(response => {
+        
         console.log('status is: ', response.status);
         toast.success('کد تایید با موفقیت ارسال شد', {
           position: 'bottom-center',
@@ -64,11 +68,12 @@ function EmailVerification(props) {
   };
   const verifyAndSignUp = async event => {
     event.preventDefault();
+    setLoading(true);
     const info = { email: props.location.state.values.email ?? null, token: token.current.value ?? null };
 
     try {
       const res = await axios
-        .post('https://kooleposhti.herokuapp.com/accounts/checkcode/', info, {
+        .post(`${baseUrl}/accounts/checkcode/`, info, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -77,16 +82,18 @@ function EmailVerification(props) {
           console.log('status is: ', response.status);
         })
         .catch(err => {
+          setLoading(false);
           throw 'checkcode';
         });
 
       const res2 = await axios
-        .post('https://kooleposhti.herokuapp.com/accounts/signup/', JSON.stringify(props.location.state.values), {
+        .post(`${baseUrl}/accounts/signup/`, JSON.stringify(props.location.state.values), {
           headers: {
             'Content-Type': 'application/json',
           },
         })
         .then(res => {
+          setLoading(false);
           console.log('status is: ', res.status);
           toast.success('ثبت نام با موفقیت انجام شد', {
             position: 'bottom-center',
@@ -104,6 +111,7 @@ function EmailVerification(props) {
           }, 3000);
         })
         .catch(err => {
+          setLoading(false);
           throw 'signup';
         });
     } catch (error) {
@@ -150,7 +158,7 @@ function EmailVerification(props) {
                       لطفا کد تایید ایمیل رو وارد کن
                     </Typography>
                     <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 4 }}>
-                      کد 6 رقمی به <span>{props.location.state.values.email}</span> ارسال شده‌است
+                      کد {convertNumberToPersian(6)} رقمی به <span>{props.location.state.values.email}</span> ارسال شده‌است
                     </Typography>
                   </Grid>
                   <Grid item xs={12} component="form" sx={{ margin: '80px 10px 0 0' }} onSubmit={verifyAndSignUp}>
@@ -159,8 +167,8 @@ function EmailVerification(props) {
                       removeDefaultStyles
                       dir="ltr"
                       classNames={{
-                        container: 'container',
-                        character: 'character',
+                        container: 'email-verification-container',
+                        character: 'email-verification-character',
                         characterInactive: 'character--inactive',
                         characterSelected: 'character--selected',
                       }}
@@ -170,7 +178,8 @@ function EmailVerification(props) {
                       variant="contained"
                       sx={{ mt: 4, backgroundColor: 'rgb(99, 36, 200) !important' }}
                     >
-                      تایید
+                      {!loading && <span>تایید</span>}
+                        {loading && <ReactLoading type="bubbles" color="#fff" className="loading-signup" />}
                     </Button>
                   </Grid>
                   <Grid item xs={12}>

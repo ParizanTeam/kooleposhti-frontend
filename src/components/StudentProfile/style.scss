@@ -17,11 +17,9 @@
     text-align: center;
     display: flex;
     flex-direction: row;
-    box-shadow:rgba(63, 2, 2, 0.87) 0px 2px 10px;
     margin: 20px;
-    background-color: rgb(255, 216, 211);
     padding: 5px;
-    border-radius: 2%;
+    border-radius: 8px;
     @media (max-width: 800px) {
       margin: 20px auto;
       width: 91%;
@@ -40,12 +38,11 @@
   display: flex;
   height: 70px;
   flex-direction: row;
-  margin: 20px;
+  margin: auto;
   padding: 5px;
   border-radius: 4%;
   font-size: x-large;
   font-weight: 700;
-  color:rgb(122, 0, 71);
   &__media{
       margin: auto;
       width: 45px;
@@ -55,12 +52,70 @@
       border-radius: 10%;
   }
   &__content{
+      font-size: large;
+      font-weight: 700;
       margin: auto;
       text-align: center;
-      margin-inline-start: 1%;
       border-radius: 10%;
   }
-  @media (max-width: 800px) {
-    display: none;
-  }
+}
+
+
+.CenterB{
+  margin-right: 25px;
+  text-align: center;
+}
+
+.BlueC{
+  width: 110px;
+  padding: 5px;
+  margin: 5px;
+  background-color: cyan;
+  color: blue;
+}
+.PinkC{
+  width: 110px;
+  padding: 5px;
+  margin: 5px;
+  background-color: pink;
+  color: deeppink;
+}
+.PurpleC{
+  width: 110px;
+  padding: 5px;
+  margin: 5px;
+  background-color: plum;
+  color:indigo;
+}
+.txtCol{
+  color: black;
+  font-weight: 500;
+  font-size: large;
+}
+
+
+.about-me{
+    
+}
+
+.wrapper
+{
+
+    padding: 20px;
+    border-radius: 25px;
+}
+
+.editor-wrapper{
+    direction: ltr;
+    
+}
+
+.editor-main{
+    min-height: 50vmin !important;
+}
+
+.myColo{
+  background-color: rgb(220, 230, 255);
+  padding-right: 20px;
+  padding-left: 20px;
 }

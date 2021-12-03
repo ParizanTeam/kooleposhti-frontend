@@ -24,6 +24,8 @@ import { Fragment } from 'react';
 import apiInstance from '../../utils/axiosConfig';
 import { ToastContainer, toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
+import { baseUrl } from '../../utils/constants';
+import ReactLoading from 'react-loading';
 import './style.scss';
 
 import skirt from '../../assets/images/skirt.png';
@@ -44,66 +46,77 @@ export const categoriesData = [
     title: 'مسافرت',
     color: '#ceaea2',
     theme: 'light',
+    id: 1,
   },
   {
     imgSrc: lip,
     title: 'زیبایی',
     color: '#ff80ab',
     theme: 'light',
+    id: 2,
   },
   {
     imgSrc: pets,
     title: 'حیوانات',
     color: '#aebac5',
     theme: 'light',
+    id: 3,
   },
   {
     imgSrc: game,
     title: 'بازی',
     color: '#ececec',
     theme: 'dark',
+    id: 4,
   },
   {
     imgSrc: skirt,
     title: 'مد و لباس',
     color: '#ff979d',
     theme: 'light',
+    id: 5,
   },
   {
     imgSrc: ketab,
     title: 'کتاب',
     color: '#d1b9fc',
     theme: 'light',
+    id: 6,
   },
   {
     imgSrc: home,
     title: 'ساختن',
     color: '#88bde8',
     theme: 'light',
+    id: 7,
   },
   {
     imgSrc: yummy,
     title: 'خوشمزه',
     color: '#ffa588',
     theme: 'light',
+    id: 8,
   },
   {
     imgSrc: sparkle,
     title: 'کاردستی',
     color: '#b4f0e1',
     theme: 'dark',
+    id: 9,
   },
   {
     imgSrc: nini,
     title: 'نوزاد',
     color: '#ffe3b9',
     theme: 'dark',
+    id: 10,
   },
   {
     imgSrc: olympic,
     title: 'ورزشی',
     color: '#e0edff',
     theme: 'dark',
+    id: 11,
   },
 ];
 
@@ -116,6 +129,7 @@ const CoursePage = () => {
   const [showMore, setShowMore] = useState(true);
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [registerLoading, setRegisterLoading] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [title, setTitle] = useState('');
   const [open, setOpen] = useState(false);
@@ -144,7 +158,7 @@ const CoursePage = () => {
     });
     setIsLoading(true);
     axios
-      .get(`https://kooleposhti.herokuapp.com/courses/${courseId}`)
+      .get(`${baseUrl}/courses/${courseId}`)
       .then(res => {
         setData(res.data);
         console.log(res.data);
@@ -163,7 +177,7 @@ const CoursePage = () => {
   }, []);
 
   useEffect(() => {
-    apiInstance.get(`https://kooleposhti.herokuapp.com​/courses/${courseId}/can-enroll/`).then(res => {
+    apiInstance.get(`${baseUrl}/courses/${courseId}/can-enroll/`).then(res => {
       setShowRegister(res.data.enroll);
       console.log(res.data);
     });
@@ -174,11 +188,13 @@ const CoursePage = () => {
       toast.error('باید قبلش وارد حسابت بشی.');
       return;
     }
+    setRegisterLoading(true);
     apiInstance
-      .post(`https://kooleposhti.herokuapp.com/courses/${courseId}/enroll/`)
+      .post(`${baseUrl}/courses/${courseId}/enroll/`)
       .then(res => {
         console.log(res);
         toast.success('با موفقیت ثبت‌نام‌ شدی.');
+        setRegisterLoading(false);
         setTimeout(() => {
           history.push(`/dashboard/class/${courseId}`);
         }, 2000);
@@ -186,6 +202,7 @@ const CoursePage = () => {
       .catch(err => {
         console.log(err);
         toast.error('مشکلی در سامانه به وجود اومده.');
+        setRegisterLoading(false);
       });
   };
 
@@ -201,12 +218,14 @@ const CoursePage = () => {
           <div className="course-header">
             <div className="course-header__first-section-wrapper">
               <div className="course-header__categories">
-                <CourseCategory
-                  color={categoriesData[data.category - 1].color}
-                  imgSrc={categoriesData[data.category - 1].imgSrc}
-                  theme={categoriesData[data.category - 1].theme}
-                  title={categoriesData[data.category - 1].title}
-                />
+                {data.categories.map(category => (
+                  <CourseCategory
+                    color={categoriesData[category - 1].color}
+                    imgSrc={categoriesData[category - 1].imgSrc}
+                    theme={categoriesData[category - 1].theme}
+                    title={categoriesData[category - 1].title}
+                  />
+                ))}
               </div>
               <div className="course-header__title">{data.title}</div>
               <div className="course-header__rating">
@@ -309,11 +328,14 @@ const CoursePage = () => {
               <div className="register-modal">
                 <h4 className="register-modal__title">آیا از شرکت توی این کلاس مطمئنی؟</h4>
                 <button className="register-modal__confirm" onClick={register}>
-                  ثبت‌نام
+                  ثبت نام
                 </button>
                 <button className="register-modal__cancel" onClick={handleClose}>
                   بازگشت
                 </button>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  {registerLoading && <ReactLoading type="bubbles" color="#000" />}
+                </div>
               </div>
             </Fade>
           </Modal>
