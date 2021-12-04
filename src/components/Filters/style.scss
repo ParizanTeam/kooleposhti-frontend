@@ -1,0 +1,94 @@
+@import '/src/theme/main.scss';
+
+.class-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  margin: 0 32px;
+  border-bottom: 1px solid rgb(221, 223, 227);
+
+  &__content {
+    padding: 0 24px;
+  }
+
+  &__img-wrapper {
+    width: 240px;
+    height: 180px;
+    border-radius: 8px;
+  }
+
+  &__img {
+    width: 240px;
+    height: 150px;
+    border-radius: 8px;
+  }
+
+  &__age {
+    color: rgb(106, 116, 130);
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  &__title {
+    color: rgb(46, 50, 56);
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  &__description {
+    color: rgb(46, 50, 56);
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .class-teacher-card {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+
+    &__img-wrapper {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    &__img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    &__name {
+      margin-right: 8px;
+      font-size: 14px;
+    }
+  }
+
+  &__rating {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+  }
+
+  &__date-price-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  &__date {
+    display: flex;
+    align-items: center;
+    color: rgb(106, 116, 130);
+    font-size: 16px;
+  }
+
+  &__price {
+    display: flex;
+    align-items: center;
+    color: rgb(106, 116, 130);
+    font-size: 16px;
+  }
+}

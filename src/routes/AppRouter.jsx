@@ -20,6 +20,7 @@ import StudentAssignments from '../components/StudentAssignments';
 import StudentAssignmentslist from '../components/StudentAssignmentslist';
 import StudentProfileCard from '../components/StudentProfileCard';
 import { history } from '../utils/constants';
+import Filters from '../components/Filters';
 
 const AppRouter = () => {
   return (
@@ -64,6 +65,9 @@ const AppRouter = () => {
         </Route>
         <Route path="/:studentUsername/student-profile">
           <StudentProfileCard />
+        </Route>
+        <Route path="/classes">
+          <Filters />
         </Route>
         {/* student dasgboard classes url */}
         <Switch>
