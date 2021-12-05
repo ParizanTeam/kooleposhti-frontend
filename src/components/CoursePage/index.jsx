@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Rating } from '@mui/material';
+import { Rating, Typography } from '@mui/material';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import StarOutlineRoundedIcon from '@mui/icons-material/StarOutlineRounded';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
@@ -39,6 +39,8 @@ import nini from '../../assets/images/nini.png';
 import olympic from '../../assets/images/olympic.png';
 import ship from '../../assets/images/ship.png';
 import pets from '../../assets/images/pets.png';
+
+import CourseComments from '../CourseComments';
 
 export const categoriesData = [
   {
@@ -339,6 +341,10 @@ const CoursePage = () => {
               </div>
             </Fade>
           </Modal>
+          <div>
+            <Typography className="course-header__title" >نظرات شرکت کنندگان:</Typography>
+            <CourseComments/>
+          </div>
         </div>
       )}
     </Fragment>
