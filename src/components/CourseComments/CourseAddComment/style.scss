@@ -1,0 +1,33 @@
+@import '/src/theme/main.scss';
+
+.course-add-comment-textField__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 20px;
+}
+
+.course-add-comment-image__container {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+
+.course-add-comment-button__container {
+  padding-right: 20px;
+  padding-top: 20px;
+}
+
+.course-add-comment-button {
+  background-color: #f15d5d !important;
+}
+
+@media screen and (max-width: 600px) {
+  .course-add-comment-image__container {
+    display: none !important;
+  }
+
+  .course-add-comment-image {
+    display: none !important;
+  }
+}
