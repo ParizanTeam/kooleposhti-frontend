@@ -1,0 +1,19 @@
+@import '/src/theme/main.scss';
+.afterMyC-c{
+  margin-top: 365px;
+}
+.csImg{
+  width: 32px;
+  margin-top: 351px;
+  margin-right: 59%;
+  height: 30px;
+  position: absolute;
+  @media (max-width: 800px) {
+    margin-right: 58%;
+  }
+  @media (max-width: 600px) {
+    width: 28px;
+    margin-right: 68%;
+    margin-top: 348px;
+  }
+}

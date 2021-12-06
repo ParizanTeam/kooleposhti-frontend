@@ -1,0 +1,27 @@
+@import '/src/theme/main.scss';
+
+.header_search {
+  margin-top: 50px;
+}
+.navbar{
+  // --color: #22d1d3;
+  background-color: #fff;
+  grid-template-columns: 
+    max-content
+    min-content
+    auto
+    min-content;
+}
+.desktop_navbar {
+  
+  @media screen and (min-width: 900px) {
+    &__logo {
+      margin-right: 50px;
+    }
+
+    &__signup {
+      margin-right: auto;
+      margin-left: 10%;
+    }
+  }
+}

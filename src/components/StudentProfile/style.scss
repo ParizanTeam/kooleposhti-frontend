@@ -1,0 +1,121 @@
+@import '/src/theme/main.scss';
+@keyframes HandWave {
+  to {
+    transform:rotate(25deg);
+  }
+}
+.mainPro {
+  padding-top: 80px;
+  display: flex;
+  flex-direction: row;
+  box-shadow: inset;
+  @media (max-width: 800px) {
+    flex-direction: column;
+  }
+}
+.Forms{
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    margin: 20px;
+    padding: 5px;
+    border-radius: 8px;
+    @media (max-width: 800px) {
+      margin: 20px auto;
+      width: 91%;
+      flex-direction: column;
+    }
+}
+.RightBar{
+  display: flex;
+  flex-direction: column;
+  @media (max-width: 800px) {
+    width: 95%;
+    margin: auto;
+  }
+}
+.PB{
+  display: flex;
+  height: 70px;
+  flex-direction: row;
+  margin: auto;
+  padding: 5px;
+  border-radius: 4%;
+  font-size: x-large;
+  font-weight: 700;
+  &__media{
+      margin: auto;
+      width: 45px;
+      height: 45px;
+      text-align: left;
+      margin-inline-start: 15%;
+      border-radius: 10%;
+  }
+  &__content{
+      font-size: large;
+      font-weight: 700;
+      margin: auto;
+      text-align: center;
+      border-radius: 10%;
+  }
+}
+
+
+.CenterB{
+  margin-right: 25px;
+  text-align: center;
+}
+
+.BlueC{
+  width: 110px;
+  padding: 5px;
+  margin: 5px;
+  background-color: cyan;
+  color: blue;
+}
+.PinkC{
+  width: 110px;
+  padding: 5px;
+  margin: 5px;
+  background-color: pink;
+  color: deeppink;
+}
+.PurpleC{
+  width: 110px;
+  padding: 5px;
+  margin: 5px;
+  background-color: plum;
+  color:indigo;
+}
+.txtCol{
+  color: black;
+  font-weight: 500;
+  font-size: large;
+}
+
+
+.about-me{
+    
+}
+
+.wrapper
+{
+
+    padding: 20px;
+    border-radius: 25px;
+}
+
+.editor-wrapper{
+    direction: ltr;
+    
+}
+
+.editor-main{
+    min-height: 50vmin !important;
+}
+
+.myColo{
+  background-color: rgb(220, 230, 255);
+  padding-right: 20px;
+  padding-left: 20px;
+}

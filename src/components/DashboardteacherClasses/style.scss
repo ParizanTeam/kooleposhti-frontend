@@ -1,0 +1,53 @@
+@import '../../theme/main.scss';
+
+.card-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+.card-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.expand {
+  position: relative;
+  float: right;
+}
+
+.edit-icon {
+  background-color: rgb(33, 119, 33) !important;
+  &:hover {
+    background-color: rgb(5, 75, 5) !important;
+  }
+  color: white !important;
+}
+
+.enter-icon {
+  background-color: rgb(60, 41, 146) !important;
+  &:hover {
+    background-color: rgb(34, 21, 94) !important;
+  }
+  color: white !important;
+}
+
+.grid {
+  box-shadow: rgba(0, 0, 0, 0.6) 0px 2px 8px !important;
+}
+
+
+.card-media-image{
+  /* object-fit: contain !important; */
+  width: 100% !important;
+}
+
+.course-title
+{
+  font-size: 24px !important;
+  font-weight: 800 !important;
+  color: $c-black m !important;
+  
+}

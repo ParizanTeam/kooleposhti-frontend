@@ -1,0 +1,33 @@
+@import '/src/theme/main.scss';
+
+.course-category-card {
+  display: flex;
+  align-items: center;
+  position: relative;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 12px;
+  width: 120px;
+  height: 32px;
+  margin: 4px 4px;
+  transition: all 0.3s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &__img {
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    top: -8px;
+    right: 4px;
+  }
+
+  &__title {
+    margin-right: 16px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+}
