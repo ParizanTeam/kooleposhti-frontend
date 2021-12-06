@@ -16,6 +16,7 @@ const CourseAddComment = () => {
             fullWidth
             className="CourseAddComment-textField"
             placeholder="نظر خود را در مورد این کلاس بنویسید."
+            multiline
           ></TextField>
         </Grid>
       </Grid>
