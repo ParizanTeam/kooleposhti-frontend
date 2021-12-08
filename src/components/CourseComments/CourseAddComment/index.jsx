@@ -4,7 +4,7 @@ import { convertNumberToPersian } from '../../../utils/helpers';
 import avatar from '../../../assets/images/profile_2.png';
 import './style.scss';
 
-const CourseAddComment = () => {
+const CourseAddComment = (props) => {
   return (
     <Fragment>
       <Grid container>
@@ -19,11 +19,11 @@ const CourseAddComment = () => {
             multiline
           ></TextField>
         </Grid>
-      </Grid>
-      <Grid className="course-add-comment-button__container">
-        <Button type="submit" variant="contained" className="course-add-comment-button">
-          ارسال نظر
-        </Button>
+        <Grid xs={12} item className="course-add-comment-button__container" sx={{ mr: {xl:"2.5vmin" , lg:"4vmin", md:"4.5vmin", sm:"3vmin", xs:"-3vmin" } }}>
+          <Button type="submit" variant="contained" className="course-add-comment-button" onClick={props.onClick}>
+            ارسال نظر
+          </Button>
+        </Grid>
       </Grid>
     </Fragment>
   );

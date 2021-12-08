@@ -4,7 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
+  padding-left: 20px !important;
 }
 
 .course-add-comment-image__container {
@@ -21,6 +21,7 @@
 
 .course-add-comment-button {
   background-color: #3a9c47 !important;
+  
 }
 
 @media screen and (max-width: 600px) {

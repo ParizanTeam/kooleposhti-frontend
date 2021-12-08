@@ -1,6 +1,5 @@
 import React from 'react';
-import CourseCommentStudent from './CourseCommentStudent';
-import CourseCommentTeacher from './CourseCommentTeacher';
+import CourseComment from './CourseComment';
 import CourseAddComment from './CourseAddComment';
 import { Divider } from '@mui/material';
 import './style.scss';
@@ -11,11 +10,7 @@ function CourseComments(props) {
       <div className="course-comments__card">
         <CourseAddComment />
         <Divider className='course-comments-divider'></Divider>
-        <CourseCommentStudent />
-        <CourseCommentTeacher />
-        <CourseCommentStudent />
-        <CourseCommentTeacher />
-        <CourseCommentStudent />
+        <CourseComment />
       </div>
     </React.Fragment>
   );
