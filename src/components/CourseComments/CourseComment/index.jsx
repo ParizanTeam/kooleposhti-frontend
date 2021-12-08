@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CourseCommentStudent from '../CourseCommentStudent';
 import CourseCommentTeacher from '../CourseCommentTeacher';
 import CourseAddComment from '../CourseAddComment';
@@ -9,25 +9,39 @@ function CourseComment(props) {
   const [replybutton, setReplyButton] = useState(true);
   const [replyTextBox, setReplyTextBox] = useState(false);
   const [replyDone, setReplyDone] = useState(false);
-  const [edit , setEdit] = useState(false)
+  const [edit, setEdit] = useState(false);
+
+  useEffect(async () => {
+    async function init() {
+      if (props.teacherComment != null) {
+        setReplyButton(false);
+        setReplyDone(true);
+        setEdit(true);
+      }
+    }
+
+    const res = await init();
+  }, []);
 
   function replyClick() {
     setReplyButton(false);
-    setReplyTextBox(true)
+    setReplyTextBox(true);
   }
 
   function replyDoneClick() {
     setReplyDone(true);
-    setReplyButton(false)
-    setReplyTextBox(false)
-    setEdit(true)
+    setReplyButton(false);
+    setReplyTextBox(false);
+    setEdit(true);
   }
+
+  console.log(props.studentComment);
 
   return (
     <React.Fragment>
       <Grid container>
         <Grid item xs={12}>
-          <CourseCommentStudent />
+          <CourseCommentStudent comment={props.studentComment} />
         </Grid>
         <Grid
           item
@@ -45,7 +59,7 @@ function CourseComment(props) {
           <CourseAddComment onClick={replyDoneClick} />
         </Grid>
         <Grid item xs={12} sx={{ display: replyDone ? 'visible' : 'none' }}>
-          <CourseCommentTeacher />
+          <CourseCommentTeacher comment={props.teacherComment} />
         </Grid>
         <Grid
           dir="ltr"

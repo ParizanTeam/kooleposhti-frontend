@@ -5,6 +5,8 @@ import avatar from '../../../assets/images/profile_2.png';
 import './style.scss';
 
 function CourseCommentStudent(props) {
+  console.log(props.comment);
+  console.log('username is:' + props.comment.username);
   return (
     <React.Fragment>
       <Grid container>
@@ -16,18 +18,16 @@ function CourseCommentStudent(props) {
             <Grid container>
               <Grid item xs={12}>
                 <Typography variant="body4" className="course-comment-student__name">
-                  سید عماد موسوی
+                  {props.comment.username}
                 </Typography>
               </Grid>
               <Grid item xs={12} mt={1}>
                 <Typography className="course-comment-student__date">
-                  {convertNumberToPersian('1400/06/10 5:24:12')}
+                  {convertNumberToPersian(props.comment.date)}
                 </Typography>
               </Grid>
               <Grid item xs={12} mt={3} className="course-comment-student__text">
-                سلام به همه عزیزان من این کلاس رو شرکت کردم و بسیار راضی هستم. خدایی تیم پاریزان عالی کار کردند و سایت
-                خفن کوله پشتی رو نوشتند و من که خیلی با این سایت حال میکنم این کلاس رو هم از دو هفته پیش که ثبت نام کردم
-                تا حالا راضی هستم و مدرس این دوره بسیار حرفه ای عمل میکنه .
+                {props.comment.text}
               </Grid>
             </Grid>
           </div>

@@ -7,24 +7,20 @@ import './style.scss';
 function CourseCommentTeacher(props) {
   return (
     <React.Fragment>
-      <Grid container >
-        <Grid item sm={11} xs={12} >
+      <Grid container>
+        <Grid item sm={11} xs={12}>
           <div className="course-comment-teacher__card">
             <Grid container>
               <Grid item xs={12}>
                 <Typography variant="body4" className="course-comment-teacher__name">
-                  سید عماد موسوی
+                  {props.comment.username}
                 </Typography>
               </Grid>
               <Grid item xs={12} mt={1}>
-                <Typography className="course-comment-teacher__date">
-                  {convertNumberToPersian('1400/06/10 5:24:12')}
-                </Typography>
+                <Typography className="course-comment-teacher__date">{convertNumberToPersian(props.comment.date)}</Typography>
               </Grid>
               <Grid item xs={12} mt={3} className="course-comment-teacher__text">
-                سلام به همه عزیزان من این کلاس رو شرکت کردم و بسیار راضی هستم. خدایی تیم پاریزان عالی کار کردند و سایت
-                خفن کوله پشتی رو نوشتند و من که خیلی با این سایت حال میکنم این کلاس رو هم از دو هفته پیش که ثبت نام کردم
-                تا حالا راضی هستم و مدرس این دوره بسیار حرفه ای عمل میکنه .
+                {props.comment.text}
               </Grid>
             </Grid>
           </div>
