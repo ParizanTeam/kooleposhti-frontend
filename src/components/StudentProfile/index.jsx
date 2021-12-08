@@ -1,8 +1,6 @@
-import Pro from './Pro';
-import ProBar from './Pro/ProBar';
 import ComeBack from '../../assets/images/StudentProfile/ComeBack.png';
 
-import React, { useState, useEffect,useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Avatar from '@mui/material/Avatar';
 import { Button, TextField, Grid, Box, Typography, Container } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -19,62 +17,51 @@ import axios from '../../utils/axiosConfig';
 import { baseUrl } from '../../utils/constants';
 import { login } from '../../store/actions';
 import Navbar from '../Navbar';
-import { themeProps } from './constant';
 import { useDispatch, useSelector } from 'react-redux';
 import ReactLoading from 'react-loading';
-import {FormDialog} from './FormDialog';
+import { FormDialog } from './FormDialog';
 import ColorModal from './ColorModal';
 import draftToHtml from 'draftjs-to-html';
 import { Editor } from 'react-draft-wysiwyg';
-import { EditorState, ContentState, convertFromHTML , convertToRaw  } from 'draft-js';
+import { EditorState, ContentState, convertFromHTML, convertToRaw } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
+const cacheRtl = createCache({
+  key: 'muirtl',
+
+  stylisPlugins: [rtlPlugin],
+
+  prepend: true,
+});
 
 function StudentAboutMe(props) {
+  const themeProps = useSelector(state => state.theme);
   const [validateAfterSubmit, setValidateAfterSubmit] = useState(false);
   const [apiResponse, setApiResponse] = useState(false);
   const [values, setValues] = useState({});
   const [loading, setLoading] = useState(false);
-  const [teacher_data, setteacherData] = useState({});
   const [editorContent, setEditorContent] = useState(EditorState.createEmpty());
-  let init_content = ""
-  const [editorState, setEditorState] = useState(EditorState.createWithContent(
-    ContentState.createFromBlockArray(
-      convertFromHTML(`<p>درباره من ...</p>`)
-    )));
-  const token = 'JWT ' + localStorage.getItem('access_token');
+  let init_content = '';
+  const [editorState, setEditorState] = useState(
+    EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(`<p>درباره من ...</p>`)))
+  );
 
   useEffect(() => {
     async function fetchData() {
       const res = await axios
-        .get(`${baseUrl}/accounts/profile/update-profile/`, {
-          headers: {
-            Authorization: token,
-            'Content-Type': 'application/json',
-          },
-        })
+        .get(`${baseUrl}/accounts/profile/update-profile/`)
         .then(response => {
           console.log(response.data.data.bio);
           /* setEditorContent(response.data.data.bio); */
-          setEditorState(EditorState.createWithContent(
-            ContentState.createFromBlockArray(
-              convertFromHTML(response.data.data.bio)
-              )
-              ));
-          console.log("content:",editorContent)
+          setEditorState(
+            EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(response.data.data.bio)))
+          );
+          console.log('content:', editorContent);
         })
         .catch(err => {});
     }
     fetchData();
   }, []);
-
-  const cacheRtl = createCache({
-    key: 'muirtl',
-
-    stylisPlugins: [rtlPlugin],
-
-    prepend: true,
-  });
 
   const editor = useRef(null);
   const [content, setContent] = useState('');
@@ -93,8 +80,6 @@ function StudentAboutMe(props) {
   const onEditorStateChange = editorstate => {
     setEditorState(editorstate);
   };
-
-
 
   return (
     <CacheProvider value={cacheRtl}>
@@ -117,7 +102,7 @@ function StudentAboutMe(props) {
             <Typography
               component="h2"
               variant="Button"
-              sx={{ color: 'rgba(10, 67, 94, 0.942)', fontSize: { sm: '3vmin', xs: '4vmin' } }}
+              sx={{ color: `${themeProps.primaryColor}`, fontSize: { sm: '3vmin', xs: '4vmin' } }}
             >
               درباره من
             </Typography>
@@ -133,12 +118,7 @@ function StudentAboutMe(props) {
                   console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
                   const body = { bio: draftToHtml(convertToRaw(editorState.getCurrentContent())) };
                   axios
-                    .put(`${baseUrl}/accounts/profile/update-profile/`, JSON.stringify(body), {
-                      headers: {
-                        Authorization: token,
-                        'Content-Type': 'application/json',
-                      },
-                    })
+                    .put(`${baseUrl}/accounts/profile/update-profile/`, JSON.stringify(body))
                     .then(response => {
                       console.log('response ', response);
                       toast.success('با موفقیت به‌روز شد', {
@@ -193,7 +173,13 @@ function StudentAboutMe(props) {
                   <ToastContainer rtl={true} />
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
-                      <div className="wrapper" style={{boxShadow:`rgba(0, 0, 0, 0.60) 0px 2px 8px !important`,border: `3px solid ${themeProps.primaryColor}`}}>
+                      <div
+                        className="wrapper"
+                        style={{
+                          boxShadow: `rgba(0, 0, 0, 0.60) 0px 2px 8px !important`,
+                          border: `3px solid ${themeProps.primaryColor}`,
+                        }}
+                      >
                         <Editor
                           defaultEditorState={editorState}
                           editorState={editorState}
@@ -203,12 +189,11 @@ function StudentAboutMe(props) {
                           onContentStateChange={onContentStateChange}
                           onEditorStateChange={onEditorStateChange}
                           toolbar={{
-                            inline:{inDropdown: true},
-                            list:{inDropdown: true},
-                            textAlign:{inDropdown: true},
-                            link:{inDropdown: true},
-                            history:{inDropdown: true},
-                            
+                            inline: { inDropdown: true },
+                            list: { inDropdown: true },
+                            textAlign: { inDropdown: true },
+                            link: { inDropdown: true },
+                            history: { inDropdown: true },
                           }}
                         />
                       </div>
@@ -220,11 +205,14 @@ function StudentAboutMe(props) {
                       fullWidth
                       type="submit"
                       variant="contained"
-                      sx={{ mt: 3, backgroundColor: `${themeProps.primaryColor} !important`}}
+                      sx={{ mt: 3, backgroundColor: `${themeProps.primaryColor} !important` }}
                       typeof="submit"
                     >
-                      {!loading && <span>تایید</span>}
-                      {loading && <ReactLoading type="bubbles" color="#fff" className="loading-signup" />}
+                      {loading ? (
+                        <ReactLoading type="bubbles" color="#fff" className="loading-signup" />
+                      ) : (
+                        <span>تایید</span>
+                      )}
                     </Button>
                   </Grid>
                 </Box>
@@ -238,6 +226,8 @@ function StudentAboutMe(props) {
 }
 
 function SProfile(props) {
+  const themeProps = useSelector(state => state.theme);
+
   const [validateAfterSubmit, setValidateAfterSubmit] = useState(false);
   const [values, setValues] = useState({});
   const [loading, setLoading] = useState(false);
@@ -548,28 +538,76 @@ function SProfile(props) {
 }
 
 const StudentProfile = () => {
+  const themeProps = useSelector(state => state.theme);
+
   return (
     <div>
-      <FormDialog />
       <Navbar color={themeProps.primaryColor} />
       <div className="mainPro">
-        <div className="RightBar">
-          <ProBar firstname="مریم" lastname="شمس" />
-          <Pro firstname="مریم" />
-            <div className="PB" style={{ color: themeProps.primaryColor }}>
-              <span><ColorModal/></span>
-            </div>
+        <div>
+          <WelcomeBox />
         </div>
         <div
-          className="Forms"
-          style={{ backgroundColor: themeProps.secondaryColor, boxShadow: `${themeProps.primaryColor} 0px 2px 10px` }}
+          style={{
+            backgroundColor: themeProps.secondaryColor,
+            boxShadow: `${themeProps.primaryColor} 0px 2px 10px`,
+            color: themeProps.primaryColor,
+          }}
         >
-          <SProfile />
+          <span>
+            <SProfile />
+          </span>
+          <span>
+            <StudentAboutMe />
+          </span>
         </div>
-        <div className="Pro__Hello" style={{backgroundColor: themeProps.secondaryColor, boxShadow: `${themeProps.primaryColor} 0px 2px 10px`, color: themeProps.primaryColor }}>
-        <StudentAboutMe/></div>
       </div>
     </div>
   );
 };
+
 export default StudentProfile;
+
+const WelcomeBox = ({ firstname = 'دوست', lastname = 'عزیز' }) => {
+  const themeProps = useSelector(state => state.theme);
+
+  return (
+    <div className="welcomebox">
+      <div
+        className="welcomebox__display-name"
+        style={{
+          backgroundColor: themeProps.primaryColor,
+          color: themeProps.secondaryColor,
+          boxShadow: `${themeProps.primaryColor} 0px 2px 10px`,
+        }}
+      >
+        <br />
+        <img src={profile_1} alt="UserProfile" />
+        <span className="welcomebox__display-name__content">
+          {firstname} {lastname}
+        </span>
+        <br />
+      </div>
+
+      <div
+        className="welcomebox__Hello"
+        style={{
+          backgroundColor: themeProps.secondaryColor,
+          color: themeProps.primaryColor,
+          boxShadow: `${themeProps.primaryColor} 0px 2px 10px`,
+        }}
+      >
+        <br />
+        <span>سلام </span>
+        <span> {firstname} </span>
+        <span>عزیز</span>
+        <p>به کوله پشتی خوش اومدی</p>
+        <br />
+        <img src={themeProps.welcomeImage} alt="HelloDrearUser" />
+      </div>
+      <div className="welcomebox__color-modal">
+        <ColorModal />
+      </div>
+    </div>
+  );
+};
