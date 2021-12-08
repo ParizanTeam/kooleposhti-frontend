@@ -26,6 +26,7 @@ function CourseComment(props) {
   function replyClick() {
     setReplyButton(false);
     setReplyTextBox(true);
+    setEdit(false);
   }
 
   function replyDoneClick() {
@@ -43,37 +44,43 @@ function CourseComment(props) {
         <Grid item xs={12}>
           <CourseCommentStudent comment={props.studentComment} />
         </Grid>
-        <Grid
-          item
-          xs={12}
-          sx={{
-            mr: { xl: '9vmin', lg: '11vmin', md: '12vmin', sm: '10vmin', xs: '4vmin' },
-            display: replybutton ? 'visible' : 'none',
-          }}
-        >
-          <Button type="submit" variant="contained" className="course-add-comment-button" onClick={replyClick}>
-            پاسخ
-          </Button>
-        </Grid>
-        <Grid item xs={12} mt={3} sx={{ display: replyTextBox ? 'visible' : 'none' }}>
-          <CourseAddComment onClick={replyDoneClick} />
-        </Grid>
-        <Grid item xs={12} sx={{ display: replyDone ? 'visible' : 'none' }}>
-          <CourseCommentTeacher comment={props.teacherComment} />
-        </Grid>
-        <Grid
-          dir="ltr"
-          item
-          xs={12}
-          sx={{
-            ml: { xl: '9vmin', lg: '11vmin', md: '12vmin', sm: '10vmin', xs: '4vmin' },
-            display: edit ? 'visible' : 'none',
-          }}
-        >
-          <Button type="submit" variant="contained" className="course-edit-comment-button" onClick={replyClick}>
-            ویرایش
-          </Button>
-        </Grid>
+        {replybutton && (
+          <Grid
+            item
+            xs={12}
+            sx={{
+              mr: { xl: '9vmin', lg: '11vmin', md: '12vmin', sm: '10vmin', xs: '4vmin' },
+            }}
+          >
+            <Button type="submit" variant="contained" className="course-add-comment-button" onClick={replyClick}>
+              پاسخ
+            </Button>
+          </Grid>
+        )}
+        {replyTextBox && (
+          <Grid item xs={12} mt={3}>
+            <CourseAddComment onClick={replyDoneClick} />
+          </Grid>
+        )}
+        {replyDone && (
+          <Grid item xs={12}>
+            <CourseCommentTeacher comment={props.teacherComment} />
+          </Grid>
+        )}
+        {edit && (
+          <Grid
+            dir="ltr"
+            item
+            xs={12}
+            sx={{
+              ml: { xl: '9vmin', lg: '11vmin', md: '12vmin', sm: '10vmin', xs: '4vmin' },
+            }}
+          >
+            <Button type="submit" variant="contained" className="course-edit-comment-button" onClick={replyClick}>
+              ویرایش
+            </Button>
+          </Grid>
+        )}
       </Grid>
     </React.Fragment>
   );
