@@ -547,7 +547,7 @@ const StudentProfile = () => {
         <div>
           <WelcomeBox />
         </div>
-        <div
+        <div className='marginBox'
           style={{
             backgroundColor: themeProps.secondaryColor,
             boxShadow: `${themeProps.primaryColor} 0px 2px 10px`,

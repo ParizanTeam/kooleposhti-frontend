@@ -1,4 +1,6 @@
 import albaloo from '../../assets/images/StudentProfile/ProHello.gif';
+import berry from '../../assets/images/StudentProfile/berry.png';
+import stitch from '../../assets/images/StudentProfile/stitch.png'
 
 
 export const colorMap={
@@ -9,16 +11,16 @@ export const colorMap={
         label:'صورتی'
     },
     "Blue":{
-        primaryColor:"#0000ff",
-        secondaryColor:"#00ffff",
-        welcomeImage: albaloo ,
+        primaryColor:"#0000eb",
+        secondaryColor:"#97f8ff",
+        welcomeImage: stitch ,
         label:"آبی"
     
     },
     "Purple":{
         primaryColor:"#4b0082",
-        secondaryColor:"#dda0dd",
-        welcomeImage: albaloo ,
+        secondaryColor:"#fdc8fd",
+        welcomeImage: berry ,
         label:'بنفش'
     
     }
