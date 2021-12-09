@@ -63,7 +63,7 @@ const LogoutBtn = () => {
 export const MyClasses = () => {
   return (
     <>
-      <RightBtn Icon={SchoolIcon} text="کلاس‌های من" linkTo="/dashboard/student/Schedule" />
+      <RightBtn Icon={SchoolIcon} text="کلاس‌های من" linkTo="/dashboard/student/ClassesList" />
     </>
   );
 };
@@ -82,7 +82,7 @@ export const ProfileMenu = props => {
   const profileMenuItems = {
     student: [
       { icon: FavoriteBorder, label: 'علاقمندی‌هام', to: '/dashboard/student/bookmarks' },
-      { icon: CalendarToday, label: 'برنامه کلاس‌هام', to: '/dashboard/student/calendar' },
+      { icon: CalendarToday, label: 'برنامه کلاس‌هام', to: '/dashboard/student/assignments' },
       { icon: ForumOutlinedIcon, label: 'گفت‌وگو ها', to: '#' },
     ],
     teacher: [

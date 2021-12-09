@@ -10,8 +10,8 @@ import AwakenFox from '../../assets/images/AwakenFox.png';
 //import PlayfulFox from '../../assets/images/PlayfulFox.png';
 //import HappyFox from '../../assets/images/HappyFox.png'
 
-import MyClasses from '../MyClasses';
-import MyClassesFooter from '../MyClasses/MyClassesFooter';
+import StudentDashboardHeader from '../StudentDashboardHeader';
+import StudentDashboardFooter from '../StudentDashboardHeader/StudentDashboardFooter';
 import './style.scss';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -150,17 +150,17 @@ function MyAssignments(){
 }
 
 
-const ClassCalendar = () => {
+const StudentDashboardAssignments = () => {
   return (
   <div>
-    <MyClasses/>
+    <StudentDashboardHeader/>
     <img src='https://8pic.ir/uploads/1307925801537355428-128.png' alt='cc' className='ccImg'/>
     <br/>
     <div className="afterMyC-b">
       <MyAssignments />
     </div>
-    <MyClassesFooter />
+    <StudentDashboardFooter />
   </div>
   );
 };
-export default ClassCalendar;
+export default StudentDashboardAssignments;
