@@ -2,8 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import {Bar, Line, Pie } from "react-chartjs-2";
 import Chart from 'chart.js/auto';
-
+import Wallet from '../../assets/images/Wallet-icon.png';
 import "./styles.scss";
+import { KeyBindingUtil } from "draft-js";
 
 function DashboardTeacherWalletCharts() {
   const data = {
@@ -20,18 +21,18 @@ function DashboardTeacherWalletCharts() {
     //lineTension: 1,
     datasets: [
       {
-        label: "نقاشی میتدی 01",
+        label: "نقاشی مبتدی 01",
         fill: false,
         borderColor: "rgba(255, 0, 0, 0.3)",
-        borderWidth: 1,
+        borderWidth: 2,
         pointRadius: 2,
         data: [65, 59, 80, 81, 56, 55, 40]
       },
       {
-        label: "نثاشی مبتدی 02",
+        label: "نقاشی مبتدی 02",
         fill: false,
-        borderColor: "rgba(0, 255, 0, 0.3)",
-        borderWidth: 1,
+        borderColor: "mediumseagreen",
+        borderWidth: 2,
         pointRadius: 2,
         data: [70, 32, 45, 65, 87, 92, 99]
       },
@@ -50,6 +51,7 @@ function DashboardTeacherWalletCharts() {
     legend: {
       position: "right",
       labels: {
+        color: "black",
         boxWidth: 10
       }
     },
@@ -80,10 +82,14 @@ const pieData = {
 
   return (
     <div className="charts">
+      <div className='wid2'>
+        <p style={{marginTop:'10px'}}>دریافتی کلاسها</p>
+        <img className="wid2__media" src={Wallet} alt='recieved' />
+      </div>
       <div className='wid'>
       <Line data={data} options={options}/></div>
-      <div className='wid'>
-      <Bar data={data} options={options}/></div>
+      {/*<div className='wid'>
+      <Bar data={data} options={options}/></div>*/}
       {/*<Pie data={pieData} options={options} />*/}
     </div>
   );
