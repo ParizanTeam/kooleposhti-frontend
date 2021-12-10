@@ -39,7 +39,7 @@ import { Helmet } from 'react-helmet';
 import ReactLoading from 'react-loading';
 import './style.scss';
 import { margin } from '@mui/system';
-import {baseUrl} from "../../utils/constants";
+import { baseUrl } from '../../utils/constants';
 import { convertNumberToPersian, isPersianNumber } from '../../utils/helpers';
 
 const cacheRtl = createCache({
@@ -349,6 +349,12 @@ function CreateCourseStepTwo(props) {
                 >
                   صفحه‌ی قبل
                 </Button>
+
+                <Link to="/dashboard/teacher/">
+                  <Button variant="contained" color="error" className="steeper-button">
+                    برگردیم به داشبورد
+                  </Button>
+                </Link>
 
                 <Button
                   variant="contained"

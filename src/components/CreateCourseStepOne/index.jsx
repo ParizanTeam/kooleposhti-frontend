@@ -14,6 +14,7 @@ import {
   Button,
 } from '@mui/material';
 import DatePicker, { DateObject } from 'react-multi-date-picker';
+import { Link } from 'react-router-dom';
 import TimePicker from 'react-multi-date-picker/plugins/time_picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
@@ -363,6 +364,11 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
                 >
                   صفحه‌ی قبل
                 </Button>
+                <Link to="/dashboard/teacher/">
+                  <Button variant="contained" color="error" className="steeper-button">
+                    برگردیم به داشبورد
+                  </Button>
+                </Link>
 
                 <Button variant="contained" color="primary" className="steeper-button" onClick={handleNext}>
                   {activeStep == 2 ? 'پایان' : 'صفحه‌ی بعد'}

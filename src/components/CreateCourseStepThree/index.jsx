@@ -488,6 +488,12 @@ function CreateCourseStepThree(props) {
                   صفحه‌ی قبل
                 </Button>
 
+                <Link to="/dashboard/teacher/">
+                  <Button variant="contained" color="error" className="steeper-button">
+                    برگردیم به داشبورد
+                  </Button>
+                </Link>
+
                 <Button
                   variant="contained"
                   color="primary"
