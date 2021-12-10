@@ -12,9 +12,12 @@ import EventNoteIcon from '@mui/icons-material/EventNote';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { Modal, Fade, Backdrop } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import Navbar from '../Navbar';
+import Footer from '../Footer';
 import { convertNumberToPersian, formatPrice } from '../../utils/helpers';
 
 import './style.scss';
+import { Fragment } from 'react';
 
 const classesData = [
   {
@@ -187,237 +190,279 @@ const Filters = () => {
   const toggleSubjectFilter = e => e.target.classList.toggle('active');
 
   return (
-    <div className="filters-page">
-      <h1 className="filters-page__title">پیداکردن کلاس مورد نظر</h1>
-      <div className="filters">
-        <div className="filters__search-wrapper">
-          <div className="filters__search-icon">
-            <SearchIcon />
-          </div>
-          <input placeholder="جستجوی در نام کلاس..." className="filters__search-input" />
-        </div>
-        {!isMobile && (
-          <div>
-            <div className="filters__other-filters">
-              <div className="filters__filter-wrapper">
-                <div className="filters__filter" onClick={handlePriceClick}>
-                  هر قیمتی...
-                </div>
-                <Menu
-                  id="basic-menu"
-                  anchorEl={priceAnchorEl}
-                  open={openPrice}
-                  onClose={handlePriceClose}
-                  MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                  }}
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'right',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                >
-                  <div style={{ width: '300px', padding: '40px 16px 16px' }}>
-                    <div style={{ padding: '0 24px' }}>
-                      <Slider
-                        value={value}
-                        valueLabelFormat={value => formatPrice(convertNumberToPersian(value))}
-                        about="wow"
-                        min={0}
-                        max={2000000}
-                        step={10000}
-                        onChange={handleChange}
-                        valueLabelDisplay="auto"
-                      />
-                    </div>
-                    <div style={{ textAlign: 'center' }}>
-                      از {convertNumberToPersian(formatPrice(value[0]))} تومان تا{' '}
-                      {convertNumberToPersian(formatPrice(value[1]))} تومان
-                    </div>
-                    <div style={{ padding: 8, display: 'flex', justifyContent: 'space-around', marginTop: 16 }}>
-                      <button className="success-btn">اعمال</button>
-                      <button className="info-btn" onClick={handlePriceClose}>
-                        بازگشت
-                      </button>
-                    </div>
-                  </div>
-                </Menu>
-              </div>
-              <div className="filters__filter-wrapper">
-                <div onClick={handleAgeClick} className="filters__filter">
-                  هر سنی...
-                </div>
-                <Menu
-                  id="basic-menu"
-                  anchorEl={ageAnchorEl}
-                  open={Boolean(ageAnchorEl)}
-                  onClose={handleAgeClose}
-                  MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                  }}
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'right',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                >
-                  <div style={{ maxWidth: '250px' }}>
-                    <RadioGroup aria-label="gender" defaultValue="any" name="radio-buttons-group">
-                      <FormControlLabel value="any" control={<Radio />} label="هر سنی" />
-                      <FormControlLabel value="4-7" control={<Radio />} label="۴ تا ۷ سال" />
-                      <FormControlLabel value="7-10" control={<Radio />} label="۷ تا ۱۰ سال" />
-                      <FormControlLabel value="10-13" control={<Radio />} label="۱۰ تا ۱۳ سال" />
-                      <FormControlLabel value="13-18" control={<Radio />} label="۱۳ تا ۱۸ سال" />
-                      <FormControlLabel value="4-10" control={<Radio />} label="۴ تا ۱۰ سال" />
-                      <FormControlLabel value="10-18" control={<Radio />} label="۱۰ تا ۱۸ سال" />
-                      <FormControlLabel value="4-18" control={<Radio />} label="۴ تا ۱۸ سال" />
-                    </RadioGroup>
-                    <div style={{ padding: 8, display: 'flex', justifyContent: 'space-around', marginBottom: 16 }}>
-                      <button className="success-btn">اعمال</button>
-                      <button className="info-btn" onClick={handleAgeClose}>
-                        بازگشت
-                      </button>
-                    </div>
-                  </div>
-                </Menu>
-              </div>
-              <div className="filters__filter-wrapper">
-                <div onClick={handleDateClick} className="filters__filter">
-                  هر تاریخی...
-                </div>
-                <Menu
-                  id="basic-menu"
-                  anchorEl={dateAnchorEl}
-                  open={Boolean(dateAnchorEl)}
-                  onClose={handleDateClose}
-                  MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                  }}
-                >
-                  <div></div>
-                </Menu>
-              </div>
+    <Fragment>
+      <Navbar color="#fd576c" />
+      <div className="filters-page">
+        <h1 className="filters-page__title">پیداکردن کلاس مورد نظر</h1>
+        <div className="filters">
+          <div className="filters__search-wrapper">
+            <div className="filters__search-icon">
+              <SearchIcon />
             </div>
-            <div className="filters__subjects">
-              <div className="filters__subjects-title">موضوعات: </div>
-              <div onClick={toggleSubjectFilter} className="filters__subject">
-                مد و لباس
-              </div>
-              <div onClick={toggleSubjectFilter} className="filters__subject">
-                زیبایی
-              </div>
-              <div onClick={toggleSubjectFilter} className="filters__subject">
-                کتاب
-              </div>
-              <div onClick={toggleSubjectFilter} className="filters__subject">
-                ساختن
-              </div>
-              <div onClick={toggleSubjectFilter} className="filters__subject">
-                خوشمزه
-              </div>
-              <div onClick={toggleSubjectFilter} className="filters__subject">
-                کاردستی
-              </div>
-              <div onClick={toggleSubjectFilter} className="filters__subject">
-                بازی
-              </div>
-              <div onClick={toggleSubjectFilter} className="filters__subject">
-                نوزاد
-              </div>
-              <div onClick={toggleSubjectFilter} className="filters__subject">
-                ورزشی
-              </div>
-              <div onClick={toggleSubjectFilter} className="filters__subject">
-                مسافرت
-              </div>
-              <div onClick={toggleSubjectFilter} className="filters__subject">
-                حیوانات
-              </div>
-            </div>
+            <input placeholder="جستجوی در نام کلاس..." className="filters__search-input" />
           </div>
-        )}
-        {isMobile && (
-          <button
-            onClick={() => setOpenFiltersModal(true)}
-            style={{ margin: '8px 0 0', display: 'flex', alignItems: 'center' }}
-            className="info-btn"
-          >
-            فیلترها
-            <FilterAltIcon style={{ marginRight: 4 }} />
-          </button>
-        )}
-      </div>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={openFiltersModal}
-        onClose={handleFiltersModalClose}
-      >
-        <Fade in={openFiltersModal}>
-          <div
-            style={{
-              width: '100vw',
-              height: '100vh',
-              backgroundColor: '#fff',
-              zIndex: 10,
-              position: 'relative',
-              overflowY: 'scroll',
-              overflowX: 'hidden',
-              padding: 24,
-            }}
-          >
+          {!isMobile && (
             <div>
-              <div>قیمت:‌ </div>
-              <div style={{ padding: '0 24px' }}>
-                <Slider
-                  value={value}
-                  valueLabelFormat={value => formatPrice(convertNumberToPersian(value))}
-                  about="wow"
-                  min={0}
-                  max={2000000}
-                  step={10000}
-                  onChange={handleChange}
-                  valueLabelDisplay="auto"
-                />
+              <div className="filters__other-filters">
+                <div className="filters__filter-wrapper">
+                  <div className="filters__filter" onClick={handlePriceClick}>
+                    هر قیمتی...
+                  </div>
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={priceAnchorEl}
+                    open={openPrice}
+                    onClose={handlePriceClose}
+                    MenuListProps={{
+                      'aria-labelledby': 'basic-button',
+                    }}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'right',
+                    }}
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                  >
+                    <div style={{ width: '300px', padding: '40px 16px 16px' }}>
+                      <div style={{ padding: '0 24px' }}>
+                        <Slider
+                          value={value}
+                          valueLabelFormat={value => formatPrice(convertNumberToPersian(value))}
+                          about="wow"
+                          min={0}
+                          max={2000000}
+                          step={10000}
+                          onChange={handleChange}
+                          valueLabelDisplay="auto"
+                        />
+                      </div>
+                      <div style={{ textAlign: 'center' }}>
+                        از {convertNumberToPersian(formatPrice(value[0]))} تومان تا{' '}
+                        {convertNumberToPersian(formatPrice(value[1]))} تومان
+                      </div>
+                      <div style={{ padding: 8, display: 'flex', justifyContent: 'space-around', marginTop: 16 }}>
+                        <button className="success-btn">اعمال</button>
+                        <button className="info-btn" onClick={handlePriceClose}>
+                          بازگشت
+                        </button>
+                      </div>
+                    </div>
+                  </Menu>
+                </div>
+                <div className="filters__filter-wrapper">
+                  <div onClick={handleAgeClick} className="filters__filter">
+                    هر سنی...
+                  </div>
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={ageAnchorEl}
+                    open={Boolean(ageAnchorEl)}
+                    onClose={handleAgeClose}
+                    MenuListProps={{
+                      'aria-labelledby': 'basic-button',
+                    }}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'right',
+                    }}
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                  >
+                    <div style={{ maxWidth: '250px' }}>
+                      <RadioGroup aria-label="gender" defaultValue="any" name="radio-buttons-group">
+                        <FormControlLabel value="any" control={<Radio />} label="هر سنی" />
+                        <FormControlLabel value="4-7" control={<Radio />} label="۴ تا ۷ سال" />
+                        <FormControlLabel value="7-10" control={<Radio />} label="۷ تا ۱۰ سال" />
+                        <FormControlLabel value="10-13" control={<Radio />} label="۱۰ تا ۱۳ سال" />
+                        <FormControlLabel value="13-18" control={<Radio />} label="۱۳ تا ۱۸ سال" />
+                        <FormControlLabel value="4-10" control={<Radio />} label="۴ تا ۱۰ سال" />
+                        <FormControlLabel value="10-18" control={<Radio />} label="۱۰ تا ۱۸ سال" />
+                        <FormControlLabel value="4-18" control={<Radio />} label="۴ تا ۱۸ سال" />
+                      </RadioGroup>
+                      <div style={{ padding: 8, display: 'flex', justifyContent: 'space-around', marginBottom: 16 }}>
+                        <button className="success-btn">اعمال</button>
+                        <button className="info-btn" onClick={handleAgeClose}>
+                          بازگشت
+                        </button>
+                      </div>
+                    </div>
+                  </Menu>
+                </div>
+                <div className="filters__filter-wrapper">
+                  <div onClick={handleDateClick} className="filters__filter">
+                    هر تاریخی...
+                  </div>
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={dateAnchorEl}
+                    open={Boolean(dateAnchorEl)}
+                    onClose={handleDateClose}
+                    MenuListProps={{
+                      'aria-labelledby': 'basic-button',
+                    }}
+                  >
+                    <div></div>
+                  </Menu>
+                </div>
               </div>
-              <div style={{ textAlign: 'center' }}>
-                از {convertNumberToPersian(formatPrice(value[0]))} تومان تا{' '}
-                {convertNumberToPersian(formatPrice(value[1]))} تومان
+              <div className="filters__subjects">
+                <div className="filters__subjects-title">موضوعات: </div>
+                <div onClick={toggleSubjectFilter} className="filters__subject">
+                  مد و لباس
+                </div>
+                <div onClick={toggleSubjectFilter} className="filters__subject">
+                  زیبایی
+                </div>
+                <div onClick={toggleSubjectFilter} className="filters__subject">
+                  کتاب
+                </div>
+                <div onClick={toggleSubjectFilter} className="filters__subject">
+                  ساختن
+                </div>
+                <div onClick={toggleSubjectFilter} className="filters__subject">
+                  خوشمزه
+                </div>
+                <div onClick={toggleSubjectFilter} className="filters__subject">
+                  کاردستی
+                </div>
+                <div onClick={toggleSubjectFilter} className="filters__subject">
+                  بازی
+                </div>
+                <div onClick={toggleSubjectFilter} className="filters__subject">
+                  نوزاد
+                </div>
+                <div onClick={toggleSubjectFilter} className="filters__subject">
+                  ورزشی
+                </div>
+                <div onClick={toggleSubjectFilter} className="filters__subject">
+                  مسافرت
+                </div>
+                <div onClick={toggleSubjectFilter} className="filters__subject">
+                  حیوانات
+                </div>
               </div>
             </div>
-            <div style={{ margin: '32px 0' }}>
-              <div>سن: </div>
-              <RadioGroup aria-label="gender" defaultValue="any" name="radio-buttons-group">
-                <FormControlLabel value="any" control={<Radio />} label="هر سنی" />
-                <FormControlLabel value="4-7" control={<Radio />} label="۴ تا ۷ سال" />
-                <FormControlLabel value="7-10" control={<Radio />} label="۷ تا ۱۰ سال" />
-                <FormControlLabel value="10-13" control={<Radio />} label="۱۰ تا ۱۳ سال" />
-                <FormControlLabel value="13-18" control={<Radio />} label="۱۳ تا ۱۸ سال" />
-                <FormControlLabel value="4-10" control={<Radio />} label="۴ تا ۱۰ سال" />
-                <FormControlLabel value="10-18" control={<Radio />} label="۱۰ تا ۱۸ سال" />
-                <FormControlLabel value="4-18" control={<Radio />} label="۴ تا ۱۸ سال" />
-              </RadioGroup>
+          )}
+          {isMobile && (
+            <button
+              onClick={() => setOpenFiltersModal(true)}
+              style={{ margin: '8px 0 0', display: 'flex', alignItems: 'center' }}
+              className="info-btn"
+            >
+              فیلترها
+              <FilterAltIcon style={{ marginRight: 4 }} />
+            </button>
+          )}
+        </div>
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={openFiltersModal}
+          onClose={handleFiltersModalClose}
+        >
+          <Fade in={openFiltersModal}>
+            <div
+              style={{
+                width: '100vw',
+                height: '100vh',
+                backgroundColor: '#fff',
+                zIndex: 10,
+                position: 'relative',
+                overflowY: 'scroll',
+                overflowX: 'hidden',
+                padding: 24,
+              }}
+            >
+              <div>
+                <div>قیمت:‌ </div>
+                <div style={{ padding: '0 24px' }}>
+                  <Slider
+                    value={value}
+                    valueLabelFormat={value => formatPrice(convertNumberToPersian(value))}
+                    about="wow"
+                    min={0}
+                    max={2000000}
+                    step={10000}
+                    onChange={handleChange}
+                    valueLabelDisplay="auto"
+                  />
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                  از {convertNumberToPersian(formatPrice(value[0]))} تومان تا{' '}
+                  {convertNumberToPersian(formatPrice(value[1]))} تومان
+                </div>
+              </div>
+              <div style={{ margin: '32px 0' }}>
+                <div>سن: </div>
+                <RadioGroup aria-label="gender" defaultValue="any" name="radio-buttons-group">
+                  <FormControlLabel value="any" control={<Radio />} label="هر سنی" />
+                  <FormControlLabel value="4-7" control={<Radio />} label="۴ تا ۷ سال" />
+                  <FormControlLabel value="7-10" control={<Radio />} label="۷ تا ۱۰ سال" />
+                  <FormControlLabel value="10-13" control={<Radio />} label="۱۰ تا ۱۳ سال" />
+                  <FormControlLabel value="13-18" control={<Radio />} label="۱۳ تا ۱۸ سال" />
+                  <FormControlLabel value="4-10" control={<Radio />} label="۴ تا ۱۰ سال" />
+                  <FormControlLabel value="10-18" control={<Radio />} label="۱۰ تا ۱۸ سال" />
+                  <FormControlLabel value="4-18" control={<Radio />} label="۴ تا ۱۸ سال" />
+                </RadioGroup>
+              </div>
+              <div className="filters__subjects-title">موضوعات: </div>
+              <div className="filters__subjects">
+                <div onClick={toggleSubjectFilter} className="filters__subject">
+                  مد و لباس
+                </div>
+                <div onClick={toggleSubjectFilter} className="filters__subject">
+                  زیبایی
+                </div>
+                <div onClick={toggleSubjectFilter} className="filters__subject">
+                  کتاب
+                </div>
+                <div onClick={toggleSubjectFilter} className="filters__subject">
+                  ساختن
+                </div>
+                <div onClick={toggleSubjectFilter} className="filters__subject">
+                  خوشمزه
+                </div>
+                <div onClick={toggleSubjectFilter} className="filters__subject">
+                  کاردستی
+                </div>
+                <div onClick={toggleSubjectFilter} className="filters__subject">
+                  بازی
+                </div>
+                <div onClick={toggleSubjectFilter} className="filters__subject">
+                  نوزاد
+                </div>
+                <div onClick={toggleSubjectFilter} className="filters__subject">
+                  ورزشی
+                </div>
+                <div onClick={toggleSubjectFilter} className="filters__subject">
+                  مسافرت
+                </div>
+                <div onClick={toggleSubjectFilter} className="filters__subject">
+                  حیوانات
+                </div>
+              </div>
+              <div style={{ padding: 8, display: 'flex', justifyContent: 'space-around', marginBottom: 16 }}>
+                <button className="success-btn">اعمال</button>
+                <button className="info-btn" onClick={handleFiltersModalClose}>
+                  بازگشت
+                </button>
+              </div>
             </div>
-            <div style={{ padding: 8, display: 'flex', justifyContent: 'space-around', marginBottom: 16 }}>
-              <button className="success-btn">اعمال</button>
-              <button className="info-btn" onClick={handleFiltersModalClose}>
-                بازگشت
-              </button>
-            </div>
-          </div>
-        </Fade>
-      </Modal>
+          </Fade>
+        </Modal>
 
-      {classesData.map(classData => (
-        <ClassCard classData={classData} />
-      ))}
-    </div>
+        {classesData.map(classData => (
+          <ClassCard classData={classData} />
+        ))}
+      </div>
+      <div style={{ marginTop: 32 }}>
+        <Footer />
+      </div>
+    </Fragment>
   );
 };
 
