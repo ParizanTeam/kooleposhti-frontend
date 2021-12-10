@@ -212,7 +212,9 @@ const CoursePage = () => {
 
   return (
     <>
-      <Navbar color="#fd576c" className="course-page__navbar" />
+      <div style={{marginBottom: 72}}>
+        <Navbar color="#fd576c" />
+      </div>
       <Fragment>
         <ToastContainer rtl={true} position="bottom-center" />
         {isLoading && <CourseLoader />}
