@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Rating } from '@mui/material';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import StarOutlineRoundedIcon from '@mui/icons-material/StarOutlineRounded';
@@ -15,7 +15,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 import { convertNumberToPersian, formatPrice } from '../../utils/helpers';
-
+import DatePicker from 'react-multi-date-picker';
+import persian from 'react-date-object/calendars/persian';
+import persian_fa from 'react-date-object/locales/persian_fa';
+import DateObject from 'react-date-object';
 import './style.scss';
 import { Fragment } from 'react';
 
@@ -158,6 +161,10 @@ const Filters = () => {
   const [ageAnchorEl, setAgeAnchorEl] = useState(null);
   const [dateAnchorEl, setDateAnchorEl] = useState(null);
   const [openFiltersModal, setOpenFiltersModal] = useState(false);
+  const startDatePickerRef = useRef(null);
+  const endDatePickerRef = useRef(null);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   const handleFiltersModalClose = () => {
     setOpenFiltersModal(false);
@@ -293,20 +300,14 @@ const Filters = () => {
                   </Menu>
                 </div>
                 <div className="filters__filter-wrapper">
-                  <div onClick={handleDateClick} className="filters__filter">
-                    هر تاریخی...
+                  <div onClick={() => startDatePickerRef.current.openCalendar()} className="filters__filter">
+                    {startDate ? convertNumberToPersian(`از تاریخ:‌ ${startDate.toString()}`) : 'از تاریخ...'}
                   </div>
-                  <Menu
-                    id="basic-menu"
-                    anchorEl={dateAnchorEl}
-                    open={Boolean(dateAnchorEl)}
-                    onClose={handleDateClose}
-                    MenuListProps={{
-                      'aria-labelledby': 'basic-button',
-                    }}
-                  >
-                    <div></div>
-                  </Menu>
+                </div>
+                <div className="filters__filter-wrapper">
+                  <div onClick={() => endDatePickerRef.current.openCalendar()} className="filters__filter">
+                    {endDate ? convertNumberToPersian(`تا تاریخ: ${endDate.toString()}`) : 'تا تاریخ...'}
+                  </div>
                 </div>
               </div>
               <div className="filters__subjects">
@@ -409,7 +410,19 @@ const Filters = () => {
                   <FormControlLabel value="4-18" control={<Radio />} label="۴ تا ۱۸ سال" />
                 </RadioGroup>
               </div>
-              <div className="filters__subjects-title">موضوعات: </div>
+              <div className="filters__filter-wrapper">
+                <div onClick={() => startDatePickerRef.current.openCalendar()} className="filters__filter">
+                  {startDate ? convertNumberToPersian(`از تاریخ:‌ ${startDate.toString()}`) : 'از تاریخ...'}
+                </div>
+              </div>
+              <div className="filters__filter-wrapper">
+                <div onClick={() => endDatePickerRef.current.openCalendar()} className="filters__filter">
+                  {endDate ? convertNumberToPersian(`تا تاریخ: ${endDate.toString()}`) : 'تا تاریخ...'}
+                </div>
+              </div>
+              <div style={{ marginTop: 16 }} className="filters__subjects-title">
+                موضوعات:
+              </div>
               <div className="filters__subjects">
                 <div onClick={toggleSubjectFilter} className="filters__subject">
                   مد و لباس
@@ -459,6 +472,31 @@ const Filters = () => {
           <ClassCard classData={classData} />
         ))}
       </div>
+      <div style={{ zIndex: 2000, position: 'relative' }}>
+        <DatePicker
+          minDate={new Date()}
+          ref={startDatePickerRef}
+          inputClass="hidden-date-picker"
+          className="rmdp-mobile"
+          onChange={date => {
+            setStartDate(date);
+          }}
+          calendar={persian}
+          locale={persian_fa}
+        />
+        <DatePicker
+          minDate={startDate}
+          ref={endDatePickerRef}
+          inputClass="hidden-date-picker"
+          className="rmdp-mobile"
+          onChange={date => {
+            setEndDate(date);
+          }}
+          calendar={persian}
+          locale={persian_fa}
+        />
+      </div>
+
       <div style={{ marginTop: 32 }}>
         <Footer />
       </div>
