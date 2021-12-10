@@ -1,40 +1,45 @@
 import React from 'react';
-import { Button, TextField, Grid} from '@mui/material';
+import { Typography, Grid, Button } from '@mui/material';
+import DashboardTeacherBankAccount from '../DashboardTeacherBankAccount';
+import rtlPlugin from 'stylis-plugin-rtl';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
+import CountUp from 'react-countup';
 import './style.scss';
+
 function DashboardTeacherWallet(props) {
+  const cacheRtl = createCache({
+    key: 'muirtl',
+
+    stylisPlugins: [rtlPlugin],
+
+    prepend: true,
+  });
+
   return (
-    <div>
-      <div>
-        {/*<React.Fragment>
-          <h1> کیف پول</h1>
-        </React.Fragment>*/}
-        <div className='BankCard' dir='ltr'>
-          <div className='CardNumber'>
+    <CacheProvider value={cacheRtl}>
+      <DashboardTeacherBankAccount />
+      <div style={{ marginTop: '120px' }}>
+        <Grid container>
           <Grid item xs={12}>
-            <TextField
-              autoComplete="6037 **** **** 8080"
-              name="CardNumber"
-              id="CardNumber"
-              label="شماره کارت"
+            <Typography className="wallet-parts-title">اعتبار کیف پول شما</Typography>
+          </Grid>
+          <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 5 }}>
+            <CountUp
+              className="wallet-credit-counter"
+              start={0}
+              end={100}
+              duration={2.75}
+              separator=" "
+              decimals={3}
+              decimal=","
+              prefix=""
+              suffix="تومان"
             />
           </Grid>
-          </div>
-          <div className='CardName'>
-            <p>سینا عمرانی</p>
-          </div>
-          <div className='Shaba'>
-            <Grid item xs={12}>
-              <TextField
-                autoComplete="IR02019***********************"
-                name="ShabaNumber"
-                id="ShabaNumber"
-                label="شماره شبا"
-              />
-            </Grid>
-          </div>
-        </div>
+        </Grid>
       </div>
-    </div>
+    </CacheProvider>
   );
 }
 

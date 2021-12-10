@@ -205,7 +205,7 @@ function TeacherPublicProfile(props) {
       <div className="My-courses-section">
         <h2 className="My-courses-section__title">لیست کلاس ها</h2>
         <div className="My-carousal-container">
-          <Grid sx={{ width: { md: '85%', xs: '90vmin' } }}>
+          <Grid sx={{ width: {xl:"85%", md: '85%', sm:"65vmin", xs: '90vmin' } }}>
             <Swiper
               spaceBetween={10}
               slidesPerView={'auto'}

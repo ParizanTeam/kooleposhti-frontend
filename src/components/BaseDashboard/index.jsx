@@ -89,7 +89,7 @@ function BaseDashboard(props) {
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <CacheProvider value={cacheRtl}>
+    <div>
       <Box sx={{ display: 'flex', margin: '60px 0 0 0', padding: 3 }}>
         <CssBaseline />
         <Grid container>
@@ -115,7 +115,7 @@ function BaseDashboard(props) {
                     width: { sm: '33vmin', xs: drawerWidth },
                   },
                 }}
-                anchor="left"
+                anchor="right"
               >
                 <div className={props.className}>{drawer}</div>
               </Drawer>
@@ -126,60 +126,72 @@ function BaseDashboard(props) {
                   '& .MuiDrawer-paper': { boxSizing: 'border-box', width: { md: drawerWidth, sm: '34vmin' } },
                 }}
                 open
+                anchor="right"
               >
                 <div className={props.className}>{drawer}</div>
               </Drawer>
             </Box>
           </Grid>
-          <Grid item sx={{ margin: 'auto', width: { md: `calc(100% - ${drawerWidth}px)`, sm: `calc(100% - 34vmin)` } }}>
-            <AppBar
-              position="fixed"
-              display="flex"
-              sx={{
-                width: { md: `calc(100% - ${drawerWidth}px)`, sm: `calc(100% - 34vmin)` },
-                backgroundColor: 'rgba(10, 67, 94, 0.942)',
-              }}
+          <CacheProvider value={cacheRtl}>
+            <Grid
+              item
+              sx={{ margin: 'auto', width: { md: `calc(100% - ${drawerWidth}px)`, sm: `calc(100% - 34vmin)` } }}
             >
-              <Toolbar>
-                <IconButton
-                  color="inherit"
-                  aria-label="open drawer"
-                  edge="start"
-                  onClick={handleDrawerToggle}
-                  sx={{ mr: 2, display: useMediaQuery('(max-width: 600px)') ? 'block' : 'none' }}
-                >
-                  <MenuIcon />
-                </IconButton>
-                
-                <Button variant="text" component={Link} to="/" sx={{ mr: 2 }}>
-                  <HomeIcon sx={{ color: 'rgba(123, 234, 242, 0.857)', mr: 1.5 }} />
-                  <Typography variant="body" noWrap component="div" sx={{ color: 'white', fontSize: '0.7rem' }}>
-                    خانه
-                  </Typography>
-                </Button>
-                <Button variant="text" component={Link} to="/Help">
-                  <HelpIcon sx={{ color: 'rgba(123, 234, 242, 0.857)', mr: 1.5 }} />
-                  <Typography variant="body" noWrap component="div" sx={{ color: 'white', fontSize: '0.7rem' }}>
-                    راهنما
-                  </Typography>
-                </Button>
+              <AppBar
+                position="fixed"
+                display="flex"
+                sx={{
+                  width: { md: `calc(100% - ${drawerWidth}px)`, sm: `calc(100% - 34vmin)` },
+                  backgroundColor: 'rgba(10, 67, 94, 0.942)',
+                }}
+              >
+                <Toolbar>
+                  <IconButton
+                    color="inherit"
+                    aria-label="open drawer"
+                    edge="start"
+                    onClick={handleDrawerToggle}
+                    sx={{ mr: 2, display: useMediaQuery('(max-width: 600px)') ? 'block' : 'none' }}
+                  >
+                    <MenuIcon />
+                  </IconButton>
 
-                <Box display="flex" flexGrow={1} sx={{ direction: 'rtl' }}>
-                  <Button variant="text"  href="/" onClick={()=>{localStorage.removeItem("access_token")}}>
-                    <LogoutIcon sx={{ color: 'rgba(123, 234, 242, 0.857)', ml: 1.5 }} />
+                  <Button variant="text" component={Link} to="/" sx={{ mr: 2 }}>
+                    <HomeIcon sx={{ color: 'rgba(123, 234, 242, 0.857)', mr: 1.5 }} />
                     <Typography variant="body" noWrap component="div" sx={{ color: 'white', fontSize: '0.7rem' }}>
-                      خروج
+                      خانه
                     </Typography>
                   </Button>
-                </Box>
-              </Toolbar>
-            </AppBar>
+                  <Button variant="text" component={Link} to="/Help">
+                    <HelpIcon sx={{ color: 'rgba(123, 234, 242, 0.857)', mr: 1.5 }} />
+                    <Typography variant="body" noWrap component="div" sx={{ color: 'white', fontSize: '0.7rem' }}>
+                      راهنما
+                    </Typography>
+                  </Button>
 
-            {props.children}
-          </Grid>
+                  <Box display="flex" flexGrow={1} sx={{ direction: 'rtl' }}>
+                    <Button
+                      variant="text"
+                      href="/"
+                      onClick={() => {
+                        localStorage.removeItem('access_token');
+                      }}
+                    >
+                      <LogoutIcon sx={{ color: 'rgba(123, 234, 242, 0.857)', ml: 1.5 }} />
+                      <Typography variant="body" noWrap component="div" sx={{ color: 'white', fontSize: '0.7rem' }}>
+                        خروج
+                      </Typography>
+                    </Button>
+                  </Box>
+                </Toolbar>
+              </AppBar>
+
+              {props.children}
+            </Grid>
+          </CacheProvider>
         </Grid>
       </Box>
-    </CacheProvider>
+    </div>
   );
 }
 

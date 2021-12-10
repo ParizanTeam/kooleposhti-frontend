@@ -53,7 +53,7 @@ function TeacherDashboard(props) {
 
   const [file, setFile] = useState(profile_1);
 
-  const tabs = ['profile', 'classes', 'wallet', 'received', 'bankaccount', 'about-me', 'public-profile'];
+  const tabs = ['profile', 'classes', 'wallet', 'received', 'about-me', 'public-profile'];
 
   const items = [
     {
@@ -78,24 +78,17 @@ function TeacherDashboard(props) {
       },
     },
     {
-      text: 'حساب بانکی',
-      icon: <BankAccount />,
-      onClick: () => {
-        history.push(`/dashboard/teacher/${tabs[4]}`);
-      },
-    },
-    {
       text: 'درباره من',
       icon: <AboutMe />,
       onClick: () => {
-        history.push(`/dashboard/teacher/${tabs[5]}`);
+        history.push(`/dashboard/teacher/${tabs[4]}`);
       },
     },
     {
       text: 'پروفایل عمومی',
       icon: <PublicProfile />,
       onClick: () => {
-        history.push(`/dashboard/teacher/${tabs[6]}`);
+        history.push(`/dashboard/teacher/${tabs[5]}`);
       },
     },
   ];
@@ -150,11 +143,7 @@ function TeacherDashboard(props) {
           <DashboardTeacherRecieved />
         </BaseDashboard>
       )}
-      {location.pathname === '/dashboard/teacher/bankaccount' && (
-        <BaseDashboard items={items} profile={profile} className="drawer">
-          <DashboardTeacherBankAccount />
-        </BaseDashboard>
-      )}
+
       {location.pathname === '/dashboard/teacher/about-me' && (
         <BaseDashboard items={items} profile={profile} className="drawer">
           <DashboardTeacherAboutMe />
