@@ -1,7 +1,7 @@
 //import { useMobile } from '../../utils/detectSource';
-import MyClasses from '../MyClasses';
+import StudentDashboardHeader from '../StudentDashboardHeader';
 import React, { useEffect, useState } from 'react';
-import MyClassesFooter from '../MyClasses/MyClassesFooter';
+import StudentDashboardFooter from '../StudentDashboardHeader/StudentDashboardFooter';
 import { useMobile } from '../../utils/detectSource';
 import { coursesData } from '../CourseSlider/coursesData';
 import Card from '@mui/material/Card';
@@ -20,7 +20,7 @@ import ReactLoading from 'react-loading';
 import './style.scss';
 import CourseSlider from '../CourseSlider';
 
-const ClassSchedule = () => {
+const StudentDashboardClassesList = () => {
   const [loading, setLoading] = React.useState(true);
   const [classStatus, setClassStatus] = React.useState('active');
 
@@ -51,7 +51,7 @@ const ClassSchedule = () => {
   };
   return (
     <div>
-      <MyClasses />
+      <StudentDashboardHeader />
       <img src="https://8pic.ir/uploads/1307925801537355428-128.png" alt="cs" className="csImg" />
       <br />
       <div className="afterMyC-c">
@@ -121,8 +121,8 @@ const ClassSchedule = () => {
           )}
         </div>
       </div>
-      <MyClassesFooter />
+      <StudentDashboardFooter />
     </div>
   );
 };
-export default ClassSchedule;
+export default StudentDashboardClassesList;

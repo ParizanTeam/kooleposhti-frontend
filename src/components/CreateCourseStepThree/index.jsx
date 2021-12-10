@@ -7,7 +7,6 @@ import {
   TextField,
   Button,
   Grid,
-  Link,
   FormControl,
   InputLabel,
   Select,
@@ -24,7 +23,7 @@ import {
 } from '@mui/material';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
-import { useHistory, Link as routerLink, useParams } from 'react-router-dom';
+import { useHistory, Link, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import createCache from '@emotion/cache';
@@ -303,9 +302,6 @@ function CreateCourseStepThree(props) {
   return (
     <CacheProvider value={rtl ? cacheRtl : cacheLtr}>
       <div dir="rtl">
-        <Helmet>
-          <title>ورود</title>
-        </Helmet>
         <ToastContainer rtl={true} position="bottom-center" />
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -490,7 +486,7 @@ function CreateCourseStepThree(props) {
 
                 <Link to="/dashboard/teacher/">
                   <Button variant="contained" color="error" className="steeper-button">
-                    برگردیم به داشبورد
+                    بازگشت به داشبورد
                   </Button>
                 </Link>
 

@@ -1,6 +1,6 @@
 import './style.scss';
 
-const MyClassesFooter = () => {
+const StudentDashboardFooter = () => {
   return (
     <div
       className="MCappbarWrapperforfooter"
@@ -17,4 +17,4 @@ const MyClassesFooter = () => {
     </div>
   );
 };
-export default MyClassesFooter;
+export default StudentDashboardFooter;

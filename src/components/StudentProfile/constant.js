@@ -1,37 +1,27 @@
 import albaloo from '../../assets/images/StudentProfile/ProHello.gif';
+import berry from '../../assets/images/StudentProfile/berry.png';
+import stitch from '../../assets/images/StudentProfile/stitch.png'
 
-export const setThemeColor=(theme)=>{
-    console.log("theme",theme)
-    themeProps.primaryColor=theme.primaryColor;
-    themeProps.secondaryColor=theme.secondaryColor;
-    themeProps.welcomeImage=theme.welcomeImage;
-
-
-}
-
-export const themeProps={
-    primaryColor:"#ff1493",
-    secondaryColor:"#ffc0cb",
-    welcomeImage: albaloo 
-};
 
 export const colorMap={
     "Pink":{
-        primaryColor:"pink",
-        secondaryColor:"#d3e0ff",
-        welcomeImage: albaloo 
-    
+        primaryColor:"#ff1493",
+        secondaryColor:"#ffc0cb",
+        welcomeImage: albaloo,
+        label:'صورتی'
     },
     "Blue":{
-        primaryColor:"blue",
-        secondaryColor:"#d3e0ff",
-        welcomeImage: albaloo 
+        primaryColor:"#0000eb",
+        secondaryColor:"#97f8ff",
+        welcomeImage: stitch ,
+        label:"آبی"
     
     },
     "Purple":{
-        primaryColor:"purple",
-        secondaryColor:"#d3e0ff",
-        welcomeImage: albaloo 
+        primaryColor:"#4b0082",
+        secondaryColor:"#fdc8fd",
+        welcomeImage: berry ,
+        label:'بنفش'
     
     }
 }
