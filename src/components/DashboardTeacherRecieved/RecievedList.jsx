@@ -11,8 +11,8 @@ import IconButton from "@mui/material/IconButton";
 import FormGroup from "@mui/material/FormGroup";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import FolderIcon from "@mui/icons-material/Folder";
-//import FolderIcon from '../../assets/images/banner.png';
+//import FolderIcon from "@mui/icons-material/Folder";
+import FolderIcon from '../../assets/images/banner.png';
 import DeleteIcon from "@mui/icons-material/Delete";
 import './style.scss';
 function generate(element) {
@@ -38,21 +38,24 @@ export default function RecievedList() {
         <Demo>
           <List>
             {generate(
-              <ListItem
-                secondaryAction={
-                  <IconButton edge="end" aria-label="delete">
+              <ListItem sx={{backgroundColor:'#a3ebf5', marginBottom:'8px',borderRadius:'5px',padding:'6px'}}>
+                {/*secondaryAction={*/}
+                 {/*} <IconButton edge="end" aria-label="delete">
                     <DeleteIcon />
-                  </IconButton>
-                }
-              >
-                <ListItemText primary="دوره نقاشی مبتدی 01" />
-                <ListItemText primary="مبلغ 500000 تومان" />
-                <ListItemText primary="در تاریخ 10/10" />
-                <ListItemAvatar className='mgRight'>
-                  <Avatar>
-                    <FolderIcon />
-                  </Avatar>
+            </IconButton>*/}
+              <ListItemAvatar>
+                  <Avatar src={FolderIcon} alt="recievedList"/>
+                  {/*    <FolderIcon />
+                  </Avatar>*/}
                 </ListItemAvatar>
+                <ListItemText primary="نقاشی مبتدی 01:" />
+                <ListItemText primary="زهرا علیدوست" />
+                <ListItemText className='mgRight' primary="مبلغ" />
+                <ListItemText primary="500000" />
+                <ListItemText primary="تومان" />
+                <ListItemText className='mgRight' primary="در تاریخ" />
+                <ListItemText sx={{marginLeft:'5px'}} primary="10/10" />
+                <ListItemText className='mgRight' primary="به کیف شما واریز نمود" />
               </ListItem>
             )}
           </List>

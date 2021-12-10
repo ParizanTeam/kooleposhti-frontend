@@ -1,7 +1,8 @@
 @import '../../theme/main.scss';
 .mgRight{
-    margin-right: 190px;
+    margin-left: 20px;
     @media (max-width: 800px) {
-        margin-right: 40px;
+        display: none;
     }
 }
+
