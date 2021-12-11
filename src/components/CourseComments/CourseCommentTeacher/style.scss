@@ -1,0 +1,67 @@
+@import '/src/theme/main.scss';
+
+.course-comment-teacher {
+  &__card {
+
+    border-radius: 0.25rem;
+    display: flex;
+    flex-direction: column;
+    padding: 32px !important;
+    border-radius: 1.15rem;
+    position: relative;
+    word-wrap: break-word;
+    background-color: #2d4c69; 
+    margin: 35px 16px !important;
+    box-shadow: 4px 5px 10px -5px rgba(0, 0, 0, 0.65) !important;
+    z-index: 2;
+
+  }
+
+  &__text {
+    font-weight: 700;
+    color: rgb(233, 233, 233);
+    margin-bottom: 32px;
+  }
+
+  &__name {
+    color: #bed3f0 !important;
+    font-weight: 705;
+  }
+
+  &__date{
+      font-size: 15px !important;
+      color: rgb(194, 194, 194) !important;
+  }
+}
+
+.course-comment-teacher__card:before {
+    bottom: -0.1rem;
+    content: "";
+    height: 1rem;
+    position: absolute;
+    border-bottom-right-radius: 0.8rem 0.7rem;
+    border-left: 1rem solid #2d4c69;
+    left: -0.35rem;
+    transform: translate(0, -0.1rem);
+    box-shadow: 0px 5px 5px -5px rgba(0, 0, 0, 0.90) !important;
+}
+
+.course-comment-teacher__card:after {
+    bottom: -0.1rem;
+    content: "";
+    height: 1rem;
+    position: absolute;
+    background-color: #fff;
+    border-bottom-right-radius: 0.5rem;
+    left: 20px;
+    transform: translate(-30px, -2px);
+    width: 10px;
+    
+}
+
+
+.comment-avatar {
+  width: 100% !important;
+  height: auto !important;
+  margin-top: auto !important;
+}

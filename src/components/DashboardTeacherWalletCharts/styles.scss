@@ -1,0 +1,17 @@
+.charts{
+  height: fit-content;
+  text-align: center;
+  margin: 20px;
+  display: flex;
+  flex-direction: row;
+  @media (max-width: 800px) {
+    flex-direction: column;
+  }
+}
+.wid{
+  width: 45%;
+  margin: 30px;
+  @media (max-width: 800px) {
+    width: 85%;
+  }
+}

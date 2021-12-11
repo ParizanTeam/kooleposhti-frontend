@@ -185,6 +185,7 @@ const ClassDashboard = () => {
               </Route>
               <Route path="/dashboard/class/:classId/attendees" exact>
                 {role == 'teacher' ? <ClassStudentsInfo /> : <ClassAtendees role={role} />}
+                {/* <ClassAtendees role={role} /> */}
               </Route>
             </div>
           </div>

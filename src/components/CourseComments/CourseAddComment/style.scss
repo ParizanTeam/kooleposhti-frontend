@@ -1,0 +1,41 @@
+@import '/src/theme/main.scss';
+
+.course-add-comment-textField__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 20px !important;
+}
+
+.course-add-comment-image__container {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.course-add-comment-button__container {
+  padding-right: 5vmin;
+  padding-top: 20px;
+}
+
+.course-add-comment-button {
+  background-color: #3a9c47 !important;
+  
+}
+
+@media screen and (max-width: 600px) {
+  .course-add-comment-image__container {
+    display: none !important;
+  }
+
+  .course-add-comment-image {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 700px){
+  .course-add-comment-textField__container{
+    padding-right: 10px;
+  }
+}

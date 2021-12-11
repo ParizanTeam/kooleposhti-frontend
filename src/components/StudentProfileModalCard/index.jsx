@@ -67,10 +67,16 @@ const StudentProfileCard = props => {
         <DialogContent>
           <DialogContentText>
             <div className="student-profile-card-lower-part">
-              <div className="student-profile-card-lower-part__username">
+              <div
+                className="student-profile-card-lower-part__username"
+                style={{ display: resData.username == null ? null : 'block' }}
+              >
                 <h2>{resData.username}</h2>
               </div>
-              <div className="student-profile-card-lowerr-part__name">
+              <div
+                className="student-profile-card-lowerr-part__name"
+                style={{ display: resData.first_name == null && resData.last_name == null ? null : 'block' }}
+              >
                 <div className="student-profile-card-lower-part__name__firstname">
                   <h4>{resData.first_name}</h4>
                 </div>
@@ -78,10 +84,16 @@ const StudentProfileCard = props => {
                   <h4>{resData.last_name}</h4>
                 </div>
               </div>
-              <div className="student-profile-card-lower-part__bio">
+              <div
+                className="student-profile-card-lower-part__bio"
+                style={{ display: resData.bio == null ? null : 'block' }}
+              >
                 <p className="student-profile-card-lower-part__bio__text">{resData.bio}</p>
               </div>
-              <div className="student-profile-card-lower-part__age">
+              <div
+                className="student-profile-card-lower-part__age"
+                style={{ display: resData.age == null ? null : 'block', marginBottom: 20 }}
+              >
                 {resData.age != null ? <p>سن: {resData.age}</p> : <p></p>}
               </div>
             </div>

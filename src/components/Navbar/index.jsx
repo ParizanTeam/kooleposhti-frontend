@@ -104,7 +104,10 @@ const DesktopNavbar = () => {
               <HelpIcon style={{ color: navbarProps.baseColor, marginLeft: '5px' }} />
               راهنما
             </Button>
-            <IconButton style={{ marginRight: '10px', color: color=='grey'? color : navbarProps.baseColor }} onClick={handleSearchBarOpen}>
+            <IconButton
+              style={{ marginRight: '10px', color: color == 'grey' ? color : navbarProps.baseColor }}
+              onClick={handleSearchBarOpen}
+            >
               <SearchIcon />
             </IconButton>
           </div>
@@ -112,15 +115,16 @@ const DesktopNavbar = () => {
         </Toolbar>
       </AppBar>
 
+      <SearchBar onClose={handleSearchBarClose} open={openSearchBar} />
+
       <HelpMenu helpText="راهنمای صفحه" anchorEl={helpAnchor} handleClose={handleHelpAnchorClose} />
-      {openSearchBar && <SearchBar onClose={handleSearchBarClose} />}
     </div>
   );
 };
 
 // const HelpText=() =>
 // {
-//   <Typography variant="h5"> 
+//   <Typography variant="h5">
 //     آشنایی با صفحه:
 //   </Typography>
 // }
@@ -176,7 +180,7 @@ const MobileNavbar = () => {
   };
 
   return (
-    <>
+    <div>
       <MobileAppBar style={{ backgroundColor: '#fff' }} open={open}>
         <Toolbar>
           <Logo />
@@ -230,7 +234,7 @@ const MobileNavbar = () => {
         {isAuth ? <ProfileMenu /> : <LoginSignUp />}
       </Drawer>
 
-      {openSearchBar && <SearchBar onClose={handleSearchBarClose} />}
-    </>
+      <SearchBar onClose={handleSearchBarClose} open={openSearchBar} />
+    </div>
   );
 };

@@ -25,6 +25,8 @@
 .dashboard-avatar-item {
   &:hover:not(:first-child) {
     background-color: rgba(127, 181, 240, 0.542) !important;
+    padding-bottom: 13px;
+    padding-top: 10px;
   }
   &__info-name {
     font-size: 1.75vmin;
