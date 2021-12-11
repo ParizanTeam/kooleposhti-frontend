@@ -216,7 +216,6 @@ function TeacherPublicProfile(props) {
               slidesPerView={'auto'}
               centeredSlides
               navigation={use_mobile ? false : true}
-              loop
               keyboard
               centeredSlides
             >
