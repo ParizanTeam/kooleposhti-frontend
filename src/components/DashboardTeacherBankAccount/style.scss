@@ -159,8 +159,12 @@
 
   &::placeholder {
     color: rgb(201, 193, 193);
-    font-size: 18px;
     font-weight: 1000px !important;
+    letter-spacing: 3px !important;
+    @media (min-width: 900px) {
+      letter-spacing: 3.5px !important;
+
+    }
   }
 }
 
