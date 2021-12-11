@@ -12,7 +12,13 @@ const Categories = () => {
       <p className="categories-section__description">با کلیک روی هر موضوع، وارد دنیای اون میشی!</p>
       <div className="categories-section__items">
         {categoryData.map(category => (
-          <CategoryCard color={category.color} imgSrc={category.imgSrc} theme={category.theme} title={category.title} />
+          <CategoryCard
+            id={category.id}
+            color={category.color}
+            imgSrc={category.imgSrc}
+            theme={category.theme}
+            title={category.title}
+          />
         ))}
       </div>
     </div>

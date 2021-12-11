@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Rating } from '@mui/material';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import StarOutlineRoundedIcon from '@mui/icons-material/StarOutlineRounded';
@@ -21,6 +21,8 @@ import persian_fa from 'react-date-object/locales/persian_fa';
 import DateObject from 'react-date-object';
 import './style.scss';
 import { Fragment } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import { categoryData } from '../Categories/categoriesData';
 
 const classesData = [
   {
@@ -159,12 +161,16 @@ const Filters = () => {
   const [priceAnchorEl, setPriceAnchorEl] = useState(null);
   const openPrice = Boolean(priceAnchorEl);
   const [ageAnchorEl, setAgeAnchorEl] = useState(null);
-  const [dateAnchorEl, setDateAnchorEl] = useState(null);
   const [openFiltersModal, setOpenFiltersModal] = useState(false);
   const startDatePickerRef = useRef(null);
   const endDatePickerRef = useRef(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const location = useLocation();
+  const history = useHistory();
+  const search = location.search;
+  const category = new URLSearchParams(search).get('category');
+  const [activeCategory, setActiveCategory] = useState(category);
 
   const handleFiltersModalClose = () => {
     setOpenFiltersModal(false);
@@ -182,19 +188,21 @@ const Filters = () => {
   const handleAgeClick = event => {
     setAgeAnchorEl(event.currentTarget);
   };
-  const handleDateClick = event => {
-    setDateAnchorEl(event.currentTarget);
-  };
   const handlePriceClose = () => {
     setPriceAnchorEl(null);
   };
   const handleAgeClose = () => {
     setAgeAnchorEl(null);
   };
-  const handleDateClose = () => {
-    setDateAnchorEl(null);
-  };
   const toggleSubjectFilter = e => e.target.classList.toggle('active');
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, [location.pathname]);
 
   return (
     <Fragment>
@@ -312,39 +320,19 @@ const Filters = () => {
               </div>
               <div className="filters__subjects">
                 <div className="filters__subjects-title">موضوعات: </div>
-                <div onClick={toggleSubjectFilter} className="filters__subject">
-                  مد و لباس
-                </div>
-                <div onClick={toggleSubjectFilter} className="filters__subject">
-                  زیبایی
-                </div>
-                <div onClick={toggleSubjectFilter} className="filters__subject">
-                  کتاب
-                </div>
-                <div onClick={toggleSubjectFilter} className="filters__subject">
-                  ساختن
-                </div>
-                <div onClick={toggleSubjectFilter} className="filters__subject">
-                  خوشمزه
-                </div>
-                <div onClick={toggleSubjectFilter} className="filters__subject">
-                  کاردستی
-                </div>
-                <div onClick={toggleSubjectFilter} className="filters__subject">
-                  بازی
-                </div>
-                <div onClick={toggleSubjectFilter} className="filters__subject">
-                  نوزاد
-                </div>
-                <div onClick={toggleSubjectFilter} className="filters__subject">
-                  ورزشی
-                </div>
-                <div onClick={toggleSubjectFilter} className="filters__subject">
-                  مسافرت
-                </div>
-                <div onClick={toggleSubjectFilter} className="filters__subject">
-                  حیوانات
-                </div>
+                {categoryData.map(catData => (
+                  <div
+                    onClick={() => {
+                      history.push({
+                        search: '?' + new URLSearchParams({ category: catData.id }).toString(),
+                      });
+                      setActiveCategory(catData.id);
+                    }}
+                    className={`filters__subject${catData.id == activeCategory ? ' active' : ''}`}
+                  >
+                    {catData.title}
+                  </div>
+                ))}
               </div>
             </div>
           )}
@@ -424,39 +412,14 @@ const Filters = () => {
                 موضوعات:
               </div>
               <div className="filters__subjects">
-                <div onClick={toggleSubjectFilter} className="filters__subject">
-                  مد و لباس
-                </div>
-                <div onClick={toggleSubjectFilter} className="filters__subject">
-                  زیبایی
-                </div>
-                <div onClick={toggleSubjectFilter} className="filters__subject">
-                  کتاب
-                </div>
-                <div onClick={toggleSubjectFilter} className="filters__subject">
-                  ساختن
-                </div>
-                <div onClick={toggleSubjectFilter} className="filters__subject">
-                  خوشمزه
-                </div>
-                <div onClick={toggleSubjectFilter} className="filters__subject">
-                  کاردستی
-                </div>
-                <div onClick={toggleSubjectFilter} className="filters__subject">
-                  بازی
-                </div>
-                <div onClick={toggleSubjectFilter} className="filters__subject">
-                  نوزاد
-                </div>
-                <div onClick={toggleSubjectFilter} className="filters__subject">
-                  ورزشی
-                </div>
-                <div onClick={toggleSubjectFilter} className="filters__subject">
-                  مسافرت
-                </div>
-                <div onClick={toggleSubjectFilter} className="filters__subject">
-                  حیوانات
-                </div>
+                {categoryData.map(catData => (
+                  <div
+                    onClick={toggleSubjectFilter}
+                    className={`filters__subject${catData.id == category ? ' active' : ''}`}
+                  >
+                    {catData.title}
+                  </div>
+                ))}
               </div>
               <div style={{ padding: 8, display: 'flex', justifyContent: 'space-around', marginBottom: 16 }}>
                 <button className="success-btn">اعمال</button>
