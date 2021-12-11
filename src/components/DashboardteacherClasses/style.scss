@@ -51,3 +51,14 @@
   color: $c-black m !important;
   
 }
+
+.teacher-classes-emptylist {
+  text-align: center;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  color: $c-black m !important;
+  display: flex;
+  align-items: center;
+  margin: auto;
+  margin-top: 4vmin !important;
+}
