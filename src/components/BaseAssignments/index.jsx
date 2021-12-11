@@ -80,7 +80,7 @@ function BaseAssignments() {
           <img src={Pen} alt="Sleeping Fox" className="Apic" />
           <div className="txt">
             <Typography sx={{ width: '33%', flexShrink: 0, margin: 1 }}>تمرین اول</Typography>
-            <Typography sx={{ color: '#292269', margin: 1 }}>حل نشده &#128542;</Typography>
+            <Typography sx={{ color: '#300404', margin: 1 }}>حل نشده &#128542;</Typography>
           </div>
         </AccordionSummary>
         <AccordionDetails>
