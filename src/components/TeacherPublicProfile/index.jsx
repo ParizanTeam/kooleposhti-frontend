@@ -51,39 +51,38 @@ function TeacherPublicProfile(props) {
 
   useEffect(() => {
     function fetchData() {
-      if(props.username === undefined){
+      if (teacher_username === "public-profile") {
         const res = axios
-        .get(`${baseUrl}/accounts/profile/update-profile/`, {
-          headers: {
-            Authorization: token,
-            'Content-Type': 'application/json',
-          },
-        })
-        .then(response => {
-          console.log(response.data.data);
-          setTeacherData(response.data.data);
-          setLoading(false);
-        })
-        .catch(err => {
-          setLoading(false);
-        });
-      }
-      else{
+          .get(`${baseUrl}/accounts/profile/update-profile/`, {
+            headers: {
+              Authorization: token,
+              'Content-Type': 'application/json',
+            },
+          })
+          .then(response => {
+            console.log(response.data.data);
+            setTeacherData(response.data.data);
+            setLoading(false);
+          })
+          .catch(err => {
+            setLoading(false);
+          });
+      } else {
         const res = axios
-        .get(`${baseUrl}/accounts/profile/public/${teacher_username}`, {
-          headers: {
-            Authorization: token,
-            'Content-Type': 'application/json',
-          },
-        })
-        .then(response => {
-          console.log(response.data.data);
-          setTeacherData(response.data.data);
-          setLoading(false);
-        })
-        .catch(err => {
-          setLoading(false);
-        });
+          .get(`${baseUrl}/accounts/profile/public/${teacher_username}`, {
+            headers: {
+              // Authorization: token,
+              'Content-Type': 'application/json',
+            },
+          })
+          .then(response => {
+            console.log(response.data.data);
+            setTeacherData(response.data.data);
+            setLoading(false);
+          })
+          .catch(err => {
+            setLoading(false);
+          });
       }
     }
     fetchData();
@@ -222,39 +221,43 @@ function TeacherPublicProfile(props) {
       />
     </div>
   );
-
+  const use_mobile = useMobile();
   /*  SwiperCore.use([Navigation, Keyboard]); */
   const TeacherClasses = () => {
     return (
       <div className="My-courses-section">
         <h2 className="My-courses-section__title">لیست کلاس ها</h2>
         <div className="My-carousal-container">
-          <Grid sx={{ width: { md: '85%', xs: '90vmin' } }}>
-            <Swiper
-              spaceBetween={10}
-              slidesPerView={'auto'}
-              centeredSlides
-              navigation={useMobile() ? false : true}
-              loop
-              keyboard
-              centeredSlides
-            >
-              {teacherData.courses.map(item => (
-                <SwiperSlide key={item.id}>
-                  <CourseCard
-                    title={item.title === undefined ? 'title' : item.title}
-                    teacherName={
-                      item.teacherName === undefined
-                        ? teacherData.first_name + ' ' + teacherData.last_name
-                        : item.teacherName
-                    }
-                    rate={item.rate === undefined ? 2 : item.rate}
-                    teacherImgSrc={teacherData.image === null ? profile_1 : teacherData.image.image}
-                    imgSrc={item.imgSrc === undefined ? image : item.imgSrc}
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
+        <Grid sx={{ width: { xl: '100%', md: '85%', sm: '65vmin', xs: '90vmin' } }}>
+            {teacherData.courses.length === 0 && (
+              <p className="teacher-public-profile-about-me__text">کلاسی برای نمایش وجود نداره !!!</p>
+            )}
+            {teacherData.courses.length !== 0 && (
+              <Swiper
+                spaceBetween={10}
+                slidesPerView={'auto'}
+                centeredSlides
+                navigation={use_mobile ? false : true}
+                keyboard
+                centeredSlides
+              >
+                {teacherData.courses.map(item => (
+                  <SwiperSlide key={item.id}>
+                    <CourseCard
+                      title={item.title === undefined ? 'title' : item.title}
+                      teacherName={
+                        item.teacherName === undefined
+                          ? teacherData.first_name + ' ' + teacherData.last_name
+                          : item.teacherName
+                      }
+                      rate={item.rate === undefined ? 2 : item.rate}
+                      teacherImgSrc={teacherData.image === null ? profile_1 : teacherData.image.image}
+                      imgSrc={item.imgSrc === undefined ? image : item.imgSrc}
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            )}
           </Grid>
         </div>
       </div>
@@ -279,9 +282,8 @@ function TeacherPublicProfile(props) {
               flexDirection: 'column',
               display: 'flex',
               alignItems: 'center',
-              justifyContent:"center",
+              justifyContent: 'center',
             }}
-            
           >
             <Grid item xs={12} sx={{ mt: 3 }}>
               <Typography variant="h4">درباره من</Typography>
