@@ -191,7 +191,7 @@ function DashboardTeacherClasses(props) {
                     width: { sm: '22vmin', xs: '140px' },
                     display: 'flex',
                     flexGrow: 1,
-                    alignItems: rows.length === 0 ? "center" : "initial",
+                    alignItems: "center",
                     justifyContent:"center",
                     margin: rows.length === 0 ? "auto" : "initial",
                     minHeight:"50px",

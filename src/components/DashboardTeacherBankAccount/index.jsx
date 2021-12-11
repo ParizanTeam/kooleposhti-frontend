@@ -27,7 +27,7 @@ function DashboardTeacherBankAccount(props) {
           </Grid>
 
           <Grid item xs={12}>
-            <div className="BankCard">
+            <Grid className="BankCard" sx={{width:{lg:"55vmin", md:"55vmin", sm:"50vmin" , xs:"80vmin" }, height:{lg:"30vmin", md:"30vmin", sm:"30vmin" , xs:"45vmin" }}}>
               <div className="CardNumber">
                 <Grid item xs={12}>
                   <div dir="ltr">
@@ -68,7 +68,7 @@ function DashboardTeacherBankAccount(props) {
               </div>
               <Grid container sx={{ direction: 'column', alignItems: 'center', justifyContent: 'center' }}>
                 <Grid item xs={12} className="CardName">
-                  <p>سید عماد موسوی</p>
+                  <Typography sx={{fontSize:{lg:"20px", md:"20px", sm:"15px", xs:"3vmin"}}}>سید عماد موسوی</Typography>
                 </Grid>
                 <Grid item xs={12} mt={2} dir="ltr">
                   <span style={{ fontSize: '15px', color: 'white' }}>IR</span>
@@ -83,7 +83,7 @@ function DashboardTeacherBankAccount(props) {
                   />
                 </Grid>
               </Grid>
-            </div>
+            </Grid>
           </Grid>
           <Grid item xs={12} sx={{alignItems:"center", justifyContent:"center", display:"flex"}}>
             <Button className='credit-card-submit' variant="contained" sx={{width:"130px"}}>تایید</Button>

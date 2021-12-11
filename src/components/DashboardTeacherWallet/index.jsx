@@ -39,18 +39,14 @@ function DashboardTeacherWallet(props) {
             />
           </Grid>
           <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 5 }}>
-            <img src={wallet} alt="wallet" />
+            <img src={wallet} alt="wallet" style={{maxWidth:"65%"}}/>
           </Grid>
           <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 5 }}>
             <Typography className="wallet-withdraw">
               مبلغ
-              <TextField
+              <input
                 className="wallet-withdraw__textfield"
-                variant="standard"
-                InputProps={{
-                  disableUnderline: true,
-                  maxLength: 12
-                }}
+
               />
               تومان را
               <Button className="wallet-withdraw__button">برداشت</Button>
