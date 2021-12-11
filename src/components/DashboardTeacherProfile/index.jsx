@@ -61,7 +61,7 @@ function DashboardTeacherProfile(props) {
         })
         .catch(err => {
           setLoading(false);
-          console.log('error: ', err);
+          console.log('error bedeeeeee: ', err);
         });
     }
     fetchData();
@@ -207,6 +207,7 @@ function DashboardTeacherProfile(props) {
                               if (res.data.image.image !== null || res.data.image.image !== undefined) {
                                 setFile(res.data.image.image);
                               }
+                              props.setUsername(res.data.username)
                               setLoading(false);
                             })
                             .catch(err => {

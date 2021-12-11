@@ -21,12 +21,14 @@ import DashboardTeacherBankAccount from '../DashboardTeacherBankAccount';
 import DashboardTeacherAboutMe from '../DashboardTeacherAboutMe';
 import TeacherPublicProfile from '../TeacherPublicProfile';
 import profile_1 from '../../assets/images/profile_1.png';
-import {baseUrl} from '../../utils/constants';
+import { baseUrl } from '../../utils/constants';
 import axios from 'axios';
 import './style.scss';
 
 function TeacherDashboard(props) {
   const token = 'JWT ' + localStorage.getItem('access_token');
+  const [isTeacher, setIsTeacher] = useState(false);
+  const history = useHistory();
   const [profile_username, setProfileUserName] = useState('');
   useEffect(() => {
     async function fetchData() {
@@ -40,15 +42,16 @@ function TeacherDashboard(props) {
         .then(response => {
           console.log('get response: ', response);
           setProfileUserName(response.data.username);
+          setIsTeacher(true);
         })
         .catch(err => {
           console.log('error: ', err);
+          history.push('/not-found');
         });
     }
     fetchData();
-  }, []);
+  }, [profile_username]);
 
-  let history = useHistory();
   let notValidPath = false;
 
   const [file, setFile] = useState(profile_1);
@@ -123,41 +126,43 @@ function TeacherDashboard(props) {
   return (
     <React.Fragment>
       {notValidPath && <Redirect to="/notFound" />}
-      {location.pathname === '/dashboard/teacher/profile' && (
+      {isTeacher && location.pathname === '/dashboard/teacher/profile' && (
         <BaseDashboard items={items} profile={profile} className="drawer">
-          <DashboardTeacherProfile />
+          <DashboardTeacherProfile setUsername={setProfileUserName} />
         </BaseDashboard>
       )}
-      {location.pathname === '/dashboard/teacher/wallet' && (
+      {isTeacher && location.pathname === '/dashboard/teacher/wallet' && (
         <BaseDashboard items={items} profile={profile} className="drawer">
           <DashboardTeacherWallet />
         </BaseDashboard>
       )}
-      {location.pathname === '/dashboard/teacher/classes' && (
+      {isTeacher && location.pathname === '/dashboard/teacher/classes' && (
         <BaseDashboard items={items} profile={profile} className="drawer">
           <DashboardTeacherClasses />
         </BaseDashboard>
       )}
-      {location.pathname === '/dashboard/teacher/received' && (
+      {isTeacher && location.pathname === '/dashboard/teacher/received' && (
         <BaseDashboard items={items} profile={profile} className="drawer">
           <DashboardTeacherRecieved />
         </BaseDashboard>
       )}
 
-      {location.pathname === '/dashboard/teacher/about-me' && (
+      {isTeacher && location.pathname === '/dashboard/teacher/about-me' && (
         <BaseDashboard items={items} profile={profile} className="drawer">
           <DashboardTeacherAboutMe />
         </BaseDashboard>
       )}
-      {location.pathname === '/dashboard/teacher/public-profile' && (
+      {isTeacher && location.pathname === '/dashboard/teacher/public-profile' && (
         <BaseDashboard items={items} profile={profile} className="drawer">
           <TeacherPublicProfile />
         </BaseDashboard>
       )}
 
-      <BaseDashboard items={items} profile={profile} className="drawer">
-        {props.children}
-      </BaseDashboard>
+      {isTeacher && (
+        <BaseDashboard items={items} profile={profile} className="drawer">
+          {props.children}
+        </BaseDashboard>
+      )}
     </React.Fragment>
   );
 }
