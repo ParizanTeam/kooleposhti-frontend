@@ -31,10 +31,13 @@ import 'swiper/swiper-bundle.min.css';
 import { baseUrl } from '../../utils/constants';
 import image from '../../assets/images/banner.png';
 import ReactHtmlParser from 'react-html-parser';
+import { useLocation } from 'react-router-dom';
 import './style.scss';
 
 function TeacherPublicProfile(props) {
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const teacher_username = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
   const token = 'JWT ' + localStorage.getItem('access_token');
   const [teacherData, setTeacherData] = useState({
     bio: '',
@@ -48,7 +51,8 @@ function TeacherPublicProfile(props) {
 
   useEffect(() => {
     function fetchData() {
-      const res = axios
+      if(props.username === undefined){
+        const res = axios
         .get(`${baseUrl}/accounts/profile/update-profile/`, {
           headers: {
             Authorization: token,
@@ -60,7 +64,27 @@ function TeacherPublicProfile(props) {
           setTeacherData(response.data.data);
           setLoading(false);
         })
-        .catch(err => {});
+        .catch(err => {
+          setLoading(false);
+        });
+      }
+      else{
+        const res = axios
+        .get(`${baseUrl}/accounts/profile/public/${teacher_username}`, {
+          headers: {
+            Authorization: token,
+            'Content-Type': 'application/json',
+          },
+        })
+        .then(response => {
+          console.log(response.data.data);
+          setTeacherData(response.data.data);
+          setLoading(false);
+        })
+        .catch(err => {
+          setLoading(false);
+        });
+      }
     }
     fetchData();
   }, []);
@@ -252,16 +276,17 @@ function TeacherPublicProfile(props) {
           <Grid
             container
             sx={{
-              display: 'flex',
               flexDirection: 'column',
+              display: 'flex',
               alignItems: 'center',
+              justifyContent:"center",
             }}
-            maxWidth={'xl'}
+            
           >
             <Grid item xs={12} sx={{ mt: 3 }}>
               <Typography variant="h4">درباره من</Typography>
             </Grid>
-            <Grid item xs={12} maxWidth="80%" sx={{ mt: 5 }} minWidth="80%">
+            <Grid item xs={12} maxWidth="68%" sx={{ mt: 5 }} minWidth="68%">
               <div className="abut-me_wrapper">
                 <Typography variant="body" className="about-me">
                   {teacherData.bio && ReactHtmlParser(teacherData.bio)}
