@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useReducer } from 'react';
 import { Rating } from '@mui/material';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import StarOutlineRoundedIcon from '@mui/icons-material/StarOutlineRounded';
-import { useMediaQuery } from '@mui/material';
+import { useMediaQuery, Typography } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -115,7 +115,100 @@ const classesData = [
   //     price: '',
   //   },
 ];
+export const AnyDateOrTime = () => {
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
+  const days_label = {
+    Sunday: 'ش',
+    Saturday: '۱ش',
+    Monday: '۲ش',
+    Tuesday: '۳ش',
+    Wednesday: '۴ش',
+    Thursday: '۵ش',
+    Friday: 'جمعه',
+  };
+  const days_selected = {
+    Sunday: false,
+    Saturday: false,
+    Monday: false,
+    Tuesday: false,
+    Wednesday: false,
+    Thursday: false,
+    Friday: false,
+    Weekdays: false,
+    Weekend: false,
+  };
+
+  const days_active = {
+    Sunday: '',
+    Saturday: '',
+    Monday: '',
+    Tuesday: '',
+    Wednesday: '',
+    Thursday: '',
+    Friday: '',
+    Weekdays: '',
+    Weekend: '',
+  };
+  const daysMode = {
+    Weekdays: ['Sunday', 'Saturday', 'Monday', 'Tuesday', 'Wednesday'],
+    Weekend: ['Thursday', 'Friday'],
+  };
+  const [selectedDays, setSelectedDays] = React.useState(() => days_active);
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
+
+  const handleDayFilter = (e, value) => {
+    days_selected[value] ^= true;
+    if (value == 'Weekend' || value == 'Weekdays')
+      daysMode[value].forEach(x => (days_selected[x] = days_selected[value]));
+    console.log('days selected', days_selected);
+    toggleDays();
+    forceUpdate();
+  };
+  const toggleDays = () => {
+    for (var day in days_selected) {
+      if (days_selected[day]) days_active[day] = 'active';
+      else days_active[day] = '';
+    }
+    setSelectedDays(days_active);
+    console.log('days_active', days_active);
+  };
+  return (
+    <div>
+      {isMobile ? (
+        <div>روزها:</div>
+      ) : (
+        <Typography
+          variant="h6"
+          style={{
+            padding: '10px 20px 20px 20px',
+            display: 'flex',
+            textAlign: 'right',
+          }}
+          dir="rtl"
+        >
+          روز های هفته
+        </Typography>
+      )}
+
+      <div className="filters__weekdays">
+        {Object.entries(days_label).map(([val, label]) => (
+          <div onClick={e => handleDayFilter(e, val)} className={`filters__weekday ${selectedDays[val]}`}>
+            {label}
+          </div>
+        ))}
+      </div>
+      <div className="filters__weekdays">
+        <div onClick={e => handleDayFilter(e, 'Weekdays')} className={`filters__subject ${selectedDays['Weekdays']}`}>
+          وسط هفته
+        </div>
+        <div onClick={e => handleDayFilter(e, 'Weekend')} className={`filters__subject ${selectedDays['Weekend']}`}>
+          آخر هفته
+        </div>
+      </div>
+    </div>
+  );
+};
 const ClassCard = ({ classData }) => {
   const { classImg, age, title, description, teacherImg, teacherName, rating, date, price } = classData;
   return (
@@ -161,6 +254,7 @@ const Filters = () => {
   const [priceAnchorEl, setPriceAnchorEl] = useState(null);
   const openPrice = Boolean(priceAnchorEl);
   const [ageAnchorEl, setAgeAnchorEl] = useState(null);
+  const [dateAnchorEl, setDateAnchorEl] = useState(null);
   const [openFiltersModal, setOpenFiltersModal] = useState(false);
   const startDatePickerRef = useRef(null);
   const endDatePickerRef = useRef(null);
@@ -188,12 +282,21 @@ const Filters = () => {
   const handleAgeClick = event => {
     setAgeAnchorEl(event.currentTarget);
   };
+
+  const handleDateClick = event => {
+    setDateAnchorEl(event.currentTarget);
+  };
   const handlePriceClose = () => {
     setPriceAnchorEl(null);
   };
   const handleAgeClose = () => {
     setAgeAnchorEl(null);
   };
+
+  const handleDateClose = () => {
+    setDateAnchorEl(null);
+  };
+
   const toggleSubjectFilter = e => e.target.classList.toggle('active');
 
   useEffect(() => {
@@ -307,6 +410,31 @@ const Filters = () => {
                     </div>
                   </Menu>
                 </div>
+
+                <div className="filters__filter-wrapper">
+                  <div onClick={handleDateClick} className="filters__filter">
+                    هر روزی...
+                  </div>
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={dateAnchorEl}
+                    open={Boolean(dateAnchorEl)}
+                    onClose={handleDateClose}
+                    MenuListProps={{
+                      'aria-labelledby': 'basic-button',
+                    }}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'right',
+                    }}
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                  >
+                    <AnyDateOrTime />
+                  </Menu>
+                </div>
                 <div className="filters__filter-wrapper">
                   <div onClick={() => startDatePickerRef.current.openCalendar()} className="filters__filter">
                     {startDate ? convertNumberToPersian(`از تاریخ:‌ ${startDate.toString()}`) : 'از تاریخ...'}
@@ -398,6 +526,10 @@ const Filters = () => {
                   <FormControlLabel value="4-18" control={<Radio />} label="۴ تا ۱۸ سال" />
                 </RadioGroup>
               </div>
+
+              <div style={{ margin: '32px 0' }}>
+                <AnyDateOrTime />
+              </div>
               <div className="filters__filter-wrapper">
                 <div onClick={() => startDatePickerRef.current.openCalendar()} className="filters__filter">
                   {startDate ? convertNumberToPersian(`از تاریخ:‌ ${startDate.toString()}`) : 'از تاریخ...'}
@@ -408,6 +540,7 @@ const Filters = () => {
                   {endDate ? convertNumberToPersian(`تا تاریخ: ${endDate.toString()}`) : 'تا تاریخ...'}
                 </div>
               </div>
+
               <div style={{ marginTop: 16 }} className="filters__subjects-title">
                 موضوعات:
               </div>

@@ -235,6 +235,30 @@
       border-color: rgba(37, 93, 173, 0.25);
     }
   }
+  &__weekdays {
+    display: flex;
+    margin: 10px;
+  }
+  &__weekday {
+    text-align: center;
+    padding: 8px 0px;
+    border: 1px solid rgb(203, 233, 242);
+    color: rgb(43, 167, 206);
+    background-color: rgba(234, 246, 250, 0.75);
+    margin: 3px;
+    cursor: pointer;
+    border-radius: 50%;
+    height: 45px;
+    width: 45px;
+    &:hover {
+      background-color: rgba(225, 234, 236, 0.77);
+    }
+    &.active {
+      background-color: #255dad;
+      color: #fff;
+      border-color: rgba(37, 93, 173, 0.25);
+    }
+  }
   @media (max-width: 768px) {
     .filters {
       padding: 8px;
