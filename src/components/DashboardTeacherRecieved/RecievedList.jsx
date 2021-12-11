@@ -38,7 +38,7 @@ export default function RecievedList() {
         <Demo>
           <List>
             {generate(
-              <ListItem sx={{backgroundColor:'#a3ebf5', marginBottom:'8px',borderRadius:'5px',padding:'6px'}}>
+              <ListItem sx={{backgroundColor:'rgb(165, 247, 226)', marginBottom:'8px',borderRadius:'5px',padding:'6px'}}>
                 {/*secondaryAction={*/}
                  {/*} <IconButton edge="end" aria-label="delete">
                     <DeleteIcon />

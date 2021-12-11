@@ -11,16 +11,39 @@
 }
 
 .wallet-credit-counter {
+  justify-content: center !important;
   direction: rtl !important;
   font-size: 34px !important;
-  font-weight: 600px !important;
+  font-weight: 800px !important;
   color: rgb(15, 116, 74) !important;
 
-  &__calculator{
+  &__calculator {
     background-color: rgb(18, 87, 78) !important;
     width: 80px !important;
     height: 40px !important;
     margin-right: 10px !important;
     color: white !important;
+  }
+}
+
+.wallet-withdraw {
+  font-size: 30px !important;
+  font-weight: 800 !important;
+  color: rgb(99, 94, 94) !important;
+  word-spacing: 2px !important;
+
+  &__button {
+    background-color: rgb(34, 160, 87) !important;
+    color: white !important;
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+    font-size: 20px !important;
+  }
+
+  &__textfield{
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+    outline: none !important;
+    border-bottom: 1px solid black !important;
   }
 }
