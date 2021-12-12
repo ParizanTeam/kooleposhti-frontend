@@ -174,13 +174,13 @@ const ClassDashboard = () => {
               <Route path="/dashboard/class/:classId/assignments/create" exact>
                 {role != 'teacher' ? <Redirect to="/not-found" /> : <CreateAssignment role={role} />}
               </Route>
-              <Route path="/dashboard/class/:classId/assignments/edit" exact>
+              <Route path="/dashboard/class/:classId/assignments/:assignmentId/edit" exact>
                 {role != 'teacher' ? <Redirect to="/not-found" /> : <EditAssignment role={role} />}
               </Route>
-              <Route path="/dashboard/class/:classId/assignments/homeworks" exact>
+              <Route path="/dashboard/class/:classId/assignments/:assignmentId/homeworks" exact>
                 {role != 'teacher' ? <Redirect to="/not-found" /> : <AssignmentsView role={role} />}
               </Route>
-              <Route path="/dashboard/class/:classId/assignments/preview" exact>
+              <Route path="/dashboard/class/:classId/assignments/:assignmentId" exact>
                 <BaseAssignments role={role} />
               </Route>
               <Route path="/dashboard/class/:classId/attendees" exact>
