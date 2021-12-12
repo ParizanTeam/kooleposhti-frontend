@@ -198,7 +198,7 @@ function DashboardTeacherClasses(props) {
                     minHeight: '50px',
                   }}
                 >
-                  <Link to="/create-course">
+                  <Link to="/create-course" >
                     <Typography variant="body" sx={{ color: '#fff' }}>
                       ایجاد کلاس جدید
                     </Typography>
@@ -242,7 +242,7 @@ function DashboardTeacherClasses(props) {
                     </CardContent>
 
                     {/* <Divider sx={{ ml: 2.5, mr: 2.5 }} /> */}
-                    <CardContent className="card-item" sx={{ margin: '0 0 -12px 0 ' }}>
+                    <CardContent className="card-item" sx={{ margin: '0 0 0 0 ' }}>
                       <Typography variant="body1" sx={{ fontWeight: 'bold', mr: 1 }}>
                         ‌ظرفیت کلاس:
                       </Typography>
@@ -251,7 +251,7 @@ function DashboardTeacherClasses(props) {
                     </CardContent>
 
                     {/*  <Divider sx={{ ml: 2.5, mr: 2.5 }} /> */}
-                    <CardContent className="card-item" sx={{ margin: '0 0 -10px 0 ' }}>
+                    <CardContent className="card-item" sx={{ margin: '0 0 0 0 ' }}>
                       <Typography variant="body1" sx={{ fontWeight: 'bold', mr: 1 }}>
                         تاریخ شروع کلاس:
                       </Typography>
