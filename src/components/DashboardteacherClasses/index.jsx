@@ -183,17 +183,21 @@ function DashboardTeacherClasses(props) {
 
           <Box component="form" noValidate sx={{ mt: 5 }}>
             <Grid container spacing={2}>
-              <Grid item sm={6} xs={12}>
+              <Grid item sm={12} xs={12}>
                 <Button
                   variant="contained"
                   sx={{
                     backgroundColor: 'rgba(10, 67, 94, 0.942)',
-                    width: { sm: '22.5vmin', xs: '140px' },
+                    width: { sm: '22vmin', xs: '140px' },
                     display: 'flex',
                     flexGrow: 1,
+                    alignItems: "center",
+                    justifyContent:"center",
+                    margin: rows.length === 0 ? "auto" : "initial",
+                    minHeight:"50px",
                   }}
                 >
-                  <Link to="/create-course">
+                  <Link to="/create-course" >
                     <Typography variant="body" sx={{ color: '#fff' }}>
                       ایجاد کلاس جدید
                     </Typography>
@@ -214,6 +218,7 @@ function DashboardTeacherClasses(props) {
                 paddingRight: '1.5vmin',
               }}
             >
+              {rows.length === 0 && <p className='teacher-classes-emptylist'>کلاسی برای نمایش وجود نداره !!!</p>}
               {rows.map(row => (
                 <Grid item lg={4} md={breakpoint ? 6 : 12} sm={12} xs={12}>
                   <Card sx={{ minWidth: '30vmin', borderRadius: '25px' }} className="grid">
@@ -224,14 +229,14 @@ function DashboardTeacherClasses(props) {
                       alt="Paella dish"
                       className="card-media-image"
                     />
-                    <CardContent className="card-item" >
+                    <CardContent className="card-item">
                       <Typography variant="h6" color="text.secondary" className="course-title">
                         {row.subject}
                       </Typography>
                     </CardContent>
 
                     {/* <Divider sx={{ ml: 2.5, mr: 2.5 }} /> */}
-                    <CardContent className="card-item" sx={{ margin: '0 0 -12px 0 ' }}>
+                    <CardContent className="card-item" sx={{ margin: '0 0 0 0 ' }}>
                       <Typography variant="body1" sx={{ fontWeight: 'bold', mr: 1 }}>
                         ‌ظرفیت کلاس:
                       </Typography>
@@ -240,7 +245,7 @@ function DashboardTeacherClasses(props) {
                     </CardContent>
 
                     {/*  <Divider sx={{ ml: 2.5, mr: 2.5 }} /> */}
-                    <CardContent className="card-item" sx={{ margin: '0 0 -10px 0 ' }}>
+                    <CardContent className="card-item" sx={{ margin: '0 0 0 0 ' }}>
                       <Typography variant="body1" sx={{ fontWeight: 'bold', mr: 1 }}>
                         تاریخ شروع کلاس:
                       </Typography>

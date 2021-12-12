@@ -11,7 +11,7 @@ const TeacherProfileCard = ({ instructor }) => {
         <div className="teacher-profile__title-img-wrapper">
           <div>
             <h3>درباره مدرس:</h3>
-            <a href="" className="teacher-profile__name">
+            <a href={`/public-profile/teacher/${instructor.username}`} className="teacher-profile__name">
               {instructor.first_name} {instructor.last_name}
             </a>
             {instructor.title && <p className="teacher-profile__title">{instructor.title}</p>}

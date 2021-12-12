@@ -25,8 +25,9 @@
 .dashboard-avatar-item {
   &:hover:not(:first-child) {
     background-color: rgba(127, 181, 240, 0.542) !important;
-    padding-bottom: 13px;
-    padding-top: 10px;
+    text-align: center !important;
+    justify-content: center !important;
+
   }
   &__info-name {
     font-size: 1.75vmin;
@@ -40,5 +41,9 @@
     font-size: 12px;
     margin: 0 auto 10px auto !important;
     font-weight: bold;
+    text-align: center !important;
+    justify-content: center !important;
+    margin: auto !important;
+    padding: 5px 2px !important;
   }
 }

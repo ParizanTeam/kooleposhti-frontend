@@ -19,6 +19,7 @@ import StudentDashboardAssignments from '../components/StudentDashboardAssignmen
 import StudentAssignments from '../components/StudentAssignments';
 import StudentAssignmentslist from '../components/StudentAssignmentslist';
 import StudentProfileCard from '../components/StudentProfileCard';
+import TeacherPublicProfile from '../components/TeacherPublicProfile';
 import { history } from '../utils/constants';
 
 const AppRouter = () => {
@@ -27,6 +28,9 @@ const AppRouter = () => {
       <Switch>
         <Route path="/" exact>
           <HomePage />
+        </Route>
+        <Route path="/public-profile/teacher/:username">
+          <TeacherPublicProfile />
         </Route>
         <Route path="/email-verification" exact render={props => <EmailVerification {...props} />} />
         <Route path="/login" exact>
