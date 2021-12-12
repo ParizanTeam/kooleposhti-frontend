@@ -89,48 +89,49 @@ function BaseDashboard(props) {
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <CacheProvider value={cacheRtl}>
-      <Box sx={{ display: 'flex', margin: '60px 0 0 0', padding: 3 }}>
-        <CssBaseline />
-        <Grid container>
-          <Grid item>
-            <Box
-              component="nav"
-              sx={{ width: { md: drawerWidth, sm: '34vmin' }, flexShrink: { sm: 0 } }}
-              aria-label="mailbox folders"
+    <Box sx={{ display: 'flex', margin: '60px 0 0 0', padding: 3 }}>
+      <CssBaseline />
+      <Grid container>
+        <Grid item>
+          <Box
+            component="nav"
+            sx={{ width: { md: drawerWidth, sm: '34vmin' }, flexShrink: { sm: 0 } }}
+            aria-label="mailbox folders"
+          >
+            {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+            <Drawer
+              container={container}
+              variant="temporary"
+              open={mobileOpen}
+              onClose={handleDrawerToggle}
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
+              sx={{
+                display: { sm: 'none', xs: 'block' },
+                '& .MuiDrawer-paper': {
+                  boxSizing: 'border-box',
+                  width: { sm: '33vmin', xs: drawerWidth },
+                },
+              }}
+              anchor="right"
             >
-              {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-              <Drawer
-                container={container}
-                variant="temporary"
-                open={mobileOpen}
-                onClose={handleDrawerToggle}
-                ModalProps={{
-                  keepMounted: true, // Better open performance on mobile.
-                }}
-                sx={{
-                  display: { sm: 'none', xs: 'block' },
-                  '& .MuiDrawer-paper': {
-                    boxSizing: 'border-box',
-                    width: { sm: '33vmin', xs: drawerWidth },
-                  },
-                }}
-                anchor="left"
-              >
-                <div className={props.className}>{drawer}</div>
-              </Drawer>
-              <Drawer
-                variant="permanent"
-                sx={{
-                  display: { sm: 'block', xs: 'none' },
-                  '& .MuiDrawer-paper': { boxSizing: 'border-box', width: { md: drawerWidth, sm: '34vmin' } },
-                }}
-                open
-              >
-                <div className={props.className}>{drawer}</div>
-              </Drawer>
-            </Box>
-          </Grid>
+              <div className={props.className}>{drawer}</div>
+            </Drawer>
+            <Drawer
+              variant="permanent"
+              sx={{
+                display: { sm: 'block', xs: 'none' },
+                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: { md: drawerWidth, sm: '34vmin' } },
+              }}
+              open
+              anchor='right'
+            >
+              <div className={props.className}>{drawer}</div>
+            </Drawer>
+          </Box>
+        </Grid>
+        <CacheProvider value={cacheRtl}>
           <Grid item sx={{ margin: 'auto', width: { md: `calc(100% - ${drawerWidth}px)`, sm: `calc(100% - 34vmin)` } }}>
             <AppBar
               position="fixed"
@@ -150,7 +151,7 @@ function BaseDashboard(props) {
                 >
                   <MenuIcon />
                 </IconButton>
-                
+
                 <Button variant="text" component={Link} to="/" sx={{ mr: 2 }}>
                   <HomeIcon sx={{ color: 'rgba(123, 234, 242, 0.857)', mr: 1.5 }} />
                   <Typography variant="body" noWrap component="div" sx={{ color: 'white', fontSize: '0.7rem' }}>
@@ -165,7 +166,13 @@ function BaseDashboard(props) {
                 </Button>
 
                 <Box display="flex" flexGrow={1} sx={{ direction: 'rtl' }}>
-                  <Button variant="text"  href="/" onClick={()=>{localStorage.removeItem("access_token")}}>
+                  <Button
+                    variant="text"
+                    href="/"
+                    onClick={() => {
+                      localStorage.removeItem('access_token');
+                    }}
+                  >
                     <LogoutIcon sx={{ color: 'rgba(123, 234, 242, 0.857)', ml: 1.5 }} />
                     <Typography variant="body" noWrap component="div" sx={{ color: 'white', fontSize: '0.7rem' }}>
                       خروج
@@ -177,9 +184,9 @@ function BaseDashboard(props) {
 
             {props.children}
           </Grid>
-        </Grid>
-      </Box>
-    </CacheProvider>
+        </CacheProvider>
+      </Grid>
+    </Box>
   );
 }
 
