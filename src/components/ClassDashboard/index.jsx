@@ -14,6 +14,9 @@ import { toast, ToastContainer } from 'react-toastify';
 import { Modal, Fade, Backdrop } from '@mui/material';
 import CourseLoader from '../CourseLoader';
 import ClassStudentsInfo from '../ClassStudentsInfo';
+import ClassGeneralInfo from '../ClassGeneralInfo';
+import Navbar from '../Navbar';
+import Footer from '../Footer';
 
 import AssignmentsView from '../AssignmentsView';
 import StudentAssignments from '../StudentAssignments';
@@ -33,6 +36,7 @@ import { baseUrl } from '../../utils/constants';
 
 const ClassDashboard = () => {
   const [showDrawer, setShowDrawer] = useState(false);
+  const [info, setInfo] = useState(null);
   const params = useParams();
   const location = useLocation();
   const classId = params.classId;
@@ -83,6 +87,12 @@ const ClassDashboard = () => {
     });
   }, [location.pathname]);
 
+  useEffect(() => {
+    apiInstance.get(`${baseUrl}/courses/${classId}/`).then(res => {
+      setInfo(res.data);
+    });
+  }, []);
+
   const toggleDrawer = open => event => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
@@ -104,27 +114,27 @@ const ClassDashboard = () => {
               <DashboardIcon />
             </div>
           </Link>
-          <div className={baseClass + '__item'}>
+          {/* <div className={baseClass + '__item'}>
             <p>چت با {role == 'student' ? 'استاد' : 'دانش‌آموزان'}</p>
             <ChatIcon />
           </div>
           <div className={baseClass + '__item'}>
             <p>گفتگوی گروهی</p>
             <PeopleIcon />
-          </div>
+          </div> */}
           <Link to={`/dashboard/class/${classId}/assignments`}>
             <div className={baseClass + '__item'}>
               <p>تمرین‌ها</p>
               <MenuBookIcon />
             </div>
           </Link>
-          <div className={baseClass + '__item'}>
+          {/* <div className={baseClass + '__item'}>
             <p>بازخوردها</p>
             <FeedbackIcon />
-          </div>
+          </div> */}
           <Link to={`/courses/${classId}`}>
             <div className={baseClass + '__item'}>
-              <p>صفحه درس</p>
+              <p>صفحه عمومی درس</p>
               <RemoveRedEyeIcon />
             </div>
           </Link>
@@ -152,22 +162,28 @@ const ClassDashboard = () => {
       {!apiLoading && (
         <Fragment>
           {role == 'anonymous' && <Redirect to="/not-found" />}
-
-          <div className="class-navbar">
-            {isMobileOrTablet && (
-              <Fragment>
-                <IconButton className="class-navbar__menu" onClick={toggleDrawer(true)}>
-                  <MenuIcon fontSize="large" />
-                </IconButton>
-                <Drawer anchor="right" open={showDrawer} onClose={toggleDrawer(false)}>
-                  {renderDrawer(true, role)}
-                </Drawer>
-              </Fragment>
-            )}
+          <div style={{ marginBottom: 64 }}>
+            <Navbar color="#fd576c" />
           </div>
+
           <div className="class-dashboard">
             {renderDrawer(false, role)}
             <div className="main-content">
+              {/* <div className="class-navbar"> */}
+              {isMobileOrTablet && (
+                <Fragment>
+                  <IconButton className="class-navbar__menu" onClick={toggleDrawer(true)}>
+                    <MenuIcon fontSize="large" />
+                  </IconButton>
+                  <Drawer anchor="right" open={showDrawer} onClose={toggleDrawer(false)}>
+                    {renderDrawer(true, role)}
+                  </Drawer>
+                </Fragment>
+              )}
+              {/* </div> */}
+              <Route path="/dashboard/class/:classId" exact>
+                {info && <ClassGeneralInfo role={role} info={info} />}
+              </Route>
               <Route path="/dashboard/class/:classId/assignments" exact>
                 <Assignments role={role} />
               </Route>
@@ -212,6 +228,9 @@ const ClassDashboard = () => {
               </div>
             </Fade>
           </Modal>
+          <div style={{ marginTop: 8 }}>
+            <Footer />
+          </div>
         </Fragment>
       )}
     </Fragment>

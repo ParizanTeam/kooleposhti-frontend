@@ -1,0 +1,17 @@
+@import '/src/theme/main.scss';
+
+.class-info {
+  &__title {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  &__skyroom {
+    margin: 16px 16px 0;
+    text-align: center;
+  }
+
+  &__skyroom-description {
+    margin-bottom: 16px;
+  }
+}

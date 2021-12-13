@@ -229,14 +229,14 @@ function DashboardTeacherClasses(props) {
                       alt="Paella dish"
                       className="card-media-image"
                     />
-                    <CardContent className="card-item">
+                    <CardContent className="card-item" >
                       <Typography variant="h6" color="text.secondary" className="course-title">
                         {row.subject}
                       </Typography>
                     </CardContent>
 
                     {/* <Divider sx={{ ml: 2.5, mr: 2.5 }} /> */}
-                    <CardContent className="card-item" sx={{ margin: '0 0 0 0 ' }}>
+                    <CardContent className="card-item" sx={{ margin: '0 0 -12px 0 ' }}>
                       <Typography variant="body1" sx={{ fontWeight: 'bold', mr: 1 }}>
                         ‌ظرفیت کلاس:
                       </Typography>
@@ -245,7 +245,7 @@ function DashboardTeacherClasses(props) {
                     </CardContent>
 
                     {/*  <Divider sx={{ ml: 2.5, mr: 2.5 }} /> */}
-                    <CardContent className="card-item" sx={{ margin: '0 0 0 0 ' }}>
+                    <CardContent className="card-item" sx={{ margin: '0 0 -10px 0 ' }}>
                       <Typography variant="body1" sx={{ fontWeight: 'bold', mr: 1 }}>
                         تاریخ شروع کلاس:
                       </Typography>

@@ -31,10 +31,13 @@ import 'swiper/swiper-bundle.min.css';
 import { baseUrl } from '../../utils/constants';
 import image from '../../assets/images/banner.png';
 import ReactHtmlParser from 'react-html-parser';
+import { useLocation } from 'react-router-dom';
 import './style.scss';
 
 function TeacherPublicProfile(props) {
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const teacher_username = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
   const token = 'JWT ' + localStorage.getItem('access_token');
   const [teacherData, setTeacherData] = useState({
     bio: '',
@@ -48,21 +51,39 @@ function TeacherPublicProfile(props) {
 
   useEffect(() => {
     function fetchData() {
-      const res = axios
-        .get(`${baseUrl}/accounts/profile/update-profile/`, {
-          headers: {
-            Authorization: token,
-            'Content-Type': 'application/json',
-          },
-        })
-        .then(response => {
-          console.log(response.data.data);
-          setTeacherData(response.data.data);
-          setLoading(false);
-        })
-        .catch(err => {
-          setLoading(false);
-        });
+      if (teacher_username === "public-profile") {
+        const res = axios
+          .get(`${baseUrl}/accounts/profile/update-profile/`, {
+            headers: {
+              Authorization: token,
+              'Content-Type': 'application/json',
+            },
+          })
+          .then(response => {
+            console.log(response.data.data);
+            setTeacherData(response.data.data);
+            setLoading(false);
+          })
+          .catch(err => {
+            setLoading(false);
+          });
+      } else {
+        const res = axios
+          .get(`${baseUrl}/accounts/profile/public/${teacher_username}`, {
+            headers: {
+              // Authorization: token,
+              'Content-Type': 'application/json',
+            },
+          })
+          .then(response => {
+            console.log(response.data.data);
+            setTeacherData(response.data.data);
+            setLoading(false);
+          })
+          .catch(err => {
+            setLoading(false);
+          });
+      }
     }
     fetchData();
   }, []);
@@ -200,7 +221,6 @@ function TeacherPublicProfile(props) {
       />
     </div>
   );
-
   const use_mobile = useMobile();
   /*  SwiperCore.use([Navigation, Keyboard]); */
   const TeacherClasses = () => {
@@ -208,7 +228,7 @@ function TeacherPublicProfile(props) {
       <div className="My-courses-section">
         <h2 className="My-courses-section__title">لیست کلاس ها</h2>
         <div className="My-carousal-container">
-          <Grid sx={{ width: { xl: '100%', md: '85%', sm: '65vmin', xs: '90vmin' } }}>
+        <Grid sx={{ width: { xl: '100%', md: '85%', sm: '65vmin', xs: '90vmin' } }}>
             {teacherData.courses.length === 0 && (
               <p className="teacher-public-profile-about-me__text">کلاسی برای نمایش وجود نداره !!!</p>
             )}
@@ -260,16 +280,16 @@ function TeacherPublicProfile(props) {
           <Grid
             container
             sx={{
-              display: 'flex',
               flexDirection: 'column',
+              display: 'flex',
               alignItems: 'center',
+              justifyContent: 'center',
             }}
-            maxWidth={'xl'}
           >
             <Grid item xs={12} sx={{ mt: 3 }}>
               <Typography variant="h4">درباره من</Typography>
             </Grid>
-            <Grid item xs={12} maxWidth="80%" sx={{ mt: 5 }} minWidth="80%">
+            <Grid item xs={12} maxWidth="68%" sx={{ mt: 5 }} minWidth="68%">
               <div className="abut-me_wrapper">
                 <Typography variant="body" className="about-me">
                   {teacherData.bio && ReactHtmlParser(teacherData.bio)}
