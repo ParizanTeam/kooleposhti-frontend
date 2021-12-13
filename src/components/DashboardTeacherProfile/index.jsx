@@ -61,7 +61,7 @@ function DashboardTeacherProfile(props) {
         })
         .catch(err => {
           setLoading(false);
-          console.log('error: ', err);
+          console.log('error bedeeeeee: ', err);
         });
     }
     fetchData();
@@ -148,39 +148,7 @@ function DashboardTeacherProfile(props) {
                   try {
                     setLoadingSubmit(true);
 
-                    /* const res = await axios
-                  .post('https://kooleposhti.herokuapp.com/accounts/checkusername/', JSON.stringify(values), {
-                    headers: {
-                      'Content-Type': 'application/json',
-                    },
-                  })
-                  .then(response => {})
-                  .catch(err => {
-                    setLoading(false);
-                    throw 'username';
-                  });
-
-                const res2 = await axios
-                  .post('https://kooleposhti.herokuapp.com/accounts/checkemail/', JSON.stringify(values), {
-                    headers: {
-                      'Content-Type': 'application/json',
-                    },
-                  })
-                  .then(response => {})
-                  .catch(err => {
-                    setLoading(false);
-                    throw 'email';
-                  });
- */
-
                     const formdata = new FormData();
-
-                    /* formdata.append('username', values.username);
-                  formdata.append('email', values.email);
-                  formdata.append('first_name', values.first_name);
-                  formdata.append('last_name', values.last_name);
-                  formdata.append('password', values.password);
-                  formdata.append('phone_no', values.phone_no); */
                     let body = { ...values };
                     let imag_uploaded = true;
                     console.log('form data', formdata);
@@ -212,7 +180,7 @@ function DashboardTeacherProfile(props) {
                           'Content-Type': 'application/json',
                         },
                       })
-                      .then(response => {
+                      .then(async response => {
                         console.log('response ', response);
                         if (imag_uploaded) {
                           toast.success('با موفقیت به‌روز شد', {
@@ -225,6 +193,27 @@ function DashboardTeacherProfile(props) {
                             progress: undefined,
                             theme: 'dark',
                           });
+
+                          const res3 = await axios
+                            .get(`${baseUrl}/accounts/instructors/me/`, {
+                              headers: {
+                                Authorization: token,
+                                'Content-Type': 'application/json',
+                              },
+                            })
+                            .then(res => {
+                              console.log('get response: ', res);
+                              setteacherData(response.data);
+                              if (res.data.image.image !== null || res.data.image.image !== undefined) {
+                                setFile(res.data.image.image);
+                              }
+                              props.setUsername(res.data.username)
+                              setLoading(false);
+                            })
+                            .catch(err => {
+                              setLoading(false);
+                              console.log('error: ', err);
+                            });
                         } else {
                           throw 'image not uploaded';
                         }

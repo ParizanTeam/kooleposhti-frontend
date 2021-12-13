@@ -1,1 +1,9 @@
 @import '../../theme/main.scss';
+.mgRight{
+    margin-left: 20px;
+    @media (max-width: 800px) {
+        display: none;
+        color: rgb(165, 247, 226);
+    }
+}
+

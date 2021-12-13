@@ -1,1 +1,77 @@
 @import '../../theme/main.scss';
+
+.wallet-parts-title {
+  justify-content: center !important;
+  align-items: center !important;
+  display: flex !important;
+  margin-top: 20px !important;
+  font-size: 30px !important;
+  font-weight: 800 !important;
+  color: rgb(99, 94, 94) !important;
+
+  @media(max-width: 330px){
+    font-size: 25px !important;
+  }
+}
+
+.wallet-credit-counter {
+  justify-content: center !important;
+  direction: rtl !important;
+  font-size: 34px !important;
+  font-weight: 800px !important;
+  color: rgb(15, 116, 74) !important;
+
+  &__calculator {
+    background-color: rgb(18, 87, 78) !important;
+    width: 80px !important;
+    height: 40px !important;
+    margin-right: 10px !important;
+    color: white !important;
+  }
+}
+
+.wallet-withdraw {
+  font-size: 3vmin !important;
+  font-weight: 800 !important;
+  color: rgb(99, 94, 94) !important;
+  word-spacing: 2px !important;
+
+  &__button {
+    background-color: rgb(34, 160, 87) !important;
+    color: white !important;
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+    font-size: 2vmin !important;
+  }
+
+  &__textfield{
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+    border: none !important;
+    outline: none !important;
+    border-bottom: 1px solid black !important;
+    width: 15vmin !important;
+    text-align: center !important;
+    justify-content: center !important;
+
+    @media(max-width: 2500px){
+      font-size: 20px !important;
+    }
+    @media(max-width: 900px){
+      font-size: 18px !important;
+    }
+    @media(max-width: 600px){
+      font-size: 13px !important;
+    }
+
+    @media(max-width: 330px){
+      font-size: 10px !important;
+    }
+  }
+
+  &__textfield:focus{
+    border: none !important;
+    outline: none !important;
+    border-bottom: 1px solid black !important;
+  }
+}

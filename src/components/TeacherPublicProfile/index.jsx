@@ -60,7 +60,9 @@ function TeacherPublicProfile(props) {
           setTeacherData(response.data.data);
           setLoading(false);
         })
-        .catch(err => {});
+        .catch(err => {
+          setLoading(false);
+        });
     }
     fetchData();
   }, []);
@@ -199,22 +201,25 @@ function TeacherPublicProfile(props) {
     </div>
   );
 
+  const use_mobile = useMobile();
   /*  SwiperCore.use([Navigation, Keyboard]); */
   const TeacherClasses = () => {
     return (
       <div className="My-courses-section">
         <h2 className="My-courses-section__title">لیست کلاس ها</h2>
         <div className="My-carousal-container">
-          <Grid sx={{ width: { md: '85%', xs: '90vmin' } }}>
+          <Grid sx={{ width: {xl:"100%", md: '85%', sm:"65vmin", xs: '90vmin' } }}>
+          {teacherData.courses.length === 0 && <p className='teacher-public-profile-about-me__text'>کلاسی برای نمایش وجود نداره !!!</p>}
+          {teacherData.courses.length !== 0 && 
             <Swiper
               spaceBetween={10}
               slidesPerView={'auto'}
               centeredSlides
-              navigation={useMobile() ? false : true}
-              loop
+              navigation={use_mobile ? false : true}
               keyboard
               centeredSlides
             >
+              
               {teacherData.courses.map(item => (
                 <SwiperSlide key={item.id}>
                   <CourseCard
@@ -230,7 +235,7 @@ function TeacherPublicProfile(props) {
                   />
                 </SwiperSlide>
               ))}
-            </Swiper>
+            </Swiper>}
           </Grid>
         </div>
       </div>
