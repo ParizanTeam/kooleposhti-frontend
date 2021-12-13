@@ -204,6 +204,7 @@ function ClassStudentInfo(props) {
                         {rows.map(row => (
                           <StyledTableRow key={row.id}>
                             <StyledTableCell
+                              style={{ display: 'flex', justifyContent: 'center' }}
                               align="center"
                               className="course-student-info-table__image-holder"
                               onClick={() => {

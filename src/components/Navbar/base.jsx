@@ -63,7 +63,7 @@ const LogoutBtn = () => {
 export const MyClasses = () => {
   return (
     <>
-      <RightBtn Icon={SchoolIcon} text="کلاس‌های من" linkTo="/dashboard/student/ClassesList" />
+      <RightBtn Icon={SchoolIcon} text="همه کلاس‌ها" linkTo="/classes" />
     </>
   );
 };
@@ -145,7 +145,7 @@ export const ProfileMenu = props => {
       ) : (
         <>
           <MenuItem component={Link} to={`/dashboard/${role}/profile`}>
-            <Avatar src={AccountCircleIcon} sx={{ width: 45, height: 45, ml: '15px' }}  />
+            <Avatar src={AccountCircleIcon} sx={{ width: 45, height: 45, ml: '15px' }} />
             {username}
           </MenuItem>
           <Divider />
