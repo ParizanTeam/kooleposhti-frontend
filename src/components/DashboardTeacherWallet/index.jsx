@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Typography, Grid, Button, Avatar, TextField } from '@mui/material';
 import DashboardTeacherBankAccount from '../DashboardTeacherBankAccount';
 import rtlPlugin from 'stylis-plugin-rtl';
@@ -7,8 +7,10 @@ import createCache from '@emotion/cache';
 import CountUp from 'react-countup';
 import wallet from '../../assets/images/wallet.jpg';
 import './style.scss';
+import { convertNumberToPersian, formatPrice } from '../../utils/helpers';
 
 function DashboardTeacherWallet(props) {
+  const [price, setPrice] = useState('');
   const cacheRtl = createCache({
     key: 'muirtl',
 
@@ -29,24 +31,24 @@ function DashboardTeacherWallet(props) {
             <CountUp
               className="wallet-credit-counter"
               start={0}
-              end={120}
+              end={120 * 1000}
+              formattingFn={count => formatPrice(convertNumberToPersian(count)) + ' تومان'}
               duration={2.75}
               separator=" "
-              decimals={3}
-              decimal=","
               prefix=""
               suffix="تومان"
             />
           </Grid>
           <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 5 }}>
-            <img src={wallet} alt="wallet" style={{maxWidth:"65%"}}/>
+            <img src={wallet} alt="wallet" style={{ maxWidth: '65%' }} />
           </Grid>
           <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 5 }}>
             <Typography className="wallet-withdraw">
               مبلغ
               <input
+                value={price}
                 className="wallet-withdraw__textfield"
-
+                onChange={e => setPrice(convertNumberToPersian(e.target.value))}
               />
               تومان را
               <Button className="wallet-withdraw__button">برداشت</Button>
