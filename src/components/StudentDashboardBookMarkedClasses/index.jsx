@@ -1,5 +1,5 @@
 //import { useMobile } from '../../utils/detectSource';
-import MyClasses from '../MyClasses';
+import StudentDashboardHeader from '../StudentDashboardHeader';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Keyboard } from 'swiper/core';
@@ -8,7 +8,7 @@ import { useMobile } from '../../utils/detectSource';
 import { coursesData } from './coursesData.js';
 import 'swiper/swiper-bundle.min.css';
 import './style.scss';
-import MyClassesFooter from '../MyClasses/MyClassesFooter';
+import StudentDashboardFooter from '../StudentDashboardHeader/StudentDashboardFooter';
 
 SwiperCore.use([Navigation, Keyboard]);
 const MyCourseSlider = () => {
@@ -46,17 +46,17 @@ const MyCourseSlider = () => {
   );
 };
 
-const BookMarkedClasses = () => {
+const StudentDashboardBookMarkedClasses = () => {
   return (
   <div>
-    <MyClasses />
+    <StudentDashboardHeader />
     <img src='https://8pic.ir/uploads/1307925801537355428-128.png' alt='bm' className='bmImg'/>
     <br/><br/>
     <div className="afterMyC-a">
       <MyCourseSlider/>
     </div>
-    <MyClassesFooter />
+    <StudentDashboardFooter />
   </div>
   );
 };
-export default BookMarkedClasses;
+export default StudentDashboardBookMarkedClasses;

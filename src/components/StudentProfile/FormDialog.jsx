@@ -6,11 +6,12 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { FormControl, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import List from '@mui/material/List';
-import { themeProps } from './constant';
+import { useSelector } from 'react-redux';
 
 
 
 export const FormDialog = () => {
+  const themeProps = useSelector(state => state.theme )
   // const userData = useSelector(state => state.auth);
   // const handleChange = prop => event => {
   //   userData[prop] = event.target.value;
