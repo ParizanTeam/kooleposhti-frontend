@@ -132,7 +132,7 @@ const Assignments = ({ role }) => {
                           </button>
                           <button
                             onClick={() => {
-                              history.push(`/dashboard/class/${classId}/assignments/homeworks`);
+                              history.push(`/dashboard/class/${classId}/assignments/${assignment.id}/homeworks`);
                             }}
                             className="orange-btn"
                           >

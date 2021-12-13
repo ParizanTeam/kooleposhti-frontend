@@ -180,7 +180,7 @@ const ClassDashboard = () => {
               <Route path="/dashboard/class/:classId/assignments/:assignmentId/homeworks" exact>
                 {role != 'teacher' ? <Redirect to="/not-found" /> : <AssignmentsView role={role} />}
               </Route>
-              <Route path="/dashboard/class/:classId/assignments/:assignmentId" exact>
+              <Route path="/dashboard/class/:classId/assignments/view/:assignmentId" exact>
                 <BaseAssignments role={role} />
               </Route>
               <Route path="/dashboard/class/:classId/attendees" exact>
