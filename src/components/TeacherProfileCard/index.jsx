@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './style.scss';
 
 const TeacherProfileCard = ({ instructor }) => {
@@ -11,16 +12,16 @@ const TeacherProfileCard = ({ instructor }) => {
         <div className="teacher-profile__title-img-wrapper">
           <div>
             <h3>درباره مدرس:</h3>
-            <a href={`/public-profile/teacher/${instructor.username}`} className="teacher-profile__name">
+            <Link to={`/public-profile/teacher/${instructor.username}`} className="teacher-profile__name">
               {instructor.first_name} {instructor.last_name}
-            </a>
+            </Link>
             {instructor.title && <p className="teacher-profile__title">{instructor.title}</p>}
           </div>
-          <a href="">
+          <Link to={`/public-profile/teacher/${instructor.username}`}>
             <div className="teacher-profile__avatar">
               {instructor.image && <img src={instructor.image.image} alt="" />}
             </div>
-          </a>
+          </Link>
         </div>
         {instructor.description && (
           <p className="teacher-profile__description">
