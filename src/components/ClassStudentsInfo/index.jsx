@@ -91,7 +91,7 @@ function ClassStudentInfo(props) {
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: 'rgba(10, 67, 94, 0.942)',
+      backgroundColor: 'rgb(227, 95, 120)',
       color: theme.palette.common.white,
     },
     [`&.${tableCellClasses.body}`]: {

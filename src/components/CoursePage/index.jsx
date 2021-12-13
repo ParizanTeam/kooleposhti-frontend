@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Rating } from '@mui/material';
+import { Rating, Typography } from '@mui/material';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import StarOutlineRoundedIcon from '@mui/icons-material/StarOutlineRounded';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
@@ -26,6 +26,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { baseUrl } from '../../utils/constants';
 import ReactLoading from 'react-loading';
+import Navbar from '../Navbar';
+import Footer from '../Footer';
 import './style.scss';
 
 import skirt from '../../assets/images/skirt.png';
@@ -39,6 +41,8 @@ import nini from '../../assets/images/nini.png';
 import olympic from '../../assets/images/olympic.png';
 import ship from '../../assets/images/ship.png';
 import pets from '../../assets/images/pets.png';
+
+import CourseComments from '../CourseComments';
 
 export const categoriesData = [
   {
@@ -207,141 +211,152 @@ const CoursePage = () => {
   };
 
   return (
-    <Fragment>
-      <ToastContainer rtl={true} position="bottom-center" />
-      {isLoading && <CourseLoader />}
-      {!isLoading && (
-        <div className="course-page">
-          <Helmet>
-            <title>{data.title}</title>
-          </Helmet>
-          <div className="course-header">
-            <div className="course-header__first-section-wrapper">
-              <div className="course-header__categories">
-                {data.categories.map(category => (
-                  <CourseCategory
-                    color={categoriesData[category - 1].color}
-                    imgSrc={categoriesData[category - 1].imgSrc}
-                    theme={categoriesData[category - 1].theme}
-                    title={categoriesData[category - 1].title}
+    <>
+      <div style={{marginBottom: 72}}>
+        <Navbar color="#fd576c" />
+      </div>
+      <Fragment>
+        <ToastContainer rtl={true} position="bottom-center" />
+        {isLoading && <CourseLoader />}
+        {!isLoading && (
+          <div className="course-page">
+            <Helmet>
+              <title>{data.title}</title>
+            </Helmet>
+
+            <div className="course-header">
+              <div className="course-header__first-section-wrapper">
+                <div className="course-header__categories">
+                  {data.categories.map(category => (
+                    <CourseCategory
+                      color={categoriesData[category - 1].color}
+                      imgSrc={categoriesData[category - 1].imgSrc}
+                      theme={categoriesData[category - 1].theme}
+                      title={categoriesData[category - 1].title}
+                    />
+                  ))}
+                </div>
+                <div className="course-header__title">{data.title}</div>
+                <div className="course-header__rating">
+                  <Rating
+                    size="large"
+                    name="customized-color"
+                    value={data.rate}
+                    precision={0.5}
+                    icon={<StarRoundedIcon />}
+                    emptyIcon={<StarOutlineRoundedIcon />}
+                    readOnly
                   />
-                ))}
-              </div>
-              <div className="course-header__title">{data.title}</div>
-              <div className="course-header__rating">
-                <Rating
-                  size="large"
-                  name="customized-color"
-                  value={data.rate}
-                  precision={0.5}
-                  icon={<StarRoundedIcon />}
-                  emptyIcon={<StarOutlineRoundedIcon />}
-                  readOnly
-                />
-                <span className="course-header__rating--number">{' ' + convertNumberToPersian(data.rate)}</span>
-              </div>
+                  <span className="course-header__rating--number">{' ' + convertNumberToPersian(data.rate)}</span>
+                </div>
 
-              <div className="course-header__description">
-                {data.description.length <= 250 && data.description}
-                {data.description.length > 250 && showMore && data.description.slice(0, 250) + '... '}
-                {data.description.length > 250 && !showMore && data.description}
-                {data.description.length > 250 && (
-                  <button className="showmore" onClick={() => setShowMore(state => !state)}>
-                    {showMore ? showMoreText : showLessText}
+                <div className="course-header__description">
+                  {data.description.length <= 250 && data.description}
+                  {data.description.length > 250 && showMore && data.description.slice(0, 250) + '... '}
+                  {data.description.length > 250 && !showMore && data.description}
+                  {data.description.length > 250 && (
+                    <button className="showmore" onClick={() => setShowMore(state => !state)}>
+                      {showMore ? showMoreText : showLessText}
+                    </button>
+                  )}
+                </div>
+                <div className="course-header__class-info">
+                  <button onClick={scrollToDates} className="course-header__goto-times">
+                    مشاهده زمان جلسه‌ها
                   </button>
-                )}
+                  {showRegister && (
+                    <button className="course-header__register" onClick={handleOpen}>
+                      ثبت‌نام‌ در کلاس
+                    </button>
+                  )}
+                </div>
+                <p className="course-header__remain">ظرفیت باقیمانده: {convertNumberToPersian(data.capacity)} نفر</p>
               </div>
-              <div className="course-header__class-info">
-                <button onClick={scrollToDates} className="course-header__goto-times">
-                  مشاهده زمان جلسه‌ها
-                </button>
-                {showRegister && (
-                  <button className="course-header__register" onClick={handleOpen}>
-                    ثبت‌نام‌ در کلاس
-                  </button>
-                )}
+              <div className="course-header__img">
+                <img src={data.image} alt="" />
               </div>
-              <p className="course-header__remain">ظرفیت باقیمانده: {convertNumberToPersian(data.capacity)} نفر</p>
             </div>
-            <div className="course-header__img">
-              <img src={data.image} alt="" />
+            <div className="course-tags">
+              {data.tags.map(
+                (tag, i) =>
+                  tag.name != '' && (
+                    <div className="course-tags__tag" key={i}>
+                      {tag.name}
+                    </div>
+                  )
+              )}
             </div>
-          </div>
-          <div className="course-tags">
-            {data.tags.map(
-              (tag, i) =>
-                tag.name != '' && (
-                  <div className="course-tags__tag" key={i}>
-                    {tag.name}
-                  </div>
-                )
-            )}
-          </div>
-          <div className="course-info">
-            <div className="course-info__item">
-              <ScheduleOutlinedIcon />
-              <p>{convertNumberToPersian(data.duration)} دقیقه</p>
+            <div className="course-info">
+              <div className="course-info__item">
+                <ScheduleOutlinedIcon />
+                <p>{convertNumberToPersian(data.duration)} دقیقه</p>
+              </div>
+              <div className="course-info__item">
+                <PeopleOutlineIcon />
+                <p>{convertNumberToPersian(data.max_students)} نفر در هر کلاس</p>
+              </div>
+              <div className="course-info__item">
+                <CakeOutlinedIcon />
+                <p>
+                  {convertNumberToPersian(data.min_age)} تا {convertNumberToPersian(data.max_age)} ساله‌ها
+                </p>
+              </div>
+              <div className="course-info__item">
+                <LocalOfferOutlinedIcon />
+                <p>{formatPrice(convertNumberToPersian(data.price))} تومان</p>
+              </div>
             </div>
-            <div className="course-info__item">
-              <PeopleOutlineIcon />
-              <p>{convertNumberToPersian(data.max_students)} نفر در هر کلاس</p>
-            </div>
-            <div className="course-info__item">
-              <CakeOutlinedIcon />
-              <p>
-                {convertNumberToPersian(data.min_age)} تا {convertNumberToPersian(data.max_age)} ساله‌ها
-              </p>
-            </div>
-            <div className="course-info__item">
-              <LocalOfferOutlinedIcon />
-              <p>{formatPrice(convertNumberToPersian(data.price))} تومان</p>
-            </div>
-          </div>
 
-          {data.goals.length > 0 && (
-            <div className="course-objectives">
-              <p className="course-objectives__title">مهارت‌هایی که در پایان کلاس خواهید آموخت:</p>
-              <div className="course-objectives__items">
-                {data.goals.map((goal, i) => (
-                  <div className="course-objectives__item">
-                    <DoneAllIcon />
-                    <p>{goal.text}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-          <TeacherProfileCard instructor={data.instructor} />
-          <CourseDates ref={datesRef} sessions={data.sessions} />
-          <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            open={open}
-            onClose={handleClose}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
-          >
-            <Fade in={open}>
-              <div className="register-modal">
-                <h4 className="register-modal__title">آیا از شرکت توی این کلاس مطمئنی؟</h4>
-                <button className="register-modal__confirm" onClick={register}>
-                  ثبت نام
-                </button>
-                <button className="register-modal__cancel" onClick={handleClose}>
-                  بازگشت
-                </button>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  {registerLoading && <ReactLoading type="bubbles" color="#000" />}
+            {data.goals.length > 0 && (
+              <div className="course-objectives">
+                <p className="course-objectives__title">مهارت‌هایی که در پایان کلاس خواهید آموخت:</p>
+                <div className="course-objectives__items">
+                  {data.goals.map((goal, i) => (
+                    <div className="course-objectives__item">
+                      <DoneAllIcon />
+                      <p>{goal.text}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </Fade>
-          </Modal>
-        </div>
-      )}
-    </Fragment>
+            )}
+            <TeacherProfileCard instructor={data.instructor} />
+            <CourseDates ref={datesRef} sessions={data.sessions} />
+            <Modal
+              aria-labelledby="transition-modal-title"
+              aria-describedby="transition-modal-description"
+              open={open}
+              onClose={handleClose}
+              closeAfterTransition
+              BackdropComponent={Backdrop}
+              BackdropProps={{
+                timeout: 500,
+              }}
+            >
+              <Fade in={open}>
+                <div className="register-modal">
+                  <h4 className="register-modal__title">آیا از شرکت توی این کلاس مطمئنی؟</h4>
+                  <button className="register-modal__confirm" onClick={register}>
+                    ثبت نام
+                  </button>
+                  <button className="register-modal__cancel" onClick={handleClose}>
+                    بازگشت
+                  </button>
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    {registerLoading && <ReactLoading type="bubbles" color="#000" />}
+                  </div>
+                </div>
+              </Fade>
+            </Modal>
+            <div>
+              <Typography className="course-header__title">نظرات شرکت کنندگان:</Typography>
+              <CourseComments />
+            </div>
+          </div>
+        )}
+      </Fragment>
+      <Footer />
+    </>
   );
 };
 

@@ -25,7 +25,6 @@ import Logout from '@mui/icons-material/Logout';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import CalendarToday from '@mui/icons-material/CalendarToday';
 import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
@@ -64,7 +63,7 @@ const LogoutBtn = () => {
 export const MyClasses = () => {
   return (
     <>
-      <RightBtn Icon={SchoolIcon} text="کلاس‌های من" linkTo="/dashboard/student/Schedule" />
+      <RightBtn Icon={SchoolIcon} text="کلاس‌های من" linkTo="/dashboard/student/ClassesList" />
     </>
   );
 };
@@ -83,7 +82,7 @@ export const ProfileMenu = props => {
   const profileMenuItems = {
     student: [
       { icon: FavoriteBorder, label: 'علاقمندی‌هام', to: '/dashboard/student/bookmarks' },
-      { icon: CalendarToday, label: 'برنامه کلاس‌هام', to: '/dashboard/student/calendar' },
+      { icon: CalendarToday, label: 'برنامه کلاس‌هام', to: '/dashboard/student/assignments' },
       { icon: ForumOutlinedIcon, label: 'گفت‌وگو ها', to: '#' },
     ],
     teacher: [
@@ -111,11 +110,6 @@ export const ProfileMenu = props => {
               ml: '100px',
             }}
           >
-            <Button variant="text" style={{ color: '#000' }}>
-              <Badge badgeContent={convertNumberToPersian(4)} style={{ color: navbarProps.baseColor }}>
-                <NotificationsNoneIcon style={{ color: navbarProps.baseColor, marginRight: '5px', fontSize: '30' }} />
-              </Badge>
-            </Button>
             <Tooltip title="منوی شخصی">
               <IconButton onClick={handleClick} size="small">
                 <Avatar sx={{ width: 32, height: 32 }}>{username[0].toUpperCase()}</Avatar>
