@@ -17,3 +17,53 @@
     margin-top: 298px;
   }
 }
+
+$base-color: orangered;
+$border-color: rgba($base-color, 0.6);
+
+// .css-xbovjc-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline
+.studentdash {
+  .MuiSelect-select {
+    min-width: 125px;
+  }
+  .MuiCardActions-root {
+    display: flex;
+    justify-content: center;
+    border-top: 2px solid #e05923;
+    height: 60px;
+    a {
+      color: #ff4500;
+      width: 100%;
+    }
+    background: radial-gradient(#ffffff, rgba($base-color, 0.1));
+  }
+  &__class-details {
+    display: flex;
+    justify-content: center;
+    span {
+      min-width: 45px;
+      display: inline-block;
+      text-align: right;
+    }
+    span:first-child {
+      text-align: right;
+    }
+  }
+
+  .MuiCard-root {
+    border-radius: 8;
+    max-width: 350px;
+    margin: 20px;
+    text-align: center;
+    box-shadow: 0px 20px 20px -17px $border-color;
+    -webkit-box-shadow: 0px 20px 20px -17px $border-color;
+    -moz-box-shadow: 0px 20px 20px -17px $border-color;
+    &:hover {
+      -webkit-box-shadow: 0px 20px 35px -16px $border-color;
+      -moz-box-shadow: 0px 20px 35px -16px $border-color;
+      box-shadow: 0px 20px 35px -16px $border-color;
+      transform: translateY(-5px);
+      transition: all 0.3s;
+    }
+  }
+}

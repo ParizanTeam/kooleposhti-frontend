@@ -16,9 +16,20 @@ import axios from '../../utils/axiosConfig';
 import { baseUrl } from '../../utils/constants';
 import { changeDateFormat, dateDiff } from '../../utils/helpers';
 import ReactLoading from 'react-loading';
-
 import './style.scss';
 import CourseSlider from '../CourseSlider';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const orangeTheme = createTheme({
+  palette: {
+    primary: {
+      main: '#e05923',
+    },
+  },
+  typography: {
+    fontFamily: 'iranyekan, Arial',
+  },
+});
 
 const StudentDashboardClassesList = () => {
   const [loading, setLoading] = React.useState(true);
@@ -52,75 +63,100 @@ const StudentDashboardClassesList = () => {
   return (
     <div>
       <StudentDashboardHeader />
-      <img src="https://8pic.ir/uploads/1307925801537355428-128.png" alt="cs" className="csImg" />
-      <br />
-      <div className="afterMyC-c">
-        <div style={{ marginRight: '100px' }}>
-          <Select value={classStatus} onChange={handleChange} displayEmpty MenuProps={{ disableScrollLock: true }}>
-            <MenuItem value="active">کلاس های فعال</MenuItem>
-            <MenuItem value="past">کلاس های گذشته</MenuItem>
-            <MenuItem value="all">همه کلاس ها</MenuItem>
-          </Select>
-        </div>
+      <ThemeProvider theme={orangeTheme}>
+        <img src="https://8pic.ir/uploads/1307925801537355428-128.png" alt="cs" className="csImg" />
+        <br />
+        <div className="afterMyC-c studentdash ">
+          <div style={{ marginRight: '100px' }}>
+            <Select
+              value={classStatus}
+              onChange={handleChange}
+              displayEmpty
+              MenuProps={{
+                disableScrollLock: true,
+              }}
+            >
+              <MenuItem value="active">کلاس های فعال</MenuItem>
+              <MenuItem value="past">کلاس های گذشته</MenuItem>
+              <MenuItem value="all">همه کلاس ها</MenuItem>
+            </Select>
+          </div>
 
-        <div style={{ display: 'flex', justifyContent: 'center', textAlign: 'center', marginBottom: '30px' }}>
-          {loading ? (
-            <div style={{ padding: '100px',display: 'flex' }}>
-              <ReactLoading type="spinningBubbles" color="orangered" height={100} width={100} />{' '}
-            </div>
-          ) : (
-            <>
-              {classData.length === 0 && (
-                <div>
-                  <Typography  variant="h6" component="div" style={{ padding: '50px 0', color: 'grey'}} >
-                    کلاسی نداری چطوره یه نگاهی به کلاسای اینجا بندازی؟
-                  </Typography>
-                  <CourseSlider/>
-                </div>
-              )}
-              <Grid style={{display: 'flex'}} justifyContent="center" alignItems="center" container rowSpacing={4} md={8} xs={10}>
-                {classData.map(classInfo => (
-                  <>
-                    {DisplayClass(classInfo.end_date) && (
-                      <Grid item md={4} sm={6} xs={12}>
-                        <Card sx={{ maxWidth: 350, boxShadow: '8px 8px 6px #888888', m: '20px', textAlign: 'center' }}>
-                          <CardMedia
-                            component="img"
-                            height="180"
-                            image={`${baseUrl}${classInfo.image}`}
-                            alt="green iguana"
-                          />
-                          <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
-                              {classInfo.title}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary" style={{ lineHeight: '2',marginBottom:"-25px" }}>
-                              مدرس: &nbsp;
-                              {classInfo.instructor.last_name} {classInfo.instructor.first_name}
-                              <br />
-                              از تاریخ: &nbsp;
-                              {changeDateFormat(classInfo.start_date)}
-                              <br />
-                              تا &nbsp;
-                              {changeDateFormat(classInfo.end_date)}
-                              <br />
-                            </Typography>
-                          </CardContent>
-                          <CardActions>
-                            <Button variant="text" href={classInfo.link} target="_blank" sx={{ margin: '10px auto' }}>
-                              ورود به کلاس
-                            </Button>
-                          </CardActions>
-                        </Card>
-                      </Grid>
-                    )}
-                  </>
-                ))}
-              </Grid>
-            </>
-          )}
+          <div style={{ display: 'flex', justifyContent: 'center', textAlign: 'center', marginBottom: '30px' }}>
+            {loading ? (
+              <div style={{ padding: '100px', display: 'flex' }}>
+                <ReactLoading type="spinningBubbles" color="orangered" height={100} width={100} />{' '}
+              </div>
+            ) : (
+              <>
+                {classData.length === 0 && (
+                  <div>
+                    <Typography variant="h6" component="div" style={{ padding: '50px 0', color: 'grey' }}>
+                      کلاسی نداری چطوره یه نگاهی به کلاسای اینجا بندازی؟
+                    </Typography>
+                    <CourseSlider />
+                  </div>
+                )}
+                <Grid
+                  className="studentdash"
+                  style={{ display: 'flex' }}
+                  justifyContent="center"
+                  alignItems="center"
+                  container
+                  rowSpacing={4}
+                  md={8}
+                  xs={10}
+                >
+                  {classData.map(classInfo => (
+                    <>
+                      {DisplayClass(classInfo.end_date) && (
+                        <Grid item md={4} sm={6} xs={12}>
+                          <Card>
+                            <CardMedia
+                              component="img"
+                              height="180"
+                              image={`${baseUrl}${classInfo.image}`}
+                              alt="green iguana"
+                            />
+                            <CardContent>
+                              <Typography gutterBottom variant="h5" component="div">
+                                {classInfo.title}
+                              </Typography>
+                              <div className="studentdash__class-details">
+                                <Typography
+                                  variant="body2"
+                                  color="text.secondary"
+                                  align="right"
+                                  style={{ lineHeight: '2' }}
+                                >
+                                  <span>مدرس</span> :{' '}
+                                  <span>
+                                    {classInfo.instructor.first_name} {classInfo.instructor.last_name}
+                                  </span>
+                                  <br />
+                                  <span>از تاریخ</span> : <span>{changeDateFormat(classInfo.start_date)}</span>
+                                  <br />
+                                  <span>تا تاریخ</span> : <span>{changeDateFormat(classInfo.end_date)}</span>
+                                  <br />
+                                </Typography>
+                              </div>
+                            </CardContent>
+                            <CardActions>
+                              <a href={`/dashboard/class/${classInfo.id}`} target="_blank">
+                                ورود به کلاس
+                              </a>
+                            </CardActions>
+                          </Card>
+                        </Grid>
+                      )}
+                    </>
+                  ))}
+                </Grid>
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      </ThemeProvider>
       <StudentDashboardFooter />
     </div>
   );

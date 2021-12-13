@@ -21,10 +21,25 @@ import Logo from './Logo';
 import SearchBar from './SearchBar';
 import { LoginSignUp, ProfileMenu, RightBtn, MenuButton, MyClasses } from './base';
 import { navbarProps, setBaseColor } from './constants';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const Navbar = ({ color }) => {
+  const customTheme = createTheme({
+    palette: {
+      primary: {
+        main: color,
+      },
+    },
+    typography: {
+      fontFamily: 'iranyekan, Arial',
+    },
+  });
   setBaseColor(color);
-  return <div className="Navbar">{useMobile() ? <MobileNavbar /> : <DesktopNavbar />}</div>;
+  return (
+    <div className="Navbar">
+      <ThemeProvider theme={customTheme}>{useMobile() ? <MobileNavbar /> : <DesktopNavbar />}</ThemeProvider>
+    </div>
+  );
 };
 
 const HelpMenu = ({ helpText, anchorEl, handleClose }) => {
