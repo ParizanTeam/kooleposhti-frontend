@@ -9,19 +9,19 @@ import { KeyBindingUtil } from "draft-js";
 function DashboardTeacherWalletCharts() {
   const data = {
     labels: [
-      "1400/09/13",
-      "1400/09/14",
-      "1400/09/15",
-      "1400/09/16",
-      "1400/09/17",
-      "1400/09/18",
-      "1400/09/19"
+      "شنبه",
+      "یکشنبه",
+      "دوشنبه",
+      "سه شنبه",
+      "چهارشنبه",
+      "پنجشنبه",
+      "جمعه"
     ],
     //backgroundColor: ['rgba(255,0,0,1)'],
     //lineTension: 1,
     datasets: [
       {
-        label: "نقاشی مبتدی 01",
+        label: "نقاشی مبتدی",
         fill: false,
         borderColor: "rgba(255, 0, 0, 0.3)",
         borderWidth: 2,
@@ -29,7 +29,7 @@ function DashboardTeacherWalletCharts() {
         data: [65, 59, 80, 81, 56, 55, 40]
       },
       {
-        label: "نقاشی مبتدی 02",
+        label: "نقاشی انسان",
         fill: false,
         borderColor: "mediumseagreen",
         borderWidth: 2,
@@ -37,7 +37,7 @@ function DashboardTeacherWalletCharts() {
         data: [70, 32, 45, 65, 87, 92, 99]
       },
       {
-        label: "نقاشی پیشرفته 01",
+        label: "نقاشی پیشرفته",
         fill: false,
         borderColor: "blue",
         borderWidth: 2,

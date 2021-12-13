@@ -14,6 +14,7 @@ import Typography from "@mui/material/Typography";
 //import FolderIcon from "@mui/icons-material/Folder";
 import FolderIcon from '../../assets/images/banner.png';
 import DeleteIcon from "@mui/icons-material/Delete";
+import { convertNumberToPersian } from '../../utils/helpers';
 import './style.scss';
 function generate(element) {
   return [0, 1, 2,3,4,5].map((value) =>
@@ -48,13 +49,13 @@ export default function RecievedList() {
                   {/*    <FolderIcon />
                   </Avatar>*/}
                 </ListItemAvatar>
-                <ListItemText primary="نقاشی مبتدی 01:" />
+                <ListItemText primary={convertNumberToPersian(`نقاشی مبتدی ${101}:`)} />
                 <ListItemText primary="زهرا علیدوست" />
                 <ListItemText className='mgRight' primary="مبلغ" />
-                <ListItemText primary="500000" />
+                <ListItemText primary={convertNumberToPersian(500000)}/>
                 <ListItemText primary="تومان" />
                 <ListItemText className='mgRight' primary="در تاریخ" />
-                <ListItemText sx={{marginLeft:'5px'}} primary="10/10" />
+                <ListItemText sx={{marginLeft:'5px'}} primary={convertNumberToPersian(`${10}/${10}`)}/>
                 <ListItemText className='mgRight' primary="به کیف شما واریز نمود" />
               </ListItem>
             )}
