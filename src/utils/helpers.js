@@ -61,6 +61,12 @@ export const changeDateFormat = (input) => {
   return convertNumberToPersian(jdate.format('dddd DD MMMM YYYY'));
 };
 
+export const changeDateFormat2 = (input) => {
+  const JDate = require('jalali-date');
+  const jdate = new JDate(input.split("-"));
+  return convertNumberToPersian(jdate.format('dddd DD MMMM'));
+};
+
 export const dateDiff = (input) => {
   const JDate = require('jalali-date');
   const jdate = new JDate(input.split("-"));
