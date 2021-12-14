@@ -11,6 +11,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import './style.scss';
 import { height, width } from '@mui/system';
+import ReactHtmlParser from 'react-html-parser';
 
 const StudentProfileCard = props => {
   const { showProfile, setShowProfile } = props;
@@ -88,7 +89,7 @@ const StudentProfileCard = props => {
                 className="student-profile-card-lower-part__bio"
                 style={{ display: resData.bio == null ? null : 'block' }}
               >
-                <p className="student-profile-card-lower-part__bio__text">{resData.bio}</p>
+                <p className="student-profile-card-lower-part__bio__text">{ReactHtmlParser(resData.bio)}</p>
               </div>
               <div
                 className="student-profile-card-lower-part__age"
