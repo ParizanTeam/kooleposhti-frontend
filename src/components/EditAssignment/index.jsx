@@ -82,6 +82,7 @@ const EditAssignment = ({ role }) => {
   const [editorContent, setEditorContent] = useState(null);
   const history = useHistory();
   const [titleBlured, setTitleBlured] = useState(false);
+  const [contentBlured, setContentBlured] = useState(false);
   const [startDateBlured, setStartDateBlured] = useState(false);
   const [endDateBlured, setEndDateBlured] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
@@ -103,7 +104,8 @@ const EditAssignment = ({ role }) => {
                 setTitleBlured(true);
                 setStartDateBlured(true);
                 setEndDateBlured(true);
-                if (!title || !startDate || !endDate) {
+                setContentBlured(true);
+                if (!title || !startDate || !endDate || !content || content.trim() == '<p></p>') {
                   toast.error('لطفا فیلدهای مربوطه را به درستی وارد کنید.');
                 } else {
                   setApiLoading(true);
@@ -218,6 +220,9 @@ const EditAssignment = ({ role }) => {
             </div>
           </div>
           <label className="kp-text-input__label">متن صورت تمرین:</label>
+          {contentBlured && (!content || content.trim() == '<p></p>') && (
+            <div style={{ fontSize: 12, color: 'red', marginBottom: 8 }}>صورت تمرین نمی‌تواند خالی باشد.</div>
+          )}
           <Editor
             wrapperClassName="rich-text-wrapper-class"
             editorClassName="rich-text-editor-class"
