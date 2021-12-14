@@ -23,8 +23,8 @@ import HelpIcon from '@mui/icons-material/Help';
 import SearchIcon from '@mui/icons-material/Search';
 import Logout from '@mui/icons-material/Logout';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
-import CalendarToday from '@mui/icons-material/CalendarToday';
-import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
+import Assignment from '@mui/icons-material/Assignment';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
@@ -81,14 +81,15 @@ export const ProfileMenu = props => {
   console.log('role: ', role);
   const profileMenuItems = {
     student: [
-      { icon: FavoriteBorder, label: 'علاقمندی‌هام', to: '/dashboard/student/bookmarks' },
-      { icon: CalendarToday, label: 'برنامه کلاس‌هام', to: '/dashboard/student/assignments' },
-      { icon: ForumOutlinedIcon, label: 'گفت‌وگو ها', to: '#' },
+      { icon: CastForEducationIcon, label: 'کلاس ها', to: '/dashboard/student/ClassesList' },
+      { icon: Assignment, label: 'چالش ها', to: '/dashboard/student/assignments' },
+      { icon: FavoriteBorder, label: 'علاقمندی ها', to: '/dashboard/student/bookmarks' },
+
     ],
     teacher: [
       { icon: CastForEducationIcon, label: 'کلاس ها', to: '/dashboard/teacher/classes' },
       { icon: AccountBalanceIcon, label: 'کیف پول', to: '/dashboard/teacher/wallet' },
-      { icon: ForumOutlinedIcon, label: 'گفت‌وگو ها', to: '#' },
+      { icon: AttachMoneyIcon , label: 'دریافت ها', to: '/dashboard/teacher/received' },
     ],
   };
 
