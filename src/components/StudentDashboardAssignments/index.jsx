@@ -67,18 +67,20 @@ function MyAssignments() {
                     {changeDateFormat2(assignment.end_date)} &nbsp; وقت داری
                   </Typography>
 
-                  {/* {!isMobile && (
-                    <Typography sx={{ width: '33%', flexShrink: 0, margin: 1 }}>درس: آموزش رنگ ها</Typography>
-                  )} */}
+                  {!isMobile && (
+                    <Typography sx={{ width: '33%', flexShrink: 0, margin: 1 }}>
+                      درس: {assignment.course.title}
+                      </Typography>
+                  )} 
                 </div>
               </AccordionSummary>
               <AccordionDetails>
                 <div className="rangi assignment-margin">
-                  {/* {isMobile && (
+                  {isMobile && (
                     <Typography align="right" sx={{ marginBottom: '10px' }}>
-                      درس: آموزش رنگ ها
+                      درس: {assignment.course.title}
                     </Typography>
-                  )} */}
+                  )}
                   <Typography variant="h6" align="right" sx={{ marginBottom: '10px', color: '#c83636' }}>
                     صورت سوال:
                   </Typography>
@@ -86,12 +88,12 @@ function MyAssignments() {
                 </div>
                 <div className="BtRow">
                   <div className="firstBt">
-                    <Button component={Link} to={`/dashboard/class/${assignment.course}/assignments`}>
+                    <Button component={Link} to={`/dashboard/class/${assignment.course.id}/assignments`}>
                       <p className="Mycolor">همه تمرینهای این درس</p>
                     </Button>
                   </div>
                   <div className="SecBt">
-                    <Button component={Link} to={`/dashboard/class/${assignment.course}/assignments/${assignment.id}`}>
+                    <Button component={Link} to={`/dashboard/class/${assignment.course.id}/assignments/${assignment.id}`}>
                       <p className="Mycolor">بریم به صفحه این تمرین</p>
                     </Button>
                   </div>
