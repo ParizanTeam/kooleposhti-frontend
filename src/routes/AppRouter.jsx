@@ -22,6 +22,7 @@ import StudentProfileCard from '../components/StudentProfileCard';
 import TeacherPublicProfile from '../components/TeacherPublicProfile';
 import { history } from '../utils/constants';
 import Filters from '../components/Filters';
+import BaseAssignments from '../components/BaseAssignments';
 
 const AppRouter = () => {
   return (
@@ -86,6 +87,9 @@ const AppRouter = () => {
           </Route>
           <Route path="/dashboard/student/assignments">
             <StudentDashboardAssignments />
+          </Route>
+          <Route path="/dashboard/class/:courseId/assignments/:assignmentId">
+          <BaseAssignments />
           </Route>
           <Route path="/dashboard/student/profile">
             <StudentProfile />
