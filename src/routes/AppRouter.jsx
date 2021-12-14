@@ -85,10 +85,10 @@ const AppRouter = () => {
           <Route path="/dashboard/student/" exact>
             <Redirect to="/dashboard/student/profile" />
           </Route>
-          <Route path="/dashboard/student/assignments">
+          <Route path="/dashboard/student/assignments" exact>
             <StudentDashboardAssignments />
           </Route>
-          <Route path="/dashboard/class/:courseId/assignments/:assignmentId">
+          <Route path="/dashboard/class/:courseId/assignments/view/:assignmentId">
           <BaseAssignments />
           </Route>
           <Route path="/dashboard/student/profile">

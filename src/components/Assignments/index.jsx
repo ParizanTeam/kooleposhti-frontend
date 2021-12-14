@@ -114,7 +114,7 @@ const Assignments = ({ role }) => {
                     <div className="assignment-card__buttons-wrapper">
                       <button
                         onClick={() => {
-                          history.push(`/dashboard/class/${classId}/assignments/${assignment.id}`);
+                          history.push(`/dashboard/class/${classId}/assignments/view/${assignment.id}`);
                         }}
                         className="pink-btn"
                       >

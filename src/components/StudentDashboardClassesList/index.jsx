@@ -19,22 +19,23 @@ import ReactLoading from 'react-loading';
 import './style.scss';
 import CourseSlider from '../CourseSlider';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useSelector } from 'react-redux';
 
-const orangeTheme = createTheme({
-  palette: {
-    primary: {
-      main: '#e05923',
-    },
-  },
-  typography: {
-    fontFamily: 'iranyekan, Arial',
-  },
-});
 
 const StudentDashboardClassesList = () => {
   const [loading, setLoading] = React.useState(true);
   const [classStatus, setClassStatus] = React.useState('active');
-
+  const themeProps = useSelector(state => state.theme);
+  const customTheme = createTheme({
+    palette: {
+      primary: {
+        main: themeProps.primaryColor,
+      },
+    },
+    typography: {
+      fontFamily: 'iranyekan, Arial',
+    },
+  });
   const [classData, setClassData] = useState([]);
   const DisplayClass = date => {
     const isPast = dateDiff(date) >= -1 ? true : false;
@@ -63,7 +64,7 @@ const StudentDashboardClassesList = () => {
   return (
     <div>
       <StudentDashboardHeader />
-      <ThemeProvider theme={orangeTheme}>
+      <ThemeProvider theme={customTheme}>
         <img src="https://8pic.ir/uploads/1307925801537355428-128.png" alt="cs" className="csImg" />
         <br />
         <div className="afterMyC-c studentdash ">
@@ -85,7 +86,7 @@ const StudentDashboardClassesList = () => {
           <div style={{ display: 'flex', justifyContent: 'center', textAlign: 'center', marginBottom: '30px' }}>
             {loading ? (
               <div style={{ padding: '100px', display: 'flex' }}>
-                <ReactLoading type="spinningBubbles" color="orangered" height={100} width={100} />{' '}
+                <ReactLoading type="spinningBubbles" color={themeProps.primaryColor} height={100} width={100} />{' '}
               </div>
             ) : (
               <>
