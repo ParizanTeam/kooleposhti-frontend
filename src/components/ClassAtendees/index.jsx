@@ -10,6 +10,7 @@ import TablePagination from '../TablePagination';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { Link } from 'react-router-dom';
 import { baseUrl } from '../../utils/constants';
+import StudentProfileModalCard from '../StudentProfileModalCard';
 
 function createData(id, image, firstname, lastname, username) {
   return {
@@ -67,6 +68,7 @@ function Row(props) {
   console.log(props);
   const { row } = props;
   const [open, setOpen] = React.useState(false);
+  const [showProfile, setShowProfile] = useState({ profileOpen: false, username: '' });
 
   return (
     <React.Fragment>
@@ -86,11 +88,18 @@ function Row(props) {
         <TableCell align="right">{row.lastname}</TableCell>
 
         <TableCell align="right" onClick={() => setOpen(!open)}>
-          <Button component={Link} to={`/${row.username}/student-profile`}>
+          <Button
+            onClick={() => {
+              setShowProfile({ profileOpen: true, username: row.username });
+              console.log({ showProfile });
+            }}
+          >
             مشاهده پروفایل
           </Button>
         </TableCell>
       </TableRow>
+
+      <StudentProfileModalCard showProfile={showProfile} setShowProfile={setShowProfile} />
     </React.Fragment>
   );
 }
@@ -149,8 +158,9 @@ const ClassAtendees = () => {
   const [orderBy, setOrderBy] = React.useState('firstname');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [showProfile, setShowProfile] = useState({ profileOpen: false, username: '' });
+  const [openModal, setOpenModal] = useState(false);
   useEffect(() => {
-
     apiInstance
       .get(`${baseUrl}/courses/${classId}/students/`)
       .then(res => {
@@ -184,65 +194,71 @@ const ClassAtendees = () => {
     setPage(0);
   };
 
+  const handleClose = () => {
+    setOpenModal(false);
+  };
+
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - students.length) : 0;
 
   return (
-    <div>
-      <h3 style={{ marginBottom: 16 }}>لیست شرکت‌کنندگان کلاس</h3>
-      {loading ? (
-        <div style={{ display: 'flex', justifyContent: 'center', padding: 'auto', marginTop: 24 }}>
-          <ReactLoading type="spinningBubbles" color="#EF006C" height={100} width={100} />
-        </div>
-      ) : (
-        <>
-          {students.length == 0 ? (
-            <div> هنوز دانش‌آموزی در این کلاس ثبت‌نام نکرده‌است.</div>
-          ) : (
-            <Box sx={{ width: '100%', marginTop: '50px' }}>
-              <Paper sx={{ width: '100%', mb: 2 }}>
-                <TableContainer>
-                  <Table sx={{ minWidth: 750 }} size="medium">
-                    <EnhancedTableHead
-                      order={order}
-                      orderBy={orderBy}
-                      onRequestSort={handleRequestSort}
-                      rowCount={students.length}
-                      style={{ textAlign: 'right' }}
-                    />
-                    <TableBody>
-                      {/* if you don't need to support IE11, you can replace the `stableSort` call with:
+    <>
+      <div>
+        <h3 style={{ marginBottom: 16 }}>لیست شرکت‌کنندگان کلاس</h3>
+        {loading ? (
+          <div style={{ display: 'flex', justifyContent: 'center', padding: 'auto', marginTop: 24 }}>
+            <ReactLoading type="spinningBubbles" color="#EF006C" height={100} width={100} />
+          </div>
+        ) : (
+          <>
+            {students.length == 0 ? (
+              <div> هنوز دانش‌آموزی در این کلاس ثبت‌نام نکرده‌است.</div>
+            ) : (
+              <Box sx={{ width: '100%', marginTop: '50px' }}>
+                <Paper sx={{ width: '100%', mb: 2 }}>
+                  <TableContainer>
+                    <Table sx={{ minWidth: 750 }} size="medium">
+                      <EnhancedTableHead
+                        order={order}
+                        orderBy={orderBy}
+                        onRequestSort={handleRequestSort}
+                        rowCount={students.length}
+                        style={{ textAlign: 'right' }}
+                      />
+                      <TableBody>
+                        {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
-                      {stableSort(students, getComparator(order, orderBy))
-                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                        .map((row, index) => {
-                          return <Row key={row.id} row={row} />;
-                        })}
-                      {emptyRows > 0 && (
-                        <TableRow
-                          style={{
-                            height: 53 * emptyRows,
-                          }}
-                        >
-                          <TableCell colSpan={6} />
-                        </TableRow>
-                      )}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                <TablePagination
-                  count={students.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  onPageChange={handleChangePage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-              </Paper>
-            </Box>
-          )}
-        </>
-      )}
-    </div>
+                        {stableSort(students, getComparator(order, orderBy))
+                          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                          .map((row, index) => {
+                            return <Row key={row.id} row={row} />;
+                          })}
+                        {emptyRows > 0 && (
+                          <TableRow
+                            style={{
+                              height: 53 * emptyRows,
+                            }}
+                          >
+                            <TableCell colSpan={6} />
+                          </TableRow>
+                        )}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                  <TablePagination
+                    count={students.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                  />
+                </Paper>
+              </Box>
+            )}
+          </>
+        )}
+      </div>
+    </>
   );
 };
 

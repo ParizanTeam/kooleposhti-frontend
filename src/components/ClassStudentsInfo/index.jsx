@@ -60,6 +60,7 @@ function ClassStudentInfo(props) {
   const handleClose = () => {
     setOpenModal(false);
   };
+  
   const [openModal, setOpenModal] = useState(false);
   const [modalConfirm, setModalConfirm] = useState(null);
   const [registerLoading, setRegisterLoading] = useState(false);
