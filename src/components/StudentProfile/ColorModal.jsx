@@ -41,15 +41,7 @@ export const ConfirmationDialogRaw = props => {
 
   return (
     <div dir="rtl" className="BG">
-      <DialogTitle
-        style={{
-          align: 'center',
-          backgroundImage: `url(${color_papers})`,
-          opacity: '0.7',
-          marginTop: '-10px',
-          color: 'whitesmoke',
-        }}
-      >
+      <DialogTitle className="student-profile__color-modal">
         رنگی که دوست داری رو انتخاب کن
       </DialogTitle>
       <DialogContent dividers>
@@ -137,11 +129,12 @@ export const ColorModal = () => {
               <ConfirmationDialogRaw id="color-menu" keepMounted open={open} onClose={handleClose} value={value} />
             </List>
             <DialogActions
-              style={{ align: 'center', borderTop: `3px dotted  ${themeProps.primaryColor}`, marginTop: '-10px' }}
+            className="student-profile__color-modal__submit-btn"
+              style={{ marginTop: '-10px' }}
             >
-              <Button onClick={handleClose}>
-                <p className="txtCol">ثبت</p>
-              </Button>
+              <a href='#' onClick={handleClose}>
+                ثبت
+              </a>
             </DialogActions>
           </Dialog>
         </div>

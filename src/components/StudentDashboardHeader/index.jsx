@@ -2,18 +2,20 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import Navbar from '../Navbar';
-
+import { useSelector } from 'react-redux';
 import './style.scss';
 
 const StudentDashboardHeader = () => {
+  const themeProps = useSelector(state => state.theme);
+
   return (
     <div>
-      <Navbar color="#ff4400" />
+      <Navbar color={themeProps.primaryColor} />
       <div className="My">
         <div className="Head">
           <img
             style={{ position: 'absolute', width: '100%', height: '300px', objectFit: 'cover', zIndex: -1 }}
-            src="https://8pic.ir/uploads/fall-banner-1.jpg"
+            src={themeProps.bgImage}
             alt="Head"
           />
           <p className="Head__content">&#127809; اینجا همیشه مهره!</p>

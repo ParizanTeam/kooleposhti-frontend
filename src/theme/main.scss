@@ -1,6 +1,8 @@
 @import './fonts.scss';
 @import './colors.scss';
 @import './settings.scss';
+@import './student_pro';
+
 
 // reset common styles
 * {
@@ -154,4 +156,8 @@ $color-highlight: lighten($c-gray-95, 7%);
   &:hover {
     background-color: rgb(226, 109, 119);
   }
+}
+
+@function color($color-name) {
+  @return var(--color-#{$color-name});
 }

@@ -9,6 +9,7 @@ import { coursesData } from './coursesData.js';
 import 'swiper/swiper-bundle.min.css';
 import './style.scss';
 import StudentDashboardFooter from '../StudentDashboardHeader/StudentDashboardFooter';
+import { useSelector } from 'react-redux';
 
 SwiperCore.use([Navigation, Keyboard]);
 const MyCourseSlider = () => {
@@ -47,10 +48,12 @@ const MyCourseSlider = () => {
 };
 
 const StudentDashboardBookMarkedClasses = () => {
+  const themeProps = useSelector(state => state.theme);
+
   return (
   <div>
     <StudentDashboardHeader />
-    <img src='https://8pic.ir/uploads/1307925801537355428-128.png' alt='bm' className='bmImg'/>
+    <img src={themeProps.btnLabel} alt='bm' className='bmImg'/>
     <br/><br/>
     <div className="afterMyC-a">
       <MyCourseSlider/>

@@ -9,8 +9,8 @@
   margin-right: 40px;
   margin-bottom: 40px;
   text-align: center;
-  box-shadow: rgba(179, 69, 69, 0.87) 0px 2px 5px;
-  background-color: #f74444;
+  box-shadow: color(student-primary) 0px 2px 5px;
+  background-color: color(student-secondary);
   /*background-color: #feffd1;*/
   overflow-y: auto;
   @media (max-width: 800px) {
@@ -61,11 +61,11 @@
 .rangi {
   font-weight: 800;
   border-radius: 1%;
-  border: #f74444;
+  border: color(student-secondary);
   margin-left: 5px;
   margin-right: 5px;
   padding: 10px;
-  background-color: #fdd8c2;
+  background-color: color(student-primary-light);
 
 }
 .firstBt {
@@ -98,7 +98,7 @@
   flex-direction: row;
 }
 .Mycolor {
-  color: #f74444;
+  color: color(student-primary);
 }
 
 div.assignment-question {
