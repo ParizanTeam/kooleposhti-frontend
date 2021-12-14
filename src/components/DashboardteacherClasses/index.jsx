@@ -50,6 +50,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { baseUrl } from '../../utils/constants';
 import ReactLoading from 'react-loading';
 import image from '../../assets/images/banner.png';
+import classImg from '../../assets/images/assignment.png';
 import { convertNumberToPersian } from '../../utils/helpers';
 
 import './style.scss';
@@ -191,13 +192,13 @@ function DashboardTeacherClasses(props) {
                     width: { sm: '22vmin', xs: '140px' },
                     display: 'flex',
                     flexGrow: 1,
-                    alignItems: "center",
-                    justifyContent:"center",
-                    margin: rows.length === 0 ? "auto" : "initial",
-                    minHeight:"50px",
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: rows.length === 0 ? 'auto' : 'initial',
+                    minHeight: '50px',
                   }}
                 >
-                  <Link to="/create-course" >
+                  <Link to="/create-course">
                     <Typography variant="body" sx={{ color: '#fff' }}>
                       ایجاد کلاس جدید
                     </Typography>
@@ -218,7 +219,12 @@ function DashboardTeacherClasses(props) {
                 paddingRight: '1.5vmin',
               }}
             >
-              {rows.length === 0 && <p className='teacher-classes-emptylist'>کلاسی برای نمایش وجود نداره !!!</p>}
+              {rows.length === 0 && (
+                <Grid container direction="column" alignItems="center" justifyContent="center">
+                  <img src={classImg} alt="class list"  />
+                  <p className="teacher-classes-emptylist">کلاسی برای نمایش وجود نداره !!!</p>
+                </Grid>
+              )}
               {rows.map(row => (
                 <Grid item lg={4} md={breakpoint ? 6 : 12} sm={12} xs={12}>
                   <Card sx={{ minWidth: '30vmin', borderRadius: '25px' }} className="grid">
@@ -229,7 +235,7 @@ function DashboardTeacherClasses(props) {
                       alt="Paella dish"
                       className="card-media-image"
                     />
-                    <CardContent className="card-item" >
+                    <CardContent className="card-item">
                       <Typography variant="h6" color="text.secondary" className="course-title">
                         {row.subject}
                       </Typography>

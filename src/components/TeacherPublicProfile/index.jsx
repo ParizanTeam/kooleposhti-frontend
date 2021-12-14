@@ -242,7 +242,6 @@ function TeacherPublicProfile(props) {
                 centeredSlides
                 navigation={use_mobile || teacherData.courses.length <= 1 ? false : true}
                 keyboard
-                centeredSlides
               >
                 {teacherData.courses.map(item => (
                   <SwiperSlide key={item.id}>
@@ -269,9 +268,11 @@ function TeacherPublicProfile(props) {
 
   return (
     <>
-      <div style={{ marginBottom: 72 }}>
-        <Navbar color="#fd576c" style={{ display: teacher_username == 'public-profile' ? 'block' : 'none' }} />
-      </div>
+      {teacher_username !== 'public-profile' && (
+        <div style={{ marginBottom: 72 }}>
+          <Navbar color="#fd576c" />
+        </div>
+      )}
 
       {/* {teacher_username == 'public-profile' ? } */}
       <Box className="teacher-public-profile">
@@ -317,7 +318,7 @@ function TeacherPublicProfile(props) {
           </div>
         )}
       </Box>
-      <Footer style={{ display: teacher_username == 'public-profile' ? 'block' : 'none' }} />
+      {teacher_username !== 'public-profile' && <Footer />}
     </>
   );
 }
