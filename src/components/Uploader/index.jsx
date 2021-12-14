@@ -65,11 +65,7 @@ function App() {
     const formData = new FormData();
     formData.append("avatar", file);
 
-    return await axios.post(UPLOAD_ENDPOINT.file, formData, {
-      headers: {
-        "content-type": "multipart/form-data"
-      }
-    });
+    return await axios.post(UPLOAD_ENDPOINT, formData);
   };
 
   const handleOnChange = e => {
@@ -109,11 +105,16 @@ function App() {
         <div className="Uplr" dir='ltr'>
           <form onSubmit={handleSubmit}>
             <input type="file" onChange={handleOnChange} />
-            <div className="Bt">
+            {/*<div className="Bt">
               <button type="submit">ثبت</button>
             </div>
-          </form>
-        </div></div>
+          */}</form></div></div>
+          <div className="Bt">
+        <Button onClick={handleSubmit}>
+          <p className="Bt__txt">ثبت</p>
+        </Button>
+      </div>
+        
     </div>
   );
 }
