@@ -10,7 +10,7 @@ import DoneAllIcon from '@mui/icons-material/DoneAll';
 import Backdrop from '@mui/material/Backdrop';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
-import { useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import TeacherProfileCard from '../TeacherProfileCard';
 import CourseCategory from '../CourseCategory';
 import { categoryData } from '../Categories/categoriesData';
@@ -212,7 +212,7 @@ const CoursePage = () => {
 
   return (
     <>
-      <div style={{marginBottom: 72}}>
+      <div style={{ marginBottom: 72 }}>
         <Navbar color="#fd576c" />
       </div>
       <Fragment>
@@ -228,12 +228,14 @@ const CoursePage = () => {
               <div className="course-header__first-section-wrapper">
                 <div className="course-header__categories">
                   {data.categories.map(category => (
-                    <CourseCategory
-                      color={categoriesData[category - 1].color}
-                      imgSrc={categoriesData[category - 1].imgSrc}
-                      theme={categoriesData[category - 1].theme}
-                      title={categoriesData[category - 1].title}
-                    />
+                    <Link to={`/classes?category=${categoriesData[category - 1].id}`}>
+                      <CourseCategory
+                        color={categoriesData[category - 1].color}
+                        imgSrc={categoriesData[category - 1].imgSrc}
+                        theme={categoriesData[category - 1].theme}
+                        title={categoriesData[category - 1].title}
+                      />
+                    </Link>
                   ))}
                 </div>
                 <div className="course-header__title">{data.title}</div>

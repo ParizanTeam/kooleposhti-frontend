@@ -37,6 +37,7 @@ const CreateAssignment = ({ role }) => {
   const [titleBlured, setTitleBlured] = useState(false);
   const [startDateBlured, setStartDateBlured] = useState(false);
   const [endDateBlured, setEndDateBlured] = useState(false);
+  const [contentBlured, setContentBlured] = useState(false);
   const [editorContent, setEditorContent] = useState(null);
   const [apiLoading, setApiLoading] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
@@ -57,7 +58,8 @@ const CreateAssignment = ({ role }) => {
               setTitleBlured(true);
               setStartDateBlured(true);
               setEndDateBlured(true);
-              if (!title || !startDate || !endDate) {
+              setContentBlured(true);
+              if (!title || !startDate || !endDate || !content) {
                 toast.error('لطفا فیلدهای مربوطه را به درستی وارد کنید.');
               } else {
                 setApiLoading(true);
@@ -162,6 +164,9 @@ const CreateAssignment = ({ role }) => {
         </div>
       </div>
       <label className="kp-text-input__label">متن صورت تمرین:</label>
+      {contentBlured && !content && (
+        <div style={{ fontSize: 12, color: 'red', marginBottom: 8 }}>صورت تمرین نمی‌تواند خالی باشد.</div>
+      )}
       {/* <JoditEditor
         ref={editor}
         value={content}

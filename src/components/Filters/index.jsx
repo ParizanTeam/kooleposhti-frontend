@@ -14,7 +14,7 @@ import { Modal, Fade, Backdrop } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
-import { convertNumberToPersian, formatPrice } from '../../utils/helpers';
+import { convertNumberToEnglish, convertNumberToPersian, formatPrice } from '../../utils/helpers';
 import DatePicker from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
@@ -23,6 +23,8 @@ import './style.scss';
 import { Fragment } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { categoryData } from '../Categories/categoriesData';
+import apiInstance from '../../utils/axiosConfig';
+import { baseUrl } from '../../utils/constants';
 
 const classesData = [
   {
@@ -31,7 +33,7 @@ const classesData = [
     age: '۳-۷',
     title: 'آزمایش‌های علمی رنگارنگ',
     description:
-      'در این کلاس کودکان به انجام آزمایش‌های علمی و رنگارنگ گوناگون برای آشنایی بیشتر با رنگ‌ها می‌پردازند.',
+      'در این کلاس کودکان به انجام آزمایش‌های علمی و رنگارنگ گوناگون برای آشنایی بیشتر با رنگ‌ها می‌پردازند و کار با آن ها را یاد می‌گیرند.',
     teacherImg: 'https://randomuser.me/api/portraits/men/51.jpg',
     teacherName: 'افشین زنگنه',
     rating: 4.5,
@@ -213,36 +215,38 @@ const ClassCard = ({ classData }) => {
   const { classImg, age, title, description, teacherImg, teacherName, rating, date, price } = classData;
   return (
     <div className="class-card">
-      <div className="class-card__img-wrapper">
-        <img className="class-card__img" src={classImg} alt={title} />
-      </div>
-      <div className="class-card__content">
-        <div className="class-card__age">سن {age}</div>
-        <h3 className="class-card__title">{title}</h3>
-        <p className="class-card__description">{description}</p>
-        <div className="class-card__teacher-rating-wrapper">
-          <div className="class-teacher-card">
-            <div className="class-teacher-card__img-wrapper">
-              <img className="class-teacher-card__img" src={teacherImg} alt="" />
-            </div>
-            <div className="class-teacher-card__name">{teacherName}</div>
-          </div>
-          <div className="class-card__rating" dir="ltr">
-            <Rating
-              size="small"
-              value={rating}
-              precision={0.5}
-              icon={<StarRoundedIcon />}
-              emptyIcon={<StarOutlineRoundedIcon />}
-              readOnly
-            />
-          </div>
+      <div className="class-card-wrapper">
+        <div className="class-card__img-wrapper">
+          <img className="class-card__img" src={classImg} alt={title} />
         </div>
-        <div className="class-card__date-price-wrapper">
-          <div className="class-card__date">
-            <EventNoteIcon /> {date}
+        <div className="class-card__content">
+          <div className="class-card__age">سن {age}</div>
+          <h3 className="class-card__title">{title}</h3>
+          <p className="class-card__description">{description}</p>
+          <div className="class-card__teacher-rating-wrapper">
+            <div className="class-teacher-card">
+              <div className="class-teacher-card__img-wrapper">
+                <img className="class-teacher-card__img" src={teacherImg} alt="" />
+              </div>
+              <div className="class-teacher-card__name">{teacherName}</div>
+            </div>
+            <div className="class-card__rating" dir="ltr">
+              <Rating
+                size="small"
+                value={rating}
+                precision={0.5}
+                icon={<StarRoundedIcon />}
+                emptyIcon={<StarOutlineRoundedIcon />}
+                readOnly
+              />
+            </div>
           </div>
-          <div className="class-card__price">{formatPrice(convertNumberToPersian(price))} تومان</div>
+          <div className="class-card__date-price-wrapper">
+            <div className="class-card__date">
+              <EventNoteIcon /> {date}
+            </div>
+            <div className="class-card__price">{formatPrice(convertNumberToPersian(price))} تومان</div>
+          </div>
         </div>
       </div>
     </div>
@@ -265,12 +269,17 @@ const Filters = () => {
   const search = location.search;
   const category = new URLSearchParams(search).get('category');
   const [activeCategory, setActiveCategory] = useState(category);
+  const [age, setAge] = useState('any');
+  const [choseAge, setChoseAge] = useState('any');
+  const [searchString, setSearchString] = useState('');
+  const [queryObject, setQueryObject] = useState(category ? { category: category } : {});
 
   const handleFiltersModalClose = () => {
     setOpenFiltersModal(false);
   };
 
-  const [value, setValue] = React.useState([10000, 500000]);
+  const [value, setValue] = React.useState([0, 2000000]);
+  const [chosePriceValue, setChosePriceValue] = useState([0, 2000000]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -300,12 +309,40 @@ const Filters = () => {
   const toggleSubjectFilter = e => e.target.classList.toggle('active');
 
   useEffect(() => {
+    apiInstance
+      .get(
+        `${baseUrl}/courses/?price__gt=50000&price__lt=&start_date__gt=1400-9-20&start_date__lt=1400-9-22&age_lte=10&age_gte=4&search=${searchString}`
+      )
+      .then(res => {
+        console.log(res.data.results, ')))))))))))))))');
+      });
+  }, []);
+
+  useEffect(() => {
     window.scrollTo({
       top: 0,
       left: 0,
       behavior: 'smooth',
     });
   }, [location.pathname]);
+  function paramsToObject(entries) {
+    const result = {};
+    for (const [key, value] of entries) {
+      // each 'entry' is a [key, value] tupple
+      result[key] = value;
+    }
+    return result;
+  }
+  useEffect(() => {
+    console.log('url params changes...');
+    console.log(paramsToObject(new URLSearchParams(search)));
+  }, [search]);
+
+  useEffect(() => {
+    history.push({
+      search: '?' + new URLSearchParams(queryObject).toString(),
+    });
+  }, [queryObject]);
 
   return (
     <Fragment>
@@ -313,11 +350,65 @@ const Filters = () => {
       <div className="filters-page">
         <h1 className="filters-page__title">پیداکردن کلاس مورد نظر</h1>
         <div className="filters">
-          <div className="filters__search-wrapper">
-            <div className="filters__search-icon">
-              <SearchIcon />
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              width: '100%',
+              maxWidth: '1024px',
+            }}
+          >
+            <div className="filters__search-wrapper">
+              <div
+                className="filters__search-icon"
+                onClick={() => {
+                  setQueryObject(old => ({ ...old, search: searchString }));
+                }}
+              >
+                <SearchIcon />
+              </div>
+              <form
+                style={{ width: '100%' }}
+                onSubmit={e => {
+                  e.preventDefault();
+                  setQueryObject(old => ({ ...old, search: searchString }));
+                }}
+              >
+                <input
+                  style={{ width: '100%' }}
+                  value={searchString}
+                  onChange={e => setSearchString(e.target.value)}
+                  placeholder="جستجوی در نام کلاس..."
+                  className="filters__search-input"
+                />
+              </form>
             </div>
-            <input placeholder="جستجوی در نام کلاس..." className="filters__search-input" />
+
+            {!isMobile && (
+              <>
+                <button style={{ marginLeft: 16 }} className="success-btn" onClick={() => {}}>
+                  مشاهده دروس
+                </button>
+                <button
+                  className="info-btn"
+                  onClick={() => {
+                    setAge('any');
+                    setChoseAge('any');
+                    setSearchString('');
+                    setChosePriceValue([0, 200000]);
+                    setValue([0, 2000000]);
+                    setStartDate(null);
+                    setEndDate(null);
+                    setActiveCategory(null);
+                    setQueryObject({});
+                    // handleFiltersModalClose();
+                  }}
+                >
+                  ریست
+                </button>{' '}
+              </>
+            )}
           </div>
           {!isMobile && (
             <div>
@@ -361,8 +452,23 @@ const Filters = () => {
                         {convertNumberToPersian(formatPrice(value[1]))} تومان
                       </div>
                       <div style={{ padding: 8, display: 'flex', justifyContent: 'space-around', marginTop: 16 }}>
-                        <button className="success-btn">اعمال</button>
-                        <button className="info-btn" onClick={handlePriceClose}>
+                        <button
+                          className="success-btn"
+                          onClick={() => {
+                            setQueryObject(old => ({ ...old, min_price: value[0], max_price: value[1] }));
+                            setChosePriceValue(value);
+                            handlePriceClose();
+                          }}
+                        >
+                          اعمال
+                        </button>
+                        <button
+                          className="info-btn"
+                          onClick={() => {
+                            setValue(chosePriceValue);
+                            handlePriceClose();
+                          }}
+                        >
                           بازگشت
                         </button>
                       </div>
@@ -391,7 +497,13 @@ const Filters = () => {
                     }}
                   >
                     <div style={{ maxWidth: '250px' }}>
-                      <RadioGroup aria-label="gender" defaultValue="any" name="radio-buttons-group">
+                      <RadioGroup
+                        aria-label="gender"
+                        defaultValue="any"
+                        value={age}
+                        onChange={e => setAge(e.target.value)}
+                        name="radio-buttons-group"
+                      >
                         <FormControlLabel value="any" control={<Radio />} label="هر سنی" />
                         <FormControlLabel value="4-7" control={<Radio />} label="۴ تا ۷ سال" />
                         <FormControlLabel value="7-10" control={<Radio />} label="۷ تا ۱۰ سال" />
@@ -402,8 +514,27 @@ const Filters = () => {
                         <FormControlLabel value="4-18" control={<Radio />} label="۴ تا ۱۸ سال" />
                       </RadioGroup>
                       <div style={{ padding: 8, display: 'flex', justifyContent: 'space-around', marginBottom: 16 }}>
-                        <button className="success-btn">اعمال</button>
-                        <button className="info-btn" onClick={handleAgeClose}>
+                        <button
+                          className="success-btn"
+                          onClick={() => {
+                            setChoseAge(age);
+                            handleAgeClose();
+                            setQueryObject(old => ({
+                              ...old,
+                              min_age: age == 'any' ? 0 : age.split('-')[0],
+                              max_age: age == 'any' ? 18 : age.split('-')[1],
+                            }));
+                          }}
+                        >
+                          اعمال
+                        </button>
+                        <button
+                          className="info-btn"
+                          onClick={() => {
+                            setAge(choseAge);
+                            handleAgeClose();
+                          }}
+                        >
                           بازگشت
                         </button>
                       </div>
@@ -411,7 +542,7 @@ const Filters = () => {
                   </Menu>
                 </div>
 
-                <div className="filters__filter-wrapper">
+                {/* <div className="filters__filter-wrapper">
                   <div onClick={handleDateClick} className="filters__filter">
                     هر روزی...
                   </div>
@@ -434,7 +565,7 @@ const Filters = () => {
                   >
                     <AnyDateOrTime />
                   </Menu>
-                </div>
+                </div> */}
                 <div className="filters__filter-wrapper">
                   <div onClick={() => startDatePickerRef.current.openCalendar()} className="filters__filter">
                     {startDate ? convertNumberToPersian(`از تاریخ:‌ ${startDate.toString()}`) : 'از تاریخ...'}
@@ -451,9 +582,7 @@ const Filters = () => {
                 {categoryData.map(catData => (
                   <div
                     onClick={() => {
-                      history.push({
-                        search: '?' + new URLSearchParams({ category: catData.id }).toString(),
-                      });
+                      setQueryObject(old => ({ ...old, category: catData.id }));
                       setActiveCategory(catData.id);
                     }}
                     className={`filters__subject${catData.id == activeCategory ? ' active' : ''}`}
@@ -515,7 +644,13 @@ const Filters = () => {
               </div>
               <div style={{ margin: '32px 0' }}>
                 <div>سن: </div>
-                <RadioGroup aria-label="gender" defaultValue="any" name="radio-buttons-group">
+                <RadioGroup
+                  value={age}
+                  onChange={e => setAge(e.target.value)}
+                  aria-label="gender"
+                  defaultValue="any"
+                  name="radio-buttons-group"
+                >
                   <FormControlLabel value="any" control={<Radio />} label="هر سنی" />
                   <FormControlLabel value="4-7" control={<Radio />} label="۴ تا ۷ سال" />
                   <FormControlLabel value="7-10" control={<Radio />} label="۷ تا ۱۰ سال" />
@@ -527,9 +662,9 @@ const Filters = () => {
                 </RadioGroup>
               </div>
 
-              <div style={{ margin: '32px 0' }}>
+              {/* <div style={{ margin: '32px 0' }}>
                 <AnyDateOrTime />
-              </div>
+              </div> */}
               <div className="filters__filter-wrapper">
                 <div onClick={() => startDatePickerRef.current.openCalendar()} className="filters__filter">
                   {startDate ? convertNumberToPersian(`از تاریخ:‌ ${startDate.toString()}`) : 'از تاریخ...'}
@@ -547,17 +682,42 @@ const Filters = () => {
               <div className="filters__subjects">
                 {categoryData.map(catData => (
                   <div
-                    onClick={toggleSubjectFilter}
-                    className={`filters__subject${catData.id == category ? ' active' : ''}`}
+                    onClick={() => {
+                      setQueryObject(old => ({ ...old, category: catData.id }));
+                      setActiveCategory(catData.id);
+                    }}
+                    className={`filters__subject${catData.id == activeCategory ? ' active' : ''}`}
                   >
                     {catData.title}
                   </div>
                 ))}
               </div>
               <div style={{ padding: 8, display: 'flex', justifyContent: 'space-around', marginBottom: 16 }}>
-                <button className="success-btn">اعمال</button>
-                <button className="info-btn" onClick={handleFiltersModalClose}>
-                  بازگشت
+                <button
+                  className="success-btn"
+                  onClick={() => {
+                    setChosePriceValue(value);
+                    handleFiltersModalClose();
+                  }}
+                >
+                  مشاهده دروس
+                </button>
+                <button
+                  className="info-btn"
+                  onClick={() => {
+                    setAge('any');
+                    setChoseAge('any');
+                    setSearchString('');
+                    setChosePriceValue([0, 200000]);
+                    setValue([0, 2000000]);
+                    setStartDate(null);
+                    setEndDate(null);
+                    setActiveCategory(null);
+                    setQueryObject({});
+                    // handleFiltersModalClose();
+                  }}
+                >
+                  ریست
                 </button>
               </div>
             </div>
@@ -571,11 +731,16 @@ const Filters = () => {
       <div style={{ zIndex: 2000, position: 'relative' }}>
         <DatePicker
           minDate={new Date()}
+          maxDate={endDate}
           ref={startDatePickerRef}
           inputClass="hidden-date-picker"
           className="rmdp-mobile"
           onChange={date => {
             setStartDate(date);
+            setQueryObject(old => ({
+              ...old,
+              start_date: convertNumberToEnglish(date.toString().split('/').join('-')),
+            }));
           }}
           calendar={persian}
           locale={persian_fa}
@@ -587,6 +752,7 @@ const Filters = () => {
           className="rmdp-mobile"
           onChange={date => {
             setEndDate(date);
+            setQueryObject(old => ({ ...old, end_date: convertNumberToEnglish(date.toString().split('/').join('-')) }));
           }}
           calendar={persian}
           locale={persian_fa}
