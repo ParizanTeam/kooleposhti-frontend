@@ -1,5 +1,9 @@
 @import '../../theme/main.scss';
 
+.teacher-public-profile-navbar {
+  margin-bottom: 60px;
+}
+
 .image {
   width: 83%;
   height: auto;
@@ -16,7 +20,6 @@
   border: 3px solid rgb(25, 114, 129);
   padding: 28px 40px;
   border-radius: 25px;
-
 }
 
 .teacher-public-profile-about-me__text {

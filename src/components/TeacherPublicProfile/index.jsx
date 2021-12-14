@@ -32,6 +32,8 @@ import { baseUrl } from '../../utils/constants';
 import image from '../../assets/images/banner.png';
 import ReactHtmlParser from 'react-html-parser';
 import { useLocation } from 'react-router-dom';
+import Navbar from '../Navbar';
+import Footer from '../Footer';
 import './style.scss';
 
 function TeacherPublicProfile(props) {
@@ -51,7 +53,7 @@ function TeacherPublicProfile(props) {
 
   useEffect(() => {
     function fetchData() {
-      if (teacher_username === "public-profile") {
+      if (teacher_username === 'public-profile') {
         const res = axios
           .get(`${baseUrl}/accounts/profile/update-profile/`, {
             headers: {
@@ -228,7 +230,7 @@ function TeacherPublicProfile(props) {
       <div className="My-courses-section">
         <h2 className="My-courses-section__title">لیست کلاس ها</h2>
         <div className="My-carousal-container">
-        <Grid sx={{ width: { xl: '100%', md: '85%', sm: '65vmin', xs: '90vmin' } }}>
+          <Grid sx={{ width: { xl: '100%', md: '85%', sm: '65vmin', xs: '90vmin' } }}>
             {teacherData.courses.length === 0 && (
               <p className="teacher-public-profile-about-me__text">کلاسی برای نمایش وجود نداره !!!</p>
             )}
@@ -266,49 +268,57 @@ function TeacherPublicProfile(props) {
   };
 
   return (
-    <Box>
-      {loading && (
-        <Grid container direction="column" alignItems="center" justifyContent="center" style={{ minHeight: '100vh' }}>
-          <Grid item xs={12}>
-            <ReactLoading type="spinningBubbles" color="rgb(42, 105, 129)" height={100} width={100} />
-          </Grid>
-        </Grid>
-      )}
-      {!loading && (
-        <div>
-          <div>{teacher_profile1}</div>
-          <Grid
-            container
-            sx={{
-              flexDirection: 'column',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Grid item xs={12} sx={{ mt: 3 }}>
-              <Typography variant="h4">درباره من</Typography>
-            </Grid>
-            <Grid item xs={12} maxWidth="68%" sx={{ mt: 5 }} minWidth="68%">
-              <div className="abut-me_wrapper">
-                <Typography variant="body" className="about-me">
-                  {teacherData.bio && ReactHtmlParser(teacherData.bio)}
+    <>
+      <div style={{ marginBottom: 72 }}>
+        <Navbar color="#fd576c" style={{ display: teacher_username == 'public-profile' ? 'block' : 'none' }} />
+      </div>
 
-                  {!teacherData.bio && (
-                    <p className="teacher-public-profile-about-me__text">متنی برای نمایش وجود نداره !!!</p>
-                  )}
-                </Typography>
-              </div>
-            </Grid>
-            <Grid item xs={12} sx={{ mt: -30 }}>
-              <div className="afterMyC-a">
-                <TeacherClasses />
-              </div>
+      {/* {teacher_username == 'public-profile' ? } */}
+      <Box className="teacher-public-profile">
+        {loading && (
+          <Grid container direction="column" alignItems="center" justifyContent="center" style={{ minHeight: '100vh' }}>
+            <Grid item xs={12}>
+              <ReactLoading type="spinningBubbles" color="rgb(42, 105, 129)" height={100} width={100} />
             </Grid>
           </Grid>
-        </div>
-      )}
-    </Box>
+        )}
+        {!loading && (
+          <div>
+            <div>{teacher_profile1}</div>
+            <Grid
+              container
+              sx={{
+                flexDirection: 'column',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Grid item xs={12} sx={{ mt: 3 }}>
+                <Typography variant="h4">درباره من</Typography>
+              </Grid>
+              <Grid item xs={12} maxWidth="68%" sx={{ mt: 5 }} minWidth="68%">
+                <div className="abut-me_wrapper">
+                  <Typography variant="body" className="about-me">
+                    {teacherData.bio && ReactHtmlParser(teacherData.bio)}
+
+                    {!teacherData.bio && (
+                      <p className="teacher-public-profile-about-me__text">متنی برای نمایش وجود نداره !!!</p>
+                    )}
+                  </Typography>
+                </div>
+              </Grid>
+              <Grid item xs={12} sx={{ mt: -30 }}>
+                <div className="afterMyC-a">
+                  <TeacherClasses />
+                </div>
+              </Grid>
+            </Grid>
+          </div>
+        )}
+      </Box>
+      <Footer style={{ display: teacher_username == 'public-profile' ? 'block' : 'none' }} />
+    </>
   );
 }
 
