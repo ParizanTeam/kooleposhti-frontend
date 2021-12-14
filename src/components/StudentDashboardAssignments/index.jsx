@@ -21,6 +21,9 @@ import ReactLoading from 'react-loading';
 
 import ReactHtmlParser from 'react-html-parser';
 import { changeDateFormat2 } from '../../utils/helpers';
+import { useSelector } from 'react-redux';
+
+
 function MyAssignments() {
   const [loading, setLoading] = React.useState(true);
 
@@ -81,7 +84,7 @@ function MyAssignments() {
                       درس: {assignment.course.title}
                     </Typography>
                   )}
-                  <Typography variant="h6" align="right" sx={{ marginBottom: '10px', color: '#c83636' }}>
+                  <Typography className="Mycolor" variant="h6" align="right" sx={{ marginBottom: '10px' }}>
                     صورت سوال:
                   </Typography>
                   <div className="assignment-question">{ReactHtmlParser(assignment.question)}</div>
@@ -93,7 +96,7 @@ function MyAssignments() {
                     </Button>
                   </div>
                   <div className="SecBt">
-                    <Button component={Link} to={`/dashboard/class/${assignment.course.id}/assignments/${assignment.id}`}>
+                    <Button component={Link} to={`/dashboard/class/${assignment.course.id}/assignments/view/${assignment.id}`}>
                       <p className="Mycolor">بریم به صفحه این تمرین</p>
                     </Button>
                   </div>
@@ -109,10 +112,12 @@ function MyAssignments() {
 
 
 const StudentDashboardAssignments = () => {
+  const themeProps = useSelector(state => state.theme);
+
   return (
   <div>
     <StudentDashboardHeader/>
-    <img src='https://8pic.ir/uploads/1307925801537355428-128.png' alt='cc' className='ccImg'/>
+    <img src={themeProps.btnLabel} alt='cc' className='ccImg'/>
     <br/>
     <div className="afterMyC-b">
       <MyAssignments />

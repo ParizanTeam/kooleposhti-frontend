@@ -2,4 +2,4 @@
 import createBrowserHistory from 'history/createBrowserHistory';
 export const history = createBrowserHistory();
 
-export const baseUrl = 'https://api.kooleposhti.tk/api/v1';
+export const baseUrl = 'https://kooleposhti.ml/api/v1';

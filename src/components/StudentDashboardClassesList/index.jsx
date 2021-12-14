@@ -65,7 +65,7 @@ const StudentDashboardClassesList = () => {
     <div>
       <StudentDashboardHeader />
       <ThemeProvider theme={customTheme}>
-        <img src="https://8pic.ir/uploads/1307925801537355428-128.png" alt="cs" className="csImg" />
+        <img src={themeProps.btnLabel} alt="cs" className="csImg" />
         <br />
         <div className="afterMyC-c studentdash ">
           <div style={{ marginRight: '100px' }}>
