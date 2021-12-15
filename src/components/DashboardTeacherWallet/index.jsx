@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography, Grid, Button, Avatar, TextField } from '@mui/material';
 import DashboardTeacherBankAccount from '../DashboardTeacherBankAccount';
 import rtlPlugin from 'stylis-plugin-rtl';
@@ -10,7 +10,7 @@ import './style.scss';
 import { convertNumberToPersian, formatPrice } from '../../utils/helpers';
 
 function DashboardTeacherWallet(props) {
-  const [price, setPrice] = useState('');
+  const [price, setPrice] = useState(null);
   const cacheRtl = createCache({
     key: 'muirtl',
 
@@ -18,6 +18,7 @@ function DashboardTeacherWallet(props) {
 
     prepend: true,
   });
+
 
   return (
     <CacheProvider value={cacheRtl}>
@@ -33,7 +34,7 @@ function DashboardTeacherWallet(props) {
               start={0}
               end={120 * 1000}
               formattingFn={count => formatPrice(convertNumberToPersian(count)) + ' تومان'}
-              duration={2.75}
+              duration={price === null ? 2.75 : 0}
               separator=" "
               prefix=""
               suffix="تومان"
@@ -48,7 +49,10 @@ function DashboardTeacherWallet(props) {
               <input
                 value={price}
                 className="wallet-withdraw__textfield"
-                onChange={e => setPrice(convertNumberToPersian(e.target.value))}
+                onChange={e => setPrice(formatPrice(convertNumberToPersian(e.target.value)))}
+                maxLength={9}
+                data-type="currency"
+                
               />
               تومان را
               <Button className="wallet-withdraw__button">برداشت</Button>

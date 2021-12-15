@@ -14,6 +14,7 @@ import {
   Grid,
   useMediaQuery,
   Button,
+  Container,
 } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -146,12 +147,13 @@ function BaseDashboard(props) {
                 }}
               >
                 <Toolbar>
+        
                   <IconButton
                     color="inherit"
                     aria-label="open drawer"
                     edge="start"
                     onClick={handleDrawerToggle}
-                    sx={{ mr: 2, display: useMediaQuery('(max-width: 600px)') ? 'block' : 'none' }}
+                    sx={{ mr: 2, display: useMediaQuery('(max-width: 600px)') ? 'block' : 'none', paddingTop:2.5 }}
                   >
                     <MenuIcon />
                   </IconButton>
@@ -183,6 +185,7 @@ function BaseDashboard(props) {
                       </Typography>
                     </Button>
                   </Box>
+             
                 </Toolbar>
               </AppBar>
 

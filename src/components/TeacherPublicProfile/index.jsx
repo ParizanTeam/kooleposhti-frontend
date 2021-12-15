@@ -245,6 +245,7 @@ function TeacherPublicProfile(props) {
               >
                 {teacherData.courses.map(item => (
                   <SwiperSlide key={item.id}>
+                    <Link to={`/courses/${item.id}`}>
                     <CourseCard
                       title={item.title === undefined ? 'title' : item.title}
                       teacherName={
@@ -256,6 +257,7 @@ function TeacherPublicProfile(props) {
                       teacherImgSrc={teacherData.image === null ? profile_1 : teacherData.image.image}
                       imgSrc={item.imgSrc === undefined ? image : item.imgSrc}
                     />
+                    </Link>
                   </SwiperSlide>
                 ))}
               </Swiper>

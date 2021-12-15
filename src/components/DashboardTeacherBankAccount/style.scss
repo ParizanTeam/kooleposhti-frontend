@@ -55,21 +55,21 @@
   }
 
   @media (max-width: 900px) {
-    font-size: 4vmin !important;
+    font-size: 3.8vmin !important;
     width: 10vmin !important;
     margin-bottom: 2.8vmin !important;
     margin-top: 5vmin !important;
   }
 
   @media (max-width: 700px) {
-    font-size: 4vmin !important;
+    font-size: 3.5vmin !important;
     width: 10vmin !important;
     margin-bottom: 0vmin !important;
     margin-top: 3.5vmin !important;
   }
 
   @media (max-width: 600px) {
-    font-size: 7vmin !important;
+    font-size: 5.5vmin !important;
     width: 15vmin !important;
     margin-bottom: 3vmin !important;
     margin-top: 6.5vmin !important;
@@ -157,7 +157,10 @@
   &::placeholder {
     color: rgb(201, 193, 193);
     font-weight: 1000px !important;
-    letter-spacing: 3px !important;
+    letter-spacing: 5px !important;
+    text-align: center !important;
+    align-items: center !important;
+    justify-content: center !important;
     @media (min-width: 900px) {
       letter-spacing: 3.5px !important;
 
