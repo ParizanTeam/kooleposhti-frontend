@@ -19,7 +19,15 @@ const TeacherProfileCard = ({ instructor }) => {
           </div>
           <Link to={`/public-profile/teacher/${instructor.username}`}>
             <div className="teacher-profile__avatar">
-              {instructor.image && <img src={instructor.image.image} alt="" />}
+              {instructor.image && (
+                <img
+                  src={
+                    instructor.image.image ||
+                    'https://www.pinclipart.com/picdir/middle/148-1486972_mystery-man-avatar-circle-clipart.png'
+                  }
+                  alt=""
+                />
+              )}
             </div>
           </Link>
         </div>

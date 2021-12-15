@@ -49,7 +49,7 @@ function DashboardTeacherWallet(props) {
               <input
                 value={price}
                 className="wallet-withdraw__textfield"
-                onChange={e => setPrice(formatPrice(convertNumberToPersian(e.target.value)))}
+                onChange={e => setPrice(convertNumberToPersian(e.target.value))}
                 maxLength={9}
                 data-type="currency"
                 

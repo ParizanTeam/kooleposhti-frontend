@@ -11,8 +11,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    max-width: 100%;
-    width: 1024px;
+    max-width: 1024px;
+    width: 100%;
   }
 
   &:hover {
@@ -21,12 +21,13 @@
   }
 
   &__content {
+    flex-grow: 1;
     padding: 0 24px;
   }
 
   &__img-wrapper {
-    width: 240px;
-    height: 150px;
+    min-width: 240px;
+    min-height: 150px;
     border-radius: 8px;
   }
 
@@ -80,6 +81,7 @@
 
     &__name {
       margin-right: 8px;
+      color: #333;
       font-size: 14px;
     }
   }
@@ -124,6 +126,7 @@
     &__img-wrapper {
       width: 100%;
       height: auto;
+      background-color: unset;
       max-height: 300px;
       border-radius: 8px;
     }
@@ -137,6 +140,11 @@
 
     &__date-price-wrapper {
       flex-direction: column;
+    }
+
+    &__price {
+      margin-top: 8px;
+      margin-right: 4px;
     }
   }
 }

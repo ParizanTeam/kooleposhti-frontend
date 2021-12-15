@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useReducer } from 'react';
 import { Rating } from '@mui/material';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
+import ReactLoading from 'react-loading';
 import StarOutlineRoundedIcon from '@mui/icons-material/StarOutlineRounded';
 import { useMediaQuery, Typography } from '@mui/material';
 import Menu from '@mui/material/Menu';
@@ -21,16 +22,17 @@ import persian_fa from 'react-date-object/locales/persian_fa';
 import DateObject from 'react-date-object';
 import './style.scss';
 import { Fragment } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { categoryData } from '../Categories/categoriesData';
 import apiInstance from '../../utils/axiosConfig';
 import { baseUrl } from '../../utils/constants';
+import { Helmet } from 'react-helmet';
 
 const classesData = [
   {
     classImg:
       'https://process.filepicker.io/APHE465sSbqvbOIStdwTyz/rotate=deg:exif/resize=height:358,width:688/output=quality:80,compress:true,strip:true,format:jpg/cache=expiry:max/https://cdn.filestackcontent.com/2Bwlvhj4TbavIVOKkWLe',
-    age: '۳-۷',
+    age: '۳ تا ۷ سال',
     title: 'آزمایش‌های علمی رنگارنگ',
     description:
       'در این کلاس کودکان به انجام آزمایش‌های علمی و رنگارنگ گوناگون برای آشنایی بیشتر با رنگ‌ها می‌پردازند و کار با آن ها را یاد می‌گیرند.',
@@ -43,7 +45,7 @@ const classesData = [
   {
     classImg:
       'https://process.filepicker.io/APHE465sSbqvbOIStdwTyz/rotate=deg:exif/resize=height:358,width:688/output=quality:80,compress:true,strip:true,format:jpg/cache=expiry:max/https://cdn.filestackcontent.com/Ce1jWv9fRTacTUoBbbpN',
-    age: '۳-۷',
+    age: '۳ تا ۷ سال',
     title: 'آزمایش‌های علمی رنگارنگ',
     description:
       'در این کلاس کودکان به انجام آزمایش‌های علمی و رنگارنگ گوناگون برای آشنایی بیشتر با رنگ‌ها می‌پردازند.',
@@ -56,7 +58,7 @@ const classesData = [
   {
     classImg:
       'https://process.filepicker.io/APHE465sSbqvbOIStdwTyz/rotate=deg:exif/resize=height:358,width:688/output=quality:80,compress:true,strip:true,format:jpg/cache=expiry:max/https://cdn.filestackcontent.com/RNiXoCtTjmranNXeeOWw',
-    age: '۳-۷',
+    age: '۳ تا ۷ سال',
     title: 'آزمایش‌های علمی رنگارنگ',
     description:
       'در این کلاس کودکان به انجام آزمایش‌های علمی و رنگارنگ گوناگون برای آشنایی بیشتر با رنگ‌ها می‌پردازند.',
@@ -69,7 +71,7 @@ const classesData = [
   {
     classImg:
       'https://process.filepicker.io/APHE465sSbqvbOIStdwTyz/rotate=deg:exif/resize=height:358,width:688/output=quality:80,compress:true,strip:true,format:jpg/cache=expiry:max/https://cdn.filestackcontent.com/2Bwlvhj4TbavIVOKkWLe',
-    age: '۳-۷',
+    age: '۳ تا ۷ سال',
     title: 'آزمایش‌های علمی رنگارنگ',
     description:
       'در این کلاس کودکان به انجام آزمایش‌های علمی و رنگارنگ گوناگون برای آشنایی بیشتر با رنگ‌ها می‌پردازند.',
@@ -82,7 +84,7 @@ const classesData = [
   {
     classImg:
       'https://process.filepicker.io/APHE465sSbqvbOIStdwTyz/rotate=deg:exif/resize=height:358,width:688/output=quality:80,compress:true,strip:true,format:jpg/cache=expiry:max/https://cdn.filestackcontent.com/Ce1jWv9fRTacTUoBbbpN',
-    age: '۳-۷',
+    age: '۳ تا ۷ سال',
     title: 'آزمایش‌های علمی رنگارنگ',
     description:
       'در این کلاس کودکان به انجام آزمایش‌های علمی و رنگارنگ گوناگون برای آشنایی بیشتر با رنگ‌ها می‌پردازند.',
@@ -95,7 +97,7 @@ const classesData = [
   {
     classImg:
       'https://process.filepicker.io/APHE465sSbqvbOIStdwTyz/rotate=deg:exif/resize=height:358,width:688/output=quality:80,compress:true,strip:true,format:jpg/cache=expiry:max/https://cdn.filestackcontent.com/RNiXoCtTjmranNXeeOWw',
-    age: '۳-۷',
+    age: '۳ تا ۷ سال',
     title: 'آزمایش‌های علمی رنگارنگ',
     description:
       'در این کلاس کودکان به انجام آزمایش‌های علمی و رنگارنگ گوناگون برای آشنایی بیشتر با رنگ‌ها می‌پردازند.',
@@ -214,42 +216,44 @@ export const AnyDateOrTime = () => {
 const ClassCard = ({ classData }) => {
   const { classImg, age, title, description, teacherImg, teacherName, rating, date, price } = classData;
   return (
-    <div className="class-card">
-      <div className="class-card-wrapper">
-        <div className="class-card__img-wrapper">
-          <img className="class-card__img" src={classImg} alt={title} />
-        </div>
-        <div className="class-card__content">
-          <div className="class-card__age">سن {age}</div>
-          <h3 className="class-card__title">{title}</h3>
-          <p className="class-card__description">{description}</p>
-          <div className="class-card__teacher-rating-wrapper">
-            <div className="class-teacher-card">
-              <div className="class-teacher-card__img-wrapper">
-                <img className="class-teacher-card__img" src={teacherImg} alt="" />
-              </div>
-              <div className="class-teacher-card__name">{teacherName}</div>
-            </div>
-            <div className="class-card__rating" dir="ltr">
-              <Rating
-                size="small"
-                value={rating}
-                precision={0.5}
-                icon={<StarRoundedIcon />}
-                emptyIcon={<StarOutlineRoundedIcon />}
-                readOnly
-              />
-            </div>
+    <Link to={`/courses/${classData.id}`}>
+      <div className="class-card">
+        <div className="class-card-wrapper">
+          <div className="class-card__img-wrapper">
+            <img className="class-card__img" src={classImg} alt={title} />
           </div>
-          <div className="class-card__date-price-wrapper">
-            <div className="class-card__date">
-              <EventNoteIcon /> {date}
+          <div className="class-card__content">
+            <div className="class-card__age">سن {age}</div>
+            <h3 className="class-card__title">{title}</h3>
+            <p className="class-card__description">{description}</p>
+            <div className="class-card__teacher-rating-wrapper">
+              <div className="class-teacher-card">
+                <div className="class-teacher-card__img-wrapper">
+                  <img className="class-teacher-card__img" src={teacherImg} alt="" />
+                </div>
+                <div className="class-teacher-card__name">{teacherName}</div>
+              </div>
+              <div className="class-card__rating" dir="ltr">
+                <Rating
+                  size="small"
+                  value={rating}
+                  precision={0.5}
+                  icon={<StarRoundedIcon />}
+                  emptyIcon={<StarOutlineRoundedIcon />}
+                  readOnly
+                />
+              </div>
             </div>
-            <div className="class-card__price">{formatPrice(convertNumberToPersian(price))} تومان</div>
+            <div className="class-card__date-price-wrapper">
+              <div className="class-card__date">
+                <EventNoteIcon /> {date}
+              </div>
+              <div className="class-card__price">{formatPrice(convertNumberToPersian(price))} تومان</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
@@ -273,6 +277,8 @@ const Filters = () => {
   const [choseAge, setChoseAge] = useState('any');
   const [searchString, setSearchString] = useState('');
   const [queryObject, setQueryObject] = useState(category ? { category: category } : {});
+  const [apiLoading, setApiLoading] = useState(false);
+  const [classes, setClasses] = useState(classesData);
 
   const handleFiltersModalClose = () => {
     setOpenFiltersModal(false);
@@ -307,17 +313,6 @@ const Filters = () => {
   };
 
   const toggleSubjectFilter = e => e.target.classList.toggle('active');
-
-  useEffect(() => {
-    apiInstance
-      .get(
-        `${baseUrl}/courses/?price__gt=50000&price__lt=&start_date__gt=1400-9-20&start_date__lt=1400-9-22&age_lte=10&age_gte=4&search=${searchString}`
-      )
-      .then(res => {
-        console.log(res.data.results, ')))))))))))))))');
-      });
-  }, []);
-
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -344,8 +339,53 @@ const Filters = () => {
     });
   }, [queryObject]);
 
+  useEffect(() => {
+    getClasses();
+  }, []);
+
+  const getClasses = async (query = queryObject) => {
+    setApiLoading(true);
+    apiInstance
+      .get(
+        `${baseUrl}/courses/?price__gte=${query.min_price || ''}&price__lte=${query.max_price || ''}&start_date__gt=${
+          query.start_date || ''
+        }&start_date__lt=${query.end_date || ''}&age_lte=${query.max_age || ''}&age_gte=${query.min_age || ''}&search=${
+          query.search || ''
+        }&${query.category ? `categories=${query.category}` : ''}`
+      )
+      .then(res => {
+        console.log(res.data.results, '@@@@@@@');
+        setClasses(() =>
+          res.data.results.map(classData => ({
+            classImg:
+              classData.image || 'https://www.inklyo.com/wp-content/uploads/How-to-Succeed-in-an-Online-Course.jpg',
+            age: convertNumberToPersian(`${classData.min_age} تا ${classData.max_age} سال`),
+            title: classData.title,
+            description: classData.description,
+            teacherImg:
+              (classData.instructor.image && classData.instructor.image.image) ||
+              'https://www.pinclipart.com/picdir/middle/148-1486972_mystery-man-avatar-circle-clipart.png',
+            teacherName:
+              classData.instructor.first_name == 'null' || classData.instructor.last_name == 'null'
+                ? classData.instructor.first_name + ' ' + classData.instructor.last_name
+                : classData.instructor.username,
+            rating: classData.rate,
+            date: `از ${convertNumberToPersian(classData.start_date.split('-').join('/'))} تا ${convertNumberToPersian(
+              classData.end_date.split('-').join('/')
+            )}`,
+            price: classData.price,
+            id: classData.id,
+          }))
+        );
+        setApiLoading(false);
+      });
+  };
+
   return (
     <Fragment>
+      <Helmet>
+        <title>کلاس‌ها</title>
+      </Helmet>
       <Navbar color="#fd576c" />
       <div className="filters-page">
         <h1 className="filters-page__title">پیداکردن کلاس مورد نظر</h1>
@@ -364,6 +404,7 @@ const Filters = () => {
                 className="filters__search-icon"
                 onClick={() => {
                   setQueryObject(old => ({ ...old, search: searchString }));
+                  getClasses();
                 }}
               >
                 <SearchIcon />
@@ -373,12 +414,16 @@ const Filters = () => {
                 onSubmit={e => {
                   e.preventDefault();
                   setQueryObject(old => ({ ...old, search: searchString }));
+                  getClasses();
                 }}
               >
                 <input
                   style={{ width: '100%' }}
                   value={searchString}
-                  onChange={e => setSearchString(e.target.value)}
+                  onChange={e => {
+                    setQueryObject(old => ({ ...old, search: searchString }));
+                    setSearchString(e.target.value);
+                  }}
                   placeholder="جستجوی در نام کلاس..."
                   className="filters__search-input"
                 />
@@ -387,7 +432,13 @@ const Filters = () => {
 
             {!isMobile && (
               <>
-                <button style={{ marginLeft: 16 }} className="success-btn" onClick={() => {}}>
+                <button
+                  style={{ marginLeft: 16 }}
+                  className="success-btn"
+                  onClick={() => {
+                    getClasses();
+                  }}
+                >
                   مشاهده دروس
                 </button>
                 <button
@@ -402,11 +453,13 @@ const Filters = () => {
                     setEndDate(null);
                     setActiveCategory(null);
                     setQueryObject({});
+                    getClasses({});
+
                     // handleFiltersModalClose();
                   }}
                 >
                   ریست
-                </button>{' '}
+                </button>
               </>
             )}
           </div>
@@ -697,6 +750,15 @@ const Filters = () => {
                   className="success-btn"
                   onClick={() => {
                     setChosePriceValue(value);
+                    setChoseAge(age);
+                    setQueryObject(old => ({ ...old, min_price: value[0], max_price: value[1] }));
+                    getClasses({
+                      ...queryObject,
+                      min_price: value[0],
+                      max_price: value[1],
+                      min_age: age == 'any' ? 0 : age.split('-')[0],
+                      max_age: age == 'any' ? 18 : age.split('-')[1],
+                    });
                     handleFiltersModalClose();
                   }}
                 >
@@ -714,6 +776,7 @@ const Filters = () => {
                     setEndDate(null);
                     setActiveCategory(null);
                     setQueryObject({});
+                    // getClasses({});
                     // handleFiltersModalClose();
                   }}
                 >
@@ -723,14 +786,30 @@ const Filters = () => {
             </div>
           </Fade>
         </Modal>
-
-        {classesData.map(classData => (
-          <ClassCard classData={classData} />
-        ))}
+        <div style={{ minHeight: 300 }}>
+          {apiLoading && (
+            <div style={{ display: 'flex', justifyContent: 'center', padding: 'auto', marginTop: 64 }}>
+              <ReactLoading type="spinningBubbles" color="#EF006C" height={100} width={100} />
+            </div>
+          )}
+          {!apiLoading && (
+            <>
+              {classes.length == 0 ? (
+                <div
+                  style={{ display: 'flex', justifyContent: 'center', marginTop: 32, fontSize: 20, fontWeight: 600 }}
+                >
+                  هیچ کلاسی یافت نشد!
+                </div>
+              ) : (
+                classes.map(classData => <ClassCard classData={classData} />)
+              )}
+            </>
+          )}
+        </div>
       </div>
       <div style={{ zIndex: 2000, position: 'relative' }}>
         <DatePicker
-          minDate={new Date()}
+          // minDate={new Date()}
           maxDate={endDate}
           ref={startDatePickerRef}
           inputClass="hidden-date-picker"

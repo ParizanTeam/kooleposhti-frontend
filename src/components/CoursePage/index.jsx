@@ -275,7 +275,10 @@ const CoursePage = () => {
                 <p className="course-header__remain">ظرفیت باقیمانده: {convertNumberToPersian(data.capacity)} نفر</p>
               </div>
               <div className="course-header__img">
-                <img src={data.image} alt="" />
+                <img
+                  src={data.image || 'https://www.inklyo.com/wp-content/uploads/How-to-Succeed-in-an-Online-Course.jpg'}
+                  alt=""
+                />
               </div>
             </div>
             <div className="course-tags">
