@@ -229,9 +229,9 @@ const ClassCard = ({ classData }) => {
             <div className="class-card__teacher-rating-wrapper">
               <div className="class-teacher-card">
                 <div className="class-teacher-card__img-wrapper">
-                  <img className="class-teacher-card__img" src={teacherImg} alt="" />
+                  <Link to={`/public-profile/teacher/${classData.teacherName}`}><img className="class-teacher-card__img" src={teacherImg} alt="" /></Link>
                 </div>
-                <div className="class-teacher-card__name">{teacherName}</div>
+                <Link to={`/public-profile/teacher/${classData.teacherName}`}><div className="class-teacher-card__name">{teacherName}</div></Link>
               </div>
               <div className="class-card__rating" dir="ltr">
                 <Rating
