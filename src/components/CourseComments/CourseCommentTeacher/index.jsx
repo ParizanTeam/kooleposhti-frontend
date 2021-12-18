@@ -13,14 +13,16 @@ function CourseCommentTeacher(props) {
             <Grid container>
               <Grid item xs={12}>
                 <Typography variant="body4" className="course-comment-teacher__name">
-                  {props.comment ? props.comment.username: "نام کاربری وجود ندارد"}
+                  {props.info ? `${props.info.fisrt_name} ${props.info.last_name}` : 'نام کاربری وجود ندارد'}
                 </Typography>
               </Grid>
               <Grid item xs={12} mt={1}>
-                <Typography className="course-comment-teacher__date">{convertNumberToPersian(props.comment ? props.comment.date : "تاریخی وجود ندارد")}</Typography>
+                <Typography className="course-comment-teacher__date">
+                  {convertNumberToPersian(props.info ? props.info.created_date : 'تاریخی وجود ندارد')}
+                </Typography>
               </Grid>
               <Grid item xs={12} mt={3} className="course-comment-teacher__text">
-                {props.comment ? props.comment.text : "پیامی وجود ندارد"}
+                {props.info ? props.info.text : 'پیامی وجود ندارد'}
               </Grid>
             </Grid>
           </div>

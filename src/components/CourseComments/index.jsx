@@ -3,8 +3,12 @@ import CourseComment from './CourseComment';
 import CourseAddComment from './CourseAddComment';
 import { Divider } from '@mui/material';
 import './style.scss';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import axios from 'axios';
+import { baseUrl } from '../../utils/constants';
 
-const comments = [
+const tmp_comments = [
   {
     studentComment: {
       date: '1400/10/05  12:52',
@@ -45,15 +49,61 @@ const comments = [
 ];
 
 function CourseComments(props) {
+  const [comments, setComments] = useState([]);
+  const [refresh, setRefresh] = useState(true);
+  const token = 'JWT ' + localStorage.getItem('access_token');
+
+  useEffect(() => {
+    async function fetchComments() {
+      console.log('salam');
+      const res = await axios
+        .get(`${baseUrl}/courses/${props.course_id}/comments/`, {
+          headers: {
+            Authorization: token,
+            'Content-Type': 'application/json',
+          },
+        })
+        .then(response => {
+          setComments(response.data);
+        })
+        .catch(err => {
+          console.log('error: ', err);
+        });
+    }
+
+    if (refresh) {
+      fetchComments();
+      setRefresh(false);
+    }
+  }, [refresh]);
+
   return (
     <React.Fragment>
       <div className="course-comments__card">
-        <CourseAddComment />
+        <CourseAddComment course_id={props.course_id} refresh={setRefresh} reply={false} />
         <Divider className="course-comments-divider"></Divider>
-        {/* <CourseComment /> */}
-        {comments.map((comment, index) => (
-          <CourseComment key={index} studentComment={comment.studentComment} teacherComment={comment.teacherComment} />
-        ))}
+
+        {comments.length !== 0 &&
+          comments.map((comment, index) => {
+            const studentComment = {
+              id: comment.id,
+              course_id: props.course_id,
+              created_date: comment.created_date,
+              username: comment.user.username,
+              first_name: comment.user.first_name,
+              last_name: comment.user.last_name,
+              image: comment.user.image.image,
+              comment: comment.text,
+            };
+            return (
+              <CourseComment
+                key={index}
+                studentComment={studentComment}
+                teacherComment={comment.reply}
+                refresh={setRefresh}
+              />
+            );
+          })}
       </div>
     </React.Fragment>
   );
