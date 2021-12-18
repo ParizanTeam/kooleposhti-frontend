@@ -2,9 +2,75 @@ import { react, Fragment } from 'react';
 import { Avatar, Grid, Typography, TextField, Button } from '@mui/material';
 import { convertNumberToPersian } from '../../../utils/helpers';
 import avatar from '../../../assets/images/profile_2.png';
+import axios from 'axios';
+import { baseUrl } from '../../../utils/constants';
 import './style.scss';
+import ReactLoading from 'react-loading';
+import { useRef } from 'react';
+import { useState } from 'react';
 
-const CourseAddComment = (props) => {
+const CourseAddComment = props => {
+  const comment = useRef();
+  const [loading, setLoading] = useState(false);
+  const token = 'JWT ' + localStorage.getItem('access_token');
+
+  const sendComment = async () => {
+    setLoading(true);
+    const body = { text: comment.current.value };
+    if (!props.reply) {
+      const res = await axios
+        .post(`${baseUrl}/courses/${props.course_id}/comments/`, body, {
+          headers: {
+            Authorization: token,
+            'Content-Type': 'application/json',
+          },
+        })
+        .then(response => {
+          props.refresh(true);
+          setLoading(false);
+        })
+        .catch(err => {
+          console.log('error: ', err);
+          setLoading(false);
+        });
+    } else {
+      if (!props.edit_mode) {
+        const res = await axios
+          .post(`${baseUrl}/courses/${props.course_id}/comments/${props.comment_id}/reply/`, body, {
+            headers: {
+              Authorization: token,
+              'Content-Type': 'application/json',
+            },
+          })
+          .then(response => {
+            props.refresh(true);
+            setLoading(false);
+          })
+          .catch(err => {
+            console.log('error: ', err);
+            setLoading(false);
+          });
+      } else {
+        const res = await axios
+          .put(`${baseUrl}/courses/${props.course_id}/comments/${props.comment_id}/reply/${props.reply_id}/`, body, {
+            headers: {
+              Authorization: token,
+              'Content-Type': 'application/json',
+            },
+          })
+          .then(response => {
+            props.refresh(true);
+            setLoading(false);
+            props.onReplyDone();
+          })
+          .catch(err => {
+            console.log('error: ', err);
+            setLoading(false);
+          });
+      }
+    }
+  };
+
   return (
     <Fragment>
       <Grid container>
@@ -17,11 +83,20 @@ const CourseAddComment = (props) => {
             className="CourseAddComment-textField"
             placeholder="نظر خود را در مورد این کلاس بنویسید."
             multiline
+            inputRef={comment}
+            inputProps={{ maxLength:100}}
+            
           ></TextField>
         </Grid>
-        <Grid xs={12} item className="course-add-comment-button__container" sx={{ mr: {xl:"2.5vmin" , lg:"4vmin", md:"4.5vmin", sm:"3vmin", xs:"-3vmin" } }}>
-          <Button type="submit" variant="contained" className="course-add-comment-button" onClick={props.onClick}>
-            ارسال نظر
+        <Grid
+          xs={12}
+          item
+          className="course-add-comment-button__container"
+          sx={{ mr: { xl: '2.5vmin', lg: '4vmin', md: '4.5vmin', sm: '3vmin', xs: '-3vmin' } }}
+        >
+          <Button type="submit" variant="contained" className="course-add-comment-button" onClick={sendComment}>
+            {!loading && <span>ارسال نظر</span>}
+            {loading && <ReactLoading type="bubbles" color="#fff" className="loading-signup" />}
           </Button>
         </Grid>
       </Grid>

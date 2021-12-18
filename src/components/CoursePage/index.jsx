@@ -355,7 +355,7 @@ const CoursePage = () => {
             </Modal>
             <div>
               <Typography className="course-header__title">نظرات شرکت کنندگان:</Typography>
-              <CourseComments />
+              <CourseComments course_id={courseId}/>
             </div>
           </div>
         )}
