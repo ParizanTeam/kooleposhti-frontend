@@ -1,0 +1,67 @@
+@import '/src/theme/main.scss';
+.afterMyC-c{
+  margin-top: 365px;
+}
+.csImg{
+  width: 32px;
+  margin-top: 301px;
+  margin-right: 59%;
+  height: 30px;
+  position: absolute;
+  @media (max-width: 800px) {
+    margin-right: 58%;
+  }
+  @media (max-width: 600px) {
+    width: 28px;
+    margin-right: 68%;
+    margin-top: 298px;
+  }
+}
+
+
+// .css-xbovjc-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline
+.studentdash {
+  .MuiSelect-select {
+    min-width: 125px;
+  }
+  .MuiCardActions-root {
+    display: flex;
+    justify-content: center;
+    border-top: 2px solid color(student-primary);
+    height: 60px;
+    a {
+      color: color(student-primary);
+      width: 100%;
+    }
+    background: radial-gradient(#ffffff, color(student-primary-light));
+  }
+  &__class-details {
+    display: flex;
+    justify-content: center;
+    span {
+      min-width: 45px;
+      display: inline-block;
+      text-align: right;
+    }
+    span:first-child {
+      text-align: right;
+    }
+  }
+
+  .MuiCard-root {
+    border-radius: 8;
+    max-width: 350px;
+    margin: 20px;
+    text-align: center;
+    box-shadow: 0px 20px 20px -17px color(student-primary);
+    -webkit-box-shadow: 0px 20px 20px -17px color(student-primary);
+    -moz-box-shadow: 0px 20px 20px -17px color(student-primary);
+    &:hover {
+      -webkit-box-shadow: 0px 20px 35px -16px color(student-primary);
+      -moz-box-shadow: 0px 20px 35px -16px color(student-primary);
+      box-shadow: 0px 20px 35px -16px color(student-primary);
+      transform: translateY(-5px);
+      transition: all 0.3s;
+    }
+  }
+}

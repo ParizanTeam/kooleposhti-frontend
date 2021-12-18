@@ -11,15 +11,18 @@ import CoursePage from '../components/CoursePage';
 import ClassDashboard from '../components/ClassDashboard';
 import ClassStudentInfo from '../components/ClassStudentsInfo';
 import TeacherDashboard from '../components/TeacherDashboard';
-import ClassSchedule from '../components/ClassSchedule';
-import BookMarkedClasses from '../components/BookMarkedClasses';
+import StudentDashboardClassesList from '../components/StudentDashboardClassesList';
+import StudentDashboardBookMarkedClasses from '../components/StudentDashboardBookMarkedClasses';
 import { Redirect } from 'react-router';
 import StudentProfile from '../components/StudentProfile';
-import ClassCalendar from '../components/ClassCalendar';
+import StudentDashboardAssignments from '../components/StudentDashboardAssignments';
 import StudentAssignments from '../components/StudentAssignments';
 import StudentAssignmentslist from '../components/StudentAssignmentslist';
 import StudentProfileCard from '../components/StudentProfileCard';
+import TeacherPublicProfile from '../components/TeacherPublicProfile';
 import { history } from '../utils/constants';
+import Filters from '../components/Filters';
+import BaseAssignments from '../components/BaseAssignments';
 
 const AppRouter = () => {
   return (
@@ -27,6 +30,9 @@ const AppRouter = () => {
       <Switch>
         <Route path="/" exact>
           <HomePage />
+        </Route>
+        <Route path="/public-profile/teacher/:username">
+          <TeacherPublicProfile />
         </Route>
         <Route path="/email-verification" exact render={props => <EmailVerification {...props} />} />
         <Route path="/login" exact>
@@ -65,19 +71,25 @@ const AppRouter = () => {
         <Route path="/:studentUsername/student-profile">
           <StudentProfileCard />
         </Route>
+        <Route path="/classes">
+          <Filters />
+        </Route>
         {/* student dasgboard classes url */}
         <Switch>
-          <Route path="/dashboard/student/schedule" exact>
-            <ClassSchedule />
+          <Route path="/dashboard/student/ClassesList" exact>
+            <StudentDashboardClassesList />
           </Route>
           <Route path="/dashboard/student/bookmarks" exact>
-            <BookMarkedClasses />
+            <StudentDashboardBookMarkedClasses />
           </Route>
           <Route path="/dashboard/student/" exact>
             <Redirect to="/dashboard/student/profile" />
           </Route>
-          <Route path="/dashboard/student/calendar">
-            <ClassCalendar />
+          <Route path="/dashboard/student/assignments" exact>
+            <StudentDashboardAssignments />
+          </Route>
+          <Route path="/dashboard/class/:courseId/assignments/view/:assignmentId">
+          <BaseAssignments />
           </Route>
           <Route path="/dashboard/student/profile">
             <StudentProfile />
@@ -92,7 +104,6 @@ const AppRouter = () => {
             <NotFoundPage />
           </Route>
         </Switch>
-
         {/* end student dasgboard classes url */}
       </Switch>
     </Router>

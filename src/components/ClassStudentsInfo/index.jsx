@@ -60,6 +60,7 @@ function ClassStudentInfo(props) {
   const handleClose = () => {
     setOpenModal(false);
   };
+  
   const [openModal, setOpenModal] = useState(false);
   const [modalConfirm, setModalConfirm] = useState(null);
   const [registerLoading, setRegisterLoading] = useState(false);
@@ -91,7 +92,7 @@ function ClassStudentInfo(props) {
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: 'rgba(10, 67, 94, 0.942)',
+      backgroundColor: 'rgb(227, 95, 120)',
       color: theme.palette.common.white,
     },
     [`&.${tableCellClasses.body}`]: {
@@ -204,6 +205,7 @@ function ClassStudentInfo(props) {
                         {rows.map(row => (
                           <StyledTableRow key={row.id}>
                             <StyledTableCell
+                              style={{ display: 'flex', justifyContent: 'center' }}
                               align="center"
                               className="course-student-info-table__image-holder"
                               onClick={() => {

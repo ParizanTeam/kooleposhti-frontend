@@ -7,7 +7,6 @@ import {
   TextField,
   Button,
   Grid,
-  Link,
   FormControl,
   InputLabel,
   Select,
@@ -24,7 +23,7 @@ import {
 } from '@mui/material';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
-import { useHistory, Link as routerLink } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import createCache from '@emotion/cache';
@@ -35,11 +34,11 @@ import rtl from 'jss-rtl';
 import axios from 'axios';
 import { login } from '../../store/actions';
 import { ToastContainer, toast } from 'react-toastify';
-import { Helmet } from 'react-helmet';
 import ReactLoading from 'react-loading';
+// import { Link } from 'react-router-dom';
 import './style.scss';
 import { margin } from '@mui/system';
-import {baseUrl} from "../../utils/constants";
+import { baseUrl } from '../../utils/constants';
 import { convertNumberToPersian, isPersianNumber } from '../../utils/helpers';
 
 const cacheRtl = createCache({
@@ -205,13 +204,10 @@ function CreateCourseStepTwo(props) {
     values.splice(index, 1);
     setPrerequisites(values);
   };
-
+  
   return (
     <CacheProvider value={rtl ? cacheRtl : cacheLtr}>
       <div dir="rtl">
-        <Helmet>
-          <title>ورود</title>
-        </Helmet>
         <ToastContainer rtl={true} position="bottom-center" />
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -262,13 +258,13 @@ function CreateCourseStepTwo(props) {
                 className="step-two-select-container"
               >
                 <InputLabel id="demo-simple-select-helper-label" margin="normal">
-                  رده سنی
+                  رده سنی*
                 </InputLabel>
                 <Select
                   labelId="demo-simple-select-helper-label"
                   id="demo-simple-select-helper"
                   value={age}
-                  label="رده سنی"
+                  label="رده سنی*"
                   name="ageRange"
                   error={age == '' && ageRangeBlured}
                   onChange={handleSelectChange}
@@ -349,6 +345,12 @@ function CreateCourseStepTwo(props) {
                 >
                   صفحه‌ی قبل
                 </Button>
+
+                <Link to="/dashboard/teacher/">
+                  <Button variant="contained" color="error" className="steeper-button">
+                    بازگشت به داشبورد
+                  </Button>
+                </Link>
 
                 <Button
                   variant="contained"

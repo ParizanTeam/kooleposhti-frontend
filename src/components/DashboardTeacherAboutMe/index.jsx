@@ -26,6 +26,7 @@ function DashboardTeacherAboutMe(props) {
   const [teacher_data, setteacherData] = useState({});
   const [editorContent, setEditorContent] = useState(EditorState.createEmpty());
   const [loading, setLoading] = useState(true);
+  const [loadingButton , setLoadingButton] = useState(false);
   const [editorState, setEditorState] = useState(
     EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(`<p>درباره من ...</p>`)))
   );
@@ -123,7 +124,7 @@ function DashboardTeacherAboutMe(props) {
                 initialValues={{}}
                 onSubmit={async values => {
                   try {
-                    setLoading(true);
+                    setLoadingButton(true);
                     console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
                     const body = { bio: draftToHtml(convertToRaw(editorState.getCurrentContent())) };
                     axios
@@ -145,10 +146,10 @@ function DashboardTeacherAboutMe(props) {
                           progress: undefined,
                           theme: 'dark',
                         });
-                        setLoading(false);
+                        setLoadingButton(false);
                       })
                       .catch(err => {
-                        setLoading(false);
+                        setLoadingButton(false);
                         console.log('error', err.response.data.message);
                         toast.error('شرمنده یه بار دیگه امتحان کن', {
                           position: 'bottom-center',
@@ -163,6 +164,7 @@ function DashboardTeacherAboutMe(props) {
                       });
                   } catch (error) {
                     console.log('error');
+                    setLoadingButton(false)
                   }
                 }}
                 validateOnChange={validateAfterSubmit}
@@ -216,8 +218,8 @@ function DashboardTeacherAboutMe(props) {
                         sx={{ mt: 3, backgroundColor: 'rgba(10, 67, 94, 0.942) !important' }}
                         typeof="submit"
                       >
-                        {!loading && <span>تایید</span>}
-                        {loading && <ReactLoading type="bubbles" color="#fff" className="loading-signup" />}
+                        {!loadingButton && <span>تایید</span>}
+                        {loadingButton && <ReactLoading type="bubbles" color="#fff" className="loading-signup" />}
                       </Button>
                     </Grid>
                   </Box>

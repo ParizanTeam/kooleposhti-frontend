@@ -6,6 +6,7 @@ import { CacheProvider } from '@emotion/react';
 import rtl from 'jss-rtl';
 import rtlPlugin from 'stylis-plugin-rtl';
 import createCache from '@emotion/cache';
+import { Helmet } from 'react-helmet';
 import CreateCourseStepOne from '../CreateCourseStepOne';
 import CreateCourseStepTwo from '../CreateCourseStepTwo';
 import CreateCourseStepThree from '../CreateCourseStepThree';
@@ -211,6 +212,9 @@ function CreateCourseForm({ edit }) {
 
   return (
     <Fragment>
+      <Helmet>
+        <title>{edit ? 'ویرایش اطلاعات کلاس' : 'ساخت کلاس جدید'}</title>
+      </Helmet>
       {loadingData && <CourseLoader />}
       {!loadingData && (
         <CacheProvider value={rtl ? cacheRtl : cacheLtr}>

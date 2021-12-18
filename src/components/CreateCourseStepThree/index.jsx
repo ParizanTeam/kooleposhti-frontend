@@ -7,7 +7,6 @@ import {
   TextField,
   Button,
   Grid,
-  Link,
   FormControl,
   InputLabel,
   Select,
@@ -22,9 +21,10 @@ import {
   CardActions,
   IconButton,
 } from '@mui/material';
+import { convertNumberToEnglish } from '../../utils/helpers';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
-import { useHistory, Link as routerLink, useParams } from 'react-router-dom';
+import { useHistory, Link, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import createCache from '@emotion/cache';
@@ -92,15 +92,15 @@ function CreateCourseStepThree(props) {
         categories: formData.categories
           .map(item => categoriesData.find(elem => elem.title == item))
           .map(item => item.id),
-        duration: formData.duration,
-        price: formData.price,
+        duration: convertNumberToEnglish(formData.duration),
+        price: convertNumberToEnglish(formData.price),
         tags: formData.tags.map(tag => ({ name: tag })).filter(tag => tag.name != ''),
         goals: formData.objectives.map(objective => ({ text: objective })).filter(objective => objective.text != ''),
         description: formData.description,
         title: formData.courseName,
-        min_age: formData.startAge,
-        max_age: formData.endAge,
-        max_students: formData.capacity,
+        min_age: convertNumberToEnglish(formData.startAge),
+        max_age: convertNumberToEnglish(formData.endAge),
+        max_students: convertNumberToEnglish(formData.capacity),
         sessions: formData.dates.map(date => ({
           date: `${date.year}-${date.month}-${date.day}`,
           start_time: `${date.hour}:${date.minute}`,
@@ -303,9 +303,6 @@ function CreateCourseStepThree(props) {
   return (
     <CacheProvider value={rtl ? cacheRtl : cacheLtr}>
       <div dir="rtl">
-        <Helmet>
-          <title>ورود</title>
-        </Helmet>
         <ToastContainer rtl={true} position="bottom-center" />
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -487,6 +484,12 @@ function CreateCourseStepThree(props) {
                 >
                   صفحه‌ی قبل
                 </Button>
+
+                <Link to="/dashboard/teacher/">
+                  <Button variant="contained" color="error" className="steeper-button">
+                    بازگشت به داشبورد
+                  </Button>
+                </Link>
 
                 <Button
                   variant="contained"

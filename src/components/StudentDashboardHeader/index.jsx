@@ -2,18 +2,20 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import Navbar from '../Navbar';
-
+import { useSelector } from 'react-redux';
 import './style.scss';
 
-const MyClasses = () => {
+const StudentDashboardHeader = () => {
+  const themeProps = useSelector(state => state.theme);
+
   return (
     <div>
-      <Navbar color="#ff4400" />
+      <Navbar color={themeProps.primaryColor} />
       <div className="My">
         <div className="Head">
           <img
             style={{ position: 'absolute', width: '100%', height: '300px', objectFit: 'cover', zIndex: -1 }}
-            src="https://8pic.ir/uploads/fall-banner-1.jpg"
+            src={themeProps.bgImage}
             alt="Head"
           />
           <p className="Head__content">&#127809; اینجا همیشه مهره!</p>
@@ -33,14 +35,14 @@ const MyClasses = () => {
 
             </div>
             <div className="HeadSub__Ic">
-                <Button component={Link} to="/dashboard/student/Calendar" sx={{ '&:hover': { color: 'transparent' } }}>
+                <Button component={Link} to="/dashboard/student/assignments" sx={{ '&:hover': { color: 'transparent' } }}>
                   <p className="HeadSub__Ic__cont">چالشهای من</p>
                   <p className="HeadSub__Ic__cont-b">چالشهای من</p>
                 </Button>
 
             </div>
             <div className="HeadSub__Ib">
-                <Button component={Link} to="/dashboard/student/Schedule" sx={{ '&:hover': { color: 'transparent' } }}>
+                <Button component={Link} to="/dashboard/student/ClassesList" sx={{ '&:hover': { color: 'transparent' } }}>
                   <p className="HeadSub__Ib__cont">لیست کلاسهای من</p>
                   <p className="HeadSub__Ib__cont-b">کلاسهای من</p>
                 </Button>
@@ -53,4 +55,4 @@ const MyClasses = () => {
     </div>
   );
 };
-export default MyClasses;
+export default StudentDashboardHeader;

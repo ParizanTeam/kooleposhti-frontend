@@ -1,6 +1,6 @@
 // IMPORTING APIS
 import React from 'react';
-import { AppBar, Toolbar, Divider, Drawer, Button,IconButton} from '@mui/material';
+import { AppBar, Toolbar, Divider, Drawer, Button, IconButton, Menu } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MuiAppBar from '@mui/material/AppBar';
 
@@ -11,7 +11,6 @@ import { useSelector } from 'react-redux';
 import SchoolIcon from '@mui/icons-material/School';
 import HelpIcon from '@mui/icons-material/Help';
 import SearchIcon from '@mui/icons-material/Search';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -20,23 +19,84 @@ import { useMobile } from '../../utils/detectSource';
 import './style.scss';
 import Logo from './Logo';
 import SearchBar from './SearchBar';
-import {LoginSignUp,ProfileMenu,RightBtn,MenuButton,MyClasses} from './base'
-import {navbarProps,setBaseColor} from './constants'
+import { LoginSignUp, ProfileMenu, RightBtn, MenuButton, MyClasses } from './base';
+import { navbarProps, setBaseColor } from './constants';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-
-
-const Navbar = ({color}) => {
+const Navbar = ({ color }) => {
+  const customTheme = createTheme({
+    palette: {
+      primary: {
+        main: color,
+      },
+    },
+    typography: {
+      fontFamily: 'iranyekan, Arial',
+    },
+  });
   setBaseColor(color);
-  return <div className="Navbar">{useMobile() ? <MobileNavbar/> : <DesktopNavbar />}</div>;
+  return (
+    <div className="Navbar">
+      <ThemeProvider theme={customTheme}>{useMobile() ? <MobileNavbar /> : <DesktopNavbar />}</ThemeProvider>
+    </div>
+  );
+};
+
+const HelpMenu = ({ helpText, anchorEl, handleClose }) => {
+  const open = Boolean(anchorEl);
+  return (
+    <div>
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        onClick={handleClose}
+        disableScrollLock={true}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            padding: '10px 10px 10px 20px',
+            border: `2px solid ${navbarProps.baseColor}`,
+            overflow: 'visible',
+            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+            mt: 1.5,
+            '&:before': {
+              border: `2px solid ${navbarProps.baseColor}`,
+              content: '""',
+              display: 'block',
+              position: 'absolute',
+              top: 0,
+              right: 14,
+              width: 10,
+              height: 10,
+              bgcolor: 'background.paper',
+              transform: 'translateY(-50%) rotate(45deg)',
+              zIndex: 0,
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        {helpText}
+      </Menu>
+    </div>
+  );
 };
 
 export default Navbar;
-
 
 const DesktopNavbar = () => {
   const isAuth = useSelector(state => state.auth.isAuthenticated);
   const [color, setColor] = React.useState(navbarProps.baseColor);
   const [openSearchBar, setOpenSearchBar] = React.useState(false);
+  const [helpAnchor, setHelpAnchor] = React.useState(null);
+  const handleHelpAnchorClick = event => {
+    setHelpAnchor(event.currentTarget);
+  };
+  const handleHelpAnchorClose = () => {
+    setHelpAnchor(null);
+  };
   const handleSearchBarOpen = () => {
     setOpenSearchBar(true);
     setColor('grey');
@@ -53,14 +113,16 @@ const DesktopNavbar = () => {
         <Toolbar>
           <Logo />
           <div style={{ marginRight: '2rem' }}>
-            {isAuth ? (
-              <MyClasses/>
-            ) : (
-              <RightBtn Icon={SchoolIcon} text="تدریس کن" linkTo="/signup" />
-            )}
+            {isAuth ? <MyClasses /> : <RightBtn Icon={SchoolIcon} text="تدریس کن" linkTo="/signup" />}
 
-            <RightBtn Icon={HelpIcon} text="راهنما" linkTo="/help" />
-            <IconButton style={{ marginRight: '10px', color: color }} onClick={handleSearchBarOpen}>
+            <Button variant="text" onClick={handleHelpAnchorClick} style={{ color: '#000' }}>
+              <HelpIcon style={{ color: navbarProps.baseColor, marginLeft: '5px' }} />
+              راهنما
+            </Button>
+            <IconButton
+              style={{ marginRight: '10px', color: color == 'grey' ? color : navbarProps.baseColor }}
+              onClick={handleSearchBarOpen}
+            >
               <SearchIcon />
             </IconButton>
           </div>
@@ -68,10 +130,19 @@ const DesktopNavbar = () => {
         </Toolbar>
       </AppBar>
 
-      {openSearchBar && <SearchBar onClose={handleSearchBarClose} />}
+      <SearchBar onClose={handleSearchBarClose} open={openSearchBar} />
+
+      <HelpMenu helpText="راهنمای صفحه" anchorEl={helpAnchor} handleClose={handleHelpAnchorClose} />
     </div>
   );
 };
+
+// const HelpText=() =>
+// {
+//   <Typography variant="h5">
+//     آشنایی با صفحه:
+//   </Typography>
+// }
 
 const drawerWidth = 240;
 const MobileAppBar = styled(MuiAppBar, {
@@ -100,11 +171,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-
-
-
-
-const MobileNavbar=() =>{
+const MobileNavbar = () => {
   const isAuth = useSelector(state => state.auth.isAuthenticated);
 
   const [open, setOpen] = React.useState(false);
@@ -128,7 +195,7 @@ const MobileNavbar=() =>{
   };
 
   return (
-    <>
+    <div>
       <MobileAppBar style={{ backgroundColor: '#fff' }} open={open}>
         <Toolbar>
           <Logo />
@@ -138,11 +205,6 @@ const MobileNavbar=() =>{
                 <IconButton onClick={handleSearchBarOpen} sx={{ color: navbarProps.baseColor }}>
                   <SearchIcon />
                 </IconButton>
-                {isAuth && (
-                  <Button variant="text" style={{ color: '#000' }}>
-                    <NotificationsNoneIcon style={{ color: navbarProps.baseColor, marginRight: '5px', fontSize: '30' }} />
-                  </Button>
-                )}
               </>
             )}
             <IconButton
@@ -180,7 +242,6 @@ const MobileNavbar=() =>{
         {!isAuth && (
           <>
             <MenuButton Icon={SchoolIcon} text="تدریس کن" linkTo="/signup" />
-            <MenuButton Icon={HelpIcon} text="راهنما" linkTo="/help" />
             <Divider style={{ marginTop: '20 px' }} />
           </>
         )}
@@ -188,7 +249,7 @@ const MobileNavbar=() =>{
         {isAuth ? <ProfileMenu /> : <LoginSignUp />}
       </Drawer>
 
-      {openSearchBar && <SearchBar onClose={handleSearchBarClose} />}
-    </>
+      <SearchBar onClose={handleSearchBarClose} open={openSearchBar} />
+    </div>
   );
-}
+};

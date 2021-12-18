@@ -14,6 +14,7 @@ import {
   Button,
 } from '@mui/material';
 import DatePicker, { DateObject } from 'react-multi-date-picker';
+import { Link } from 'react-router-dom';
 import TimePicker from 'react-multi-date-picker/plugins/time_picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
@@ -152,7 +153,7 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
                 }}
               />
               <FormControl className="step-one-select-holder" margin="normal" fullWidth>
-                <InputLabel id="demo-simple-select-helper-label">موضوع</InputLabel>
+                <InputLabel id="demo-simple-select-helper-label">موضوع*</InputLabel>
                 {/* <Select
                   labelId="demo-simple-select-helper-label"
                   id="demo-simple-select-helper"
@@ -182,7 +183,7 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
                   id="demo-multiple-chip"
                   multiple
                   value={categories}
-                  input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                  input={<OutlinedInput id="select-multiple-chip" label="موضوع*" />}
                   renderValue={selected => (
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                       {selected.map(value => (
@@ -193,7 +194,7 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
                   MenuProps={MenuProps}
                   margin="normal"
                   fullWidth
-                  label="موضوع"
+                  label="موضوع*"
                   required
                   error={categories.length == 0 && categoryBlured}
                   name="categoryField"
@@ -224,7 +225,7 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
                   onClick={() => {
                     datePickerRef.current.openCalendar();
                   }}
-                  placeholder="انتخاب زمان جلسه‌ها"
+                  placeholder="انتخاب زمان جلسه ها*"
                   type="text"
                   className={`step-one-datePicker${dates == '' && datePickerBlured ? ' error' : ''}`}
                 />
@@ -363,6 +364,12 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
                 >
                   صفحه‌ی قبل
                 </Button>
+                
+                <Link to="/dashboard/teacher/">
+                  <Button variant="contained" color="error" className="steeper-button">
+                    بازگشت به داشبورد
+                  </Button>
+                </Link>
 
                 <Button variant="contained" color="primary" className="steeper-button" onClick={handleNext}>
                   {activeStep == 2 ? 'پایان' : 'صفحه‌ی بعد'}

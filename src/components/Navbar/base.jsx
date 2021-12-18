@@ -23,9 +23,8 @@ import HelpIcon from '@mui/icons-material/Help';
 import SearchIcon from '@mui/icons-material/Search';
 import Logout from '@mui/icons-material/Logout';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
-import CalendarToday from '@mui/icons-material/CalendarToday';
-import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import Assignment from '@mui/icons-material/Assignment';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
@@ -64,7 +63,7 @@ const LogoutBtn = () => {
 export const MyClasses = () => {
   return (
     <>
-      <RightBtn Icon={SchoolIcon} text="کلاس‌های من" linkTo="/dashboard/student/Schedule" />
+      <RightBtn Icon={SchoolIcon} text="همه کلاس‌ها" linkTo="/classes" />
     </>
   );
 };
@@ -82,14 +81,15 @@ export const ProfileMenu = props => {
   console.log('role: ', role);
   const profileMenuItems = {
     student: [
-      { icon: FavoriteBorder, label: 'علاقمندی‌هام', to: '/dashboard/student/bookmarks' },
-      { icon: CalendarToday, label: 'برنامه کلاس‌هام', to: '/dashboard/student/calendar' },
-      { icon: ForumOutlinedIcon, label: 'گفت‌وگو ها', to: '#' },
+      { icon: CastForEducationIcon, label: 'کلاس ها', to: '/dashboard/student/ClassesList' },
+      { icon: Assignment, label: 'چالش ها', to: '/dashboard/student/assignments' },
+      { icon: FavoriteBorder, label: 'علاقمندی ها', to: '/dashboard/student/bookmarks' },
+
     ],
     teacher: [
       { icon: CastForEducationIcon, label: 'کلاس ها', to: '/dashboard/teacher/classes' },
       { icon: AccountBalanceIcon, label: 'کیف پول', to: '/dashboard/teacher/wallet' },
-      { icon: ForumOutlinedIcon, label: 'گفت‌وگو ها', to: '#' },
+      { icon: AttachMoneyIcon , label: 'دریافت ها', to: '/dashboard/teacher/received' },
     ],
   };
 
@@ -111,11 +111,6 @@ export const ProfileMenu = props => {
               ml: '100px',
             }}
           >
-            <Button variant="text" style={{ color: '#000' }}>
-              <Badge badgeContent={convertNumberToPersian(4)} style={{ color: navbarProps.baseColor }}>
-                <NotificationsNoneIcon style={{ color: navbarProps.baseColor, marginRight: '5px', fontSize: '30' }} />
-              </Badge>
-            </Button>
             <Tooltip title="منوی شخصی">
               <IconButton onClick={handleClick} size="small">
                 <Avatar sx={{ width: 32, height: 32 }}>{username[0].toUpperCase()}</Avatar>
@@ -151,7 +146,7 @@ export const ProfileMenu = props => {
       ) : (
         <>
           <MenuItem component={Link} to={`/dashboard/${role}/profile`}>
-            <Avatar src={AccountCircleIcon} sx={{ width: 45, height: 45, ml: '15px' }}  />
+            <Avatar src={AccountCircleIcon} sx={{ width: 45, height: 45, ml: '15px' }} />
             {username}
           </MenuItem>
           <Divider />

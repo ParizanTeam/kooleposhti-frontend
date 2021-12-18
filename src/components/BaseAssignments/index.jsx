@@ -1,96 +1,83 @@
 //import { useMobile } from '../../utils/detectSource';
 import * as React from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Accordion from '@mui/material/Accordion';
+import axios from '../../utils/axiosConfig';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Pen from '../../assets/images/pen.png';
-import Uploader from '../Uploader'
-import { Editor } from 'react-draft-wysiwyg';
+import Uploader from '../Uploader';
+import { useHistory, useParams } from 'react-router-dom';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-
+import { baseUrl } from '../../utils/constants';
 import './style.scss';
-
-import { useState } from 'react';
+import ReactLoading from 'react-loading';
+import ReactHtmlParser from 'react-html-parser';
 
 // import { Editor, EditorState } from 'draft-js';
-import { Button } from '@mui/material';
 
-const RichtextEditor = () => {
+/*const RichtextEditor = () => {
   // const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
   return (
-    <Editor
-      wrapperClassName="rich-text-wrapper-class"
-      editorClassName="rich-text-editor-class color"
-      toolbarClassName="rich-text-toolbar-class Border"
-      // wrapperStyle={<wrapperStyleObject>}
-      // editorStyle={<editorStyleObject>}
-      // toolbarStyle={<toolbarStyleObject>}
-    />
+    
   );
-};
+};*/
 
-const fileTypes = ['JPG', 'ZIP', 'PDF'];
+//const fileTypes = ['JPG', 'ZIP', 'PDF'];
 
-function DragDrop() {
+/*function DragDrop() {
   const [file, setFile] = useState(null);
   const handleChange = file => {
     setFile(file);
   };
   return (
-    <div className="App">
-      <h1 className="MyHeader">پاسخ شما:</h1>
-      <div className='editor'>
-      <RichtextEditor /></div>
-      <br/>
-      <div className='MyUp'>
-        <h2 className="MyHeader">آپلود فایل:</h2>
-        <div className="Uplr" dir='ltr'>
-          {/*<div>
-            <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
-          </div>
-          <div className="ovL" style={{ zIndex: 1, position: 'absolute' }}>
-            <p className='dis'>فایلت رو بکش و</p>
-            <p className='dis'>در قسمت سفید رنگ رها کن</p>
-          </div>
-          <p className="Box">{file ? `File name: ${file.name}` : 'هنوز فایلی آپلود نشده!'}</p>*/}
-          <Uploader/>
-        </div></div>
-      <div className="Bt">
-        <Button>
-          <p className="Bt__txt">ثبت</p>
-        </Button>
-      </div>
-    </div>
+    
   );
-}
+}*/
 
 function BaseAssignments() {
-  const [expanded, setExpanded] = React.useState(false);
+  const params = useParams();
+  const [assignment, setAssignment] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const handleChange = panel => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
-
+  const MySource = `${baseUrl}/assignments/${params.assignmentId}/`;
+  useEffect(() => {
+    axios
+      .get(`${baseUrl}/assignments/${params.assignmentId}/`)
+      .then(res => {
+        setAssignment(res.data);
+        console.log('assignment', res.data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.log('error: ', err);
+      });
+  }, []);
   return (
     <div>
-      <Accordion expanded={true} onChange={handleChange('panel1')}>
-        <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">
-          <img src={Pen} alt="Sleeping Fox" className="Apic" />
-          <div className="txt">
-            <Typography sx={{ width: '33%', flexShrink: 0, margin: 1 }}>تمرین اول</Typography>
-            <Typography sx={{ color: '#292269', margin: 1 }}>حل نشده &#128542;</Typography>
-          </div>
-        </AccordionSummary>
-        <AccordionDetails>
-          <div className="Clful">
-            <p className="mytxt">&#x2618; گربه ای در یک اتاق شش گوشه خوابیده است این گربه چند زاویه می بیند؟</p>
-            <br />
-            <DragDrop />
-          </div>
-        </AccordionDetails>
-      </Accordion>
+      {loading ? (
+        <div style={{ display: 'flex', justifyContent: 'center', padding: 'auto', marginTop: 24 }}>
+          <ReactLoading type="spinningBubbles" color="#EF006C" height={100} width={100} />
+        </div>
+      ) : (
+        <Accordion expanded={true}>
+          <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">
+            <img src={Pen} alt="Sleeping Fox" className="Apic" />
+            <div className="txt">
+              <Typography sx={{ width: '33%', flexShrink: 0, margin: 1 }}>{assignment.title}</Typography>
+              <Typography sx={{ color: '#300404', margin: 1 }}>حل نشده &#128542;</Typography>
+            </div>
+          </AccordionSummary>
+          <AccordionDetails>
+            <div className="Clful">
+              <p className="mytxt">&#x2618; {ReactHtmlParser(assignment.question)}</p>
+              <br />
+              <Uploader />
+            </div>
+          </AccordionDetails>
+        </Accordion>
+      )}
     </div>
   );
 }

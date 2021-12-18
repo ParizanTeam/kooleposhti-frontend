@@ -1,5 +1,5 @@
 // Import React dependencies.
-import React, { useMemo, useState, useRef } from 'react';
+import React, { useMemo, useState, useRef, useEffect } from 'react';
 import JoditEditor from 'jodit-react';
 import DatePicker, { DateObject } from 'react-multi-date-picker';
 import TimePicker from 'react-multi-date-picker/plugins/time_picker';
@@ -7,7 +7,10 @@ import { Calendar } from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
 import { ToastContainer, toast } from 'react-toastify';
-import { convertNumberToPersian } from '../../utils/helpers';
+import { convertNumberToEnglish, convertNumberToPersian } from '../../utils/helpers';
+import { EditorState, ContentState, convertFromHTML, convertToRaw } from 'draft-js';
+import apiInstance from '../../utils/axiosConfig';
+import ReactLoading from 'react-loading';
 
 import 'react-multi-date-picker/styles/layouts/mobile.css';
 
@@ -15,7 +18,10 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import './style.scss';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect, useHistory, useParams } from 'react-router-dom';
+import { baseUrl } from '../../utils/constants';
+import draftToHtml from 'draftjs-to-html';
+import { useMediaQuery } from '@mui/material';
 
 const CreateAssignment = ({ role }) => {
   const editor = useRef(null);
@@ -26,35 +32,54 @@ const CreateAssignment = ({ role }) => {
   const [endDate, setEndDate] = useState(null);
   const [content, setContent] = useState('');
   const history = useHistory();
+  const params = useParams();
+  const classId = params.classId;
   const [titleBlured, setTitleBlured] = useState(false);
   const [startDateBlured, setStartDateBlured] = useState(false);
   const [endDateBlured, setEndDateBlured] = useState(false);
-
-  const config = {
-    readonly: false, // all options from https://xdsoft.net/jodit/doc/
-    placeholder: 'متن صورت تمرین...',
-    minHeight: 400,
-    statusbar: false,
-  };
+  const [contentBlured, setContentBlured] = useState(false);
+  const [editorContent, setEditorContent] = useState(null);
+  const [apiLoading, setApiLoading] = useState(false);
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   return (
     <div className="create-assignment">
       <div className="create-assignment__header">
         <h3 className="create-assignment__title">ساختن تمرین جدید</h3>
-        <div>
+        <div style={{ display: useMediaQuery('(max-width: 768px)') ? 'unset' : 'flex', alignItems: 'center' }}>
+          {apiLoading && !isMobile && (
+            <div style={{ display: 'flex', justifyContent: 'center', padding: 'auto', marginLeft: 16 }}>
+              <ReactLoading type="bars" color="#000" height={50} width={50} />
+            </div>
+          )}
           <button
             className="success-btn"
             onClick={() => {
               setTitleBlured(true);
               setStartDateBlured(true);
               setEndDateBlured(true);
-              if (!title || !startDate || !endDate) {
+              setContentBlured(true);
+              if (!title || !startDate || !endDate || !content) {
                 toast.error('لطفا فیلدهای مربوطه را به درستی وارد کنید.');
               } else {
-                toast.success('تمرین با موفقیت اضافه شد.');
-                setTimeout(() => {
-                  history.goBack();
-                }, 1000);
+                setApiLoading(true);
+                const data = {
+                  course: +classId,
+                  title: title,
+                  question: content,
+                  start_date: convertNumberToEnglish(startDate.toString().split('/').join('-')),
+                  start_time: `${startDate.hour}:${startDate.minute}`,
+                  end_date: convertNumberToEnglish(endDate.toString().split('/').join('-')),
+                  end_time: `${endDate.hour}:${endDate.minute}`,
+                };
+                console.log(data);
+                apiInstance.post(`${baseUrl}/assignments/`, data).then(res => {
+                  toast.success('تمرین با موفقیت اضافه شد.');
+                  setTimeout(() => {
+                    history.push(`/dashboard/class/${classId}/assignments/`);
+                    setApiLoading(false);
+                  }, 1000);
+                });
               }
             }}
           >
@@ -68,6 +93,11 @@ const CreateAssignment = ({ role }) => {
           >
             انصراف
           </button>
+          {apiLoading && isMobile && (
+            <div style={{ display: 'flex', justifyContent: 'center', padding: 'auto', marginTop: 8 }}>
+              <ReactLoading type="bars" color="#000" height={50} width={50} />
+            </div>
+          )}
         </div>
       </div>
       <div className="kp-text-input create-assignment__title-input">
@@ -93,6 +123,7 @@ const CreateAssignment = ({ role }) => {
             زمان شروع:
           </label>
           <input
+            autoComplete="off"
             onBlur={() => setStartDateBlured(true)}
             onFocus={() => startDatePickerRef.current.openCalendar()}
             onClick={() => startDatePickerRef.current.openCalendar()}
@@ -115,6 +146,7 @@ const CreateAssignment = ({ role }) => {
             زمان پایان:
           </label>
           <input
+            autoComplete="off"
             onBlur={() => setEndDateBlured(true)}
             onFocus={() => endDatePickerRef.current.openCalendar()}
             onClick={() => endDatePickerRef.current.openCalendar()}
@@ -132,6 +164,9 @@ const CreateAssignment = ({ role }) => {
         </div>
       </div>
       <label className="kp-text-input__label">متن صورت تمرین:</label>
+      {contentBlured && !content && (
+        <div style={{ fontSize: 12, color: 'red', marginBottom: 8 }}>صورت تمرین نمی‌تواند خالی باشد.</div>
+      )}
       {/* <JoditEditor
         ref={editor}
         value={content}
@@ -144,6 +179,12 @@ const CreateAssignment = ({ role }) => {
         wrapperClassName="rich-text-wrapper-class"
         editorClassName="rich-text-editor-class"
         toolbarClassName="rich-text-toolbar-class"
+        editorState={editorContent}
+        onEditorStateChange={content => {
+          setEditorContent(content);
+          setContent(draftToHtml(convertToRaw(content.getCurrentContent())));
+        }}
+
         // wrapperStyle={<wrapperStyleObject>}
         // editorStyle={<editorStyleObject>}
         // toolbarStyle={<toolbarStyleObject>}

@@ -13,15 +13,15 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { useDispatch, useSelector } from 'react-redux';
 import ReactLoading from 'react-loading';
 import ColorPlate from '../../assets/images/color_plate.png';
-import color_papers from '../../assets/images/color_papers.jpg'
-import { setThemeColor,colorMap } from './constant';
-import { themeProps } from './constant';
-const options = ['آبی', 'صورتی', 'بنفش'];
+import color_papers from '../../assets/images/color_papers.jpg';
+import { change_profile_color } from '../../store/actions';
+import { colorMap } from './constant';
+
 export const ConfirmationDialogRaw = props => {
   const { onClose, value: valueProp, open, ...other } = props;
   const [value, setValue] = React.useState(valueProp);
   const radioGroupRef = React.useRef(null);
-
+  const dispatch = useDispatch();
   React.useEffect(() => {
     if (!open) {
       setValue(valueProp);
@@ -36,18 +36,26 @@ export const ConfirmationDialogRaw = props => {
 
   const handleChange = event => {
     setValue(event.target.value);
-    setThemeColor(colorMap[event.target.value]);
+    dispatch(change_profile_color(event.target.value));
   };
 
   return (
     <div dir="rtl" className="BG">
-      <DialogTitle style={{align:"center",backgroundImage:`url(${color_papers})`,opacity:'0.7',marginTop:"-10px",color:"whitesmoke"}}>رنگی که دوست داری رو انتخاب کن</DialogTitle>
+      <DialogTitle className="student-profile__color-modal">
+        رنگی که دوست داری رو انتخاب کن
+      </DialogTitle>
       <DialogContent dividers>
         <RadioGroup ref={radioGroupRef} aria-label="color" name="color" value={value} onChange={handleChange}>
           <div className="CenterB">
-            <FormControlLabel className="BlueC" value="Blue" control={<Radio />} label="آبی" />
-            <FormControlLabel className="PinkC" value="Pink" control={<Radio />} label="صورتی" />
-            <FormControlLabel className="PurpleC" value="Purple" control={<Radio />} label="بنفش" />
+            {Object.entries(colorMap).map(([color, val]) => (
+              <FormControlLabel
+                className="colorBox"
+                value={color}
+                control={<Radio />}
+                label={val.label}
+                style={{ color: val.primaryColor, backgroundColor: val.secondaryColor }}
+              />
+            ))}
           </div>
         </RadioGroup>
       </DialogContent>
@@ -62,27 +70,14 @@ ConfirmationDialogRaw.propTypes = {
 };
 
 export const ColorModal = () => {
-  // const userData = useSelector(state => state.auth);
-  // const handleChange = prop => event => {
-  //   userData[prop] = event.target.value;
-  //   // setValues({ ...userData , [prop]: event.target.value });
-  // };
-
-  // const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
-  // console.log('first_name: ', userData.first_name);
-  // if (userData.first_name) {
-  //   setOpen(false);
-  // }
+  const themeProps = useSelector(state => state.theme);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const [value, setValue] = React.useState('Pink');
-
-  const handleClickListItem = () => {
-    setOpen(true);
-  };
 
   const handleClose = () => {
     setOpen(false);
@@ -107,36 +102,39 @@ export const ColorModal = () => {
 
   return (
     <>
-      <Button onClick={handleClickOpen} size="large">
-        <img src={ColorPlate} style={{width:"50px",marginLeft:"10px"}} />
+      <Button onClick={handleClickOpen} size="large" sx={{margin:"auto"}}>
+        <img src={ColorPlate} style={{ width: '50px', marginLeft: '10px' }} />
         <Typography variant="h5">
-        <span style={{color:"steelblue"}}>ر</span>
-        <span style={{color:"lightcoral"}}>ن&zwj;</span>
-        <span style={{color:"	mediumaquamarine"}}>گ</span>
-        &nbsp;
-        <span style={{color:"cornflowerblue"}}>پ&zwj;</span>
-        <span style={{color:"pink"}}>ر</span>
-        <span style={{color:"aqua"}}>و</span>
-        <span style={{color:"orange"}}>ف&zwj;</span>
-        <span style={{color:"indianred"}}>ا</span>
-        <span style={{color:"green"}}>ی&zwj;</span>
-        <span style={{color:"deepskyblue"}}>ل</span>
-        &nbsp;
-        <span style={{color:"mediumturquoise"}}>م&zwj;</span>
-        <span style={{color:"	slategray"}}>ن</span>
+          <span style={{ color: 'steelblue' }}>ر</span>
+          <span style={{ color: 'lightcoral' }}>ن&zwj;</span>
+          <span style={{ color: '	mediumaquamarine' }}>گ</span>
+          &nbsp;
+          <span style={{ color: 'cornflowerblue' }}>پ&zwj;</span>
+          <span style={{ color: 'pink' }}>ر</span>
+          <span style={{ color: 'aqua' }}>و</span>
+          <span style={{ color: 'orange' }}>ف&zwj;</span>
+          <span style={{ color: 'indianred' }}>ا</span>
+          <span style={{ color: 'green' }}>ی&zwj;</span>
+          <span style={{ color: 'deepskyblue' }}>ل</span>
+          &nbsp;
+          <span style={{ color: 'mediumturquoise' }}>م&zwj;</span>
+          <span style={{ color: '	slategray' }}>ن</span>
         </Typography>
-
       </Button>
+
       <CacheProvider value={cacheRtl}>
         <div dir="rtl">
           <Dialog open={open} onClose={handleClose}>
-            <List component="div" role="group" style={{align:"center"}}>
+            <List component="div" role="group" style={{ align: 'center' }}>
               <ConfirmationDialogRaw id="color-menu" keepMounted open={open} onClose={handleClose} value={value} />
             </List>
-            <DialogActions style={{align:"center",borderTop: `3px dotted  ${themeProps.primaryColor}`,marginTop:"-10px"}}>
-              <Button onClick={handleClose}>
-                <p className="txtCol">ثبت</p>
-              </Button>
+            <DialogActions
+            className="student-profile__color-modal__submit-btn"
+              style={{ marginTop: '-10px' }}
+            >
+              <a href='#' onClick={handleClose}>
+                ثبت
+              </a>
             </DialogActions>
           </Dialog>
         </div>
