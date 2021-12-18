@@ -11,7 +11,6 @@
   display: grid;
   justify-content: center;
   align-items: center;
-
 }
 
 .course-add-comment-button__container {
@@ -21,7 +20,6 @@
 
 .course-add-comment-button {
   background-color: #3a9c47 !important;
-  
 }
 
 @media screen and (max-width: 600px) {
@@ -34,8 +32,8 @@
   }
 }
 
-@media screen and (max-width: 700px){
-  .course-add-comment-textField__container{
+@media screen and (max-width: 700px) {
+  .course-add-comment-textField__container {
     padding-right: 10px;
   }
 }

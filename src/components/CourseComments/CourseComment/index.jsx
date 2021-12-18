@@ -10,20 +10,24 @@ function CourseComment(props) {
   const [replyTextBox, setReplyTextBox] = useState(false);
   const [replyDone, setReplyDone] = useState(false);
   const [edit, setEdit] = useState(false);
+  const[editMode, setEditMode] = useState(false);
 
-  useEffect(async () => {
-    async function init() {
-      if (props.teacherComment != null) {
-        setReplyButton(false);
-        setReplyDone(true);
-        setEdit(true);
-      }
+  useEffect(() => {
+    if (props.teacherComment != null) {
+      setReplyButton(false);
+      setReplyDone(true);
+      setEdit(true);
     }
-
-    const res = await init();
   }, []);
 
   function replyClick() {
+    setReplyButton(false);
+    setReplyTextBox(true);
+    setEdit(false);
+  }
+
+  function editClick() {
+    setEditMode(true);
     setReplyButton(false);
     setReplyTextBox(true);
     setEdit(false);
@@ -34,15 +38,14 @@ function CourseComment(props) {
     setReplyButton(false);
     setReplyTextBox(false);
     setEdit(true);
+    setEditMode(false)
   }
-
-  console.log(props.studentComment);
 
   return (
     <React.Fragment>
       <Grid container>
         <Grid item xs={12}>
-          <CourseCommentStudent comment={props.studentComment} />
+          <CourseCommentStudent info={props.studentComment} />
         </Grid>
         {replybutton && (
           <Grid
@@ -59,12 +62,20 @@ function CourseComment(props) {
         )}
         {replyTextBox && (
           <Grid item xs={12} mt={3}>
-            <CourseAddComment onClick={replyDoneClick} />
+            <CourseAddComment
+              course_id={props.studentComment.course_id}
+              comment_id={props.studentComment.id}
+              reply={true}
+              refresh={props.refresh}
+              edit_mode={editMode}
+              reply_id={props.teacherComment ? props.teacherComment.id : null}
+              onReplyDone={replyDoneClick}
+            />
           </Grid>
         )}
         {replyDone && (
           <Grid item xs={12}>
-            <CourseCommentTeacher comment={props.teacherComment} />
+            <CourseCommentTeacher info={props.teacherComment} />
           </Grid>
         )}
         {edit && (
@@ -76,7 +87,7 @@ function CourseComment(props) {
               ml: { xl: '9vmin', lg: '11vmin', md: '12vmin', sm: '10vmin', xs: '4vmin' },
             }}
           >
-            <Button type="submit" variant="contained" className="course-edit-comment-button" onClick={replyClick}>
+            <Button type="submit" variant="contained" className="course-edit-comment-button" onClick={editClick}>
               ویرایش
             </Button>
           </Grid>
