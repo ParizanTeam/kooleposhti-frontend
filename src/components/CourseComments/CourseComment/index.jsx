@@ -77,6 +77,7 @@ function CourseComment(props) {
                 edit_mode={editMode}
                 reply_id={props.teacherComment ? props.teacherComment.id : null}
                 onReplyDone={replyDoneClick}
+                comment={props.teacherComment? props.teacherComment.text : null}
               />
             )}
           </Grid>

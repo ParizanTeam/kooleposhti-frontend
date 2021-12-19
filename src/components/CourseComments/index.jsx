@@ -65,7 +65,11 @@ function CourseComments(props) {
       <div className="course-comments__card">
         {role === 'student' && <CourseAddComment course_id={props.course_id} refresh={setRefresh} reply={false} />}
         <Divider className="course-comments-divider"></Divider>
-        {comments.length === 0 && <Typography variant='h6' sx={{display:"flex", justifyContent:"center", alignItems:"center"}}>نظری برای این کلاس ثبت نشده !!!</Typography>}
+        {comments.length === 0 && (
+          <Typography variant="h6" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            نظری برای این کلاس ثبت نشده !!!
+          </Typography>
+        )}
         {comments.length !== 0 &&
           comments.map((comment, index) => {
             const studentComment = {
