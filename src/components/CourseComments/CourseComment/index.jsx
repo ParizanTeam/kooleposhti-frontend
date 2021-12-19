@@ -10,7 +10,7 @@ function CourseComment(props) {
   const [replyTextBox, setReplyTextBox] = useState(false);
   const [replyDone, setReplyDone] = useState(false);
   const [edit, setEdit] = useState(false);
-  const[editMode, setEditMode] = useState(false);
+  const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
     if (props.teacherComment != null) {
@@ -38,7 +38,7 @@ function CourseComment(props) {
     setReplyButton(false);
     setReplyTextBox(false);
     setEdit(true);
-    setEditMode(false)
+    setEditMode(false);
   }
 
   return (
@@ -55,22 +55,30 @@ function CourseComment(props) {
               mr: { xl: '9vmin', lg: '11vmin', md: '12vmin', sm: '10vmin', xs: '4vmin' },
             }}
           >
-            <Button type="submit" variant="contained" className="course-add-comment-button" onClick={replyClick}>
+            <Button
+              type="submit"
+              variant="contained"
+              className="course-add-comment-button"
+              onClick={replyClick}
+              sx={{ display: props.role === 'teacher' ? 'visible' : 'none' }}
+            >
               پاسخ
             </Button>
           </Grid>
         )}
         {replyTextBox && (
           <Grid item xs={12} mt={3}>
-            <CourseAddComment
-              course_id={props.studentComment.course_id}
-              comment_id={props.studentComment.id}
-              reply={true}
-              refresh={props.refresh}
-              edit_mode={editMode}
-              reply_id={props.teacherComment ? props.teacherComment.id : null}
-              onReplyDone={replyDoneClick}
-            />
+            {(props.role === 'student' || editMode === true || replyTextBox === true) && (
+              <CourseAddComment
+                course_id={props.studentComment.course_id}
+                comment_id={props.studentComment.id}
+                reply={true}
+                refresh={props.refresh}
+                edit_mode={editMode}
+                reply_id={props.teacherComment ? props.teacherComment.id : null}
+                onReplyDone={replyDoneClick}
+              />
+            )}
           </Grid>
         )}
         {replyDone && (
@@ -87,7 +95,13 @@ function CourseComment(props) {
               ml: { xl: '9vmin', lg: '11vmin', md: '12vmin', sm: '10vmin', xs: '4vmin' },
             }}
           >
-            <Button type="submit" variant="contained" className="course-edit-comment-button" onClick={editClick}>
+            <Button
+              type="submit"
+              variant="contained"
+              className="course-edit-comment-button"
+              onClick={editClick}
+              sx={{ display: props.role === 'teacher' ? 'visible' : 'none' }}
+            >
               ویرایش
             </Button>
           </Grid>

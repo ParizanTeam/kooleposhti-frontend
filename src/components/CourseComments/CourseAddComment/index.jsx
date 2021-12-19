@@ -26,8 +26,10 @@ const CourseAddComment = props => {
           },
         })
         .then(response => {
-          props.refresh(true);
-          setLoading(false);
+          setTimeout(() => {
+            props.refresh(true);
+            setLoading(false);
+          }, 1000);
         })
         .catch(err => {
           console.log('error: ', err);
@@ -43,8 +45,10 @@ const CourseAddComment = props => {
             },
           })
           .then(response => {
-            props.refresh(true);
-            setLoading(false);
+            setTimeout(() => {
+              props.refresh(true);
+              setLoading(false);
+            }, 1000);
           })
           .catch(err => {
             console.log('error: ', err);
@@ -59,9 +63,11 @@ const CourseAddComment = props => {
             },
           })
           .then(response => {
-            props.refresh(true);
-            setLoading(false);
-            props.onReplyDone();
+            setTimeout(() => {
+              props.refresh(true);
+              setLoading(false);
+              props.onReplyDone();
+            }, 1000);
           })
           .catch(err => {
             console.log('error: ', err);
@@ -84,8 +90,7 @@ const CourseAddComment = props => {
             placeholder="نظر خود را در مورد این کلاس بنویسید."
             multiline
             inputRef={comment}
-            inputProps={{ maxLength:100}}
-            
+            inputProps={{ maxLength: 100 }}
           ></TextField>
         </Grid>
         <Grid
