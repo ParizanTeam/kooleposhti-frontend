@@ -13,7 +13,7 @@ function CourseCommentTeacher(props) {
             <Grid container>
               <Grid item xs={12}>
                 <Typography variant="body4" className="course-comment-teacher__name">
-                  {props.info ? `${props.info.fisrt_name} ${props.info.last_name}` : 'نام کاربری وجود ندارد'}
+                  {props.info ? `${props.info.user.first_name} ${props.info.user.last_name}` : 'نام کاربری وجود ندارد'}
                 </Typography>
               </Grid>
               <Grid item xs={12} mt={1}>
@@ -28,7 +28,11 @@ function CourseCommentTeacher(props) {
           </div>
         </Grid>
         <Grid item sm={1} xs={0} sx={{ display: { sm: 'flex', xs: 'none' }, flexDirection: 'column' }} md={1}>
-          <Avatar className="comment-avatar" src={avatar} alt="avatar" />
+          <Avatar
+            className="comment-avatar"
+            src={props.info.user.image ? props.info.user.image.image : avatar}
+            alt="avatar"
+          />
         </Grid>
       </Grid>
     </React.Fragment>
