@@ -1,4 +1,4 @@
-import { react, Fragment } from 'react';
+import { react, Fragment, useEffect } from 'react';
 import { Avatar, Grid, Typography, TextField, Button } from '@mui/material';
 import { convertNumberToPersian } from '../../../utils/helpers';
 import avatar from '../../../assets/images/profile_2.png';
@@ -13,6 +13,14 @@ const CourseAddComment = props => {
   const comment = useRef();
   const [loading, setLoading] = useState(false);
   const token = 'JWT ' + localStorage.getItem('access_token');
+
+  useEffect(()=>{
+    if(props.edit_mode)
+    {
+      comment.current.value = props.comment
+    }
+
+  },[])
 
   const sendComment = async () => {
     setLoading(true);
@@ -29,7 +37,7 @@ const CourseAddComment = props => {
           setTimeout(() => {
             props.refresh(true);
             setLoading(false);
-          }, 1000);
+          }, 500);
         })
         .catch(err => {
           console.log('error: ', err);
@@ -48,7 +56,8 @@ const CourseAddComment = props => {
             setTimeout(() => {
               props.refresh(true);
               setLoading(false);
-            }, 1000);
+              props.onReplyDone();
+            }, 100);
           })
           .catch(err => {
             console.log('error: ', err);
@@ -67,7 +76,7 @@ const CourseAddComment = props => {
               props.refresh(true);
               setLoading(false);
               props.onReplyDone();
-            }, 1000);
+            }, 100);
           })
           .catch(err => {
             console.log('error: ', err);
