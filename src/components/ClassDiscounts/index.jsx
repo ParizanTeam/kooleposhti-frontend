@@ -56,7 +56,7 @@ function ClassDiscounts() {
   const [loading, setLoading] = useState(false);
   const [showProfile, setShowProfile] = useState({ profileOpen: false, username: '' });
   const [title, setTitle] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [endDate, setEndDate] = useState(new Date().toString());
   const [percentage, setPercentage] = useState('');
   const [titleBlured, setTitleBlured] = useState(false);
   const [endDateBlured, setEndDateBlured] = useState(false);
@@ -164,6 +164,8 @@ function ClassDiscounts() {
     // setStudentsInfo(updatedTable);
   };
   console.log('&&&&&&&&&&&&&&&', studentsInfo);
+  console.log(endDate);
+  console.log(endDate.toString().length);
   return (
     <>
       <h3 style={{ marginBottom: 16 }}>کدهای تخفیف این کلاس</h3>
@@ -216,7 +218,7 @@ function ClassDiscounts() {
                     onFocus={() => endDatePickerRef.current.openCalendar()}
                     onClick={() => endDatePickerRef.current.openCalendar()}
                     value={
-                      endDate
+                      endDate && endDate.toString().length < 30
                         ? convertNumberToPersian(`${endDate.toString()} ساعت ${endDate.hour}:${endDate.minute}`)
                         : ''
                     }
