@@ -51,7 +51,7 @@ import StudentProfileModalCard from '../StudentProfileModalCard';
 import './style.scss';
 import { Fragment } from 'react';
 
-function ClassDiscounts() {
+function CreateDiscount() {
   const [studentsInfo, setStudentsInfo] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showProfile, setShowProfile] = useState({ profileOpen: false, username: '' });
@@ -176,18 +176,8 @@ function ClassDiscounts() {
           {
             /*studentsInfo.length*/ 0 == 0 ? (
               <>
-                <div className="discount-page__header">
-                  <div className="discount-page-title__container">
-                    <h3 className="discount-page__title-text"> افزودن کد تخفیف.</h3>
-                  </div>
-                  <div>
-                    <button className="success-btn" style={{ marginLeft: 10 }}>
-                      اضافه کردن
-                    </button>
-                    <button className="danger-btn">انصراف</button>
-                  </div>
-                </div>
-                <div className="discount-page__second-row">
+                <div className="discount-page__title"> کد تخفیفی برای این کلاس ثبت نشده است.</div>
+                <div>
                   <label htmlFor="title" className="kp-text-input__label">
                     متن کد تخفیف:
                   </label>
@@ -204,56 +194,56 @@ function ClassDiscounts() {
                     <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>عنوان تمرین نمی‌تواند خالی باشد.</div>
                   )}
                 </div>
+                <div className="discount-page__second-row">
+                  <div style={{ flexGrow: 1 }}>
+                    <label htmlFor="title" className="kp-text-input__label">
+                      تاریخ پایان اعتبار کد تخفیف
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="انتخاب تاریخ پایان اعتبار کد تخفیف"
+                      onBlur={() => setEndDateBlured(true)}
+                      onFocus={() => endDatePickerRef.current.openCalendar()}
+                      onClick={() => endDatePickerRef.current.openCalendar()}
+                      value={
+                        endDate
+                          ? convertNumberToPersian(`${endDate.toString()} ساعت ${endDate.hour}:${endDate.minute}`)
+                          : ''
+                      }
+                      onChange={e => setEndDate(e.target.value)}
+                      className="kp-text-input__input discount-page-input__end-date"
+                      id="title"
+                    />
+                    {endDateBlured && endDate == '' && (
+                      <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>
+                        زمان پایان تمرین نمیتواند خالی باشد.
+                      </div>
+                    )}
+                  </div>
 
-                <div>
-                  <label htmlFor="title" className="kp-text-input__label">
-                    تاریخ پایان اعتبار کد تخفیف:
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="انتخاب تاریخ پایان اعتبار کد تخفیف"
-                    onBlur={() => setEndDateBlured(true)}
-                    onFocus={() => endDatePickerRef.current.openCalendar()}
-                    onClick={() => endDatePickerRef.current.openCalendar()}
-                    value={
-                      endDate
-                        ? convertNumberToPersian(`${endDate.toString()} ساعت ${endDate.hour}:${endDate.minute}`)
-                        : ''
-                    }
-                    onChange={e => setEndDate(e.target.value)}
-                    className="kp-text-input__input discount-page-input__end-date"
-                    id="title"
-                  />
-                  {endDateBlured && endDate == '' && (
-                    <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>
-                      زمان پایان تمرین نمیتواند خالی باشد.
-                    </div>
-                  )}
-                </div>
-
-                <div>
-                  <label htmlFor="title" className="kp-text-input__label">
-                    درصد تخفیف:
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="درصد تخفیف"
-                    onBlur={() => setPercentageBlured(true)}
-                    value={percentage ? convertNumberToPersian(percentage) : ''}
-                    onChange={e => setPercentage(e.target.value)}
-                    className="kp-text-input__input discount-page-input__percentage"
-                    id="title"
-                  />
-                  {percentageBlured && percentage == '' && (
-                    <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>درصد تخفیف نمیتواند خالی باشد.</div>
-                  )}
+                  <div style={{ flexGrow: 1 }}>
+                    <label htmlFor="title" className="kp-text-input__label">
+                      درصد تخفیف
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="درصد تخفیف"
+                      onBlur={() => setPercentageBlured(true)}
+                      value={percentage}
+                      onChange={e => setPercentage(e.target.value)}
+                      className="kp-text-input__input discount-page-input__percentage"
+                      id="title"
+                    />
+                    {percentageBlured && percentage == '' && (
+                      <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>درصد تخفیف نمیتواند خالی باشد.</div>
+                    )}
+                  </div>
                 </div>
 
                 <DatePicker
                   ref={endDatePickerRef}
                   inputClass="date-input"
                   minDate={new Date()}
-                  value={endDate}
                   className="rmdp-mobile"
                   onChange={date => {
                     setEndDate(date);
@@ -390,4 +380,4 @@ function ClassDiscounts() {
   );
 }
 
-export default ClassDiscounts;
+export default CreateDiscount;
