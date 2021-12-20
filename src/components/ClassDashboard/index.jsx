@@ -15,6 +15,7 @@ import { Modal, Fade, Backdrop } from '@mui/material';
 import CourseLoader from '../CourseLoader';
 import ClassStudentsInfo from '../ClassStudentsInfo';
 import ClassGeneralInfo from '../ClassGeneralInfo';
+import ClassDiscounts from '../ClassDiscounts';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 
@@ -144,6 +145,12 @@ const ClassDashboard = () => {
               <GroupsIcon />
             </div>
           </Link>
+          <Link to={`/dashboard/class/${classId}/discounts`}>
+            <div className={baseClass + '__item'}>
+              <p>تخفیف ها</p>
+              <GroupsIcon />
+            </div>
+          </Link>
           {role == 'student' && (
             <div style={{ color: '#f22613' }} onClick={() => setOpenModal(true)} className={baseClass + '__item'}>
               <p>ترک کلاس</p>
@@ -198,6 +205,9 @@ const ClassDashboard = () => {
               </Route>
               <Route path="/dashboard/class/:classId/assignments/view/:assignmentId" exact>
                 <BaseAssignments role={role} />
+              </Route>
+              <Route path="/dashboard/class/:classId/discounts" exact>
+                <ClassDiscounts />
               </Route>
               <Route path="/dashboard/class/:classId/attendees" exact>
                 {role == 'teacher' ? <ClassStudentsInfo /> : <ClassAtendees role={role} />}

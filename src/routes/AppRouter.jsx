@@ -74,6 +74,9 @@ const AppRouter = () => {
         <Route path="/classes">
           <Filters />
         </Route>
+        {/* <Route path="/dashboard/class/:classId/discount-system">
+          <ClassDiscounts />
+        </Route> */}
         {/* student dasgboard classes url */}
         <Switch>
           <Route path="/dashboard/student/ClassesList" exact>
@@ -89,7 +92,7 @@ const AppRouter = () => {
             <StudentDashboardAssignments />
           </Route>
           <Route path="/dashboard/class/:courseId/assignments/view/:assignmentId">
-          <BaseAssignments />
+            <BaseAssignments />
           </Route>
           <Route path="/dashboard/student/profile">
             <StudentProfile />

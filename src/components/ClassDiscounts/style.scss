@@ -1,0 +1,37 @@
+@import '/src/theme/main.scss';
+
+.discount-page__title {
+  margin-bottom: 20px;
+}
+
+.discount-page-input__title {
+  width: 100%;
+}
+
+.discount-page-input__title:focus {
+  border-bottom: solid 2px black !important;
+}
+
+.discount-page-input__end-date {
+  width: 95%;
+}
+
+.discount-page-input__end-date:focus {
+  border-bottom: solid 2px black !important;
+}
+
+input.date-input {
+  display: none !important;
+}
+
+.discount-page__second-row {
+  display: flex;
+}
+
+.discount-page-input__percentage {
+  width: 100%;
+}
+
+.discount-page-input__percentage:focus {
+  border-bottom: solid 2px black !important;
+}
