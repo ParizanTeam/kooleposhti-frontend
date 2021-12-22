@@ -34,6 +34,7 @@ import EditAssignment from '../EditAssignment';
 import apiInstance from '../../utils/axiosConfig';
 import ClassAtendees from '../ClassAtendees';
 import { baseUrl } from '../../utils/constants';
+import CreateDiscount from '../ClassDiscounts/CreateDiscount';
 
 const ClassDashboard = () => {
   const [showDrawer, setShowDrawer] = useState(false);
@@ -207,7 +208,10 @@ const ClassDashboard = () => {
                 <BaseAssignments role={role} />
               </Route>
               <Route path="/dashboard/class/:classId/discounts" exact>
-                <ClassDiscounts />
+                {role != 'teacher' ? <Redirect to="/not-found" /> : <ClassDiscounts />}
+              </Route>
+              <Route path="/dashboard/class/:classId/discounts/create" exact>
+                {role != 'teacher' ? <Redirect to="/not-found" /> : <CreateDiscount role={role} />}
               </Route>
               <Route path="/dashboard/class/:classId/attendees" exact>
                 {role == 'teacher' ? <ClassStudentsInfo /> : <ClassAtendees role={role} />}

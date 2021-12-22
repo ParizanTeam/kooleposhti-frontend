@@ -4,7 +4,7 @@ import ReactLoading from 'react-loading';
 import Avatar from '@mui/material/Avatar';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
-import { convertNumberToEnglish, convertNumberToPersian } from '../../utils/helpers';
+import { convertNumberToEnglish, convertNumberToPersian } from '../../../utils/helpers';
 import DatePicker, { DateObject } from 'react-multi-date-picker';
 import TimePicker from 'react-multi-date-picker/plugins/time_picker';
 import {
@@ -32,7 +32,6 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { ToastContainer, toast } from 'react-toastify';
 import { Helmet } from 'react-helmet';
-import profile_1 from '../../assets/images/child1.jpg';
 import { useParams } from 'react-router';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -44,10 +43,9 @@ import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import { styled } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
-import apiInstance from '../../utils/axiosConfig';
-import AlertDialog from '../AlertDialog';
-import { baseUrl } from '../../utils/constants';
-import StudentProfileModalCard from '../StudentProfileModalCard';
+import apiInstance from '../../../utils/axiosConfig';
+import { baseUrl } from '../../../utils/constants';
+import StudentProfileModalCard from '../../StudentProfileModalCard';
 import './style.scss';
 import { Fragment } from 'react';
 
@@ -166,214 +164,89 @@ function CreateDiscount() {
   console.log('&&&&&&&&&&&&&&&', studentsInfo);
   return (
     <>
-      <h3 style={{ marginBottom: 16 }}>کدهای تخفیف این کلاس</h3>
-      {loading ? (
-        <div style={{ display: 'flex', justifyContent: 'center', padding: 'auto', marginTop: 24 }}>
-          <ReactLoading type="spinningBubbles" color="#EF006C" height={100} width={100} />
+      <div className="discount-page__header">
+        <div className="discount-page-title__container">
+          <h3 className="discount-page__title-text"> افزودن کد تخفیف.</h3>
         </div>
-      ) : (
-        <Fragment>
-          {
-            /*studentsInfo.length*/ 0 == 0 ? (
-              <>
-                <div className="discount-page__title"> کد تخفیفی برای این کلاس ثبت نشده است.</div>
-                <div>
-                  <label htmlFor="title" className="kp-text-input__label">
-                    متن کد تخفیف:
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="متن کد تخفیف"
-                    onBlur={() => setTitleBlured(true)}
-                    value={title}
-                    onChange={e => setTitle(e.target.value)}
-                    className="kp-text-input__input discount-page-input__title"
-                    id="title"
-                  />
-                  {titleBlured && title == '' && (
-                    <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>عنوان تمرین نمی‌تواند خالی باشد.</div>
-                  )}
-                </div>
-                <div className="discount-page__second-row">
-                  <div style={{ flexGrow: 1 }}>
-                    <label htmlFor="title" className="kp-text-input__label">
-                      تاریخ پایان اعتبار کد تخفیف
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="انتخاب تاریخ پایان اعتبار کد تخفیف"
-                      onBlur={() => setEndDateBlured(true)}
-                      onFocus={() => endDatePickerRef.current.openCalendar()}
-                      onClick={() => endDatePickerRef.current.openCalendar()}
-                      value={
-                        endDate
-                          ? convertNumberToPersian(`${endDate.toString()} ساعت ${endDate.hour}:${endDate.minute}`)
-                          : ''
-                      }
-                      onChange={e => setEndDate(e.target.value)}
-                      className="kp-text-input__input discount-page-input__end-date"
-                      id="title"
-                    />
-                    {endDateBlured && endDate == '' && (
-                      <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>
-                        زمان پایان تمرین نمیتواند خالی باشد.
-                      </div>
-                    )}
-                  </div>
+        <div>
+          <button className="success-btn" style={{ marginLeft: 10 }}>
+            اضافه کردن
+          </button>
+          <button className="danger-btn">انصراف</button>
+        </div>
+      </div>
+      <div className="discount-page__second-row">
+        <label htmlFor="title" className="kp-text-input__label">
+          متن کد تخفیف:
+        </label>
+        <input
+          type="text"
+          placeholder="متن کد تخفیف"
+          onBlur={() => setTitleBlured(true)}
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+          className="kp-text-input__input discount-page-input__title"
+          id="title"
+        />
+        {titleBlured && title == '' && (
+          <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>عنوان تمرین نمی‌تواند خالی باشد.</div>
+        )}
+      </div>
 
-                  <div style={{ flexGrow: 1 }}>
-                    <label htmlFor="title" className="kp-text-input__label">
-                      درصد تخفیف
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="درصد تخفیف"
-                      onBlur={() => setPercentageBlured(true)}
-                      value={percentage}
-                      onChange={e => setPercentage(e.target.value)}
-                      className="kp-text-input__input discount-page-input__percentage"
-                      id="title"
-                    />
-                    {percentageBlured && percentage == '' && (
-                      <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>درصد تخفیف نمیتواند خالی باشد.</div>
-                    )}
-                  </div>
-                </div>
-
-                <DatePicker
-                  ref={endDatePickerRef}
-                  inputClass="date-input"
-                  minDate={new Date()}
-                  className="rmdp-mobile"
-                  onChange={date => {
-                    setEndDate(date);
-                  }}
-                  calendar={persian}
-                  locale={persian_fa}
-                  minDate={new Date()}
-                  plugins={[<TimePicker hideSeconds position="bottom" />]}
-                />
-              </>
-            ) : (
-              <CacheProvider value={cacheRtl}>
-                <div dir="rtl">
-                  {/* <Helmet>
-          <title>پروفایل</title>
-        </Helmet> */}
-
-                  <Box component="form" noValidate sx={{ mt: 5 }}>
-                    <Grid container spacing={2}>
-                      <Grid item sm={6} xs={12}></Grid>
-                      <Grid item sm={6} xs={12}></Grid>
-                    </Grid>
-                  </Box>
-
-                  <Grid sx={{ margin: '40px 10px 10px 0px' }}>
-                    <TableContainer className="student-info-table-container" style={{ boxShadow: '10px solid' }}>
-                      <Table aria-label="customized table" className="student-info-table">
-                        <TableHead style={{ borderRadius: '10px' }}>
-                          <TableRow>
-                            <StyledTableCell
-                              align="center"
-                              sx={{ fontSize: 14, backgroundColor: 'rgba(10, 67, 94, 0.942)', color: 'white' }}
-                            >
-                              کد تخفیف
-                            </StyledTableCell>
-                            <StyledTableCell align="center">تاریخ پایان کد تخفیف</StyledTableCell>
-                            <StyledTableCell align="center">درصد تخفیف</StyledTableCell>
-                            <StyledTableCell align="center">تعداد دانش آموزان</StyledTableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {rows.map(row => (
-                            <StyledTableRow key={row.id}>
-                              <StyledTableCell
-                                style={{ display: 'flex', justifyContent: 'center' }}
-                                align="center"
-                                className="course-student-info-table__image-holder"
-                                onClick={() => {
-                                  setShowProfile({ profileOpen: true, username: row.studentName });
-                                  console.log({ showProfile });
-                                }}
-                              >
-                                {row.img}
-                              </StyledTableCell>
-                              <StyledTableCell align="center">{row.studentName}</StyledTableCell>
-                              <StyledTableCell align="center">{row.email}</StyledTableCell>
-                              <StyledTableCell align="center">
-                                {/* ask why */}
-                                <CloseIcon
-                                  onClick={() => {
-                                    setOpenModal(true);
-                                    setModalConfirm(() => {
-                                      return () => DeleteStudent(row);
-                                    });
-                                    // console.log('hahahah');
-                                    // console.log(row.id);
-                                    //   DeleteStudent(row);
-                                    // setConfirmDialog({
-                                    //   isOpen: true,
-                                    //   title: 'مدرس محترم',
-                                    //   subtitle: 'مطمئنی میخوای این دانش آموز رو حذف کنی؟',
-                                    //   onConfirm: () => {
-                                    //     DeleteStudent(row);
-                                    //   },
-                                    // });
-                                  }}
-                                  className="student-info-form__close-icon"
-                                ></CloseIcon>
-                              </StyledTableCell>
-                              {/* <StyledTableCell align="left">{row.capacity}</StyledTableCell> */}
-                            </StyledTableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </Grid>
-                </div>
-              </CacheProvider>
-            )
+      <div>
+        <label htmlFor="title" className="kp-text-input__label">
+          تاریخ پایان اعتبار کد تخفیف:
+        </label>
+        <input
+          type="text"
+          placeholder="انتخاب تاریخ پایان اعتبار کد تخفیف"
+          onBlur={() => setEndDateBlured(true)}
+          onFocus={() => endDatePickerRef.current.openCalendar()}
+          onClick={() => endDatePickerRef.current.openCalendar()}
+          value={
+            endDate && endDate.toString().length < 30
+              ? convertNumberToPersian(`${endDate.toString()} ساعت ${endDate.hour}:${endDate.minute}`)
+              : ''
           }
-        </Fragment>
-      )}
-      {/* <AlertDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} /> */}
-      <StudentProfileModalCard showProfile={showProfile} setShowProfile={setShowProfile} />
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={openModal}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={openModal}>
-          <div className="register-modal">
-            <h4 className="register-modal__title">آیا از حذف این دانش‌آموز مطمئن هستید؟</h4>
-            <button className="register-modal__confirm" onClick={handleClose}>
-              بازگشت
-            </button>
-            <button className="register-modal__cancel" onClick={modalConfirm}>
-              حذف
-            </button>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              {registerLoading && <ReactLoading type="bubbles" color="#000" />}
-            </div>
-          </div>
-        </Fade>
-      </Modal>
+          onChange={e => setEndDate(e.target.value)}
+          className="kp-text-input__input discount-page-input__end-date"
+          id="title"
+        />
+        {endDateBlured && endDate == '' && (
+          <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>زمان پایان تمرین نمیتواند خالی باشد.</div>
+        )}
+      </div>
+
+      <div>
+        <label htmlFor="title" className="kp-text-input__label">
+          درصد تخفیف:
+        </label>
+        <input
+          type="text"
+          placeholder="درصد تخفیف"
+          onBlur={() => setPercentageBlured(true)}
+          value={percentage ? convertNumberToPersian(percentage) : ''}
+          onChange={e => setPercentage(e.target.value)}
+          className="kp-text-input__input discount-page-input__percentage"
+          id="title"
+        />
+        {percentageBlured && percentage == '' && (
+          <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>درصد تخفیف نمیتواند خالی باشد.</div>
+        )}
+      </div>
 
       <DatePicker
         ref={endDatePickerRef}
         inputClass="date-input"
+        minDate={new Date()}
+        value={endDate}
         className="rmdp-mobile"
         onChange={date => {
           setEndDate(date);
         }}
         calendar={persian}
         locale={persian_fa}
+        minDate={new Date()}
         plugins={[<TimePicker hideSeconds position="bottom" />]}
       />
     </>

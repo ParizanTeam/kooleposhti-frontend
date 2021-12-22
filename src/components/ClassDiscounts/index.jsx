@@ -26,7 +26,7 @@ import {
   DialogTitle,
 } from '@mui/material';
 import { Modal, Fade, Backdrop } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
@@ -61,6 +61,7 @@ function ClassDiscounts() {
   const [titleBlured, setTitleBlured] = useState(false);
   const [endDateBlured, setEndDateBlured] = useState(false);
   const [percentageBlured, setPercentageBlured] = useState(false);
+  const history = useHistory();
   const endDatePickerRef = useRef(null);
 
   const params = useParams();
@@ -176,7 +177,7 @@ function ClassDiscounts() {
       ) : (
         <Fragment>
           {
-            /*studentsInfo.length*/ 0 == 0 ? (
+            /*studentsInfo.length*/ 1 == 0 ? (
               <>
                 <div className="discount-page__header">
                   <div className="discount-page-title__container">
@@ -280,6 +281,14 @@ function ClassDiscounts() {
                     </Grid>
                   </Box>
 
+                  <div>
+                    <button
+                      className="classDiscount__create-button"
+                      onClick={() => history.push(`/dashboard/class/${params.classId}/discounts/create`)}
+                    >
+                      اضافه کردن کد تخفیف
+                    </button>
+                  </div>
                   <Grid sx={{ margin: '40px 10px 10px 0px' }}>
                     <TableContainer className="student-info-table-container" style={{ boxShadow: '10px solid' }}>
                       <Table aria-label="customized table" className="student-info-table">
