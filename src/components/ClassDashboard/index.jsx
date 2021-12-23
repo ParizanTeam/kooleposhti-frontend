@@ -27,7 +27,7 @@ import IconButton from '@mui/material/IconButton';
 import { useMediaQuery } from '@mui/material';
 import patternSrc from '../../assets/images/pattern2.png';
 import './style.scss';
-import { Link, Redirect, Route, useHistory, useLocation, useParams } from 'react-router-dom';
+import { Link, NavLink, Redirect, Route, useHistory, useLocation, useParams } from 'react-router-dom';
 import EditAssignment from '../EditAssignment';
 
 import apiInstance from '../../utils/axiosConfig';
@@ -108,12 +108,17 @@ const ClassDashboard = () => {
         <img className={baseClass + '__img-bottom'} src={patternSrc} alt="" />
         <div className={baseClass + '__box-1'}></div>
         <div className={baseClass + '__items-container'}>
-          <Link to={`/dashboard/class/${classId}/`}>
+          <NavLink
+            exact
+            activeClassName="active-class-drawer-item"
+            onClick={() => setShowDrawer(false)}
+            to={`/dashboard/class/${classId}/`}
+          >
             <div className={baseClass + '__item'}>
               <p>اطلاعات کلی کلاس</p>
               <DashboardIcon />
             </div>
-          </Link>
+          </NavLink>
           {/* <div className={baseClass + '__item'}>
             <p>چت با {role == 'student' ? 'استاد' : 'دانش‌آموزان'}</p>
             <ChatIcon />
@@ -122,12 +127,16 @@ const ClassDashboard = () => {
             <p>گفتگوی گروهی</p>
             <PeopleIcon />
           </div> */}
-          <Link to={`/dashboard/class/${classId}/assignments`}>
+          <NavLink
+            activeClassName="active-class-drawer-item"
+            onClick={() => setShowDrawer(false)}
+            to={`/dashboard/class/${classId}/assignments`}
+          >
             <div className={baseClass + '__item'}>
               <p>تمرین‌ها</p>
               <MenuBookIcon />
             </div>
-          </Link>
+          </NavLink>
           {/* <div className={baseClass + '__item'}>
             <p>بازخوردها</p>
             <FeedbackIcon />
@@ -138,12 +147,16 @@ const ClassDashboard = () => {
               <RemoveRedEyeIcon />
             </div>
           </Link>
-          <Link to={`/dashboard/class/${classId}/attendees`}>
+          <NavLink
+            activeClassName="active-class-drawer-item"
+            onClick={() => setShowDrawer(false)}
+            to={`/dashboard/class/${classId}/attendees`}
+          >
             <div className={baseClass + '__item'}>
               <p>شرکت‌کنندگان کلاس</p>
               <GroupsIcon />
             </div>
-          </Link>
+          </NavLink>
           {role == 'student' && (
             <div style={{ color: '#f22613' }} onClick={() => setOpenModal(true)} className={baseClass + '__item'}>
               <p>ترک کلاس</p>
