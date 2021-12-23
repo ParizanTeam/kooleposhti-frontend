@@ -229,9 +229,13 @@ const ClassCard = ({ classData }) => {
             <div className="class-card__teacher-rating-wrapper">
               <div className="class-teacher-card">
                 <div className="class-teacher-card__img-wrapper">
-                  <Link to={`/public-profile/teacher/${classData.teacherName}`}><img className="class-teacher-card__img" src={teacherImg} alt="" /></Link>
+                  <Link to={`/public-profile/teacher/${classData.teacherName}`}>
+                    <img className="class-teacher-card__img" src={teacherImg} alt="" />
+                  </Link>
                 </div>
-                <Link to={`/public-profile/teacher/${classData.teacherName}`}><div className="class-teacher-card__name">{teacherName}</div></Link>
+                <Link to={`/public-profile/teacher/${classData.teacherName}`}>
+                  <div className="class-teacher-card__name">{teacherName}</div>
+                </Link>
               </div>
               <div className="class-card__rating" dir="ltr">
                 <Rating
@@ -272,13 +276,22 @@ const Filters = () => {
   const history = useHistory();
   const search = location.search;
   const category = new URLSearchParams(search).get('category');
+  const searchUrlParam = new URLSearchParams(search).get('search');
   const [activeCategory, setActiveCategory] = useState(category);
   const [age, setAge] = useState('any');
   const [choseAge, setChoseAge] = useState('any');
   const [searchString, setSearchString] = useState('');
-  const [queryObject, setQueryObject] = useState(category ? { category: category } : {});
+  let defaultQueryObject = {};
+  if (category) {
+    defaultQueryObject = { ...defaultQueryObject, category };
+  }
+  if (searchUrlParam) {
+    defaultQueryObject = { ...defaultQueryObject, search: searchUrlParam };
+  }
+  const [queryObject, setQueryObject] = useState(defaultQueryObject);
   const [apiLoading, setApiLoading] = useState(false);
   const [classes, setClasses] = useState(classesData);
+  const [showMore, setShowMore] = useState(false);
 
   const handleFiltersModalClose = () => {
     setOpenFiltersModal(false);
@@ -354,7 +367,8 @@ const Filters = () => {
         }&${query.category ? `categories=${query.category}` : ''}`
       )
       .then(res => {
-        console.log(res.data.results, '@@@@@@@');
+        console.log(res.data, '@@@@@@@');
+        setShowMore(res.data.next);
         setClasses(() =>
           res.data.results.map(classData => ({
             classImg:
@@ -801,7 +815,16 @@ const Filters = () => {
                   هیچ کلاسی یافت نشد!
                 </div>
               ) : (
-                classes.map(classData => <ClassCard classData={classData} />)
+                <>
+                  {classes.map(classData => (
+                    <ClassCard classData={classData} />
+                  ))}
+                  {showMore && (
+                    <div className="show-more-classes-btn-wrapper">
+                      <button className="info-btn show-more-classes-btn">مشاهده بیشتر</button>
+                    </div>
+                  )}
+                </>
               )}
             </>
           )}
