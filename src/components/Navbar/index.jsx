@@ -22,6 +22,7 @@ import SearchBar from './SearchBar';
 import { LoginSignUp, ProfileMenu, RightBtn, MenuButton, MyClasses } from './base';
 import { navbarProps, setBaseColor } from './constants';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useLocation } from 'react-router-dom';
 
 const Navbar = ({ color }) => {
   const customTheme = createTheme({
@@ -107,6 +108,8 @@ const DesktopNavbar = () => {
     setColor(navbarProps.baseColor);
   };
 
+  const location = useLocation();
+
   return (
     <div>
       <AppBar style={{ backgroundColor: '#fff' }}>
@@ -119,12 +122,14 @@ const DesktopNavbar = () => {
               <HelpIcon style={{ color: navbarProps.baseColor, marginLeft: '5px' }} />
               راهنما
             </Button>
-            <IconButton
-              style={{ marginRight: '10px', color: color == 'grey' ? color : navbarProps.baseColor }}
-              onClick={handleSearchBarOpen}
-            >
-              <SearchIcon />
-            </IconButton>
+            {!location.pathname === '/classes' && (
+              <IconButton
+                style={{ marginRight: '10px', color: color == 'grey' ? color : navbarProps.baseColor }}
+                onClick={handleSearchBarOpen}
+              >
+                <SearchIcon />
+              </IconButton>
+            )}
           </div>
           {isAuth ? <ProfileMenu /> : <LoginSignUp />}
         </Toolbar>
@@ -193,6 +198,7 @@ const MobileNavbar = () => {
     setOpenSearchBar(false);
     setColor(navbarProps.baseColor);
   };
+  const location = useLocation();
 
   return (
     <div>
@@ -200,7 +206,7 @@ const MobileNavbar = () => {
         <Toolbar>
           <Logo />
           <div style={{ marginRight: 'auto' }}>
-            {!open && (
+            {!open && !location.pathname === '/classes' && (
               <>
                 <IconButton onClick={handleSearchBarOpen} sx={{ color: navbarProps.baseColor }}>
                   <SearchIcon />
