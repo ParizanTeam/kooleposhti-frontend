@@ -61,6 +61,10 @@ function BaseDashboard(props) {
     setMobileOpen(!mobileOpen);
   };
 
+  const hideDrawer = () =>{
+    setMobileOpen(false)
+  }
+
   const drawer = (
     <div>
       <Typography
@@ -77,7 +81,7 @@ function BaseDashboard(props) {
       <List>
         {props.items.map((item, index) => (
           <div style={{ padding: '0px 10px' }}>
-            <ListItem button key={item.text} onClick={item.onClick} className="list-item">
+            <ListItem button key={item.text} onClick={item.onClick} className="list-item" onClickCapture={hideDrawer}>
               <ListItemIcon>{item.icon}</ListItemIcon>
               <p style={{ fontSize: '13px' }}>{item.text}</p>
             </ListItem>
