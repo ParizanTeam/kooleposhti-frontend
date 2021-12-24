@@ -61,7 +61,7 @@ function DashboardTeacherProfile(props) {
         })
         .catch(err => {
           setLoading(false);
-          console.log('error bedeeeeee: ', err);
+          console.log('error: ', err);
         });
     }
     fetchData();

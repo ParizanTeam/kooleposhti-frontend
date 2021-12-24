@@ -34,6 +34,7 @@ import ReactHtmlParser from 'react-html-parser';
 import { useLocation } from 'react-router-dom';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
+import classImg from '../../assets/images/assignment.png';
 import './style.scss';
 
 function TeacherPublicProfile(props) {
@@ -185,7 +186,7 @@ function TeacherPublicProfile(props) {
               color: 'rgb(0,155,160) !important',
             }}
           >
-            {teacherData.first_name + ' ' + teacherData.last_name}
+            {teacherData.first_name && teacherData.last_name ? teacherData.first_name + ' ' + teacherData.last_name : null}
           </Typography>
           <Rating
             name="simple-controlled"
@@ -224,6 +225,7 @@ function TeacherPublicProfile(props) {
     </div>
   );
   const use_mobile = useMobile();
+
   /*  SwiperCore.use([Navigation, Keyboard]); */
   const TeacherClasses = () => {
     return (
@@ -232,7 +234,10 @@ function TeacherPublicProfile(props) {
         <div className="My-carousal-container">
           <Grid sx={{ width: { xl: '100%', md: '85%', sm: '65vmin', xs: '90vmin' } }}>
             {teacherData.courses.length === 0 && (
-              <p className="teacher-public-profile-about-me__text">کلاسی برای نمایش وجود نداره !!!</p>
+              <Grid container direction="column" alignItems="center" justifyContent="center">
+                <img src={classImg} alt="class list" />
+                <p className="teacher-classes-emptylist">کلاسی برای نمایش وجود نداره !!!</p>
+              </Grid>
             )}
             {teacherData.courses.length !== 0 && (
               <Swiper
@@ -246,17 +251,17 @@ function TeacherPublicProfile(props) {
                 {teacherData.courses.map(item => (
                   <SwiperSlide key={item.id}>
                     <Link to={`/courses/${item.id}`}>
-                    <CourseCard
-                      title={item.title === undefined ? 'title' : item.title}
-                      teacherName={
-                        item.teacherName === undefined
-                          ? teacherData.first_name + ' ' + teacherData.last_name
-                          : item.teacherName
-                      }
-                      rate={item.rate === undefined ? 2 : item.rate}
-                      teacherImgSrc={teacherData.image === null ? profile_1 : teacherData.image.image}
-                      imgSrc={item.image === null ? image : item.image}
-                    />
+                      <CourseCard
+                        title={item.title === undefined ? 'title' : item.title}
+                        teacherName={
+                          item.teacherName === undefined
+                            ? teacherData.first_name + ' ' + teacherData.last_name
+                            : item.teacherName
+                        }
+                        rate={item.rate === undefined ? 2 : item.rate}
+                        teacherImgSrc={teacherData.image === null ? profile_1 : teacherData.image.image}
+                        imgSrc={item.image === null ? image : item.image}
+                      />
                     </Link>
                   </SwiperSlide>
                 ))}
