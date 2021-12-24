@@ -221,7 +221,7 @@ function DashboardTeacherClasses(props) {
             >
               {rows.length === 0 && (
                 <Grid container direction="column" alignItems="center" justifyContent="center">
-                  <img src={classImg} alt="class list"  />
+                  <Avatar src={classImg} alt="class list" sx={{width:{md:"20vw", sm:"40vw" , xs:"50vw"}, height:{md:"20vw", sm:"40vw", xs:"50vw"}, borderRadius:"0"}}/>
                   <p className="teacher-classes-emptylist">کلاسی برای نمایش وجود نداره !!!</p>
                 </Grid>
               )}

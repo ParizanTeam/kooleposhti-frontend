@@ -9,12 +9,17 @@ import wallet from '../../assets/images/wallet.jpg';
 import { baseUrl } from '../../utils/constants';
 import axios from '../../utils/axiosConfig';
 import ReactLoading from 'react-loading';
+import { toast, ToastContainer } from 'react-toastify';
+import CurrencyInput from 'react-currency-input-field';
 import './style.scss';
 import { convertNumberToPersian, formatPrice } from '../../utils/helpers';
 
 function DashboardTeacherWallet(props) {
   const [price, setPrice] = useState(null);
+  const [withdrawLoding, setWithdrawLoading] = useState(false);
+  const [bankInfo, setBankInfo] = useState();
   const [loading, setLoading] = useState(true);
+
   const cacheRtl = createCache({
     key: 'muirtl',
 
@@ -24,10 +29,53 @@ function DashboardTeacherWallet(props) {
   });
   const token = 'JWT ' + localStorage.getItem('access_token');
 
+  const walletWithdraw = () => {
+    setWithdrawLoading(true);
+    const body = { amount: parseInt(document.getElementById('withdraw_amount').value) };
+    axios
+      .post(`${baseUrl}/accounts/wallet/withdraw/`, body, {
+        headers: {
+          Authorization: token,
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => {
+        console.log('withdraw: ', response);
+        setWithdrawLoading(false);
+        toast.success('برداشت با موفقیت انجام شد', {
+          position: 'bottom-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+        });
+        setTimeout(() => {
+          setLoading(true);
+        }, 1000);
+      })
+      .catch(err => {
+        setWithdrawLoading(false);
+        toast.error('شرمنده دوباره امتحان کن', {
+          position: 'bottom-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+        });
+        console.log('error bedeeeeee: ', err);
+      });
+  };
+
   useEffect(() => {
     async function fetchData() {
       const res = await axios
-        .get(`${baseUrl}/accounts/instructors/me/`, {
+        .get(`${baseUrl}/accounts/wallet/mywallet/`, {
           headers: {
             Authorization: token,
             'Content-Type': 'application/json',
@@ -35,6 +83,7 @@ function DashboardTeacherWallet(props) {
         })
         .then(response => {
           console.log('get response: ', response);
+          setBankInfo(response.data);
           setLoading(false);
         })
         .catch(err => {
@@ -43,8 +92,13 @@ function DashboardTeacherWallet(props) {
         });
     }
     fetchData();
-  }, []);
+  }, [loading]);
 
+  const checkWithdrawAmountLength = event => {
+    if (event.target.value.length > 9) {
+      event.target.value = event.target.value.slice(0, 9);
+    }
+  };
   return (
     <CacheProvider value={cacheRtl}>
       {loading && (
@@ -56,7 +110,8 @@ function DashboardTeacherWallet(props) {
       )}
       {!loading && (
         <div>
-          <DashboardTeacherBankAccount />
+          <DashboardTeacherBankAccount card_no={bankInfo.card_no} sheba={bankInfo.sheba} />
+          <ToastContainer rtl={true} position="bottom-center" />
           <div style={{ marginTop: '120px' }}>
             <Grid container>
               <Grid item xs={12}>
@@ -66,7 +121,7 @@ function DashboardTeacherWallet(props) {
                 <CountUp
                   className="wallet-credit-counter"
                   start={0}
-                  end={120 * 1000}
+                  end={bankInfo.balance * 1000}
                   formattingFn={count => formatPrice(convertNumberToPersian(count)) + ' تومان'}
                   duration={price === null ? 2.75 : 0}
                   separator=" "
@@ -80,15 +135,24 @@ function DashboardTeacherWallet(props) {
               <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 5 }}>
                 <Typography className="wallet-withdraw">
                   مبلغ
-                  <input
-                    value={price}
+
+                  <CurrencyInput
+                    id="withdraw_amount"
+                    name="withdraw_amount"
                     className="wallet-withdraw__textfield"
-                    onChange={e => setPrice(convertNumberToPersian(e.target.value))}
+                    decimalsLimit={3}
                     maxLength={9}
-                    data-type="currency"
+                    onChange={e => {
+                      setPrice(convertNumberToPersian(e.target.value));
+                    }}
+                    
+                    onValueChange={(value, name) => console.log(value, name)}
                   />
-                  تومان را
-                  <Button className="wallet-withdraw__button">برداشت</Button>
+                   تومان را
+                  <Button className="wallet-withdraw__button" onClick={walletWithdraw}>
+                    {!withdrawLoding && <span>برداشت</span>}
+                    {withdrawLoding && <ReactLoading type="bubbles" color="#fff" className="loading-signup" />}
+                  </Button>
                   میکنم
                 </Typography>
               </Grid>
