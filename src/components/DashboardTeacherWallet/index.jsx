@@ -31,7 +31,38 @@ function DashboardTeacherWallet(props) {
 
   const walletWithdraw = () => {
     setWithdrawLoading(true);
-    const body = { amount: parseInt(document.getElementById('withdraw_amount').value) };
+    const body = { amount: price };
+    console.log(price);
+    if(body.amount < 100000)
+    {
+      toast.error('حداقل مبلغ 100 هزار تومان است', {
+        position: 'bottom-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+      });
+      setWithdrawLoading(false);
+      return;
+    }
+    else if(body.amount/1000 != parseInt(body.amount/1000))
+    {
+      toast.error('مبلغ باید مضربی از 1000 تومان باشد', {
+        position: 'bottom-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+      });
+      setWithdrawLoading(false);
+      return;
+    }
     axios
       .post(`${baseUrl}/accounts/wallet/withdraw/`, body, {
         headers: {
@@ -58,7 +89,7 @@ function DashboardTeacherWallet(props) {
       })
       .catch(err => {
         setWithdrawLoading(false);
-        toast.error('شرمنده دوباره امتحان کن', {
+        toast.error('عدم موجودی کافی', {
           position: 'bottom-center',
           autoClose: 5000,
           hideProgressBar: false,
@@ -146,7 +177,7 @@ function DashboardTeacherWallet(props) {
                       setPrice(convertNumberToPersian(e.target.value));
                     }}
                     
-                    onValueChange={(value, name) => console.log(value, name)}
+                    onValueChange={(value, name) => setPrice(value)}
                   />
                    تومان را
                   <Button className="wallet-withdraw__button" onClick={walletWithdraw}>

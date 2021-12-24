@@ -129,7 +129,7 @@ function DashboardTeacherProfile(props) {
                 sx={{ backgroundColor: 'rgba(10, 67, 94, 0.942)', color: 'white', width: '120px', mt: 2 }}
               >
                 <p style={{ fontSize: '0.8rem' }}>انتخاب عکس</p>
-                <input type="file" hidden onChange={handleChange} />
+                <input type="file" hidden onChange={handleChange} accept=".jpg,.jpeg,.png"/>
               </Button>
 
               <ToastContainer rtl={true} />

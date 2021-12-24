@@ -12,7 +12,7 @@ import axios from '../../utils/axiosConfig';
 import './style.scss';
 
 function DashboardTeacherBankAccount(props) {
-  const[loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const cacheRtl = createCache({
     key: 'muirtl',
 
@@ -144,7 +144,7 @@ function DashboardTeacherBankAccount(props) {
                   </div>
                 </Grid>
               </div>
-              <Grid container sx={{ direction: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <Grid container>
                 <Grid item xs={12} className="CardName">
                   <Typography sx={{ fontSize: { lg: '20px', md: '20px', sm: '15px', xs: '3vmin' } }}>
                     سید عماد موسوی

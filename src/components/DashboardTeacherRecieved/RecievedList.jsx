@@ -32,7 +32,7 @@ export default function RecievedList() {
   return (
     <Box sx={{ flexGrow: 1}}>
       <FormGroup row></FormGroup>
-      <Grid item xs={11} md={11}>
+      <Grid item xs={12} md={12}>
         <Typography sx={{ mt: 4, mb: 2}} variant="h6" component="div">
           تاریخچه دریافت ها
         </Typography>
