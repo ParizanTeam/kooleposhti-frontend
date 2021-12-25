@@ -46,6 +46,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import apiInstance from '../../../utils/axiosConfig';
 import { baseUrl } from '../../../utils/constants';
 import StudentProfileModalCard from '../../StudentProfileModalCard';
+import { useHistory } from 'react-router-dom';
 import './style.scss';
 import { Fragment } from 'react';
 
@@ -59,9 +60,13 @@ function CreateDiscount() {
   const [titleBlured, setTitleBlured] = useState(false);
   const [endDateBlured, setEndDateBlured] = useState(false);
   const [percentageBlured, setPercentageBlured] = useState(false);
-  const endDatePickerRef = useRef(null);
-
+  const [code, setCode] = useState('');
   const params = useParams();
+  const [saveDate, setSaveDate] = useState(new Date());
+  const history = useHistory();
+  const endDatePickerRef = useRef(null);
+  const classId = params.classId;
+
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subtitle: '' });
 
   const token = 'JWT ' + localStorage.getItem('access_token');
@@ -75,23 +80,6 @@ function CreateDiscount() {
   const [modalConfirm, setModalConfirm] = useState(null);
   const [registerLoading, setRegisterLoading] = useState(false);
 
-  useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      const res = await apiInstance
-        .get(`${baseUrl}/courses/${courseId}/students/`)
-        .then(response => {
-          console.log('get response: ', response);
-          setStudentsInfo(response.data);
-          setLoading(false);
-        })
-        .catch(err => {
-          console.log('error: ', err);
-        });
-    }
-    fetchData();
-  }, []);
-
   const cacheRtl = createCache({
     key: 'muirtl',
 
@@ -100,68 +88,11 @@ function CreateDiscount() {
     prepend: true,
   });
 
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: 'rgb(227, 95, 120)',
-      color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
-  }));
-
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    '&:last-child td, &:last-child th': {
-      border: 0,
-    },
-  }));
-
-  function createData(discountCode, end, percentage, userNumbers) {
-    return { discountCode, end, percentage, userNumbers };
+  function handleChangeTitle(e) {
+    setTitle(e.target.value);
+    setCode(e.target.value);
   }
 
-  //ask why
-
-  const rows = [];
-  studentsInfo.forEach(item => {
-    rows.push(createData(item.discountCode, item.end, item.percentage, item.userNumbers));
-  });
-
-  const DeleteStudent = async inputRow => {
-    console.log('hello world');
-    setConfirmDialog({ ...confirmDialog, isOpen: false });
-    console.log('row before is: ' + inputRow);
-    console.log('students info before: ' + studentsInfo);
-    setRegisterLoading(true);
-    // async function fetchData() {
-    const delRes = await apiInstance
-      .put(`${baseUrl}/courses/${courseId}/delete-student/${inputRow.id}/`)
-      .then(response => {
-        console.log('get response: ', response);
-        console.log(inputRow.id);
-        const updatedTable = studentsInfo.filter(row => row.id != inputRow.id);
-        setStudentsInfo(updatedTable);
-        console.log(studentsInfo);
-        console.log(updatedTable);
-        toast.success('دانش‌آموز با موفقیت حذف شد.');
-        setOpenModal(false);
-        setRegisterLoading(false);
-      })
-      .catch(err => {
-        console.log('error: ', err);
-        setOpenModal(false);
-        toast.error('مشکلی در سامانه رخ داده‌است.');
-        setRegisterLoading(false);
-      });
-    // }
-    // const updatedTable = studentsInfo.filter(row => row != inputRow);
-    // setStudentsInfo(updatedTable);
-  };
-  console.log('&&&&&&&&&&&&&&&', studentsInfo);
   return (
     <>
       <div className="discount-page__header">
@@ -169,28 +100,62 @@ function CreateDiscount() {
           <h3 className="discount-page__title-text"> افزودن کد تخفیف.</h3>
         </div>
         <div>
-          <button className="success-btn" style={{ marginLeft: 10 }}>
+          <button
+            className="success-btn"
+            style={{ marginLeft: 10 }}
+            onClick={() => {
+              setTitleBlured(true);
+              setEndDateBlured(true);
+              setPercentageBlured(true);
+              console.log('hello');
+              if (!endDate || !percentage) {
+                toast.error('لطفا فیلدهای مربوطه را درست وارد کنید.');
+                console.log('this is error.');
+              } else {
+                const data = {
+                  title: title,
+                  expiration_date: saveDate,
+                  discount: percentage,
+                  code: code,
+                };
+                console.log(data);
+                apiInstance.post(`${baseUrl}/discounts/`, data).then(res => {
+                  toast.success('کد تخفیف با موفقیت اضافه شد.');
+                  setTimeout(() => {
+                    history.push(`${baseUrl}/dashboard/class/${classId}/discounts`);
+                  }, 1000);
+                });
+                console.log(saveDate);
+                console.log('hello\n');
+              }
+            }}
+          >
             اضافه کردن
           </button>
-          <button className="danger-btn">انصراف</button>
+          <button
+            className="danger-btn"
+            onClick={() => {
+              history.goBack();
+            }}
+          >
+            انصراف
+          </button>
         </div>
       </div>
       <div className="discount-page__second-row">
         <label htmlFor="title" className="kp-text-input__label">
           متن کد تخفیف:
         </label>
+        <p>در صورتی که متنی وارد نکنید، به طور خودکار متنی برای کد تخفیف تولید خواهد شد.</p>
         <input
           type="text"
           placeholder="متن کد تخفیف"
           onBlur={() => setTitleBlured(true)}
           value={title}
-          onChange={e => setTitle(e.target.value)}
+          onChange={e => handleChangeTitle(e)}
           className="kp-text-input__input discount-page-input__title"
           id="title"
         />
-        {titleBlured && title == '' && (
-          <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>عنوان تمرین نمی‌تواند خالی باشد.</div>
-        )}
       </div>
 
       <div>
@@ -243,6 +208,14 @@ function CreateDiscount() {
         className="rmdp-mobile"
         onChange={date => {
           setEndDate(date);
+          console.log(date);
+          setSaveDate(new Date(date.toUTC()).toISOString());
+          console.log('to string');
+          console.log(date);
+          //console.log(date.format.toUTC());
+          console.log(saveDate);
+          console.log('save data to string');
+          console.log(saveDate);
         }}
         calendar={persian}
         locale={persian_fa}

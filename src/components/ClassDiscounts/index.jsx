@@ -52,7 +52,7 @@ import './style.scss';
 import { Fragment } from 'react';
 
 function ClassDiscounts() {
-  const [studentsInfo, setStudentsInfo] = useState([]);
+  const [discountsInfo, setDiscountsInfo] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showProfile, setShowProfile] = useState({ profileOpen: false, username: '' });
   const [title, setTitle] = useState('');
@@ -82,10 +82,10 @@ function ClassDiscounts() {
     async function fetchData() {
       setLoading(true);
       const res = await apiInstance
-        .get(`${baseUrl}/courses/${courseId}/students/`)
+        .get(`${baseUrl}/discounts/codes`)
         .then(response => {
           console.log('get response: ', response);
-          setStudentsInfo(response.data);
+          setDiscountsInfo(response.data);
           setLoading(false);
         })
         .catch(err => {
@@ -123,48 +123,18 @@ function ClassDiscounts() {
     },
   }));
 
-  function createData(discountCode, end, percentage, userNumbers) {
-    return { discountCode, end, percentage, userNumbers };
+  function createData(code, expiration_date, discount, used_no) {
+    return { code, expiration_date, discount, used_no };
   }
 
   //ask why
 
   const rows = [];
-  studentsInfo.forEach(item => {
-    rows.push(createData(item.discountCode, item.end, item.percentage, item.userNumbers));
+  discountsInfo.forEach(item => {
+    rows.push(createData(item.code, item.expiration_date, item.discount, item.used_no));
   });
 
-  const DeleteStudent = async inputRow => {
-    console.log('hello world');
-    setConfirmDialog({ ...confirmDialog, isOpen: false });
-    console.log('row before is: ' + inputRow);
-    console.log('students info before: ' + studentsInfo);
-    setRegisterLoading(true);
-    // async function fetchData() {
-    const delRes = await apiInstance
-      .put(`${baseUrl}/courses/${courseId}/delete-student/${inputRow.id}/`)
-      .then(response => {
-        console.log('get response: ', response);
-        console.log(inputRow.id);
-        const updatedTable = studentsInfo.filter(row => row.id != inputRow.id);
-        setStudentsInfo(updatedTable);
-        console.log(studentsInfo);
-        console.log(updatedTable);
-        toast.success('دانش‌آموز با موفقیت حذف شد.');
-        setOpenModal(false);
-        setRegisterLoading(false);
-      })
-      .catch(err => {
-        console.log('error: ', err);
-        setOpenModal(false);
-        toast.error('مشکلی در سامانه رخ داده‌است.');
-        setRegisterLoading(false);
-      });
-    // }
-    // const updatedTable = studentsInfo.filter(row => row != inputRow);
-    // setStudentsInfo(updatedTable);
-  };
-  console.log('&&&&&&&&&&&&&&&', studentsInfo);
+  console.log('&&&&&&&&&&&&&&&', discountsInfo);
   console.log(endDate);
   console.log(endDate.toString().length);
   return (
@@ -176,185 +146,81 @@ function ClassDiscounts() {
         </div>
       ) : (
         <Fragment>
-          {
-            /*studentsInfo.length*/ 1 == 0 ? (
-              <>
-                <div className="discount-page__header">
-                  <div className="discount-page-title__container">
-                    <h3 className="discount-page__title-text"> افزودن کد تخفیف.</h3>
-                  </div>
-                  <div>
-                    <button className="success-btn" style={{ marginLeft: 10 }}>
-                      اضافه کردن
-                    </button>
-                    <button className="danger-btn">انصراف</button>
-                  </div>
-                </div>
-                <div className="discount-page__second-row">
-                  <label htmlFor="title" className="kp-text-input__label">
-                    متن کد تخفیف:
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="متن کد تخفیف"
-                    onBlur={() => setTitleBlured(true)}
-                    value={title}
-                    onChange={e => setTitle(e.target.value)}
-                    className="kp-text-input__input discount-page-input__title"
-                    id="title"
-                  />
-                  {titleBlured && title == '' && (
-                    <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>عنوان تمرین نمی‌تواند خالی باشد.</div>
-                  )}
-                </div>
-
-                <div>
-                  <label htmlFor="title" className="kp-text-input__label">
-                    تاریخ پایان اعتبار کد تخفیف:
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="انتخاب تاریخ پایان اعتبار کد تخفیف"
-                    onBlur={() => setEndDateBlured(true)}
-                    onFocus={() => endDatePickerRef.current.openCalendar()}
-                    onClick={() => endDatePickerRef.current.openCalendar()}
-                    value={
-                      endDate && endDate.toString().length < 30
-                        ? convertNumberToPersian(`${endDate.toString()} ساعت ${endDate.hour}:${endDate.minute}`)
-                        : ''
-                    }
-                    onChange={e => setEndDate(e.target.value)}
-                    className="kp-text-input__input discount-page-input__end-date"
-                    id="title"
-                  />
-                  {endDateBlured && endDate == '' && (
-                    <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>
-                      زمان پایان تمرین نمیتواند خالی باشد.
-                    </div>
-                  )}
-                </div>
-
-                <div>
-                  <label htmlFor="title" className="kp-text-input__label">
-                    درصد تخفیف:
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="درصد تخفیف"
-                    onBlur={() => setPercentageBlured(true)}
-                    value={percentage ? convertNumberToPersian(percentage) : ''}
-                    onChange={e => setPercentage(e.target.value)}
-                    className="kp-text-input__input discount-page-input__percentage"
-                    id="title"
-                  />
-                  {percentageBlured && percentage == '' && (
-                    <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>درصد تخفیف نمیتواند خالی باشد.</div>
-                  )}
-                </div>
-
-                <DatePicker
-                  ref={endDatePickerRef}
-                  inputClass="date-input"
-                  minDate={new Date()}
-                  value={endDate}
-                  className="rmdp-mobile"
-                  onChange={date => {
-                    setEndDate(date);
-                  }}
-                  calendar={persian}
-                  locale={persian_fa}
-                  minDate={new Date()}
-                  plugins={[<TimePicker hideSeconds position="bottom" />]}
-                />
-              </>
-            ) : (
-              <CacheProvider value={cacheRtl}>
-                <div dir="rtl">
-                  {/* <Helmet>
+          {discountsInfo.length == 0 ? (
+            <>
+              <div style={{ marginTop: 20 }}>
+                <h4>هنوز کد تخفیفی برای این کلاس ثبت نشده.</h4>
+              </div>
+              <div>
+                <button
+                  className="classDiscount__create-button"
+                  onClick={() => history.push(`/dashboard/class/${params.classId}/discounts/create`)}
+                >
+                  اضافه کردن کد تخفیف
+                </button>
+              </div>
+            </>
+          ) : (
+            <CacheProvider value={cacheRtl}>
+              <div dir="rtl">
+                {/* <Helmet>
           <title>پروفایل</title>
         </Helmet> */}
 
-                  <Box component="form" noValidate sx={{ mt: 5 }}>
-                    <Grid container spacing={2}>
-                      <Grid item sm={6} xs={12}></Grid>
-                      <Grid item sm={6} xs={12}></Grid>
-                    </Grid>
-                  </Box>
-
-                  <div>
-                    <button
-                      className="classDiscount__create-button"
-                      onClick={() => history.push(`/dashboard/class/${params.classId}/discounts/create`)}
-                    >
-                      اضافه کردن کد تخفیف
-                    </button>
-                  </div>
-                  <Grid sx={{ margin: '40px 10px 10px 0px' }}>
-                    <TableContainer className="student-info-table-container" style={{ boxShadow: '10px solid' }}>
-                      <Table aria-label="customized table" className="student-info-table">
-                        <TableHead style={{ borderRadius: '10px' }}>
-                          <TableRow>
-                            <StyledTableCell
-                              align="center"
-                              sx={{ fontSize: 14, backgroundColor: 'rgba(10, 67, 94, 0.942)', color: 'white' }}
-                            >
-                              کد تخفیف
-                            </StyledTableCell>
-                            <StyledTableCell align="center">تاریخ پایان کد تخفیف</StyledTableCell>
-                            <StyledTableCell align="center">درصد تخفیف</StyledTableCell>
-                            <StyledTableCell align="center">تعداد دانش آموزان</StyledTableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {rows.map(row => (
-                            <StyledTableRow key={row.id}>
-                              <StyledTableCell
-                                style={{ display: 'flex', justifyContent: 'center' }}
-                                align="center"
-                                className="course-student-info-table__image-holder"
-                                onClick={() => {
-                                  setShowProfile({ profileOpen: true, username: row.studentName });
-                                  console.log({ showProfile });
-                                }}
-                              >
-                                {row.img}
-                              </StyledTableCell>
-                              <StyledTableCell align="center">{row.studentName}</StyledTableCell>
-                              <StyledTableCell align="center">{row.email}</StyledTableCell>
-                              <StyledTableCell align="center">
-                                {/* ask why */}
-                                <CloseIcon
-                                  onClick={() => {
-                                    setOpenModal(true);
-                                    setModalConfirm(() => {
-                                      return () => DeleteStudent(row);
-                                    });
-                                    // console.log('hahahah');
-                                    // console.log(row.id);
-                                    //   DeleteStudent(row);
-                                    // setConfirmDialog({
-                                    //   isOpen: true,
-                                    //   title: 'مدرس محترم',
-                                    //   subtitle: 'مطمئنی میخوای این دانش آموز رو حذف کنی؟',
-                                    //   onConfirm: () => {
-                                    //     DeleteStudent(row);
-                                    //   },
-                                    // });
-                                  }}
-                                  className="student-info-form__close-icon"
-                                ></CloseIcon>
-                              </StyledTableCell>
-                              {/* <StyledTableCell align="left">{row.capacity}</StyledTableCell> */}
-                            </StyledTableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
+                <Box component="form" noValidate sx={{ mt: 5 }}>
+                  <Grid container spacing={2}>
+                    <Grid item sm={6} xs={12}></Grid>
+                    <Grid item sm={6} xs={12}></Grid>
                   </Grid>
+                </Box>
+
+                <div>
+                  <button
+                    className="classDiscount__create-button"
+                    onClick={() => history.push(`/dashboard/class/${params.classId}/discounts/create`)}
+                  >
+                    اضافه کردن کد تخفیف
+                  </button>
                 </div>
-              </CacheProvider>
-            )
-          }
+                <Grid sx={{ margin: '40px 10px 10px 0px' }}>
+                  <TableContainer className="student-info-table-container" style={{ boxShadow: '10px solid' }}>
+                    <Table aria-label="customized table" className="student-info-table">
+                      <TableHead style={{ borderRadius: '10px' }}>
+                        <TableRow>
+                          <StyledTableCell
+                            align="center"
+                            sx={{ fontSize: 14, backgroundColor: 'rgba(10, 67, 94, 0.942)', color: 'white' }}
+                          >
+                            کد تخفیف
+                          </StyledTableCell>
+                          <StyledTableCell align="center">تاریخ پایان کد تخفیف</StyledTableCell>
+                          <StyledTableCell align="center">درصد تخفیف</StyledTableCell>
+                          <StyledTableCell align="center">تعداد دانش آموزان</StyledTableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {rows.map(row => (
+                          <StyledTableRow key={row.id}>
+                            <StyledTableCell
+                              style={{ display: 'flex', justifyContent: 'center' }}
+                              align="center"
+                              className="course-student-info-table__image-holder"
+                            >
+                              {row.code}
+                            </StyledTableCell>
+                            <StyledTableCell align="center">{row.expiration_date}</StyledTableCell>
+                            <StyledTableCell align="center">{row.discount}</StyledTableCell>
+                            <StyledTableCell align="center">{row.used_no}</StyledTableCell>
+                            {/* <StyledTableCell align="left">{row.capacity}</StyledTableCell> */}
+                          </StyledTableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Grid>
+              </div>
+            </CacheProvider>
+          )}
         </Fragment>
       )}
       {/* <AlertDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} /> */}
