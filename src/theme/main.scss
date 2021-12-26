@@ -3,7 +3,6 @@
 @import './settings.scss';
 @import './student_pro';
 
-
 // reset common styles
 * {
   margin: 0;
@@ -19,6 +18,27 @@ body,
 button,
 input {
   font-family: iranyekan, sans-serif;
+}
+
+// change scrollbar default styles
+html {
+  --scrollbarBG: #f1f1f1;
+  --thumbBG: #ccc;
+}
+body::-webkit-scrollbar {
+  width: 14px;
+}
+body {
+  scrollbar-width: thin;
+  scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+}
+body::-webkit-scrollbar-track {
+  background: var(--scrollbarBG);
+}
+body::-webkit-scrollbar-thumb {
+  background-color: var(--thumbBG);
+  border-radius: 8px;
+  border: 3px solid var(--scrollbarBG);
 }
 
 // skeleton styles
@@ -145,11 +165,11 @@ $color-highlight: lighten($c-gray-95, 7%);
 .pink-btn {
   background-color: rgb(244, 121, 131);
   color: $c-white;
-  border: 1px solid rgba(244, 121, 131, .25);
+  border: 1px solid rgba(244, 121, 131, 0.25);
   padding: 8px 16px;
   font-weight: 700;
   border-radius: 4px;
-  box-shadow: 0 4px 10px rgba(244, 121, 131, .35);
+  box-shadow: 0 4px 10px rgba(244, 121, 131, 0.35);
   font-size: 16px;
   cursor: pointer;
 
