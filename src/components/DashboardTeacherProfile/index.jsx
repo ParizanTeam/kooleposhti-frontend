@@ -150,6 +150,7 @@ function DashboardTeacherProfile(props) {
 
                     const formdata = new FormData();
                     let body = { ...values };
+                    console.log(body);
                     let imag_uploaded = true;
                     console.log('form data', formdata);
                     console.log('pass ', values.password);
@@ -171,7 +172,10 @@ function DashboardTeacherProfile(props) {
                           imag_uploaded = false;
                         });
                     }
-
+                    
+                    if(values.password === undefined){
+                      body = {...body, password:""};
+                    }
                     console.log('body ', body);
                     axios
                       .put(`${baseUrl}/accounts/instructors/me/`, JSON.stringify(body), {
