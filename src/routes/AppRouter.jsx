@@ -24,7 +24,7 @@ import { history } from '../utils/constants';
 import Filters from '../components/Filters';
 import BaseAssignments from '../components/BaseAssignments';
 import NewNotFoundPage from '../components/NewNotFoundPage';
-
+import StudentCoins from '../components/StudentCoins';
 const AppRouter = () => {
   return (
     <Router history={history}>
@@ -100,6 +100,9 @@ const AppRouter = () => {
           </Route>
           <Route path="/Student/CourseAssignments">
             <StudentAssignments />
+          </Route>
+          <Route path="/dashboard/student/Coins" exact>
+            <StudentCoins />
           </Route>
           <Route path="*">
             <NewNotFoundPage />
