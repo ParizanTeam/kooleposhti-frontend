@@ -129,7 +129,7 @@ function DashboardTeacherProfile(props) {
                 sx={{ backgroundColor: 'rgba(10, 67, 94, 0.942)', color: 'white', width: '120px', mt: 2 }}
               >
                 <p style={{ fontSize: '0.8rem' }}>انتخاب عکس</p>
-                <input type="file" hidden onChange={handleChange} accept=".jpg,.jpeg,.png"/>
+                <input type="file" hidden onChange={handleChange} accept=".jpg,.jpeg,.png" />
               </Button>
 
               <ToastContainer rtl={true} />
@@ -207,7 +207,7 @@ function DashboardTeacherProfile(props) {
                               if (res.data.image.image !== null || res.data.image.image !== undefined) {
                                 setFile(res.data.image.image);
                               }
-                              props.setUsername(res.data.username)
+                              props.setUsername(res.data.username);
                               setLoading(false);
                             })
                             .catch(err => {
@@ -338,6 +338,9 @@ function DashboardTeacherProfile(props) {
                           InputLabelProps={{ shrink: values.username }}
                           autoComplete="given-name"
                           name="username"
+                          InputProps={{
+                            readOnly: true,
+                          }}
                           required
                           fullWidth
                           id="username"
