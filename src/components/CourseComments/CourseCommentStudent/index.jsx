@@ -5,6 +5,7 @@ import avatar from '../../../assets/images/profile_2.png';
 import './style.scss';
 
 function CourseCommentStudent(props) {
+  const date = new Date(props.info.created_date);
   return (
     <React.Fragment>
       <Grid container>
@@ -25,7 +26,9 @@ function CourseCommentStudent(props) {
               </Grid>
               <Grid item xs={12} mt={1}>
                 <Typography className="course-comment-student__date">
-                  {convertNumberToPersian(props.info.created_date)}
+                {`${convertNumberToPersian(date.getHours())}:${convertNumberToPersian(date.getMinutes())}`}
+                  <span> </span>
+                  {`${convertNumberToPersian(date.getFullYear())}/${convertNumberToPersian(date.getMonth())}/${convertNumberToPersian(date.getDate())}`}
                 </Typography>
               </Grid>
               <Grid item xs={12} mt={3} className="course-comment-student__text">

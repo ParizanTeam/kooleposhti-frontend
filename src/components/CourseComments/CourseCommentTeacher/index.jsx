@@ -5,7 +5,7 @@ import avatar from '../../../assets/images/profile_2.png';
 import './style.scss';
 
 function CourseCommentTeacher(props) {
-  debugger;
+  const date = props.info !== null ? new Date(props.info.created_date) : null;
   console.log('info', props.info);
   return (
     <React.Fragment>
@@ -24,7 +24,11 @@ function CourseCommentTeacher(props) {
                   </Grid>
                   <Grid item xs={12} mt={1}>
                     <Typography className="course-comment-teacher__date">
-                      {convertNumberToPersian(props.info ? props.info.created_date : 'تاریخی وجود ندارد')}
+                      {date !== null &&`${convertNumberToPersian(date.getHours())}:${convertNumberToPersian(date.getMinutes())}`}
+                      <span> </span>
+                      {date !== null && `${convertNumberToPersian(date.getFullYear())}/${convertNumberToPersian(
+                        date.getMonth()
+                      )}/${convertNumberToPersian(date.getDate())}`}
                     </Typography>
                   </Grid>
                   <Grid item xs={12} mt={3} className="course-comment-teacher__text">
