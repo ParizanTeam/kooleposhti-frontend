@@ -23,6 +23,7 @@ import TeacherPublicProfile from '../components/TeacherPublicProfile';
 import { history } from '../utils/constants';
 import Filters from '../components/Filters';
 import BaseAssignments from '../components/BaseAssignments';
+import NewNotFoundPage from '../components/NewNotFoundPage';
 
 const AppRouter = () => {
   return (
@@ -101,7 +102,7 @@ const AppRouter = () => {
             <StudentAssignments />
           </Route>
           <Route path="*">
-            <NotFoundPage />
+            <NewNotFoundPage />
           </Route>
         </Switch>
         {/* end student dasgboard classes url */}
