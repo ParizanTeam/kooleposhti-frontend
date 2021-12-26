@@ -7,6 +7,24 @@ import { useHistory, useParams } from 'react-router-dom';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { baseUrl } from '../../utils/constants';
 function App() {
+  const params = useParams();
+  const MySource = `${baseUrl}/assignments/${params.assignmentId}/submit/`;
+  useEffect(() => {
+    axios
+      .get(`${baseUrl}/assignments/${params.assignmentId}/submit/`)
+      .then(res => {
+          console.log(res.data);
+          /* setEditorContent(response.data.data.bio); */
+          setEditorState(
+            EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(res.data.answer)))
+          );
+          console.log('content:', editorContent);
+          setLoading(false);
+      })
+      .catch(err => {
+        console.log('error: ', err);
+      });
+  }, []);
   const [loading, setLoading] = React.useState(true);
   const [file, setFile] = useState(null);
   const [validateAfterSubmit, setValidateAfterSubmit] = useState(false);
@@ -14,28 +32,6 @@ function App() {
   const [editorState, setEditorState] = useState(
     EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(`<p>پاسخ من ...</p>`)))
   );
-  const params= useParams();
-  const UPLOAD_ENDPOINT =
-    `${baseUrl}/assignments/${params.assignmentId}/submit/`;
-  useEffect(() => {
-    async function fetchData() {
-      const res = await axios
-        .get(UPLOAD_ENDPOINT.answer)
-        .then(response => {
-          console.log(response.data);
-          /* setEditorContent(response.data.data.bio); */
-          setEditorState(
-            EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(response.data.answer)))
-          );
-          console.log('content:', editorContent);
-          setLoading(false);
-        })
-        .catch(err => {
-          setLoading(false);
-        });
-    }
-    fetchData();
-  }, []);
   const handleChange = file => {
     setFile(file);
   };
@@ -63,9 +59,9 @@ function App() {
 
   const uploadFile = async file => {
     const formData = new FormData();
-    formData.append("avatar", file);
-
-    return await axios.post(UPLOAD_ENDPOINT, formData);
+    formData.append("file", file);
+    formData.append("answer", "");
+    return await axios.post(MySource, formData);
   };
 
   const handleOnChange = e => {
