@@ -290,6 +290,7 @@ const Filters = () => {
   }
   const [queryObject, setQueryObject] = useState(defaultQueryObject);
   const [apiLoading, setApiLoading] = useState(false);
+  const [showMoreLoading, setShowMoreLoading] = useState(false);
   const [classes, setClasses] = useState(classesData);
   const [showMore, setShowMore] = useState(false);
 
@@ -393,6 +394,38 @@ const Filters = () => {
         );
         setApiLoading(false);
       });
+  };
+
+  const getMoreClasses = async (query = queryObject) => {
+    setShowMoreLoading(true);
+    apiInstance.get(showMore).then(res => {
+      console.log(res.data, '@@@@@@@');
+      setShowMore(res.data.next);
+      setClasses(oldClasses => [
+        ...oldClasses,
+        ...res.data.results.map(classData => ({
+          classImg:
+            classData.image || 'https://www.inklyo.com/wp-content/uploads/How-to-Succeed-in-an-Online-Course.jpg',
+          age: convertNumberToPersian(`${classData.min_age} تا ${classData.max_age} سال`),
+          title: classData.title,
+          description: classData.description,
+          teacherImg:
+            (classData.instructor.image && classData.instructor.image.image) ||
+            'https://www.pinclipart.com/picdir/middle/148-1486972_mystery-man-avatar-circle-clipart.png',
+          teacherName:
+            classData.instructor.first_name == 'null' || classData.instructor.last_name == 'null'
+              ? classData.instructor.first_name + ' ' + classData.instructor.last_name
+              : classData.instructor.username,
+          rating: classData.rate,
+          date: `از ${convertNumberToPersian(classData.start_date.split('-').join('/'))} تا ${convertNumberToPersian(
+            classData.end_date.split('-').join('/')
+          )}`,
+          price: classData.price,
+          id: classData.id,
+        })),
+      ]);
+      setShowMoreLoading(false);
+    });
   };
 
   return (
@@ -819,9 +852,16 @@ const Filters = () => {
                   {classes.map(classData => (
                     <ClassCard classData={classData} />
                   ))}
-                  {showMore && (
+                  {showMoreLoading && (
+                    <div style={{ display: 'flex', justifyContent: 'center', padding: 'auto', marginTop: 64 }}>
+                      <ReactLoading type="spinningBubbles" color="#EF006C" height={100} width={100} />
+                    </div>
+                  )}
+                  {!showMoreLoading && showMore && (
                     <div className="show-more-classes-btn-wrapper">
-                      <button className="info-btn show-more-classes-btn">مشاهده بیشتر</button>
+                      <button onClick={getMoreClasses} className="info-btn show-more-classes-btn">
+                        مشاهده بیشتر
+                      </button>
                     </div>
                   )}
                 </>
