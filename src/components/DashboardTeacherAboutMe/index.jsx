@@ -19,6 +19,31 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { baseUrl } from '../../utils/constants';
 import './style.scss';
 
+const customContentStateConverter = contentState => {
+  // changes block type of images to 'atomic'
+  const newBlockMap = contentState.getBlockMap().map(block => {
+    const entityKey = block.getEntityAt(0);
+    if (entityKey !== null) {
+      const entityBlock = contentState.getEntity(entityKey);
+      const entityType = entityBlock.getType();
+      switch (entityType) {
+        case 'IMAGE': {
+          const newBlock = block.merge({
+            type: 'atomic',
+            text: 'img',
+          });
+          return newBlock;
+        }
+        default:
+          return block;
+      }
+    }
+    return block;
+  });
+  const newContentState = contentState.set('blockMap', newBlockMap);
+  return newContentState;
+};
+
 function DashboardTeacherAboutMe(props) {
   const [validateAfterSubmit, setValidateAfterSubmit] = useState(false);
   const [apiResponse, setApiResponse] = useState(false);
@@ -26,7 +51,7 @@ function DashboardTeacherAboutMe(props) {
   const [teacher_data, setteacherData] = useState({});
   const [editorContent, setEditorContent] = useState(EditorState.createEmpty());
   const [loading, setLoading] = useState(true);
-  const [loadingButton , setLoadingButton] = useState(false);
+  const [loadingButton, setLoadingButton] = useState(false);
   const [editorState, setEditorState] = useState(
     EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(`<p>درباره من ...</p>`)))
   );
@@ -45,7 +70,9 @@ function DashboardTeacherAboutMe(props) {
           console.log(response.data.data.bio);
           /* setEditorContent(response.data.data.bio); */
           setEditorState(
-            EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(response.data.data.bio)))
+            EditorState.createWithContent(
+              customContentStateConverter(ContentState.createFromBlockArray(convertFromHTML(response.data.data.bio)))
+            )
           );
           console.log('content:', editorContent);
           setLoading(false);
@@ -164,7 +191,7 @@ function DashboardTeacherAboutMe(props) {
                       });
                   } catch (error) {
                     console.log('error');
-                    setLoadingButton(false)
+                    setLoadingButton(false);
                   }
                 }}
                 validateOnChange={validateAfterSubmit}
