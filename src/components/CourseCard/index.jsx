@@ -6,12 +6,12 @@ import StarOutlineRoundedIcon from '@mui/icons-material/StarOutlineRounded';
 import { Favorite } from '@mui/icons-material';
 import './style.scss';
 
-const CourseCard = ({ imgSrc, title, teacherImgSrc, teacherName, rate }) => {
+const CourseCard = ({ imgSrc, title, teacherImgSrc, teacherName, rate, dir }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   return (
     <a href="#" className="course-card">
       <img src={imgSrc} alt={title} className="course-card__img" />
-      <div dir="ltr" className="course-card__rating-wrapper">
+      <div dir={dir ? dir : 'ltr'} className="course-card__rating-wrapper">
         <Rating
           size="large"
           name="customized-color"
