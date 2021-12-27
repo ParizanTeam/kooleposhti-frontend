@@ -102,7 +102,7 @@ function DashboardTeacherBankAccount(props) {
                 <Grid item xs={12}>
                   <div dir="ltr">
                     <input
-                      defaultValue={props.card_no.slice(0, 4)}
+                      defaultValue={props.card_no && props.card_no.slice(0, 4)}
                       type="number"
                       id="part-1"
                       name="part-1"
@@ -112,7 +112,7 @@ function DashboardTeacherBankAccount(props) {
                       placeholder="****"
                     />
                     <input
-                      defaultValue={props.card_no.slice(4, 8)}
+                      defaultValue={props.card_no && props.card_no.slice(4, 8)}
                       type="number"
                       id="part-2"
                       name="part-2"
@@ -122,7 +122,7 @@ function DashboardTeacherBankAccount(props) {
                       placeholder="****"
                     />
                     <input
-                      defaultValue={props.card_no.slice(8, 12)}
+                      defaultValue={props.card_no &&  props.card_no.slice(8, 12)}
                       type="number"
                       id="part-3"
                       name="part-3"
@@ -132,7 +132,7 @@ function DashboardTeacherBankAccount(props) {
                       placeholder="****"
                     />
                     <input
-                      defaultValue={props.card_no.slice(12, 16)}
+                      defaultValue={props.card_no &&  props.card_no.slice(12, 16)}
                       type="number"
                       id="part-4"
                       name="part-4"

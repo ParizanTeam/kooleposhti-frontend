@@ -175,6 +175,9 @@ function DashboardTeacherProfile(props) {
                     
                     if(values.password === undefined){
                       body = {...body, password:""};
+                      if(values.phone_no === ""){
+                        body = {...body , phone_no:null};
+                      }
                     }
                     console.log('body ', body);
                     axios
@@ -295,17 +298,17 @@ function DashboardTeacherProfile(props) {
               >
                 {({ handleSubmit, handleChange, setFieldValue, values, errors, handleBlur }) => (
                   <Box
-                    component="form"
-                    id="profile-form"
-                    noValidate
-                    sx={{ mt: 8 }}
-                    onSubmit={e => {
-                      e.preventDefault();
-                      setValidateAfterSubmit(true);
-                      handleSubmit();
-                    }}
+                  component="form"
+                  id="profile-form"
+                  noValidate
+                  sx={{ mt: 8 }}
+                  onSubmit={e => {
+                    e.preventDefault();
+                    setValidateAfterSubmit(true);
+                    handleSubmit();
+                  }}
                   >
-                    <ToastContainer rtl={true} />
+                  <ToastContainer rtl={true} />
                     <Grid container spacing={2}>
                       <Grid item sm={6} xs={12}>
                         <TextField

@@ -19,7 +19,6 @@ function DashboardTeacherWallet(props) {
   const [withdrawLoding, setWithdrawLoading] = useState(false);
   const [bankInfo, setBankInfo] = useState();
   const [loading, setLoading] = useState(true);
-
   const cacheRtl = createCache({
     key: 'muirtl',
 
@@ -31,7 +30,7 @@ function DashboardTeacherWallet(props) {
 
   const walletWithdraw = () => {
     setWithdrawLoading(true);
-    const body = { amount: price };
+    const body = { amount: parseInt(price) };
     console.log(price);
     if(body.amount < 100000)
     {
@@ -173,10 +172,7 @@ function DashboardTeacherWallet(props) {
                     className="wallet-withdraw__textfield"
                     decimalsLimit={3}
                     maxLength={9}
-                    onChange={e => {
-                      setPrice(convertNumberToPersian(e.target.value));
-                    }}
-                    
+                    defaultValue={0}                
                     onValueChange={(value, name) => setPrice(value)}
                   />
                    تومان را
