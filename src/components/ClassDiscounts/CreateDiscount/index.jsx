@@ -117,6 +117,7 @@ function CreateDiscount() {
                   expiration_date: saveDate,
                   discount: percentage,
                   code: code,
+                  course: courseId,
                 };
                 console.log(data);
                 apiInstance.post(`${baseUrl}/discounts/`, data).then(res => {

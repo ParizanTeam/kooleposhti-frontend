@@ -61,6 +61,7 @@ function ClassDiscounts() {
   const [titleBlured, setTitleBlured] = useState(false);
   const [endDateBlured, setEndDateBlured] = useState(false);
   const [percentageBlured, setPercentageBlured] = useState(false);
+  const [tableDate, setTableDate] = useState();
   const history = useHistory();
   const endDatePickerRef = useRef(null);
 
@@ -82,7 +83,7 @@ function ClassDiscounts() {
     async function fetchData() {
       setLoading(true);
       const res = await apiInstance
-        .get(`${baseUrl}/discounts/codes`)
+        .get(`${baseUrl}/discounts/codes/${courseId}`)
         .then(response => {
           console.log('get response: ', response);
           setDiscountsInfo(response.data);
@@ -112,6 +113,13 @@ function ClassDiscounts() {
       fontSize: 14,
     },
   }));
+
+  const convertDateToJalali = input => {
+    const JDate = require('jalali-date');
+    const date = new Date(input);
+    const jdate = new JDate(date).format('dddd DD MMMM YYYY');
+    return `${jdate}`;
+  };
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
@@ -208,9 +216,11 @@ function ClassDiscounts() {
                             >
                               {row.code}
                             </StyledTableCell>
-                            <StyledTableCell align="center">{row.expiration_date}</StyledTableCell>
-                            <StyledTableCell align="center">{row.discount}</StyledTableCell>
-                            <StyledTableCell align="center">{row.used_no}</StyledTableCell>
+                            <StyledTableCell align="center">
+                              {convertNumberToPersian(convertDateToJalali(row.expiration_date))}
+                            </StyledTableCell>
+                            <StyledTableCell align="center">{convertNumberToPersian(row.discount)}</StyledTableCell>
+                            <StyledTableCell align="center">{convertNumberToPersian(row.used_no)}</StyledTableCell>
                             {/* <StyledTableCell align="left">{row.capacity}</StyledTableCell> */}
                           </StyledTableRow>
                         ))}
@@ -224,33 +234,6 @@ function ClassDiscounts() {
         </Fragment>
       )}
       {/* <AlertDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} /> */}
-      <StudentProfileModalCard showProfile={showProfile} setShowProfile={setShowProfile} />
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={openModal}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={openModal}>
-          <div className="register-modal">
-            <h4 className="register-modal__title">آیا از حذف این دانش‌آموز مطمئن هستید؟</h4>
-            <button className="register-modal__confirm" onClick={handleClose}>
-              بازگشت
-            </button>
-            <button className="register-modal__cancel" onClick={modalConfirm}>
-              حذف
-            </button>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              {registerLoading && <ReactLoading type="bubbles" color="#000" />}
-            </div>
-          </div>
-        </Fade>
-      </Modal>
 
       <DatePicker
         ref={endDatePickerRef}

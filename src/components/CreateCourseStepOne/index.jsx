@@ -85,6 +85,7 @@ const CreateCourseStepOne = ({ formData, setFormData, activeStep, setActiveStep 
       case 'bmp':
       case 'png':
       case 'tif':
+      case 'jpeg':
         setFileError(false);
         setFormData(prev => ({ ...prev, courseImage: URL.createObjectURL(e.target.files[0]) }));
         setFormData(prev => ({ ...prev, image: e.target.files[0] }));
