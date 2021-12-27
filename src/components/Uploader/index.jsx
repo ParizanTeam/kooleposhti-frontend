@@ -13,8 +13,7 @@ function App() {
     axios
       .get(`${baseUrl}/assignments/${params.assignmentId}/submit/`)
       .then(res => {
-          console.log(res.data);
-          /* setEditorContent(response.data.data.bio); */
+
           setEditorState(
             EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(res.data.answer)))
           );

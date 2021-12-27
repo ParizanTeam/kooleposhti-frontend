@@ -28,7 +28,7 @@ function EmailVerification(props) {
 
   const resend_code = event => {
     event.preventDefault();
-    console.log('verified');
+
     setResend(false);
     const info = { email: props.location.state.values.email, username: props.location.state.values.username };
     
@@ -40,7 +40,6 @@ function EmailVerification(props) {
       })
       .then(response => {
         
-        console.log('status is: ', response.status);
         toast.success('کد تایید با موفقیت ارسال شد', {
           position: 'bottom-center',
           autoClose: 5000,
@@ -79,7 +78,7 @@ function EmailVerification(props) {
           },
         })
         .then(response => {
-          console.log('status is: ', response.status);
+
         })
         .catch(err => {
           setLoading(false);
@@ -94,7 +93,7 @@ function EmailVerification(props) {
         })
         .then(res => {
           setLoading(false);
-          console.log('status is: ', res.status);
+
           toast.success('ثبت نام با موفقیت انجام شد', {
             position: 'bottom-center',
             autoClose: 5000,

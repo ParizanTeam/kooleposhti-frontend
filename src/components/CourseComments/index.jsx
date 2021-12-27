@@ -16,7 +16,6 @@ function CourseComments(props) {
 
   useEffect(() => {
     async function fetchComments() {
-      console.log('salam');
       const res = await axios
         .get(`${baseUrl}/courses/${props.course_id}/comments/`, {
           headers: {
@@ -49,7 +48,6 @@ function CourseComments(props) {
           },
         })
         .then(response => {
-          console.log(response);
           setRole(response.data.role);
         })
         .catch(err => {

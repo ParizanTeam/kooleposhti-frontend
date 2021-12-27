@@ -63,7 +63,6 @@ function TeacherPublicProfile(props) {
             },
           })
           .then(response => {
-            console.log(response.data.data);
             setTeacherData(response.data.data);
             setLoading(false);
           })
@@ -79,7 +78,6 @@ function TeacherPublicProfile(props) {
             },
           })
           .then(response => {
-            console.log(response.data.data);
             setTeacherData(response.data.data);
             setLoading(false);
           })
@@ -186,7 +184,9 @@ function TeacherPublicProfile(props) {
               color: 'rgb(0,155,160) !important',
             }}
           >
-            {teacherData.first_name && teacherData.last_name ? teacherData.first_name + ' ' + teacherData.last_name : null}
+            {teacherData.first_name && teacherData.last_name
+              ? teacherData.first_name + ' ' + teacherData.last_name
+              : null}
           </Typography>
           <Rating
             name="simple-controlled"
@@ -235,7 +235,15 @@ function TeacherPublicProfile(props) {
           <Grid sx={{ width: { xl: '100%', md: '85%', sm: '65vmin', xs: '90vmin' } }}>
             {teacherData.courses.length === 0 && (
               <Grid container direction="column" alignItems="center" justifyContent="center">
-                <Avatar src={classImg} alt="class list" sx={{width:{md:"20vw", sm:"40vw" , xs:"50vw"}, height:{md:"20vw", sm:"40vw", xs:"50vw"}, borderRadius:"0"}}/>
+                <Avatar
+                  src={classImg}
+                  alt="class list"
+                  sx={{
+                    width: { md: '20vw', sm: '40vw', xs: '50vw' },
+                    height: { md: '20vw', sm: '40vw', xs: '50vw' },
+                    borderRadius: '0',
+                  }}
+                />
                 <p className="teacher-classes-emptylist">کلاسی برای نمایش وجود نداره !!!</p>
               </Grid>
             )}
@@ -309,11 +317,10 @@ function TeacherPublicProfile(props) {
               <Grid item xs={12} maxWidth="68%" sx={{ mt: 5 }} minWidth="68%">
                 <div className="abut-me_wrapper">
                   <Typography variant="body" className="about-me">
-                    {teacherData.bio && ReactHtmlParser(teacherData.bio)}
-
-                    {!teacherData.bio && (
+                    {(!teacherData.bio || teacherData.bio === "<p></p>") && (
                       <p className="teacher-public-profile-about-me__text">متنی برای نمایش وجود نداره !!!</p>
                     )}
+                    {teacherData.bio && teacherData.bio !== '' && ReactHtmlParser(teacherData.bio)}
                   </Typography>
                 </div>
               </Grid>

@@ -44,7 +44,7 @@ function DashboardTeacherBankAccount(props) {
         document.getElementById('part-4').value,
       sheba: document.getElementById('ShabaNumber').value,
     };
-    console.log(body);
+
     axios
       .patch(`${baseUrl}/accounts/wallet/mywallet/`, body, {
         headers: {
@@ -53,7 +53,7 @@ function DashboardTeacherBankAccount(props) {
         },
       })
       .then(response => {
-        console.log('get response: ', response);
+
         toast.success('اطلاعات با موفقیت تغییر یافت', {
           position: 'bottom-center',
           autoClose: 5000,
@@ -67,7 +67,7 @@ function DashboardTeacherBankAccount(props) {
         setLoading(false);
       })
       .catch(err => {
-        console.log('error bedeeeeee: ', err);
+        console.log('error', err);
         toast.error('اطلاعات با موفقیت تغییر یافت', {
           position: 'bottom-center',
           autoClose: 5000,

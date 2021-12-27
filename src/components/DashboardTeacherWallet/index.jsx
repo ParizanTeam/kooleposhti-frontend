@@ -31,7 +31,7 @@ function DashboardTeacherWallet(props) {
   const walletWithdraw = () => {
     setWithdrawLoading(true);
     const body = { amount: parseInt(price) };
-    console.log(price);
+
     if(body.amount < 100000)
     {
       toast.error('حداقل مبلغ 100 هزار تومان است', {
@@ -98,7 +98,7 @@ function DashboardTeacherWallet(props) {
           progress: undefined,
           theme: 'dark',
         });
-        console.log('error bedeeeeee: ', err);
+        console.log('error', err);
       });
   };
 
@@ -112,7 +112,6 @@ function DashboardTeacherWallet(props) {
           },
         })
         .then(response => {
-          console.log('get response: ', response);
           setBankInfo(response.data);
           setLoading(false);
         })

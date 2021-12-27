@@ -40,7 +40,6 @@ function DashboardTeacherProfile(props) {
   const [changeImage, setChangeImage] = useState(false);
 
   const token = 'JWT ' + localStorage.getItem('access_token');
-  console.log(token);
 
   useEffect(() => {
     async function fetchData() {
@@ -52,7 +51,6 @@ function DashboardTeacherProfile(props) {
           },
         })
         .then(response => {
-          console.log('get response: ', response);
           setteacherData(response.data);
           if (response.data.image.image !== null || response.data.image.image !== undefined) {
             setFile(response.data.image.image);
@@ -68,14 +66,13 @@ function DashboardTeacherProfile(props) {
   }, []);
 
   const [file, setFile] = useState(profile_1);
-  console.log(file);
 
   const handleChange = e => {
     setFile(URL.createObjectURL(e.target.files[0]));
     setChangeImage(true);
 
     let picture = e.target.files[0];
-    console.log('picture', picture);
+
     setBinaryFile(picture);
   };
 
@@ -87,7 +84,6 @@ function DashboardTeacherProfile(props) {
     prepend: true,
   });
 
-  console.log(teacher_data.username);
   return (
     <CacheProvider value={cacheRtl}>
       {loading && (
@@ -150,10 +146,7 @@ function DashboardTeacherProfile(props) {
 
                     const formdata = new FormData();
                     let body = { ...values };
-                    console.log(body);
                     let imag_uploaded = true;
-                    console.log('form data', formdata);
-                    console.log('pass ', values.password);
                     formdata.append('image', binaryFile);
                     if (changeImage) {
                       const res = await axios
@@ -163,8 +156,7 @@ function DashboardTeacherProfile(props) {
                           },
                         })
                         .then(res => {
-                          console.log('res', res);
-                          console.log('res image', res.data.image);
+
                           body = { ...values, image_url: res.data.image };
                         })
                         .catch(err => {
@@ -179,7 +171,7 @@ function DashboardTeacherProfile(props) {
                         body = {...body , phone_no:null};
                       }
                     }
-                    console.log('body ', body);
+
                     axios
                       .put(`${baseUrl}/accounts/instructors/me/`, JSON.stringify(body), {
                         headers: {
@@ -188,7 +180,7 @@ function DashboardTeacherProfile(props) {
                         },
                       })
                       .then(async response => {
-                        console.log('response ', response);
+
                         if (imag_uploaded) {
                           toast.success('با موفقیت به‌روز شد', {
                             position: 'bottom-center',
@@ -209,7 +201,7 @@ function DashboardTeacherProfile(props) {
                               },
                             })
                             .then(res => {
-                              console.log('get response: ', res);
+
                               setteacherData(response.data);
                               if (res.data.image.image !== null || res.data.image.image !== undefined) {
                                 setFile(res.data.image.image);

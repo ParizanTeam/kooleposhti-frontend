@@ -34,7 +34,6 @@ function MyAssignments() {
       .get(`${baseUrl}/accounts/students/assignments/`)
       .then(res => {
         setAssignments(res.data);
-        console.log('students assignments', res.data);
         setLoading(false);
       })
       .catch(err => {

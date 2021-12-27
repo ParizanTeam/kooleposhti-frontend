@@ -40,7 +40,6 @@ function TeacherDashboard(props) {
           },
         })
         .then(response => {
-          console.log('get response: ', response);
           setProfileUserName(response.data.username);
           setIsTeacher(true);
         })

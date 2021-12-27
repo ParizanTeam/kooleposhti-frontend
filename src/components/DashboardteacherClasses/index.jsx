@@ -69,7 +69,6 @@ function DashboardTeacherClasses(props) {
           },
         })
         .then(response => {
-          console.log('get response: ', response);
           setClassData(response.data);
           setLoading(false);
         })

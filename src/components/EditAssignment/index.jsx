@@ -56,7 +56,6 @@ const EditAssignment = ({ role }) => {
   useEffect(() => {
     setLoadData(true);
     apiInstance.get(`${baseUrl}/assignments/${assignmentId}/`).then(res => {
-      console.log(res.data);
       setTitle(res.data.title);
       const [startYear, startMonth, startDay] = res.data.start_date.split('-');
       const [endYear, endMonth, endDay] = res.data.end_date.split('-');

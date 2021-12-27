@@ -78,7 +78,6 @@ export const ProfileMenu = props => {
   console.log("Profile Image",profileImage)*/
   let role = useSelector(state => state.auth.roles)[0];
   if (role == 'instructor') role = 'teacher';
-  console.log('role: ', role);
   const profileMenuItems = {
     student: [
       { icon: CastForEducationIcon, label: 'کلاس ها', to: '/dashboard/student/ClassesList' },

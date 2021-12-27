@@ -6,7 +6,6 @@ import './style.scss';
 
 function CourseCommentTeacher(props) {
   const date = props.info !== null ? new Date(props.info.created_date) : null;
-  console.log('info', props.info);
   return (
     <React.Fragment>
       {props.info && (
