@@ -4,12 +4,13 @@ import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import StarOutlineRoundedIcon from '@mui/icons-material/StarOutlineRounded';
 import { Favorite } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 import './style.scss';
 
-const CourseCard = ({ imgSrc, title, teacherImgSrc, teacherName, rate, dir }) => {
+const CourseCard = ({ imgSrc, title, teacherImgSrc, teacherName, rate, dir, id }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   return (
-    <a href="#" className="course-card">
+    <Link to={`/courses/${id}`} className="course-card">
       <img src={imgSrc} alt={title} className="course-card__img" />
       <div dir={dir ? dir : 'ltr'} className="course-card__rating-wrapper">
         <Rating
@@ -36,7 +37,7 @@ const CourseCard = ({ imgSrc, title, teacherImgSrc, teacherName, rate, dir }) =>
         <img src={teacherImgSrc} alt={teacherName} className="course-card__teacher-img" />
         <p className="course-card__teacher-name">{teacherName}</p>
       </div>
-    </a>
+    </Link>
   );
 };
 

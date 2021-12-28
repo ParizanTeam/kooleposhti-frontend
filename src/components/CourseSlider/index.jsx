@@ -47,11 +47,16 @@ const CourseSlider = () => {
               {topCourses.map(item => (
                 <SwiperSlide key={item.id}>
                   <CourseCard
+                    id={item.id}
+                    username={item.instructor.username}
                     title={item.title}
                     teacherName={item.instructor.first_name + ' ' + item.instructor.last_name}
                     rate={item.rate}
                     teacherImgSrc={item.teacherImgSrc || noPersonImg}
-                    imgSrc={item.image}
+                    imgSrc={
+                      (item.image && 'https:/kooleposhti.ml/' + item.image) ||
+                      'https://www.inklyo.com/wp-content/uploads/How-to-Succeed-in-an-Online-Course.jpg'
+                    }
                   />
                 </SwiperSlide>
               ))}
