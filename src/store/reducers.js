@@ -24,8 +24,8 @@ const authReducer = (state = initialAuthState, action) => {
       return state;
   }
 };
-
-const themeReducer = (state = colorMap["Pink"], action) => {
+let theNewone = localStorage.getItem("chosenColor");
+const themeReducer = (state = colorMap[theNewone], action) => {
   switch (action.type) {
     case 'PROFILE_COLOR':
       return {

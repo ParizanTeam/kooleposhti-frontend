@@ -20,12 +20,14 @@ import './style.scss';
 import CourseSlider from '../CourseSlider';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useSelector } from 'react-redux';
-
+import { change_profile_color } from '../../store/actions';
 
 const StudentDashboardClassesList = () => {
   const [loading, setLoading] = React.useState(true);
   const [classStatus, setClassStatus] = React.useState('active');
   const themeProps = useSelector(state => state.theme);
+  let theNewone = localStorage.getItem("chosenColor");
+  change_profile_color(theNewone);
   const customTheme = createTheme({
     palette: {
       primary: {

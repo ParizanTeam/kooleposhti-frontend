@@ -36,6 +36,7 @@ export const ConfirmationDialogRaw = props => {
 
   const handleChange = event => {
     setValue(event.target.value);
+    localStorage.setItem("chosenColor", event.target.value);
     dispatch(change_profile_color(event.target.value));
   };
 
