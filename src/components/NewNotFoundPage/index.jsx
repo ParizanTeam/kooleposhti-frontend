@@ -7,7 +7,7 @@ import './style.scss';
 const NewNotFoundPage = () => (
   <>
     <div
-      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', padding: 8 }}
+      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', padding: 8 ,marginTop:"50px"}}
     >
       <img src={notfound2} alt="404" style={{ width: 400, maxWidth: '100%' }} />
       <h1 className="NotF__Content">اوه! هیچی اینجا نیست...</h1>
