@@ -30,29 +30,34 @@ const BestTeachers = () => {
         </div>
       )}
       {!apiLoading && topTeachers.length > 0 && (
-        <Swiper spaceBetween={10} slidesPerView={'auto'}>
-          {topTeachers.map(BestTeacher => (
-            <SwiperSlide key={BestTeacher.id}>
-              <Link to={`/public-profile/teacher/${BestTeacher.username}`}>
-                <Tooltip
-                  title={
-                    <span style={{ fontFamily: 'iranyekan' }}>
-                      {BestTeacher.first_name + ' ' + BestTeacher.last_name}
-                    </span>
-                  }
-                  placement="bottom"
-                >
-                  <img
-                    className="best-teachers__teacher-img"
-                    src={
-                      (BestTeacher.image?.image && 'https://kooleposhti.ml/' + BestTeacher.image?.image) || noPersonImg
-                    }
-                  />
-                </Tooltip>
-              </Link>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        <Grid container sx={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+          <Grid item >
+            <Swiper spaceBetween={10} slidesPerView={'auto'}>
+              {topTeachers.map(BestTeacher => (
+                <SwiperSlide key={BestTeacher.id}>
+                  <Link to={`/public-profile/teacher/${BestTeacher.username}`}>
+                    <Tooltip
+                      title={
+                        <span style={{ fontFamily: 'iranyekan' }}>
+                          {BestTeacher.first_name + ' ' + BestTeacher.last_name}
+                        </span>
+                      }
+                      placement="bottom"
+                    >
+                      <img
+                        className="best-teachers__teacher-img"
+                        src={
+                          (BestTeacher.image?.image && 'https://kooleposhti.ml/' + BestTeacher.image?.image) ||
+                          noPersonImg
+                        }
+                      />
+                    </Tooltip>
+                  </Link>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </Grid>
+        </Grid>
       )}
     </div>
   );

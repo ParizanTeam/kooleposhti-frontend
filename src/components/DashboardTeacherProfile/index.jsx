@@ -166,7 +166,7 @@ function DashboardTeacherProfile(props) {
                     }
                     
                     if(values.password === undefined){
-                      body = {...body, password:""};
+                      body = {...body, password:null};
                       if(values.phone_no === ""){
                         body = {...body , phone_no:null};
                       }

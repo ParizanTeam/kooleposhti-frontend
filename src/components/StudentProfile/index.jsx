@@ -132,6 +132,7 @@ function StudentAboutMe(props) {
                 try {
                   setLoading(true);
                   const body = { bio: draftToHtml(convertToRaw(editorState.getCurrentContent())) };
+
                   axios
                     .put(`${baseUrl}/accounts/profile/update-profile/`, JSON.stringify(body))
                     .then(response => {
@@ -355,6 +356,15 @@ function SProfile(props) {
                         imag_uploaded = false;
                       });
                   }
+
+                  console.log("body",body);
+                  if(values.password === undefined){
+                    body = {...body, password:""};
+                    if(values.phone_no === ""){
+                      body = {...body , phone_no:null};
+                    }
+                  }
+                  console.log("body",body);
                   axios
                     .put(`${baseUrl}/accounts/students/me/`, JSON.stringify(body), {
                       headers: {
