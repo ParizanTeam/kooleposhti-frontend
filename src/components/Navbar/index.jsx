@@ -122,7 +122,7 @@ const DesktopNavbar = () => {
               <HelpIcon style={{ color: navbarProps.baseColor, marginLeft: '5px' }} />
               راهنما
             </Button>
-            {!location.pathname === '/classes' && (
+            {location.pathname != '/classes' && (
               <IconButton
                 style={{ marginRight: '10px', color: color == 'grey' ? color : navbarProps.baseColor }}
                 onClick={handleSearchBarOpen}
