@@ -42,7 +42,12 @@ const BestTeachers = () => {
                   }
                   placement="bottom"
                 >
-                  <img className="best-teachers__teacher-img" src={BestTeacher.image?.image || noPersonImg} />
+                  <img
+                    className="best-teachers__teacher-img"
+                    src={
+                      (BestTeacher.image?.image && 'https://kooleposhti.ml/' + BestTeacher.image?.image) || noPersonImg
+                    }
+                  />
                 </Tooltip>
               </Link>
             </SwiperSlide>
