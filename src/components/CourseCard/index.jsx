@@ -6,9 +6,46 @@ import StarOutlineRoundedIcon from '@mui/icons-material/StarOutlineRounded';
 import { Favorite } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import './style.scss';
-
-const CourseCard = ({ imgSrc, title, teacherImgSrc, teacherName, rate, dir, id }) => {
+import axios from '../../utils/axiosConfig';
+import { baseUrl } from '../../utils/constants';
+import { useHistory, useParams } from 'react-router-dom';
+import {useMediaQuery } from '@mui/material';
+import apiInstance from '../../utils/axiosConfig';
+/*function Heart(EndPoint){
+  const history = useHistory();
+  //const [loading, setLoading] = React.useState(true);
+  React.useEffect(() => {
+    console.log('injam');
+    async function fetchData() {
+      await axios
+      .get(EndPoint)
+      .then(res => {
+        console.log('likeState', res.data);
+        //setLoading(false);
+      })
+      .catch(err => {
+        console.log('error: ', err);
+      });
+    }
+    fetchData();
+  }, []);
+};*/
+const CourseCard = ({id, imgSrc, title, teacherImgSrc, teacherName, rate, dir }) => {
   const [isFavorite, setIsFavorite] = useState(false);
+  const history = useHistory();
+  const [loading, setLoading] = React.useState(true);
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  React.useEffect(() => {
+    async function fetchData() {
+      apiInstance.get(`${baseUrl}/accounts/students/favorites/`)
+      .then(res => {
+        setLoading(false);
+      })
+      .catch(err => {
+        console.log('error: ', err);
+      });}
+      fetchData();
+  }, []);
   return (
     <Link to={`/courses/${id}`} className="course-card">
       <img src={imgSrc} alt={title} className="course-card__img" />
@@ -27,6 +64,8 @@ const CourseCard = ({ imgSrc, title, teacherImgSrc, teacherName, rate, dir, id }
             e.preventDefault();
             e.stopPropagation();
             setIsFavorite(state => !state);
+            if(isFavorite){history.push(`${baseUrl}/courses /${id} /favorite /add /`);}
+            else{apiInstance.delete(`${baseUrl}/courses /${id} /favorite /remove /`);};
           }}
         >
           {isFavorite ? <Favorite className="filled-fav-icon" /> : <FavoriteBorderIcon className="fav-icon" />}

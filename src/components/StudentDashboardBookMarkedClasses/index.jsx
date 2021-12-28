@@ -1,6 +1,6 @@
 //import { useMobile } from '../../utils/detectSource';
 import StudentDashboardHeader from '../StudentDashboardHeader';
-
+import ReactLoading from 'react-loading';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Keyboard } from 'swiper/core';
 import CourseCard from '../CourseCard';
@@ -20,12 +20,15 @@ import { change_profile_color } from '../../store/actions';
 
 SwiperCore.use([Navigation, Keyboard]);
 const MyCourseSlider = () => {
+  const themeProps = useSelector(state => state.theme);
+  let theNewone = localStorage.getItem("chosenColor");
+  change_profile_color(theNewone);
   const [loading, setLoading] = React.useState(true);
-
   const isMobile = useMediaQuery('(max-width: 768px)');
   const [favorites, setfavorites] = React.useState([]);
   React.useEffect(() => {
-    axios
+    async function fetchData() {
+      await axios
       .get(`${baseUrl}/accounts/students/favorites/`)
       .then(res => {
         setfavorites(res.data);
@@ -34,7 +37,8 @@ const MyCourseSlider = () => {
       })
       .catch(err => {
         console.log('error: ', err);
-      });
+      });}
+      fetchData();
   }, []);
   return (
     <div className="My-courses-section">
@@ -42,12 +46,17 @@ const MyCourseSlider = () => {
         مورد <span className="My-courses-section__highlight"> &#x2665; </span>ها
       </h2>
       <div className="My-carousal-container">
-        <div style={{ width: useMobile() ? '100%' : '90%' }}>
+      {loading || favorites.length <= 0? (
+              <div style={{ padding: '100px', display: 'flex' }}>
+                <ReactLoading type="spinningBubbles" color={themeProps.primaryColor} height={100} width={100} />{' '}
+              </div>
+            ) : (
+        <div style={{ width: isMobile ? '100%' : '90%' }}>
           <Swiper
             spaceBetween={10}
             slidesPerView={'auto'}
             centeredSlides
-            navigation={useMobile() ? false : true}
+            navigation={isMobile? false : true}
             loop
             keyboard
             centeredSlides
@@ -64,7 +73,7 @@ const MyCourseSlider = () => {
               </SwiperSlide>
             ))}
           </Swiper>
-        </div>
+        </div>)}
       </div>
     </div>
   );

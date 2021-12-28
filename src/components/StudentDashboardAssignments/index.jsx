@@ -47,7 +47,7 @@ function MyAssignments() {
   };
   return (
     <div  className="AcDiv">
-      {loading ? (
+      {loading || assignments.length <= 0? (
         <div style={{ padding: '140px', display: 'flex',alignItems:'center',justifyContent:'center' }}>
           <ReactLoading type="spinningBubbles" color="white" height={100} width={100} />
         </div>
