@@ -8,6 +8,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import GroupsIcon from '@mui/icons-material/Groups';
 import MenuIcon from '@mui/icons-material/Menu';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import Assignments from '../Assignments';
 import CreateAssignment from '../CreateAssignment';
 import { toast, ToastContainer } from 'react-toastify';
@@ -149,7 +150,7 @@ const ClassDashboard = () => {
           <Link to={`/dashboard/class/${classId}/discounts`}>
             <div className={baseClass + '__item'}>
               <p>تخفیف ها</p>
-              <GroupsIcon />
+              <LocalOfferIcon />
             </div>
           </Link>
           {role == 'student' && (

@@ -79,6 +79,7 @@ function CreateDiscount() {
   const [openModal, setOpenModal] = useState(false);
   const [modalConfirm, setModalConfirm] = useState(null);
   const [registerLoading, setRegisterLoading] = useState(false);
+  let regex = /[^A-Za-z0-9]+/;
 
   const cacheRtl = createCache({
     key: 'muirtl',
@@ -157,6 +158,11 @@ function CreateDiscount() {
           className="kp-text-input__input discount-page-input__title"
           id="title"
         />
+        {regex.test(title) && (
+          <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>
+            متن کد تخفیف باید تنها از اعداد و الفبای انگلیسی تشکیل شده باشد.
+          </div>
+        )}
       </div>
 
       <div>

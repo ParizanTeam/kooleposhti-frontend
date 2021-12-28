@@ -118,7 +118,7 @@ function ClassDiscounts() {
     const JDate = require('jalali-date');
     const date = new Date(input);
     const jdate = new JDate(date).format('dddd DD MMMM YYYY');
-    return `${jdate}`;
+    return `${jdate} ساعت ${date.getHours()}:${date.getMinutes()}`;
   };
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
