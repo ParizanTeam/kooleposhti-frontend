@@ -305,11 +305,7 @@ function SProfile(props) {
             >
               ویرایش حساب کاربری
             </Typography>
-            <Avatar
-              src={userData.image ? userData.image.image : file}
-              alt="profile"
-              sx={{ mt: 1, width: 'auto', height: '18vmin', borderRadius: '50%' }}
-            />
+            <Avatar src={file} alt="profile" sx={{ mt: 1, width: '18vmin', height: '18vmin', borderRadius: '50%' }} />
 
             <Button
               variant="contained"
@@ -317,7 +313,7 @@ function SProfile(props) {
               sx={{ backgroundColor: themeProps.primaryColor, color: 'white', width: '120px', mt: 2 }}
             >
               <p style={{ fontSize: '0.8rem' }}>انتخاب عکس</p>
-              <input type="file" hidden onChange={handleChange} />
+              <input type="file" hidden onChange={handleChange} accept=".jpg,.jpeg,.png" />
             </Button>
 
             <ToastContainer rtl={true} />
