@@ -10,9 +10,32 @@ import 'swiper/swiper-bundle.min.css';
 import './style.scss';
 import StudentDashboardFooter from '../StudentDashboardHeader/StudentDashboardFooter';
 import { useSelector } from 'react-redux';
+//import { useMobile } from '../../utils/detectSource';
+import * as React from 'react';
+import './style.scss';
+import {useMediaQuery } from '@mui/material';
+import axios from '../../utils/axiosConfig';
+import { baseUrl } from '../../utils/constants';
+import { change_profile_color } from '../../store/actions';
 
 SwiperCore.use([Navigation, Keyboard]);
 const MyCourseSlider = () => {
+  const [loading, setLoading] = React.useState(true);
+
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  const [favorites, setfavorites] = React.useState([]);
+  React.useEffect(() => {
+    axios
+      .get(`${baseUrl}/accounts/students/favorites/`)
+      .then(res => {
+        setfavorites(res.data);
+        console.log('favorite classes', res.data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.log('error: ', err);
+      });
+  }, []);
   return (
     <div className="My-courses-section">
       <h2 className="My-courses-section__title">
@@ -29,14 +52,14 @@ const MyCourseSlider = () => {
             keyboard
             centeredSlides
           >
-            {coursesData.map(item => (
+            {favorites.map(item => (
               <SwiperSlide key={item.id}>
                 <CourseCard
                   title={item.title}
-                  teacherName={item.teacherName}
+                  teacherName={item.instructor.last_name}
                   rate={item.rate}
-                  teacherImgSrc={item.teacherImgSrc}
-                  imgSrc={item.imgSrc}
+                  teacherImgSrc={item.instructor.image}
+                  imgSrc={item.image}
                 />
               </SwiperSlide>
             ))}
@@ -49,7 +72,8 @@ const MyCourseSlider = () => {
 
 const StudentDashboardBookMarkedClasses = () => {
   const themeProps = useSelector(state => state.theme);
-
+  let theNewone = localStorage.getItem("chosenColor");
+  change_profile_color(theNewone);
   return (
   <div>
     <StudentDashboardHeader />

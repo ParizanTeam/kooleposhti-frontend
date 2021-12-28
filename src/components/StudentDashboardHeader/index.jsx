@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import Navbar from '../Navbar';
 import { useSelector } from 'react-redux';
+import { change_profile_color } from '../../store/actions';
 import './style.scss';
 
 const StudentDashboardHeader = () => {
   const themeProps = useSelector(state => state.theme);
-
+  let theNewone = localStorage.getItem("chosenColor");
+  change_profile_color(theNewone);
   return (
     <div>
       <Navbar color={themeProps.primaryColor} />

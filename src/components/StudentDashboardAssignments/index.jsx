@@ -21,9 +21,8 @@ import ReactLoading from 'react-loading';
 
 import ReactHtmlParser from 'react-html-parser';
 import { changeDateFormat2 } from '../../utils/helpers';
-import { useSelector } from 'react-redux';
-
-
+import { useSelector} from 'react-redux';
+import { change_profile_color } from '../../store/actions';
 function MyAssignments() {
   const [loading, setLoading] = React.useState(true);
 
@@ -112,7 +111,8 @@ function MyAssignments() {
 
 const StudentDashboardAssignments = () => {
   const themeProps = useSelector(state => state.theme);
-
+  let theNewone = localStorage.getItem("chosenColor");
+  change_profile_color(theNewone);
   return (
   <div>
     <StudentDashboardHeader/>
