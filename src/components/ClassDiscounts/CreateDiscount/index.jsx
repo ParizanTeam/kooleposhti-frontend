@@ -109,7 +109,13 @@ function CreateDiscount() {
               setEndDateBlured(true);
               setPercentageBlured(true);
               console.log('hello');
-              if (!endDate || !percentage || (title && !regex.test(title)) || convertNumberToEnglish(percentage) > 100 || convertNumberToEnglish(percentage) < 0) {
+              if (
+                !endDate ||
+                !percentage ||
+                (!title && !regex.test(title)) ||
+                convertNumberToEnglish(percentage) > 100 ||
+                convertNumberToEnglish(percentage) < 0
+              ) {
                 toast.error('لطفا فیلدهای مربوطه را درست وارد کنید.');
                 console.log('this is error.');
               } else {
@@ -148,7 +154,9 @@ function CreateDiscount() {
         <label htmlFor="title" className="kp-text-input__label">
           متن کد تخفیف:
         </label>
-        <p>در صورتی که متنی وارد نکنید، به طور خودکار متنی برای کد تخفیف تولید خواهد شد.</p>
+        <p style={{ marginBottom: 10 }}>
+          در صورتی که متنی وارد نکنید، به طور خودکار متنی برای کد تخفیف تولید خواهد شد.
+        </p>
         <input
           type="text"
           placeholder="متن کد تخفیف"
@@ -202,9 +210,11 @@ function CreateDiscount() {
           className="kp-text-input__input discount-page-input__percentage"
           id="title"
         />
-        {percentageBlured && percentage == '' && convertNumberToEnglish(percentage) > 100 && convertNumberToEnglish(percentage) < 0 (
-          <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>درصد تخفیف نمیتواند خالی باشد.</div>
-        )}
+        {percentageBlured &&
+          percentage == '' &&
+          convertNumberToEnglish(percentage) > 100 &&
+          convertNumberToEnglish(percentage) <
+            0(<div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>درصد تخفیف نمیتواند خالی باشد.</div>)}
       </div>
 
       <DatePicker
