@@ -355,7 +355,7 @@ function SProfile(props) {
 
                   console.log("body",body);
                   if(values.password === undefined){
-                    body = {...body, password:""};
+                    body = {...body};
                     if(values.phone_no === ""){
                       body = {...body , phone_no:null};
                     }
