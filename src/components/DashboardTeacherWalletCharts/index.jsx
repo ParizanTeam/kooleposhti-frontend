@@ -5,17 +5,37 @@ import Chart from 'chart.js/auto';
 import Wallet from '../../assets/images/Wallet-icon.png';
 import "./styles.scss";
 import { KeyBindingUtil } from "draft-js";
+import { useState, useEffect, useRef } from 'react';
+import axios from '../../utils/axiosConfig';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { baseUrl } from '../../utils/constants';
 
 function DashboardTeacherWalletCharts() {
+  const [tansferHistory, setTansferHistory] = useState(null);
+  const [diagramData, setDiagramData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+      axios
+      .get(`${baseUrl}/accounts/instructors/course-orders/`)
+      .then(res => {
+        setDiagramData(res.data);
+        console.log('DiagramData', res.data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.log('error: ', err);
+      });
+  }, []);
   const data = {
     labels: [
-      "شنبه",
-      "یکشنبه",
-      "دوشنبه",
-      "سه شنبه",
-      "چهارشنبه",
-      "پنجشنبه",
-      "جمعه"
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
     ],
     //backgroundColor: ['rgba(255,0,0,1)'],
     //lineTension: 1,
