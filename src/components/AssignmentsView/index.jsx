@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from '@mui/material';
+import { MenuItem, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import { visuallyHidden } from '@mui/utils';
@@ -14,25 +14,42 @@ import { Collapse, Typography, IconButton, Button, TextField } from '@mui/materi
 import { convertNumberToPersian } from '../../utils/helpers';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import AttachmentViewer from '../AttachmentViewer';
 import TablePagination from '../TablePagination';
+
+import { useParams } from 'react-router-dom';
+import { baseUrl } from '../../utils/constants';
+import apiInstance from '../../utils/axiosConfig';
+import ReactLoading from 'react-loading';
+
 import samplePDF from '../../assets/samples/Sample PDF.pdf';
 import sampleVideo from '../../assets/samples/Sample Video.mp4';
 import sampleImage from '../../assets/samples/Sample Image.jpg';
 
-function createData(id, studentImage, firstname, lastname, status) {
+function createData(id, studentImage, firstname, lastname, username, status, answer) {
   return {
     id,
     studentImage,
     firstname,
     lastname,
+    username,
     status,
+    answer,
   };
 }
 
-const rows = StudentList.map(item => createData(item.id, item.imageSrc, item.firstName, item.lastName, item.status));
+// const rows = StudentList.map(item => createData(item.id, item.imageSrc, item.firstName, item.lastName, item.status));
 
+const mime_types = {
+  png: 'image',
+  jpg: 'image',
+  jepg: 'image',
+  docx: 'document',
+  pdf: 'application',
+  video: 'mp4',
+};
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -81,11 +98,14 @@ const headCells = [
   },
 ];
 function Row(props) {
-  console.log(props);
   const { row } = props;
+  const answer = row.answer;
   const [open, setOpen] = React.useState(false);
   const isSelected = name => props.selected.indexOf(name) !== -1;
   const isItemSelected = isSelected(row.id);
+  const submited = 'تحویل داده شده';
+  const unsubmited = 'تحویل داده نشده';
+
   const handleClick = (event, name) => {
     const selectedIndex = props.selected.indexOf(name);
     let newSelected = [];
@@ -106,54 +126,86 @@ function Row(props) {
     props.setSelected(newSelected);
   };
   const [attachmentToView, setAttachmentToView] = React.useState(null);
-  const attachmentFiles = [
-    {
+  // const attachmentFiles = [
+  //   {
+  //     id: 1,
+  //     uploader: {
+  //       username: `${row.firstname} ${row.lastname}`,
+  //       userImage: row.studentImage,
+  //     },
+  //     name: 'Sample PDF.pdf',
+  //     link: samplePDF,
+  //     createdAt: convertNumberToPersian('شنبه 6 آذر 1400'),
+  //     mimetype: 'application/pdf',
+  //   },
+
+  //   {
+  //     id: 2,
+  //     uploader: {
+  //       username: `${row.firstname} ${row.lastname}`,
+  //       userImage: row.studentImage,
+  //     },
+  //     name: 'Sample Video.mp4',
+  //     link: sampleVideo,
+  //     createdAt: convertNumberToPersian('شنبه 6 آذر 1400'),
+  //     mimetype: 'video/mp4',
+  //   },
+
+  //   {
+  //     id: 3,
+  //     uploader: {
+  //       username: `${row.firstname} ${row.lastname}`,
+  //       userImage: row.studentImage,
+  //     },
+  //     name: 'Sample Image.jpg',
+  //     link: sampleImage,
+  //     createdAt: convertNumberToPersian('شنبه 6 آذر 1400'),
+  //     mimetype: 'image/jpeg',
+  //   },
+  //   {
+  //     id: 4,
+  //     uploader: {
+  //       username: `${row.firstname} ${row.lastname}`,
+  //       userImage: row.studentImage,
+  //     },
+  //     name: 'Sample Document.docx',
+  //     link: 'https://file-examples-com.github.io/uploads/2017/02/file-sample_100kB.docx',
+  //     createdAt: convertNumberToPersian('شنبه 6 آذر 1400'),
+  //     mimetype: 'document/docx',
+  //   },
+  // ];
+  const convertDateToJalali = input => {
+    const JDate = require('jalali-date');
+    const date = new Date(input);
+    const jdate = new JDate(date).format('dddd DD MMMM YYYY');
+    return `${jdate} ساعت ${date.getHours()}:${date.getMinutes()}`;
+  };
+
+  const attachmentFiles = [];
+  if (answer) {
+    console.log('answer', answer);
+    let name = row.username;
+    if (row.firstname) {
+      name = row.firstname;
+      if (row.last_name) name = `${row.firstname} ${row.lastname}`;
+    }
+    const filename = answer.file.split('/').at(-1);
+    const file_adrr = `https:\\kooleposhti.ml${answer.file}`;
+    const file_format = filename.split('.').at(-1);
+    const mime_type = `${mime_types[file_format]}/${file_format}`;
+    // const submited_date=convertDateToJalali(row.submited_date);
+    attachmentFiles.push({
       id: 1,
       uploader: {
-        username: `${row.firstname} ${row.lastname}`,
+        username: name,
         userImage: row.studentImage,
       },
-      name: 'Sample PDF.pdf',
-      link: samplePDF,
-      createdAt: convertNumberToPersian('شنبه 6 آذر 1400'),
-      mimetype: 'application/pdf',
-    },
-
-    {
-      id: 2,
-      uploader: {
-        username: `${row.firstname} ${row.lastname}`,
-        userImage: row.studentImage,
-      },
-      name: 'Sample Video.mp4',
-      link: sampleVideo,
-      createdAt: convertNumberToPersian('شنبه 6 آذر 1400'),
-      mimetype: 'video/mp4',
-    },
-
-    {
-      id: 3,
-      uploader: {
-        username: `${row.firstname} ${row.lastname}`,
-        userImage: row.studentImage,
-      },
-      name: 'Sample Image.jpg',
-      link: sampleImage,
-      createdAt: convertNumberToPersian('شنبه 6 آذر 1400'),
-      mimetype: 'image/jpeg',
-    },
-    {
-      id: 4,
-      uploader: {
-        username: `${row.firstname} ${row.lastname}`,
-        userImage: row.studentImage,
-      },
-      name: 'Sample Document.docx',
-      link: 'https://file-examples-com.github.io/uploads/2017/02/file-sample_100kB.docx',
-      createdAt: convertNumberToPersian('شنبه 6 آذر 1400'),
-      mimetype: 'document/docx',
-    },
-  ];
+      name: filename,
+      link: file_adrr,
+      createdAt: convertNumberToPersian(row.submited_date),
+      mimetype: mime_type,
+    });
+  }
   return (
     <React.Fragment>
       <TableRow
@@ -166,20 +218,26 @@ function Row(props) {
         sx={{ '& > *': { borderBottom: 'unset' }, margin: '100px' }}
       >
         <TableCell padding="checkbox">
-          <Checkbox onClick={event => handleClick(event, row.id)} color="primary" checked={isItemSelected} />
+          {/* <Checkbox onClick={event => handleClick(event, row.id)} color="primary" checked={isItemSelected} /> */}
         </TableCell>
         <TableCell align="right">
-          <Avatar src={row.studentImage} alt="profile" sx={{ borderRadius: '50%' }} />
+          <Avatar
+            src={row.studentImage ? `https://kooleposhti.ml${row.studentImage}` : null}
+            alt="profile"
+            sx={{ borderRadius: '50%' }}
+          />
         </TableCell>
         <TableCell align="right">
           <p>{row.firstname}</p>
         </TableCell>
         <TableCell align="right">{row.lastname}</TableCell>
-        <TableCell align="right">{row.status}</TableCell>
+        <TableCell align="right">{row.status ? submited : unsubmited} </TableCell>
 
-        <TableCell align="right" onClick={() => setOpen(!open)}>
-          <Button>مشاهده تکلیف</Button>
-          <IconButton size="small">{open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}</IconButton>
+        <TableCell align="right">
+          <Button onClick={() => setOpen(!open)} disabled={!row.status}>
+            مشاهده تکلیف
+            <IconButton size="small">{open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}</IconButton>
+          </Button>
         </TableCell>
       </TableRow>
       <TableRow>
@@ -236,6 +294,21 @@ function Row(props) {
                     // toolbarStyle={<toolbarStyleObject>}
                   />
                 </div>
+              وضعیت:
+                <Select
+                  // value={classStatus}
+                  placeholder="active"
+
+                  // onChange={handleChange}
+                  displayEmpty
+                  MenuProps={{
+                    disableScrollLock: true,
+                  }}
+                >
+                  <MenuItem value="active">بسیار عالی</MenuItem>
+                  <MenuItem value="past">خیلی خوب</MenuItem>
+                  <MenuItem value="all">متوسط</MenuItem>
+                </Select>
                 <Box style={{ marginTop: '20px', marginRight: 'auto' }}>
                   <Button variant="outlined">ارسال</Button>
                 </Box>
@@ -258,12 +331,12 @@ function EnhancedTableHead(props) {
     <TableHead>
       <TableRow>
         <TableCell padding="checkbox">
-          <Checkbox
+          {/* <Checkbox
             color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
-          />
+          /> */}
         </TableCell>
         <TableCell align="right" padding="checkbox"></TableCell>
         {headCells.map(headCell => (
@@ -309,7 +382,49 @@ export default function AssignmentsView() {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const params = useParams();
+  const classId = params.classId;
+  const assignmentId = params.assignmentId;
 
+  const [students, setStudents] = useState([]);
+  const [, forceUpdate] = React.useReducer(x => x + 1, 0);
+  const [loading, setLoading] = React.useState(true);
+  useEffect(() => {
+    apiInstance
+      .get(`${baseUrl}/assignments/${assignmentId}/submit/`)
+      .then(res => {
+        const temp = {};
+        res.data.forEach(a => {
+          temp[a.student] = a;
+        });
+        console.log('SubmitAssignments', temp);
+
+        apiInstance
+          .get(`${baseUrl}/courses/${classId}/students/`)
+          .then(res => {
+            const rows = res.data.map(item =>
+              createData(
+                item.user_id,
+                item.image ? item.image.image : null,
+                item.first_name,
+                item.last_name,
+                item.username,
+                item.id in temp,
+                temp[item.id]
+              )
+            );
+            // console.log('heu', res.data);
+            setStudents(rows);
+            setLoading(false);
+          })
+          .catch(err => {
+            console.log('error: ', err);
+          });
+      })
+      .catch(err => {
+        console.log('error: ', err);
+      });
+  }, []);
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -318,7 +433,7 @@ export default function AssignmentsView() {
 
   const handleSelectAllClick = event => {
     if (event.target.checked) {
-      const newSelecteds = rows.map(n => n.id);
+      const newSelecteds = students.map(n => n.id);
       setSelected(newSelecteds);
       return;
     }
@@ -335,50 +450,67 @@ export default function AssignmentsView() {
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - students.length) : 0;
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
-        <TableContainer>
-          <Table sx={{ minWidth: 750 }} size="medium">
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-              style={{ textAlign: 'right' }}
-            />
-            <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                 rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  return <Row key={row.id} row={row} selected={selected} setSelected={setSelected} />;
-                })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: 53 * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
-    </Box>
+    <>
+      <div>
+        <h3 style={{ marginBottom: 16 }}>لیست تکالیف ثبت شده</h3>
+        {loading ? (
+          <div style={{ display: 'flex', justifyContent: 'center', padding: 'auto', marginTop: 24 }}>
+            <ReactLoading type="spinningBubbles" color="#EF006C" height={100} width={100} />
+          </div>
+        ) : (
+          <>
+            {students.length == 0 ? (
+              <div> هنوز دانش‌آموزی در این کلاس ثبت‌نام نکرده‌است.</div>
+            ) : (
+              <Box sx={{ width: '100%' }}>
+                <Paper sx={{ width: '100%', mb: 2 }}>
+                  <TableContainer>
+                    <Table sx={{ minWidth: 750 }} size="medium">
+                      <EnhancedTableHead
+                        numSelected={selected.length}
+                        order={order}
+                        orderBy={orderBy}
+                        onSelectAllClick={handleSelectAllClick}
+                        onRequestSort={handleRequestSort}
+                        rowCount={students.length}
+                        style={{ textAlign: 'right' }}
+                      />
+                      <TableBody>
+                        {/* if you don't need to support IE11, you can replace the `stableSort` call with:
+                     rows.slice().sort(getComparator(order, orderBy)) */}
+                        {stableSort(students, getComparator(order, orderBy))
+                          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                          .map((row, index) => {
+                            return <Row key={row.id} row={row} selected={selected} setSelected={setSelected} />;
+                          })}
+                        {emptyRows > 0 && (
+                          <TableRow
+                            style={{
+                              height: 53 * emptyRows,
+                            }}
+                          >
+                            <TableCell colSpan={6} />
+                          </TableRow>
+                        )}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                  <TablePagination
+                    count={students.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                  />
+                </Paper>
+              </Box>
+            )}
+          </>
+        )}
+      </div>
+    </>
   );
 }
