@@ -238,7 +238,7 @@ function TeacherPublicProfile(props) {
   const TeacherClasses = () => {
     return (
       <div className="My-courses-section">
-        <h2 className="My-courses-section__title">لیست کلاس ها</h2>
+        <h2 className="My-courses-section__title">لیست کلاس‌ها</h2>
         <div className="My-carousal-container">
           <Grid sx={{ width: { xl: '100%', md: '85%', sm: '65vmin', xs: '90vmin' } }}>
             {teacherData.courses.length === 0 && (

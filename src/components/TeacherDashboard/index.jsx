@@ -59,7 +59,7 @@ function TeacherDashboard(props) {
 
   const items = [
     {
-      text: 'کلاس ها',
+      text: 'کلاس‌ها',
       icon: <Classes />,
       onClick: () => {
         history.push(`/dashboard/teacher/${tabs[1]}`);
@@ -73,7 +73,7 @@ function TeacherDashboard(props) {
       },
     },
     {
-      text: 'دریافت ها',
+      text: 'دریافت‌ها',
       icon: <RecievedCash />,
       onClick: () => {
         history.push(`/dashboard/teacher/${tabs[3]}`);

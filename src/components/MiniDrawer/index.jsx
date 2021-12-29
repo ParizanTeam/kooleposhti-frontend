@@ -126,7 +126,35 @@ function MiniDrawer(props) {
 
   const items = [
     {
-      text: 'کلاس ها',
+      text: 'کلاس‌ها',
+      icon: <SignupIcon />,
+      onClick: () => {
+        history.push(`/teacher/dashboard/${tabs[1]}`);
+      },
+    },
+    {
+      text: 'کیف پول',
+      icon: <LoginIcon />,
+      onClick: () => {
+        history.push(`/teacher/dashboard/${tabs[2]}`);
+      },
+    },
+    {
+      text: 'دریافت‌ها',
+      icon: <LoginIcon />,
+      onClick: () => {
+        history.push(`/teacher/dashboard/${tabs[3]}`);
+      },
+    },
+    {
+      text: 'حساب بانکی',
+      icon: <SignupIcon />,
+      onClick: () => {
+        history.push(`/teacher/dashboard/${tabs[4]}`);
+      },
+    },
+    {
+      text: 'کلاس‌ها',
       icon: <SignupIcon />,
       onClick: () => {
         history.push(`/teacher/dashboard/${tabs[1]}`);
@@ -154,7 +182,7 @@ function MiniDrawer(props) {
       },
     },
     {
-      text: 'کلاس ها',
+      text: 'کلاس‌ها',
       icon: <SignupIcon />,
       onClick: () => {
         history.push(`/teacher/dashboard/${tabs[1]}`);
@@ -168,35 +196,7 @@ function MiniDrawer(props) {
       },
     },
     {
-      text: 'دریافت ها',
-      icon: <LoginIcon />,
-      onClick: () => {
-        history.push(`/teacher/dashboard/${tabs[3]}`);
-      },
-    },
-    {
-      text: 'حساب بانکی',
-      icon: <SignupIcon />,
-      onClick: () => {
-        history.push(`/teacher/dashboard/${tabs[4]}`);
-      },
-    },
-    {
-      text: 'کلاس ها',
-      icon: <SignupIcon />,
-      onClick: () => {
-        history.push(`/teacher/dashboard/${tabs[1]}`);
-      },
-    },
-    {
-      text: 'کیف پول',
-      icon: <LoginIcon />,
-      onClick: () => {
-        history.push(`/teacher/dashboard/${tabs[2]}`);
-      },
-    },
-    {
-      text: 'دریافت ها',
+      text: 'دریافت‌ها',
       icon: <LoginIcon />,
       onClick: () => {
         history.push(`/teacher/dashboard/${tabs[3]}`);
@@ -268,12 +268,12 @@ function MiniDrawer(props) {
                 تدریس کن
               </Typography>
             </Button>
-            <Button variant="text" component={Link} to="/Help">
+            {/* <Button variant="text" component={Link} to="/Help">
               <HelpIcon sx={{ color: 'rgba(123, 234, 242, 0.857)', mr: 1.5 }} />
               <Typography variant="body" noWrap component="div" sx={{ color: 'white', fontSize: '0.7rem' }}>
                 راهنما
               </Typography>
-            </Button>
+            </Button> */}
 
             <Box display="flex" flexGrow={1} sx={{ direction: 'rtl' }}>
               <Button variant="text" component={Link} to="/Help">

@@ -4,7 +4,6 @@ import React from 'react';
 import { AppBar, Toolbar, Typography, Button, useScrollTrigger, Slide } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { Link } from 'react-router-dom';
-
 import './style.scss';
 import Logo from './Logo';
 import SearchBar from './SearchBar';
@@ -63,7 +62,7 @@ const LogoutBtn = () => {
 export const MyClasses = () => {
   return (
     <>
-      <RightBtn Icon={SchoolIcon} text="همه کلاس‌ها" linkTo="/classes" />
+      <RightBtn Icon={CastForEducationIcon} text="همه کلاس‌ها" linkTo="/classes" />
     </>
   );
 };
@@ -80,15 +79,14 @@ export const ProfileMenu = props => {
   if (role == 'instructor') role = 'teacher';
   const profileMenuItems = {
     student: [
-      { icon: CastForEducationIcon, label: 'کلاس ها', to: '/dashboard/student/ClassesList' },
-      { icon: Assignment, label: 'چالش ها', to: '/dashboard/student/assignments' },
-      { icon: FavoriteBorder, label: 'علاقمندی ها', to: '/dashboard/student/bookmarks' },
-
+      { icon: CastForEducationIcon, label: 'کلاس‌ها', to: '/dashboard/student/ClassesList' },
+      { icon: Assignment, label: 'چالش‌ها', to: '/dashboard/student/assignments' },
+      { icon: FavoriteBorder, label: 'علاقمندی‌ها', to: '/dashboard/student/bookmarks' },
     ],
     teacher: [
-      { icon: CastForEducationIcon, label: 'کلاس ها', to: '/dashboard/teacher/classes' },
+      { icon: CastForEducationIcon, label: 'کلاس‌ها', to: '/dashboard/teacher/classes' },
       { icon: AccountBalanceIcon, label: 'کیف پول', to: '/dashboard/teacher/wallet' },
-      { icon: AttachMoneyIcon , label: 'دریافت ها', to: '/dashboard/teacher/received' },
+      { icon: AttachMoneyIcon, label: 'دریافت‌ها', to: '/dashboard/teacher/received' },
     ],
   };
 
@@ -153,7 +151,7 @@ export const ProfileMenu = props => {
             <MenuButton Icon={item.icon} text={item.label} linkTo={item.to} />
           ))}
           <Divider style={{ marginTop: '20 px' }} />
-          <MenuButton Icon={HelpIcon} text="راهنما" linkTo="/help" />
+          {/* <MenuButton Icon={HelpIcon} text="راهنما" linkTo="/help" /> */}
           <LogoutBtn />
           <Divider />
         </>

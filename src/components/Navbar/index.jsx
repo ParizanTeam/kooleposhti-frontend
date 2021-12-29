@@ -116,12 +116,20 @@ const DesktopNavbar = () => {
         <Toolbar>
           <Logo />
           <div style={{ marginRight: '2rem' }}>
-            {isAuth ? <MyClasses /> : <RightBtn Icon={SchoolIcon} text="تدریس کن" linkTo="/signup" />}
+            {isAuth ? (
+              location.pathname != '/classes' ? (
+                <MyClasses />
+              ) : (
+                ''
+              )
+            ) : (
+              <RightBtn Icon={SchoolIcon} text="تدریس کن" linkTo="/signup" />
+            )}
 
-            <Button variant="text" onClick={handleHelpAnchorClick} style={{ color: '#000' }}>
+            {/* <Button variant="text" onClick={handleHelpAnchorClick} style={{ color: '#000' }}>
               <HelpIcon style={{ color: navbarProps.baseColor, marginLeft: '5px' }} />
               راهنما
-            </Button>
+            </Button> */}
             {location.pathname != '/classes' && (
               <IconButton
                 style={{ marginRight: '10px', color: color == 'grey' ? color : navbarProps.baseColor }}

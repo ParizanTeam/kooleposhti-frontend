@@ -61,9 +61,9 @@ function BaseDashboard(props) {
     setMobileOpen(!mobileOpen);
   };
 
-  const hideDrawer = () =>{
-    setMobileOpen(false)
-  }
+  const hideDrawer = () => {
+    setMobileOpen(false);
+  };
 
   const drawer = (
     <div>
@@ -151,13 +151,12 @@ function BaseDashboard(props) {
                 }}
               >
                 <Toolbar>
-        
                   <IconButton
                     color="inherit"
                     aria-label="open drawer"
                     edge="start"
                     onClick={handleDrawerToggle}
-                    sx={{ mr: 2, display: useMediaQuery('(max-width: 600px)') ? 'block' : 'none', paddingTop:2.5 }}
+                    sx={{ mr: 2, display: useMediaQuery('(max-width: 600px)') ? 'block' : 'none', paddingTop: 2.5 }}
                   >
                     <MenuIcon />
                   </IconButton>
@@ -168,12 +167,12 @@ function BaseDashboard(props) {
                       خانه
                     </Typography>
                   </Button>
-                  <Button variant="text" component={Link} to="/Help">
+                  {/* <Button variant="text" component={Link} to="/Help">
                     <HelpIcon sx={{ color: 'rgba(123, 234, 242, 0.857)', mr: 1.5 }} />
                     <Typography variant="body" noWrap component="div" sx={{ color: 'white', fontSize: '0.7rem' }}>
                       راهنما
                     </Typography>
-                  </Button>
+                  </Button> */}
 
                   <Box display="flex" flexGrow={1} sx={{ direction: 'rtl' }}>
                     <Button
@@ -189,7 +188,6 @@ function BaseDashboard(props) {
                       </Typography>
                     </Button>
                   </Box>
-             
                 </Toolbar>
               </AppBar>
 

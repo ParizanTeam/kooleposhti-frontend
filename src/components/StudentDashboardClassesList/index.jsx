@@ -79,9 +79,9 @@ const StudentDashboardClassesList = () => {
                 disableScrollLock: true,
               }}
             >
-              <MenuItem value="active">کلاس های فعال</MenuItem>
-              <MenuItem value="past">کلاس های گذشته</MenuItem>
-              <MenuItem value="all">همه کلاس ها</MenuItem>
+              <MenuItem value="active">کلاس‌های فعال</MenuItem>
+              <MenuItem value="past">کلاس‌های گذشته</MenuItem>
+              <MenuItem value="all">همه کلاس‌ها</MenuItem>
             </Select>
           </div>
 
