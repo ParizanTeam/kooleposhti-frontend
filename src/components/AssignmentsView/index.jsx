@@ -2,7 +2,17 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import { MenuItem, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from '@mui/material';
+import {
+  MenuItem,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableSortLabel,
+} from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import { visuallyHidden } from '@mui/utils';
@@ -182,14 +192,14 @@ function Row(props) {
   };
 
   const attachmentFiles = [];
-  if (answer) {
+  if (answer && answer.file) {
     console.log('answer', answer);
     let name = row.username;
     if (row.firstname) {
       name = row.firstname;
       if (row.last_name) name = `${row.firstname} ${row.lastname}`;
     }
-    const filename = answer.file.split('/').at(-1);
+    const filename = decodeURI(answer.file.split('/').at(-1));
     const file_adrr = `https:\\kooleposhti.ml${answer.file}`;
     const file_format = filename.split('.').at(-1);
     const mime_type = `${mime_types[file_format]}/${file_format}`;
@@ -248,13 +258,14 @@ function Row(props) {
                 تکلیف ارسال شده:
               </Typography>
               <Typography variant="p" gutterBottom component="div">
-                پاسخ متنی
+                {answer.answer}
               </Typography>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
                   <AttachFileIcon />
                   پیوست ها:
                 </div>
+
                 {attachmentToView ? (
                   <AttachmentViewer
                     attachment={attachmentToView}
@@ -262,6 +273,9 @@ function Row(props) {
                     onClose={() => setAttachmentToView(null)}
                   />
                 ) : null}
+                {attachmentFiles.length == 0 && (
+                  <Typography style={{ color: 'grey', marginTop: '5px' }} variant="subtitle1">هیچی پیوست نشده است</Typography>
+                )}
                 {attachmentFiles.map(attachment => (
                   <div>
                     <Button
@@ -294,11 +308,10 @@ function Row(props) {
                     // toolbarStyle={<toolbarStyleObject>}
                   />
                 </div>
-              وضعیت:
+                {/* وضعیت:
                 <Select
                   // value={classStatus}
                   placeholder="active"
-
                   // onChange={handleChange}
                   displayEmpty
                   MenuProps={{
@@ -308,7 +321,7 @@ function Row(props) {
                   <MenuItem value="active">بسیار عالی</MenuItem>
                   <MenuItem value="past">خیلی خوب</MenuItem>
                   <MenuItem value="all">متوسط</MenuItem>
-                </Select>
+                </Select> */}
                 <Box style={{ marginTop: '20px', marginRight: 'auto' }}>
                   <Button variant="outlined">ارسال</Button>
                 </Box>
