@@ -67,6 +67,11 @@ input.date-input {
   }
 }
 
+.loading-button-create-discount {
+  width: 5px !important;
+  height: 5px !important;
+}
+
 @media screen and (max-width: 600px) {
   .discount-page__header {
     display: block;

@@ -31,6 +31,7 @@ import rtlPlugin from 'stylis-plugin-rtl';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { ToastContainer, toast } from 'react-toastify';
+import { useMediaQuery } from '@mui/material';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router';
 import Table from '@mui/material/Table';
@@ -67,6 +68,7 @@ function CreateDiscount() {
   const endDatePickerRef = useRef(null);
   const classId = params.classId;
   const [buttonLoading, setButtonLoading] = useState(false);
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subtitle: '' });
 
@@ -102,6 +104,11 @@ function CreateDiscount() {
           <h3 className="discount-page__title-text"> افزودن کد تخفیف.</h3>
         </div>
         <div>
+          {buttonLoading && !isMobile && (
+            <div style={{ display: 'flex', justifyContent: 'center', padding: 'auto', marginLeft: 16 }}>
+              <ReactLoading type="bars" color="#000" height={50} width={50} />
+            </div>
+          )}
           <button
             className="success-btn"
             style={{ marginLeft: 10 }}
@@ -122,6 +129,7 @@ function CreateDiscount() {
                 toast.error('لطفا فیلدهای مربوطه را درست وارد کنید.');
                 console.log('this is error.');
               } else {
+                setButtonLoading(true);
                 const data = {
                   title: title,
                   expiration_date: saveDate,
@@ -130,21 +138,19 @@ function CreateDiscount() {
                   course: courseId,
                 };
                 console.log(data);
-                setButtonLoading(true);
                 apiInstance.post(`${baseUrl}/discounts/`, data).then(res => {
                   toast.success('کد تخفیف با موفقیت اضافه شد.');
                   setTimeout(() => {
+                    setButtonLoading(false);
                     history.push(`/dashboard/class/${classId}/discounts`);
                   }, 1000);
                 });
-                setButtonLoading(false);
                 console.log(saveDate);
                 console.log('hello\n');
               }
             }}
           >
-            {!buttonLoading && <span>اضافه کردن</span>}
-            {buttonLoading && <ReactLoading type="bubbles" color="#fff" className="loading-signup" />}
+            <span>اضافه کردن</span>
           </button>
           <button
             className="danger-btn"
@@ -154,6 +160,11 @@ function CreateDiscount() {
           >
             انصراف
           </button>
+          {buttonLoading && isMobile && (
+            <div style={{ display: 'flex', justifyContent: 'center', padding: 'auto', marginTop: 8 }}>
+              <ReactLoading type="bars" color="#000" height={50} width={50} />
+            </div>
+          )}
         </div>
       </div>
       <div className="discount-page__second-row">
