@@ -106,6 +106,8 @@ function CreateDiscount() {
             className="success-btn"
             style={{ marginLeft: 10 }}
             onClick={() => {
+              console.log(title);
+              console.log(regex.test(title));
               setTitleBlured(true);
               setEndDateBlured(true);
               setPercentageBlured(true);
@@ -113,7 +115,7 @@ function CreateDiscount() {
               if (
                 !endDate ||
                 !percentage ||
-                (title && !regex.test(title)) ||
+                (title && regex.test(title)) ||
                 convertNumberToEnglish(percentage) > 100 ||
                 convertNumberToEnglish(percentage) < 0
               ) {
@@ -132,7 +134,7 @@ function CreateDiscount() {
                 apiInstance.post(`${baseUrl}/discounts/`, data).then(res => {
                   toast.success('کد تخفیف با موفقیت اضافه شد.');
                   setTimeout(() => {
-                    history.push(`${baseUrl}/dashboard/class/${classId}/discounts`);
+                    history.push(`/dashboard/class/${classId}/discounts`);
                   }, 1000);
                 });
                 setButtonLoading(false);

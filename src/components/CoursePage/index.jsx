@@ -138,6 +138,7 @@ const CoursePage = () => {
   const [title, setTitle] = useState('');
   const [open, setOpen] = useState(false);
   const [code, setCode] = useState('');
+  const [correctCode, setCorrectCode] = useState('');
   const [codeBlured, setCodeBlured] = useState(false);
   const [price, setPrice] = useState();
   const [useDiscount, setUseDiscount] = useState(false);
@@ -199,12 +200,19 @@ const CoursePage = () => {
       toast.error('باید قبلش وارد حسابت بشی.');
       return;
     }
+    const data = {
+      code: correctCode,
+      course_pk: +courseId,
+    };
+    console.log(data);
     setRegisterLoading(true);
     apiInstance
-      .post(`${baseUrl}/courses/${courseId}/enroll/`)
+      //.post(`${baseUrl}/courses/${courseId}/enroll/`, data)
+      .post(`${baseUrl}/accounts/students/enroll/`, data)
       .then(res => {
         console.log(res);
         toast.success('با موفقیت ثبت‌نام‌ شدی.');
+        toast.success(`مقدار ${price} از حسابت کم شد. `);
         setRegisterLoading(false);
         setTimeout(() => {
           history.push(`/dashboard/class/${courseId}`);
@@ -223,6 +231,7 @@ const CoursePage = () => {
       .then(res => {
         console.log(res);
         setPrice(((100 - res.data.discount) / 100) * price);
+        setCorrectCode(code);
         setUseDiscount(true);
         console.log(price);
       })
