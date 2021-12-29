@@ -115,7 +115,9 @@ function DashboardTeacherClasses(props) {
   classData.forEach(item => {
     rows.push(
       createData(
-        item.image === null ? image : `${baseUrl}` + item.image,
+        item.image === null
+          ? 'https://www.inklyo.com/wp-content/uploads/How-to-Succeed-in-an-Online-Course.jpg'
+          : `${baseUrl}` + item.image,
         item.title,
         convertNumberToPersian(item.start_date),
         convertNumberToPersian(item.end_date),
@@ -197,7 +199,7 @@ function DashboardTeacherClasses(props) {
                     minHeight: '50px',
                   }}
                 >
-                  <Link to="/create-course" >
+                  <Link to="/create-course">
                     <Typography variant="body" sx={{ color: '#fff' }}>
                       ایجاد کلاس جدید
                     </Typography>
@@ -220,7 +222,15 @@ function DashboardTeacherClasses(props) {
             >
               {rows.length === 0 && (
                 <Grid container direction="column" alignItems="center" justifyContent="center">
-                  <Avatar src={classImg} alt="class list" sx={{width:{md:"20vw", sm:"40vw" , xs:"50vw"}, height:{md:"20vw", sm:"40vw", xs:"50vw"}, borderRadius:"0"}}/>
+                  <Avatar
+                    src={classImg}
+                    alt="class list"
+                    sx={{
+                      width: { md: '20vw', sm: '40vw', xs: '50vw' },
+                      height: { md: '20vw', sm: '40vw', xs: '50vw' },
+                      borderRadius: '0',
+                    }}
+                  />
                   <p className="teacher-classes-emptylist">کلاسی برای نمایش وجود نداره !!!</p>
                 </Grid>
               )}
