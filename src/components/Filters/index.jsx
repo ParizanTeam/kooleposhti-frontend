@@ -225,7 +225,9 @@ const ClassCard = ({ classData }) => {
           <div className="class-card__content">
             <div className="class-card__age">سن {age}</div>
             <h3 className="class-card__title">{title}</h3>
-            <p className="class-card__description">{description}</p>
+            <p className="class-card__description">
+              {description.length > 300 ? description.slice(0, 240) + '...' : description}
+            </p>
             <div className="class-card__teacher-rating-wrapper">
               <div className="class-teacher-card">
                 <div className="class-teacher-card__img-wrapper">
