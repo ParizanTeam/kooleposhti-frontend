@@ -196,19 +196,20 @@ function TeacherPublicProfile(props) {
               ? teacherData.first_name + ' ' + teacherData.last_name
               : null}
           </Typography>
-          <Rating
-            name="simple-controlled"
-            readOnly
-            precision={0.5}
-            value={teacherData.rate === null ? 3 : teacherData.rate}
-            onChange={(event, newValue) => {
-              setValue(newValue);
-            }}
-            dir="rtl"
-            sx={{ mt: '1vmin' }}
-            size={useMediaQuery('(max-width: 1100px)') ? 'small' : 'large'}
-            /* IconContainerComponent={IconContainer} */
-          />
+          <div style={{ direction: 'ltr' }}>
+            <Rating
+              name="simple-controlled"
+              readOnly
+              precision={0.5}
+              value={3.5}
+              onChange={(event, newValue) => {
+                setValue(newValue);
+              }}
+              sx={{ mt: '1vmin' }}
+              size={useMediaQuery('(max-width: 1100px)') ? 'small' : 'large'}
+              /* IconContainerComponent={IconContainer} */
+            />
+          </div>
         </Grid>
       </Grid>
     </div>
@@ -268,7 +269,6 @@ function TeacherPublicProfile(props) {
                   <SwiperSlide key={item.id}>
                     <Link to={`/courses/${item.id}`}>
                       <CourseCard
-                        dir="rtl"
                         title={item.title === undefined ? 'title' : item.title}
                         teacherName={
                           item.teacherName === undefined
@@ -277,7 +277,11 @@ function TeacherPublicProfile(props) {
                         }
                         rate={item.rate === undefined ? 2 : item.rate}
                         teacherImgSrc={teacherData.image === null ? profile_1 : teacherData.image.image}
-                        imgSrc={item.image === null ? image : item.image}
+                        imgSrc={
+                          item.image === null
+                            ? 'https://www.inklyo.com/wp-content/uploads/How-to-Succeed-in-an-Online-Course.jpg'
+                            : item.image
+                        }
                       />
                     </Link>
                   </SwiperSlide>
@@ -292,6 +296,9 @@ function TeacherPublicProfile(props) {
 
   return (
     <>
+      <Helmet>
+        <title>پروفایل عمومی مدرس</title>
+      </Helmet>
       {teacher_username !== 'public-profile' && (
         <div style={{ marginBottom: 72 }}>
           <Navbar color="#fd576c" />
