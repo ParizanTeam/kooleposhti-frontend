@@ -52,7 +52,9 @@ const CourseSlider = () => {
                     title={item.title}
                     teacherName={item.instructor.first_name + ' ' + item.instructor.last_name}
                     rate={item.rate}
-                    teacherImgSrc={item.teacherImgSrc || noPersonImg}
+                    teacherImgSrc={
+                      (item.instructor.image && 'https:/kooleposhti.ml/' + item.instructor.image) || noPersonImg
+                    }
                     imgSrc={
                       (item.image && 'https:/kooleposhti.ml/' + item.image) ||
                       'https://www.inklyo.com/wp-content/uploads/How-to-Succeed-in-an-Online-Course.jpg'
