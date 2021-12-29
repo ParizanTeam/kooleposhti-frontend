@@ -258,7 +258,7 @@ function Row(props) {
                 تکلیف ارسال شده:
               </Typography>
               <Typography variant="p" gutterBottom component="div">
-                {answer.answer}
+                {answer && answer.answer}
               </Typography>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
