@@ -228,6 +228,14 @@ const CoursePage = () => {
       })
       .catch(err => {
         console.log(err);
+        console.log('result is :' + err);
+        if (err.response) {
+          if (err.response.status == '403') {
+            toast.error('متاسفانه کد تخفیفی با این عنوان در سیستم ثبت نشده.');
+          } else if (err.response.status == '410') {
+            toast.error('متاسفانه این کد تخفیف مهلتش تموم شده.');
+          }
+        }
       });
   };
 

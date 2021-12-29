@@ -88,19 +88,26 @@ function CreateCourseStepTwo(props) {
     setAgeSlider(event.target.value);
     console.log(event.target.value);
     // setFormData(prev => ({ ...prev, age: event.target.value }));
-    if (event.target.value === '1') {
+    if (event.target.value === 1) {
+      console.log('hello');
       setFormData(prev => ({ ...prev, age: event.target.value, startAge: '4', endAge: '7' }));
-    } else if (event.target.value === '2') {
+    } else if (event.target.value === 2) {
+      console.log('hello');
       setFormData(prev => ({ ...prev, age: event.target.value, startAge: '7', endAge: '10' }));
-    } else if (event.target.value === '3') {
+    } else if (event.target.value === 3) {
+      console.log('hello');
       setFormData(prev => ({ ...prev, age: event.target.value, startAge: '10', endAge: '13' }));
-    } else if (event.target.value === '4') {
+    } else if (event.target.value === 4) {
+      console.log('hello');
       setFormData(prev => ({ ...prev, age: event.target.value, startAge: '13', endAge: '18' }));
-    } else if (event.target.value === '5') {
+    } else if (event.target.value === 5) {
+      console.log('hello');
       setFormData(prev => ({ ...prev, age: event.target.value, startAge: '4', endAge: '10' }));
-    } else if (event.target.value === '6') {
+    } else if (event.target.value === 6) {
+      console.log('hello');
       setFormData(prev => ({ ...prev, age: event.target.value, startAge: '10', endAge: '18' }));
-    } else if (event.target.value === '7') {
+    } else if (event.target.value === 7) {
+      console.log('hello');
       setFormData(prev => ({ ...prev, age: event.target.value, startAge: '4', endAge: '18' }));
     }
     // console.log('start is ' + startAge);
@@ -204,7 +211,7 @@ function CreateCourseStepTwo(props) {
     values.splice(index, 1);
     setPrerequisites(values);
   };
-  
+
   return (
     <CacheProvider value={rtl ? cacheRtl : cacheLtr}>
       <div dir="rtl">

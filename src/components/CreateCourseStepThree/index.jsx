@@ -134,7 +134,7 @@ function CreateCourseStepThree(props) {
             })
             .catch(err => {
               console.log(err);
-              toast.error("شرمنده یه بار دیگه امتحان کن!");
+              toast.error('شرمنده یه بار دیگه امتحان کن!');
               setLoading(false);
             });
         } else {
@@ -173,7 +173,7 @@ function CreateCourseStepThree(props) {
             })
             .catch(err => {
               console.log(err);
-              toast.error(err);
+              toast.error('شرمنده. مشکلی پیش اومده. دوباره امتحان کن.');
               setLoading(false);
             });
         } else {

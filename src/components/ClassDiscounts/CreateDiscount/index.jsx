@@ -112,7 +112,7 @@ function CreateDiscount() {
               if (
                 !endDate ||
                 !percentage ||
-                (!title && !regex.test(title)) ||
+                (title && !regex.test(title)) ||
                 convertNumberToEnglish(percentage) > 100 ||
                 convertNumberToEnglish(percentage) < 0
               ) {
@@ -210,11 +210,12 @@ function CreateDiscount() {
           className="kp-text-input__input discount-page-input__percentage"
           id="title"
         />
-        {percentageBlured &&
-          percentage == '' &&
-          convertNumberToEnglish(percentage) > 100 &&
-          convertNumberToEnglish(percentage) <
-            0(<div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>درصد تخفیف نمیتواند خالی باشد.</div>)}
+        {percentageBlured && percentage == '' && (
+          <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>درصد تخفیف نمیتواند خالی باشد.</div>
+        )}
+        {(convertNumberToEnglish(percentage) > 100 || convertNumberToEnglish(percentage) < 0) && (
+          <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>درصد تخفیف باید عددی بین 0 تا 100 باشد</div>
+        )}
       </div>
 
       <DatePicker
