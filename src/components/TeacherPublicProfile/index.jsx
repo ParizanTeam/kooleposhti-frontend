@@ -269,6 +269,7 @@ function TeacherPublicProfile(props) {
                   <SwiperSlide key={item.id}>
                     <Link to={`/courses/${item.id}`}>
                       <CourseCard
+                        id={item.id}
                         title={item.title === undefined ? 'title' : item.title}
                         teacherName={
                           item.teacherName === undefined
