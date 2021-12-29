@@ -13,7 +13,7 @@ import ReactLoading from 'react-loading';
 import './style.scss';
 
 function StudentCoins(){
-    const [coins, setCoins] = useState(null);
+    const [coins, setCoins] = useState('?');
     const [loading, setLoading] = useState(true);
   
     const MySource = `${baseUrl}/accounts/wallet/mywallet/`;

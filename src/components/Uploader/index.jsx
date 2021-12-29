@@ -7,14 +7,16 @@ import { useHistory, useParams } from 'react-router-dom';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { baseUrl } from '../../utils/constants';
 import { ToastContainer, toast } from 'react-toastify';
+import draftToHtml from 'draftjs-to-html';
 function App() {
   const params = useParams();
+  const [myAns, setMyAns] = useState('پاسخ من');
   const MySource = `${baseUrl}/assignments/${params.assignmentId}/submit/`;
   useEffect(() => {
     axios
       .get(`${baseUrl}/assignments/${params.assignmentId}/submit/`)
       .then(res => {
-
+        setMyAns(res.data.answer);
           setEditorState(
             EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(res.data.answer)))
           );
@@ -60,7 +62,7 @@ function App() {
   const uploadFile = async file => {
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("answer", "");
+    formData.append("answer", {myAns});
     await axios.post(MySource, formData);
     return toast.success('پاسخ شما با موفقیت ثبت شد.');
   };
@@ -72,6 +74,7 @@ function App() {
 
   const onContentStateChange = editorcontent => {
     setEditorContent(editorcontent);
+    setMyAns({ answer: draftToHtml(convertToRaw(editorState.getCurrentContent())) });
   };
 
   const onEditorStateChange = editorstate => {
