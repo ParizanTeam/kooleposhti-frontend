@@ -68,7 +68,7 @@ const ClassDashboard = () => {
 
   const leaveClass = () => {
     apiInstance
-      .post(`http://185.239.106.239/courses/${classId}/leave/`)
+      .post(`${baseUrl}/courses/${classId}/leave/`)
       .then(res => {
         console.log(res);
         toast.success('با موفقیت از کلاس خارج شدید.');
