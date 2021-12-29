@@ -147,12 +147,14 @@ const ClassDashboard = () => {
               <GroupsIcon />
             </div>
           </Link>
-          <Link to={`/dashboard/class/${classId}/discounts`}>
-            <div className={baseClass + '__item'}>
-              <p>تخفیف ها</p>
-              <LocalOfferIcon />
-            </div>
-          </Link>
+          {role == 'teacher' && (
+            <Link to={`/dashboard/class/${classId}/discounts`}>
+              <div className={baseClass + '__item'}>
+                <p>تخفیف ها</p>
+                <LocalOfferIcon />
+              </div>
+            </Link>
+          )}
           {role == 'student' && (
             <div style={{ color: '#f22613' }} onClick={() => setOpenModal(true)} className={baseClass + '__item'}>
               <p>ترک کلاس</p>

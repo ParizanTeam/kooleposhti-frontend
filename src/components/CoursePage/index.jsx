@@ -188,7 +188,7 @@ const CoursePage = () => {
 
   useEffect(() => {
     apiInstance.get(`${baseUrl}/courses/${courseId}/can-enroll/`).then(res => {
-      setShowRegister(!res.data.enroll);
+      setShowRegister(res.data.enroll);
       console.log(res.data);
     });
   }, []);
@@ -374,7 +374,7 @@ const CoursePage = () => {
                       </div>
                     )}
 
-                    <button className="register-modal__confirm course-page-discount-button" onClick={discount}>
+                    <button className="register-modal__confirm info-btn" onClick={discount}>
                       اعمال
                     </button>
                   </div>
