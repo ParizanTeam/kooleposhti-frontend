@@ -82,6 +82,8 @@ export const ProfileMenu = props => {
       { icon: CastForEducationIcon, label: 'کلاس‌ها', to: '/dashboard/student/ClassesList' },
       { icon: Assignment, label: 'چالش‌ها', to: '/dashboard/student/assignments' },
       { icon: FavoriteBorder, label: 'علاقمندی‌ها', to: '/dashboard/student/bookmarks' },
+      { icon: AttachMoneyIcon, label: 'سکه‌های من', to: '/dashboard/student/Coins' },
+
     ],
     teacher: [
       { icon: CastForEducationIcon, label: 'کلاس‌ها', to: '/dashboard/teacher/classes' },
@@ -89,7 +91,7 @@ export const ProfileMenu = props => {
       { icon: AttachMoneyIcon, label: 'دریافت‌ها', to: '/dashboard/teacher/received' },
     ],
   };
-
+  // /dashboard/student/Coins
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = event => {
