@@ -128,12 +128,14 @@ function CreateDiscount() {
                   course: courseId,
                 };
                 console.log(data);
+                setButtonLoading(true);
                 apiInstance.post(`${baseUrl}/discounts/`, data).then(res => {
                   toast.success('کد تخفیف با موفقیت اضافه شد.');
                   setTimeout(() => {
                     history.push(`${baseUrl}/dashboard/class/${classId}/discounts`);
                   }, 1000);
                 });
+                setButtonLoading(false);
                 console.log(saveDate);
                 console.log('hello\n');
               }
@@ -148,8 +150,7 @@ function CreateDiscount() {
               history.goBack();
             }}
           >
-            {!buttonLoading && <span>انصراف</span>}
-            {buttonLoading && <ReactLoading type="bubbles" color="#fff" className="loading-signup" />}
+            انصراف
           </button>
         </div>
       </div>
