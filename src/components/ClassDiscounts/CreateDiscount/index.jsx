@@ -66,6 +66,7 @@ function CreateDiscount() {
   const history = useHistory();
   const endDatePickerRef = useRef(null);
   const classId = params.classId;
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subtitle: '' });
 
@@ -138,7 +139,8 @@ function CreateDiscount() {
               }
             }}
           >
-            اضافه کردن
+            {!buttonLoading && <span>اضافه کردن</span>}
+            {buttonLoading && <ReactLoading type="bubbles" color="#fff" className="loading-signup" />}
           </button>
           <button
             className="danger-btn"
@@ -146,7 +148,8 @@ function CreateDiscount() {
               history.goBack();
             }}
           >
-            انصراف
+            {!buttonLoading && <span>انصراف</span>}
+            {buttonLoading && <ReactLoading type="bubbles" color="#fff" className="loading-signup" />}
           </button>
         </div>
       </div>
