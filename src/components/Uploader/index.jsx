@@ -6,6 +6,7 @@ import { EditorState, ContentState, convertFromHTML, convertToRaw } from 'draft-
 import { useHistory, useParams } from 'react-router-dom';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { baseUrl } from '../../utils/constants';
+import { ToastContainer, toast } from 'react-toastify';
 function App() {
   const params = useParams();
   const MySource = `${baseUrl}/assignments/${params.assignmentId}/submit/`;
@@ -60,7 +61,8 @@ function App() {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("answer", "");
-    return await axios.post(MySource, formData);
+    await axios.post(MySource, formData);
+    return toast.success('پاسخ شما با موفقیت ثبت شد.');
   };
 
   const handleOnChange = e => {
