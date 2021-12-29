@@ -109,7 +109,7 @@ function CreateDiscount() {
               setEndDateBlured(true);
               setPercentageBlured(true);
               console.log('hello');
-              if (!endDate || !percentage) {
+              if (!endDate || !percentage || (title && !regex.test(title)) || convertNumberToEnglish(percentage) > 100 || convertNumberToEnglish(percentage) < 0) {
                 toast.error('لطفا فیلدهای مربوطه را درست وارد کنید.');
                 console.log('this is error.');
               } else {
@@ -202,7 +202,7 @@ function CreateDiscount() {
           className="kp-text-input__input discount-page-input__percentage"
           id="title"
         />
-        {percentageBlured && percentage == '' && (
+        {percentageBlured && percentage == '' && convertNumberToEnglish(percentage) > 100 && convertNumberToEnglish(percentage) < 0 (
           <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>درصد تخفیف نمیتواند خالی باشد.</div>
         )}
       </div>
