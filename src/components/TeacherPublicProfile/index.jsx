@@ -53,6 +53,14 @@ function TeacherPublicProfile(props) {
   });
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, [location.pathname]);
+
+  useEffect(() => {
     function fetchData() {
       if (teacher_username === 'public-profile') {
         const res = axios
@@ -317,7 +325,7 @@ function TeacherPublicProfile(props) {
               <Grid item xs={12} maxWidth="68%" sx={{ mt: 5 }} minWidth="68%">
                 <div className="abut-me_wrapper">
                   <Typography variant="body" className="about-me">
-                    {(!teacherData.bio || teacherData.bio === "<p></p>") && (
+                    {(!teacherData.bio || teacherData.bio === '<p></p>') && (
                       <p className="teacher-public-profile-about-me__text">متنی برای نمایش وجود نداره !!!</p>
                     )}
                     {teacherData.bio && teacherData.bio !== '' && ReactHtmlParser(teacherData.bio)}
