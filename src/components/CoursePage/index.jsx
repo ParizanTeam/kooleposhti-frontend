@@ -211,8 +211,9 @@ const CoursePage = () => {
       .post(`${baseUrl}/accounts/students/enroll/`, data)
       .then(res => {
         console.log(res);
-        toast.success('با موفقیت ثبت‌نام‌ شدی.');
-        toast.success(`مقدار ${price} از حسابت کم شد. `);
+        toast.success(
+          `با موفقیت ثبت‌نام‌ شدی. مقدار ${convertNumberToPersian(formatPrice(price))}تومان از حسابت کم شد.`
+        );
         setRegisterLoading(false);
         setTimeout(() => {
           history.push(`/dashboard/class/${courseId}`);
