@@ -26,7 +26,7 @@ const StudentDashboardClassesList = () => {
   const [loading, setLoading] = React.useState(true);
   const [classStatus, setClassStatus] = React.useState('active');
   const themeProps = useSelector(state => state.theme);
-  let theNewone = localStorage.getItem("chosenColor");
+  let theNewone = localStorage.getItem('chosenColor');
   change_profile_color(theNewone);
   const customTheme = createTheme({
     palette: {
@@ -118,7 +118,11 @@ const StudentDashboardClassesList = () => {
                             <CardMedia
                               component="img"
                               height="180"
-                              image={`${baseUrl}${classInfo.image}`}
+                              image={
+                                classInfo.image
+                                  ? `${baseUrl}${classInfo.image}`
+                                  : 'https://www.inklyo.com/wp-content/uploads/How-to-Succeed-in-an-Online-Course.jpg'
+                              }
                               alt="green iguana"
                             />
                             <CardContent>
