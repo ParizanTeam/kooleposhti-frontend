@@ -32,20 +32,6 @@ import apiInstance from '../../utils/axiosConfig';
 };*/
 const CourseCard = ({id, imgSrc, title, teacherImgSrc, teacherName, rate, dir }) => {
   const [isFavorite, setIsFavorite] = useState(false);
-  const history = useHistory();
-  const [loading, setLoading] = React.useState(true);
-  const isMobile = useMediaQuery('(max-width: 768px)');
-  React.useEffect(() => {
-    async function fetchData() {
-      apiInstance.get(`${baseUrl}/accounts/students/favorites/`)
-      .then(res => {
-        setLoading(false);
-      })
-      .catch(err => {
-        console.log('error: ', err);
-      });}
-      fetchData();
-  }, []);
   return (
     <Link to={`/courses/${id}`} className="course-card">
       <img src={imgSrc} alt={title} className="course-card__img" />
@@ -64,8 +50,8 @@ const CourseCard = ({id, imgSrc, title, teacherImgSrc, teacherName, rate, dir })
             e.preventDefault();
             e.stopPropagation();
             setIsFavorite(state => !state);
-            if(isFavorite){history.push(`${baseUrl}/courses /${id} /favorite /add /`);}
-            else{apiInstance.delete(`${baseUrl}/courses /${id} /favorite /remove /`);};
+            if(!isFavorite){apiInstance.get(`${baseUrl}/courses/${id}/favorite/add/`);}
+            else{apiInstance.get(`${baseUrl}/courses/${id}/favorite/remove/`);};
           }}
         >
           {isFavorite ? <Favorite className="filled-fav-icon" /> : <FavoriteBorderIcon className="fav-icon" />}
