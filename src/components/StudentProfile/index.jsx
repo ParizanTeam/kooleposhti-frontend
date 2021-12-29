@@ -305,7 +305,7 @@ function SProfile(props) {
             >
               ویرایش حساب کاربری
             </Typography>
-            <Avatar src={file} alt="profile" sx={{ mt: 1, width: '18vmin', height: '18vmin', borderRadius: '50%' }} />
+            <Avatar  src={userData.image ? userData.image.image : file} alt="profile" sx={{ mt: 1, width: '18vmin', height: '18vmin', borderRadius: '50%' }} />
 
             <Button
               variant="contained"
