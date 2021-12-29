@@ -137,6 +137,9 @@ const CoursePage = () => {
   const [showRegister, setShowRegister] = useState(false);
   const [title, setTitle] = useState('');
   const [open, setOpen] = useState(false);
+  const [code, setCode] = useState('');
+  const [codeBlured, setCodeBlured] = useState(false);
+  const [price, setPrice] = useState();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const showMoreText = 'نمایش بیشتر...';
@@ -154,6 +157,8 @@ const CoursePage = () => {
     });
   };
 
+  let regex = /[^A-Za-z0-9]+/;
+
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -165,6 +170,7 @@ const CoursePage = () => {
       .get(`${baseUrl}/courses/${courseId}`)
       .then(res => {
         setData(res.data);
+        setPrice(res.data.price);
         console.log(res.data);
         setTimeout(() => {
           setIsLoading(false);
@@ -207,6 +213,17 @@ const CoursePage = () => {
         console.log(err);
         toast.error('مشکلی در سامانه به وجود اومده.');
         setRegisterLoading(false);
+      });
+  };
+
+  const discount = () => {
+    apiInstance
+      .get(`${baseUrl}/discounts/validate?code=${code}&course=${courseId}`)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
       });
   };
 
@@ -341,6 +358,27 @@ const CoursePage = () => {
               <Fade in={open}>
                 <div className="register-modal">
                   <h4 className="register-modal__title">آیا از شرکت توی این کلاس مطمئنی؟</h4>
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="متن کد تخفیف"
+                      onBlur={() => setCodeBlured(true)}
+                      value={code}
+                      onChange={e => setCode(e.target.value)}
+                      className="kp-text-input__input course-page-input__title"
+                      id="title"
+                    />
+                    {regex.test(code) && (
+                      <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>
+                        متن کد تخفیف باید تنها از اعداد و الفبای انگلیسی تشکیل شده باشد.
+                      </div>
+                    )}
+
+                    <button className="register-modal__confirm info-btn" onClick={discount}>
+                      اعمال
+                    </button>
+                  </div>
+                  <p>{`هزینه ی کلاس: ${convertNumberToPersian(price)} تومان`}</p>
                   <button className="register-modal__confirm" onClick={register}>
                     ثبت نام
                   </button>
@@ -355,7 +393,7 @@ const CoursePage = () => {
             </Modal>
             <div>
               <Typography className="course-header__title">نظرات شرکت کنندگان:</Typography>
-              <CourseComments course_id={courseId}/>
+              <CourseComments course_id={courseId} />
             </div>
           </div>
         )}

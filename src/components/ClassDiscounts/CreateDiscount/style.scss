@@ -1,0 +1,93 @@
+@import '/src/theme/main.scss';
+
+.discount-page__title {
+  margin-bottom: 20px;
+}
+
+.discount-page-input__title {
+  width: 50%;
+}
+
+.discount-page-input__title:focus {
+  border-bottom: solid 2px black !important;
+}
+
+.discount-page-input__end-date {
+  width: 50%;
+}
+
+.discount-page-input__end-date:focus {
+  border-bottom: solid 2px black !important;
+}
+
+input.date-input {
+  display: none !important;
+}
+
+.discount-page__second-row {
+  margin-top: 20px;
+}
+
+.discount-page-input__percentage {
+  width: 50%;
+}
+
+.discount-page-input__percentage:focus {
+  border-bottom: solid 2px black !important;
+}
+
+.discount-page__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.discount-page-title__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.classDiscount__create-button {
+  box-shadow: 0 0 20px rgba(48, 213, 160, 0.5);
+  border: 1px solid #30d5a0;
+  border-radius: 16px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  background-color: #30d5a0;
+  color: #fff;
+  margin: 0 16px 16px;
+  transition: all 0.5s;
+  cursor: pointer;
+  &:hover {
+    border: 1px solid #30d5a0;
+    background-color: #fff;
+    color: #000;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .discount-page__header {
+    display: block;
+  }
+
+  .discount-page-title__container {
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .discount-page-input__title {
+    width: 100%;
+  }
+
+  .discount-page-input__percentage {
+    width: 100%;
+  }
+
+  .discount-page-input__end-date {
+    width: 100%;
+  }
+}

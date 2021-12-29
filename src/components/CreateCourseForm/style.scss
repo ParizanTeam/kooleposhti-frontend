@@ -14,10 +14,6 @@
   border-radius: 16px;
   padding: 8px;
   padding-bottom: 32px;
-
-  @media (max-width: 768px) {
-    margin: 0;
-  }
 }
 
 .steeper-button__holder {
@@ -38,5 +34,6 @@
   .form-holder-main-class {
     width: 100%;
     border: none;
+    box-shadow: 0 0;
   }
 }

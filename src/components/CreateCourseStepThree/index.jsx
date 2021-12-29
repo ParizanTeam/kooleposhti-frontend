@@ -109,33 +109,7 @@ function CreateCourseStepThree(props) {
       const headers = {
         'Content-Type': 'application/json',
       };
-      // const data = new FormData();
-      // data.append('category', formData.category);
-      // data.append('duration', formData.duration);
-      // data.append('price', formData.price);
-      // data.append('tags', JSON.stringify(formData.tags.map(tag => ({ name: tag })).filter(tag => tag.name != '')));
-      // data.append(
-      //   'goals',
-      //   JSON.stringify(
-      //     formData.objectives.map(objective => ({ text: objective })).filter(objective => objective.text != '')
-      //   )
-      // );
-      // data.append('description', formData.description);
-      // data.append('title', formData.courseName);
-      // data.append('min_age', formData.startAge);
-      // data.append('max_age', formData.endAge);
-      // data.append('max_students', formData.capacity);
-      // data.append(
-      //   'sessions',
-      //   JSON.stringify(
-      //     formData.dates.map(date => ({
-      //       date: `${date.year}-${date.month}-${date.day}`,
-      //       start_time: `${date.hour}:${date.minute}`,
-      //     }))
-      //   )
-      // );
-      // data.append('image', formData.image);
-      // console.log(data);
+
       const imageData = new FormData();
       imageData.append('image', formData.image);
       let id;
@@ -160,6 +134,7 @@ function CreateCourseStepThree(props) {
             })
             .catch(err => {
               console.log(err);
+              toast.error("شرمنده یه بار دیگه امتحان کن!");
               setLoading(false);
             });
         } else {
@@ -198,6 +173,7 @@ function CreateCourseStepThree(props) {
             })
             .catch(err => {
               console.log(err);
+              toast.error(err);
               setLoading(false);
             });
         } else {
@@ -218,88 +194,6 @@ function CreateCourseStepThree(props) {
     }
   };
 
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: '',
-    },
-
-    onSubmit: async values => {
-      try {
-        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        const isEmail = re.test(String(values.email).toLowerCase());
-        const body = {
-          password: values.password,
-        };
-        if (isEmail) {
-          body.email = values.email;
-        } else {
-          body.username = values.email;
-        }
-        setLoading(true);
-        const res = await axios.post(`${baseUrl}/accounts/jwt/create/`, body);
-        localStorage.setItem('access_token', res.data.access);
-        localStorage.setItem('refresh_token', res.data.refresh);
-        dispatch(login());
-        setLoading(false);
-        toast.success('با موفقیت وارد شدی.');
-        setTimeout(() => {
-          history.push('/');
-        }, 2000);
-      } catch (error) {
-        setLoading(false);
-        toast.error('نام کاربری یا رمز عبورت اشتباهه!', {
-          position: 'bottom-center',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'dark',
-          className: 'toast-error',
-        });
-      }
-    },
-    validationSchema: validationSchema,
-  });
-
-  const handleChange = event => {
-    setAge(event.target.value);
-  };
-
-  const handleLearningChange = (index, event) => {
-    const values = [...learnings];
-    values[index][event.target.name] = event.target.value;
-    setLearnings(values);
-  };
-
-  const handleAddLearnings = () => {
-    setLearnings([...learnings, { learningItem: '' }]);
-  };
-
-  const handleRemoveLearnings = index => {
-    const values = [...learnings];
-    values.splice(index, 1);
-    setLearnings(values);
-  };
-
-  const handlePrerequistiesChange = (index, event) => {
-    const values = [...prerequisites];
-    values[index][event.target.name] = event.target.value;
-    setPrerequisites(values);
-  };
-
-  const handleAddPrerequisties = () => {
-    setPrerequisites([...prerequisites, { prerequisty: '' }]);
-  };
-
-  const handleRemovePrerequisties = index => {
-    const values = [...prerequisites];
-    values.splice(index, 1);
-    setPrerequisites(values);
-  };
-
   return (
     <CacheProvider value={rtl ? cacheRtl : cacheLtr}>
       <div dir="rtl">
@@ -317,14 +211,7 @@ function CreateCourseStepThree(props) {
             }}
           >
             <Typography component="h1" variant="h5" sx={{ fontFamily: 'iranyekan' }}></Typography>
-            <Box
-              component="form"
-              dir="rtl !important"
-              noValidate
-              onSubmit={formik.handleSubmit}
-              setFieldValue
-              sx={{ mt: 1, fontFamily: 'iranyekan' }}
-            >
+            <Box component="form" dir="rtl !important" noValidate setFieldValue sx={{ mt: 1, fontFamily: 'iranyekan' }}>
               <TextField
                 dir="rtl !important"
                 margin="normal"

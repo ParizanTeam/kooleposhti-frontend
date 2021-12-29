@@ -297,3 +297,17 @@
   justify-content: center;
   align-items: center;
 }
+
+.course-page-input__title {
+  width: 70%;
+}
+
+.course-page-input__title:focus {
+  border-bottom: solid 2px black !important;
+}
+
+.course-page-discount-button {
+  background-color: #0000ff !important;
+  margin-top: 0px !important;
+  box-shadow: 0 4px 10px #0000ff !important;
+}

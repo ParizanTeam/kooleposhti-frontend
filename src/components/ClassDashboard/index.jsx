@@ -7,6 +7,9 @@ import FeedbackIcon from '@mui/icons-material/Feedback';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import GroupsIcon from '@mui/icons-material/Groups';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import ClassDiscounts from '../ClassDiscounts';
+import CreateDiscount from '../ClassDiscounts/CreateDiscount';
 import MenuIcon from '@mui/icons-material/Menu';
 import Assignments from '../Assignments';
 import CreateAssignment from '../CreateAssignment';
@@ -157,6 +160,18 @@ const ClassDashboard = () => {
               <GroupsIcon />
             </div>
           </NavLink>
+          {role == 'teacher' && (
+            <NavLink
+              activeClassName="active-class-drawer-item"
+              onClick={() => setShowDrawer(false)}
+              to={`/dashboard/class/${classId}/discounts`}
+            >
+              <div className={baseClass + '__item'}>
+                <p>تخفیف ها</p>
+                <LocalOfferIcon />
+              </div>
+            </NavLink>
+          )}
           {role == 'student' && (
             <div style={{ color: '#f22613' }} onClick={() => setOpenModal(true)} className={baseClass + '__item'}>
               <p>ترک کلاس</p>
@@ -211,6 +226,12 @@ const ClassDashboard = () => {
               </Route>
               <Route path="/dashboard/class/:classId/assignments/view/:assignmentId" exact>
                 <BaseAssignments role={role} />
+              </Route>
+              <Route path="/dashboard/class/:classId/discounts" exact>
+                {role != 'teacher' ? <Redirect to="/not-found" /> : <ClassDiscounts />}
+              </Route>
+              <Route path="/dashboard/class/:classId/discounts/create" exact>
+                {role != 'teacher' ? <Redirect to="/not-found" /> : <CreateDiscount role={role} />}
               </Route>
               <Route path="/dashboard/class/:classId/attendees" exact>
                 {role == 'teacher' ? <ClassStudentsInfo /> : <ClassAtendees role={role} />}
