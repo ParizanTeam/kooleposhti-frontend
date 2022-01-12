@@ -416,7 +416,7 @@ const CoursePage = () => {
               </Fade>
             </Modal>
             <div>
-              <Typography className="course-header__title">نظرات شرکت کنندگان:</Typography>
+              <Typography className="course-header__title">نظرات شرکت‌کنندگان:</Typography>
               <CourseComments course_id={courseId} />
             </div>
           </div>
