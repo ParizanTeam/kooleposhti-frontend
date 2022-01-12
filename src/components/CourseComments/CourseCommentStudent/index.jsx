@@ -19,7 +19,7 @@ function CourseCommentStudent(props) {
                 <Typography variant="body4" className="course-comment-student__name">
                   {`${
                     props.info.first_name && props.info.last_name
-                      ? props.info.first_name + props.info.last_name
+                      ? props.info.first_name + " " + props.info.last_name
                       : props.info.username
                   }`}
                 </Typography>

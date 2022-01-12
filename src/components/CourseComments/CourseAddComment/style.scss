@@ -14,7 +14,7 @@
 }
 
 .course-add-comment-button__container {
-  padding-right: 5vmin;
+  //padding-right: 5vmin;
   padding-top: 20px;
 }
 
@@ -36,4 +36,11 @@
   .course-add-comment-textField__container {
     padding-right: 10px;
   }
+}
+
+.comment-loading{
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: auto !important;
 }

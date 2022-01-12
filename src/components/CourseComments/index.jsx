@@ -6,16 +6,22 @@ import './style.scss';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
+import ReactLoading from 'react-loading';
 import { baseUrl } from '../../utils/constants';
 
 function CourseComments(props) {
   const [comments, setComments] = useState([]);
   const [refresh, setRefresh] = useState(true);
   const [role, setRole] = useState();
+  const [loading, setLoading] = useState(true);
   const token = 'JWT ' + localStorage.getItem('access_token');
 
   useEffect(() => {
     async function fetchComments() {
+      setLoading(true);
+      setTimeout(() => {
+        console.log('');
+      }, 200000);
       const res = await axios
         .get(`${baseUrl}/courses/${props.course_id}/comments/`, {
           headers: {
@@ -30,6 +36,7 @@ function CourseComments(props) {
         .catch(err => {
           console.log('error: ', err);
         });
+      setLoading(false);
     }
 
     if (refresh) {
@@ -61,35 +68,40 @@ function CourseComments(props) {
   return (
     <React.Fragment>
       <div className="course-comments__card">
-        {role === 'student' && <CourseAddComment course_id={props.course_id} refresh={setRefresh} reply={false} />}
-        <Divider className="course-comments-divider"></Divider>
-        {comments.length === 0 && (
-          <Typography variant="h6" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            نظری برای این کلاس ثبت نشده !!!
-          </Typography>
+        {loading && <ReactLoading type="spinningBubbles" color="#EF006C" height={100} width={100} className='comment-loading' />}
+        {!loading && (
+          <div>
+            {role === 'student' && <CourseAddComment course_id={props.course_id} refresh={setRefresh} reply={false} />}
+            <Divider className="course-comments-divider"></Divider>
+            {comments.length === 0 && (
+              <Typography variant="h6" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                نظری برای این کلاس ثبت نشده !!!
+              </Typography>
+            )}
+            {comments.length !== 0 &&
+              comments.map((comment, index) => {
+                const studentComment = {
+                  id: comment.id,
+                  course_id: props.course_id,
+                  created_date: comment.created_date,
+                  username: comment.user.username,
+                  first_name: comment.user.first_name,
+                  last_name: comment.user.last_name,
+                  image: comment.user.image ? comment.user.image.image : null,
+                  comment: comment.text,
+                };
+                return (
+                  <CourseComment
+                    key={index}
+                    studentComment={studentComment}
+                    teacherComment={comment.reply}
+                    refresh={setRefresh}
+                    role={role}
+                  />
+                );
+              })}
+          </div>
         )}
-        {comments.length !== 0 &&
-          comments.map((comment, index) => {
-            const studentComment = {
-              id: comment.id,
-              course_id: props.course_id,
-              created_date: comment.created_date,
-              username: comment.user.username,
-              first_name: comment.user.first_name,
-              last_name: comment.user.last_name,
-              image: comment.user.image ? comment.user.image.image : null,
-              comment: comment.text,
-            };
-            return (
-              <CourseComment
-                key={index}
-                studentComment={studentComment}
-                teacherComment={comment.reply}
-                refresh={setRefresh}
-                role={role}
-              />
-            );
-          })}
       </div>
     </React.Fragment>
   );

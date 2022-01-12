@@ -52,7 +52,7 @@ function CourseComment(props) {
             item
             xs={12}
             sx={{
-              mr: { xl: '9vmin', lg: '11vmin', md: '12vmin', sm: '10vmin', xs: '4vmin' },
+              mr: { xl: '10vmin', lg: '11vmin', md: '12vmin', sm: '10vmin', xs: '0vmin' },
             }}
           >
             <Button
@@ -93,7 +93,7 @@ function CourseComment(props) {
             item
             xs={12}
             sx={{
-              ml: { xl: '9vmin', lg: '11vmin', md: '12vmin', sm: '10vmin', xs: '4vmin' },
+              ml: { xl: '10vmin', lg: '11vmin', md: '12vmin', sm: '10vmin', xs: '1vmin' },
             }}
           >
             <Button
