@@ -62,6 +62,7 @@ function DashboardTeacherWallet(props) {
       setWithdrawLoading(false);
       return;
     }
+    console.log("withdraw",body.amount);
     axios
       .post(`${baseUrl}/accounts/wallet/withdraw/`, body, {
         headers: {
@@ -150,7 +151,7 @@ function DashboardTeacherWallet(props) {
                 <CountUp
                   className="wallet-credit-counter"
                   start={0}
-                  end={bankInfo.balance * 1000}
+                  end={bankInfo.balance}
                   formattingFn={count => formatPrice(convertNumberToPersian(count)) + ' تومان'}
                   duration={price === null ? 2.75 : 0}
                   separator=" "
