@@ -45,7 +45,7 @@ const ClassDashboard = () => {
   const classId = params.classId;
   const history = useHistory();
   const [openModal, setOpenModal] = useState(false);
-  const [apiLoading, setApiLoading] = useState(false);
+  const [apiLoading, setApiLoading] = useState(true);
   const [role, setRole] = useState(null);
 
   useEffect(() => {
@@ -60,7 +60,7 @@ const ClassDashboard = () => {
       .catch(err => {
         setRole('anonymous');
       });
-  }, []);
+  }, [location,role]);
 
   const handleClose = () => {
     setOpenModal(false);

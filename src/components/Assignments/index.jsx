@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined';
 import assignmentImg from '../../assets/images/assignment.png';
 import { convertNumberToPersian } from '../../utils/helpers';
@@ -112,32 +112,23 @@ const Assignments = ({ role }) => {
                       </div>
                     </div>
                     <div className="assignment-card__buttons-wrapper">
-                      <button
-                        onClick={() => {
-                          history.push(`/dashboard/class/${classId}/assignments/view/${assignment.id}`);
-                        }}
-                        className="pink-btn"
-                      >
+                      <Link to={`assignments/view/${assignment.id}`} className="pink-btn">
                         مشاهده تمرین
-                      </button>
+                      </Link>
                       {role == 'teacher' && (
                         <Fragment>
-                          <button
+                          <Link
                             className="info-btn"
-                            onClick={() => {
-                              history.push(`/dashboard/class/${classId}/assignments/${assignment.id}/edit`);
-                            }}
+                            to={`assignments/${assignment.id}/edit`}
                           >
                             ویرایش تمرین
-                          </button>
-                          <button
-                            onClick={() => {
-                              history.push(`/dashboard/class/${classId}/assignments/${assignment.id}/homeworks`);
-                            }}
+                          </Link>
+                          <Link
+                            to={`assignments/${assignment.id}/homeworks`}
                             className="orange-btn"
                           >
                             مشاهده تکالیف
-                          </button>
+                          </Link>
                           <button
                             className="danger-btn"
                             onClick={() => {
