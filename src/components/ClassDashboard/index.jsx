@@ -173,7 +173,11 @@ const ClassDashboard = () => {
             </NavLink>
           )}
           {role == 'student' && (
-            <div style={{ color: '#f22613' }} onClick={() => setOpenModal(true)} className={baseClass + '__item'}>
+            <div
+              style={{ color: '#f22613', cursor: 'pointer' }}
+              onClick={() => setOpenModal(true)}
+              className={baseClass + '__item'}
+            >
               <p>ترک کلاس</p>
               <ExitToAppIcon />
             </div>
