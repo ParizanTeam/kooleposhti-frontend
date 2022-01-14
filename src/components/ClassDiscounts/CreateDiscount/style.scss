@@ -72,6 +72,13 @@ input.date-input {
   height: 5px !important;
 }
 
+.create-discount-loading-button {
+  height: 30px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media screen and (max-width: 600px) {
   .discount-page__header {
     display: block;
@@ -94,5 +101,21 @@ input.date-input {
 
   .discount-page-input__end-date {
     width: 100%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .discount-page__title-text {
+    display: flex;
+    justify-content: center;
+  }
+
+  .discount-page__button-holder {
+    display: flex !important;
+    justify-content: center !important;
+  }
+
+  h3.discount-page__title-text {
+    font-size: 23px;
   }
 }

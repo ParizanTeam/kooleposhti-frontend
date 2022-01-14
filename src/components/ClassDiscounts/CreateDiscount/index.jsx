@@ -103,7 +103,10 @@ function CreateDiscount() {
         <div className="discount-page-title__container">
           <h3 className="discount-page__title-text"> افزودن کد تخفیف.</h3>
         </div>
-        <div>
+        <div
+          className="discount-page__button-holder"
+          style={{ display: useMediaQuery('(max-width: 768px)') ? 'unset' : 'flex', alignItems: 'center' }}
+        >
           {buttonLoading && !isMobile && (
             <div style={{ display: 'flex', justifyContent: 'center', padding: 'auto', marginLeft: 16 }}>
               <ReactLoading type="bars" color="#000" height={50} width={50} />
@@ -160,12 +163,12 @@ function CreateDiscount() {
           >
             انصراف
           </button>
-          {buttonLoading && isMobile && (
-            <div style={{ display: 'flex', justifyContent: 'center', padding: 'auto', marginTop: 8 }}>
-              <ReactLoading type="bars" color="#000" height={50} width={50} />
-            </div>
-          )}
         </div>
+        {buttonLoading && isMobile && (
+          <div style={{ display: 'flex', justifyContent: 'center', padding: 'auto', marginTop: 8 }}>
+            <ReactLoading type="bars" color="#000" height={50} width={50} />
+          </div>
+        )}
       </div>
       <div className="discount-page__second-row">
         <label htmlFor="title" className="kp-text-input__label">

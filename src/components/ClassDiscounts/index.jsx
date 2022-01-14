@@ -209,11 +209,7 @@ function ClassDiscounts() {
                       <TableBody>
                         {rows.map(row => (
                           <StyledTableRow key={row.id}>
-                            <StyledTableCell
-                              style={{ display: 'flex', justifyContent: 'center' }}
-                              align="center"
-                              className="course-student-info-table__image-holder"
-                            >
+                            <StyledTableCell align="center" className="course-student-info-table__image-holder">
                               {row.code}
                             </StyledTableCell>
                             <StyledTableCell align="center">
