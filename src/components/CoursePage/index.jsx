@@ -205,13 +205,13 @@ const CoursePage = () => {
     }
     const data = {
       code: correctCode,
-      course_pk: +courseId,
+      // course_pk: +courseId,
     };
     console.log(data);
     setRegisterLoading(true);
     apiInstance
-      //.post(`${baseUrl}/courses/${courseId}/enroll/`, data)
-      .post(`${baseUrl}/accounts/students/enroll/`, data)
+      .post(`${baseUrl}/courses/${courseId}/enroll/`, data)
+      // .post(`${baseUrl}/accounts/students/enroll/`, data)
       .then(res => {
         console.log(res);
         toast.success(

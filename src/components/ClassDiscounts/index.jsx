@@ -58,6 +58,7 @@ function ClassDiscounts() {
   const [title, setTitle] = useState('');
   const [endDate, setEndDate] = useState(new Date().toString());
   const [percentage, setPercentage] = useState('');
+  const [id, setId] = useState();
   const [titleBlured, setTitleBlured] = useState(false);
   const [endDateBlured, setEndDateBlured] = useState(false);
   const [percentageBlured, setPercentageBlured] = useState(false);
@@ -131,15 +132,44 @@ function ClassDiscounts() {
     },
   }));
 
-  function createData(code, expiration_date, discount, used_no) {
-    return { code, expiration_date, discount, used_no };
+  function createData(code, expiration_date, discount, used_no, id) {
+    return { code, expiration_date, discount, used_no, id };
   }
 
-  //ask why
+  const DeleteCode = async inputRow => {
+    console.log('hello world');
+    setConfirmDialog({ ...confirmDialog, isOpen: false });
+    console.log('row before is: ' + inputRow);
+    // console.log('students info before: ' + studentsInfo);
+    setRegisterLoading(true);
+    // async function fetchData() {
+    const delRes = await apiInstance
+      .delete(`${baseUrl}/discounts/${inputRow.id}/`)
+      .then(response => {
+        console.log('get response: ', response);
+        console.log(inputRow.id);
+        const updatedTable = discountsInfo.filter(row => row.id != inputRow.id);
+        setDiscountsInfo(updatedTable);
+        console.log(discountsInfo);
+        console.log(updatedTable);
+        toast.success('دانش‌آموز با موفقیت حذف شد.');
+        setOpenModal(false);
+        setRegisterLoading(false);
+      })
+      .catch(err => {
+        console.log('error: ', err);
+        setOpenModal(false);
+        toast.error('مشکلی در سامانه رخ داده‌است.');
+        setRegisterLoading(false);
+      });
+    // }
+    // const updatedTable = studentsInfo.filter(row => row != inputRow);
+    // setStudentsInfo(updatedTable);
+  };
 
   const rows = [];
   discountsInfo.forEach(item => {
-    rows.push(createData(item.code, item.expiration_date, item.discount, item.used_no));
+    rows.push(createData(item.code, item.expiration_date, item.discount, item.used_no, item.id));
   });
 
   console.log('&&&&&&&&&&&&&&&', discountsInfo);
@@ -147,6 +177,9 @@ function ClassDiscounts() {
   console.log(endDate.toString().length);
   return (
     <>
+      <Helmet>
+        <title>کدهای تخفیف</title>
+      </Helmet>
       <h3 style={{ marginBottom: 16 }}>کدهای تخفیف این کلاس</h3>
       {loading ? (
         <div style={{ display: 'flex', justifyContent: 'center', padding: 'auto', marginTop: 24 }}>
@@ -171,10 +204,6 @@ function ClassDiscounts() {
           ) : (
             <CacheProvider value={cacheRtl}>
               <div dir="rtl">
-                {/* <Helmet>
-          <title>پروفایل</title>
-        </Helmet> */}
-
                 <Box component="form" noValidate sx={{ mt: 5 }}>
                   <Grid container spacing={2}>
                     <Grid item sm={6} xs={12}></Grid>
@@ -204,6 +233,7 @@ function ClassDiscounts() {
                           <StyledTableCell align="center">تاریخ پایان کد تخفیف</StyledTableCell>
                           <StyledTableCell align="center">درصد تخفیف</StyledTableCell>
                           <StyledTableCell align="center">تعداد دانش آموزان</StyledTableCell>
+                          <StyledTableCell align="center">حذف کد</StyledTableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -217,6 +247,18 @@ function ClassDiscounts() {
                             </StyledTableCell>
                             <StyledTableCell align="center">{convertNumberToPersian(row.discount)}</StyledTableCell>
                             <StyledTableCell align="center">{convertNumberToPersian(row.used_no)}</StyledTableCell>
+                            <StyledTableCell align="center">
+                              {/* ask why */}
+                              <CloseIcon
+                                onClick={() => {
+                                  setOpenModal(true);
+                                  setModalConfirm(() => {
+                                    return () => DeleteCode(row);
+                                  });
+                                }}
+                                className="student-info-form__close-icon"
+                              ></CloseIcon>
+                            </StyledTableCell>
                             {/* <StyledTableCell align="left">{row.capacity}</StyledTableCell> */}
                           </StyledTableRow>
                         ))}
@@ -242,6 +284,33 @@ function ClassDiscounts() {
         locale={persian_fa}
         plugins={[<TimePicker hideSeconds position="bottom" />]}
       />
+
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={openModal}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={openModal}>
+          <div className="register-modal">
+            <h4 className="register-modal__title">آیا از حذف این کد تخفیف مطمئن هستید؟</h4>
+            <button className="register-modal__confirm" onClick={handleClose}>
+              بازگشت
+            </button>
+            <button className="register-modal__cancel" onClick={modalConfirm}>
+              حذف
+            </button>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              {registerLoading && <ReactLoading type="bubbles" color="#000" />}
+            </div>
+          </div>
+        </Fade>
+      </Modal>
     </>
   );
 }
