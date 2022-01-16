@@ -134,6 +134,7 @@ const CoursePage = () => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [registerLoading, setRegisterLoading] = useState(false);
+  const [discountLoading, setDiscountLoading] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [title, setTitle] = useState('');
   const [open, setOpen] = useState(false);
@@ -142,6 +143,7 @@ const CoursePage = () => {
   const [codeBlured, setCodeBlured] = useState(false);
   const [price, setPrice] = useState();
   const [useDiscount, setUseDiscount] = useState(false);
+  const [lastPrice, setLastPrice] = useState();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const showMoreText = 'نمایش بیشتر...';
@@ -173,6 +175,7 @@ const CoursePage = () => {
       .then(res => {
         setData(res.data);
         setPrice(res.data.price);
+        setLastPrice(res.data.price);
         console.log(res.data);
         setTimeout(() => {
           setIsLoading(false);
@@ -227,6 +230,7 @@ const CoursePage = () => {
   };
 
   const discount = () => {
+    setDiscountLoading(true);
     apiInstance
       .get(`${baseUrl}/discounts/validate?code=${code}&course=${courseId}`)
       .then(res => {
@@ -235,9 +239,11 @@ const CoursePage = () => {
         setCorrectCode(code);
         setUseDiscount(true);
         console.log(price);
+        setDiscountLoading(false);
       })
       .catch(err => {
         console.log(err);
+        setDiscountLoading(false);
         console.log('result is :' + err);
         if (err.response) {
           if (err.response.status == '403') {
@@ -398,11 +404,20 @@ const CoursePage = () => {
                       )}
 
                       <button className="register-modal__confirm info-btn" onClick={discount}>
-                        اعمال
+                        {!discountLoading && <span>اعمال</span>}
+                        {discountLoading && (
+                          <ReactLoading type="bubbles" color="#fff" className="register-modal__discount-button" />
+                        )}
                       </button>
                     </div>
                   )}
-                  <p>{`هزینه ی کلاس: ${convertNumberToPersian(price)} تومان`}</p>
+
+                  {useDiscount && (
+                    <p className="register-modal__last-price-text">{`هزینه ی کلاس: ${convertNumberToPersian(
+                      lastPrice
+                    )} تومان`}</p>
+                  )}
+                  <p className="register-modal__price-text">{`هزینه ی کلاس: ${convertNumberToPersian(price)} تومان`}</p>
                   <button className="register-modal__confirm" onClick={register}>
                     ثبت نام
                   </button>

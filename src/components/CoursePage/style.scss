@@ -312,3 +312,22 @@
   margin-top: 0px !important;
   box-shadow: 0 4px 10px #0000ff !important;
 }
+
+.register-modal__price-text {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+  // text-decoration-line: line-through !important;
+}
+
+.register-modal__last-price-text {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+  text-decoration-line: line-through !important;
+}
+
+.register-modal__discount-button {
+  height: 20px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
