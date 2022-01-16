@@ -60,7 +60,7 @@ function ClassStudentInfo(props) {
   const handleClose = () => {
     setOpenModal(false);
   };
-  
+
   const [openModal, setOpenModal] = useState(false);
   const [modalConfirm, setModalConfirm] = useState(null);
   const [registerLoading, setRegisterLoading] = useState(false);
@@ -110,8 +110,8 @@ function ClassStudentInfo(props) {
     },
   }));
 
-  function createData(img, studentName, email, id) {
-    return { img, studentName, email, id };
+  function createData(image, studentName, email, id) {
+    return { image, studentName, email, id };
   }
 
   //ask why
@@ -120,12 +120,14 @@ function ClassStudentInfo(props) {
   studentsInfo.forEach(item => {
     rows.push(
       createData(
-        <Avatar src={item.image} alt="profile" sx={{ borderRadius: '50%' }} />,
+        <Avatar src={`${baseUrl}` + item.image.image} alt="profile" sx={{ borderRadius: '50%' }} />,
+        // item.image.image,
         item.username,
         item.email,
         item.id
       )
     );
+    console.log(`item image is ` + `${baseUrl}` + item.image.image);
   });
 
   const DeleteStudent = async inputRow => {
@@ -213,7 +215,12 @@ function ClassStudentInfo(props) {
                                 console.log({ showProfile });
                               }}
                             >
-                              {row.img}
+                              {row.image}
+                              {/* <Avatar
+                                src={`https://kooleposhti.ml${row.image}/`}
+                                alt="profile"
+                                sx={{ borderRadius: '50%' }}
+                              ></Avatar> */}
                             </StyledTableCell>
                             <StyledTableCell align="center">{row.studentName}</StyledTableCell>
                             <StyledTableCell align="center">{row.email}</StyledTableCell>
@@ -240,6 +247,7 @@ function ClassStudentInfo(props) {
                                 className="student-info-form__close-icon"
                               ></CloseIcon>
                             </StyledTableCell>
+                            {console.log('image is ' + row.image)}
                             {/* <StyledTableCell align="left">{row.capacity}</StyledTableCell> */}
                           </StyledTableRow>
                         ))}

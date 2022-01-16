@@ -27,7 +27,7 @@
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background-color: black;
+  background-color: white !important;
   padding: 3px;
 }
 
@@ -41,18 +41,28 @@
 }
 
 .student-profile-card-lower-part__name__firstname {
-  display: inline-block !important;
+  display: block !important;
+  text-align: right;
+  margin: 15px;
 }
 
 .student-profile-card-lower-part__name__lastname {
-  display: inline-block !important;
-  margin: 5px;
+  display: block !important;
+  text-align: right;
+  margin: 15px;
 }
 
 .student-profile-card-lower-part__bio {
-  padding: 15px;
-  margin-top: 30px;
-  text-align: center;
+  // margin-top: 30px;
+  text-align: justify;
+}
+
+.student-profile-card-lower-part__bio__text {
+  margin-right: 30px;
+  margin-left: 15px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  text-align: justify;
 }
 
 .student-profile-card-lower-part__age {

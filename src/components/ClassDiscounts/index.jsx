@@ -152,7 +152,7 @@ function ClassDiscounts() {
         setDiscountsInfo(updatedTable);
         console.log(discountsInfo);
         console.log(updatedTable);
-        toast.success('دانش‌آموز با موفقیت حذف شد.');
+        toast.success('کد با موفقیت حذف شد.');
         setOpenModal(false);
         setRegisterLoading(false);
       })
@@ -230,7 +230,7 @@ function ClassDiscounts() {
                           >
                             کد تخفیف
                           </StyledTableCell>
-                          <StyledTableCell align="center">تاریخ پایان کد تخفیف</StyledTableCell>
+                          <StyledTableCell align="center">تاریخ انقضا کد تخفیف</StyledTableCell>
                           <StyledTableCell align="center">درصد تخفیف</StyledTableCell>
                           <StyledTableCell align="center">تعداد دانش آموزان</StyledTableCell>
                           <StyledTableCell align="center">حذف کد</StyledTableCell>

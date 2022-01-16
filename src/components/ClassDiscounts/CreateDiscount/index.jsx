@@ -127,7 +127,7 @@ function CreateDiscount() {
                 !percentage ||
                 (title && regex.test(title)) ||
                 convertNumberToEnglish(percentage) > 100 ||
-                convertNumberToEnglish(percentage) < 0
+                convertNumberToEnglish(percentage) <= 0
               ) {
                 toast.error('لطفا فیلدهای مربوطه را درست وارد کنید.');
                 console.log('this is error.');
@@ -213,7 +213,7 @@ function CreateDiscount() {
           id="title"
         />
         {endDateBlured && endDate == '' && (
-          <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>زمان پایان تمرین نمیتواند خالی باشد.</div>
+          <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>تاریخ انقضای کد نمیتواند خالی باشد.</div>
         )}
       </div>
 
@@ -233,7 +233,7 @@ function CreateDiscount() {
         {percentageBlured && percentage == '' && (
           <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>درصد تخفیف نمیتواند خالی باشد.</div>
         )}
-        {(convertNumberToEnglish(percentage) > 100 || convertNumberToEnglish(percentage) < 0) && (
+        {(convertNumberToEnglish(percentage) > 100 || convertNumberToEnglish(percentage) <= 0) && (
           <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>درصد تخفیف باید عددی بین 0 تا 100 باشد</div>
         )}
       </div>
