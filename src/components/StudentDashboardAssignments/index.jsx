@@ -58,12 +58,12 @@ function MyAssignments() {
               <AccordionSummary expandIcon={<ExpandMoreIcon className="assignment-margin" />}>
                 <img
                   src={idx == 0 || expanded === idx ? AwakenFox : SleepingFox}
-                  alt="Sleeping Fox"
+                  alt="Fox"
                   className="FoxP assignment-margin"
                 />
                 <div className="Text">
                   <Typography sx={{ width: '33%', flexShrink: 0, margin: 1 }}>{assignment.title}</Typography>
-                  <Typography sx={{ color: 'text.secondary', margin: 1, marginRight: 3 }}>
+                  <Typography sx={{ width: '33%',color: 'text.secondary', margin: 1, marginRight: 3 }}>
                     تا&nbsp;
                     {changeDateFormat2(assignment.end_date)} &nbsp; وقت داری
                   </Typography>
