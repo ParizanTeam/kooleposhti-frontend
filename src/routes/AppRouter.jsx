@@ -25,6 +25,8 @@ import Filters from '../components/Filters';
 import BaseAssignments from '../components/BaseAssignments';
 import NewNotFoundPage from '../components/NewNotFoundPage';
 import StudentCoins from '../components/StudentCoins';
+import {StudentPrivateRoute} from './PrivateRoute'
+
 const AppRouter = () => {
   return (
     <Router history={history}>
@@ -77,32 +79,34 @@ const AppRouter = () => {
         </Route>
         {/* student dasgboard classes url */}
         <Switch>
-          <Route path="/dashboard/student/ClassesList" exact>
+          <StudentPrivateRoute path="/dashboard/student/ClassesList" exact>
             <StudentDashboardClassesList />
-          </Route>
-          <Route path="/dashboard/student/bookmarks" exact>
+          </StudentPrivateRoute>
+          <StudentPrivateRoute path="/dashboard/student/bookmarks" exact>
             <StudentDashboardBookMarkedClasses />
-          </Route>
-          <Route path="/dashboard/student/" exact>
+          </StudentPrivateRoute>
+          <StudentPrivateRoute path="/dashboard/student/" exact>
             <Redirect to="/dashboard/student/profile" />
-          </Route>
-          <Route path="/dashboard/student/assignments" exact>
+          </StudentPrivateRoute>
+          <StudentPrivateRoute path="/dashboard/student/assignments" exact>
             <StudentDashboardAssignments />
-          </Route>
+          </StudentPrivateRoute>
+          <StudentPrivateRoute path="/dashboard/student/profile">
+            <StudentProfile />
+          </StudentPrivateRoute>
+          <StudentPrivateRoute path="/Student/CourseAssignmentsList">
+            <StudentAssignmentslist />
+          </StudentPrivateRoute>
+          <StudentPrivateRoute path="/Student/CourseAssignments">
+            <StudentAssignments />
+          </StudentPrivateRoute>
+          <StudentPrivateRoute path="/dashboard/student/Coins" exact>
+            <StudentCoins />
+          </StudentPrivateRoute>
+
+
           <Route path="/dashboard/class/:courseId/assignments/view/:assignmentId">
           <BaseAssignments />
-          </Route>
-          <Route path="/dashboard/student/profile">
-            <StudentProfile />
-          </Route>
-          <Route path="/Student/CourseAssignmentsList">
-            <StudentAssignmentslist />
-          </Route>
-          <Route path="/Student/CourseAssignments">
-            <StudentAssignments />
-          </Route>
-          <Route path="/dashboard/student/Coins" exact>
-            <StudentCoins />
           </Route>
           <Route path="*">
             <NewNotFoundPage />
