@@ -127,10 +127,12 @@ function CreateDiscount() {
                 !percentage ||
                 (title && regex.test(title)) ||
                 convertNumberToEnglish(percentage) > 100 ||
-                convertNumberToEnglish(percentage) <= 0
+                convertNumberToEnglish(percentage) < 0
               ) {
                 toast.error('لطفا فیلدهای مربوطه را درست وارد کنید.');
                 console.log('this is error.');
+              } else if (convertNumberToEnglish(percentage) == 0) {
+                toast.error('درصد تخفیف نمی‌تواند ۰ باشد.');
               } else {
                 setButtonLoading(true);
                 const data = {
@@ -141,13 +143,20 @@ function CreateDiscount() {
                   course: courseId,
                 };
                 console.log(data);
-                apiInstance.post(`${baseUrl}/discounts/`, data).then(res => {
-                  toast.success('کد تخفیف با موفقیت اضافه شد.');
-                  setTimeout(() => {
+                apiInstance
+                  .post(`${baseUrl}/discounts/`, data)
+                  .then(res => {
+                    toast.success('کد تخفیف با موفقیت اضافه شد.');
+                    setTimeout(() => {
+                      setButtonLoading(false);
+                      history.push(`/dashboard/class/${classId}/discounts`);
+                    }, 1000);
+                  })
+                  .catch(err => {
+                    console.log('error: ', err);
                     setButtonLoading(false);
-                    history.push(`/dashboard/class/${classId}/discounts`);
-                  }, 1000);
-                });
+                    toast.error('شرمنده. مشکلی پیش اومده. دوباره امتحان کن.');
+                  });
                 console.log(saveDate);
                 console.log('hello\n');
               }
@@ -233,7 +242,7 @@ function CreateDiscount() {
         {percentageBlured && percentage == '' && (
           <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>درصد تخفیف نمیتواند خالی باشد.</div>
         )}
-        {(convertNumberToEnglish(percentage) > 100 || convertNumberToEnglish(percentage) <= 0) && (
+        {(convertNumberToEnglish(percentage) > 100 || convertNumberToEnglish(percentage) < 0) && (
           <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>درصد تخفیف باید عددی بین 0 تا 100 باشد</div>
         )}
       </div>

@@ -153,8 +153,14 @@ function ClassStudentInfo(props) {
       .catch(err => {
         console.log('error: ', err);
         setOpenModal(false);
-        toast.error('مشکلی در سامانه رخ داده‌است.');
         setRegisterLoading(false);
+        if (err.response) {
+          if (err.response.status == '400') {
+            toast.error('موجودی شما کافی نیست.');
+          } else {
+            toast.error('شرمنده. مشکلی پیش اومده. دوباره امتحان کن.');
+          }
+        }
       });
     // }
     // const updatedTable = studentsInfo.filter(row => row != inputRow);
