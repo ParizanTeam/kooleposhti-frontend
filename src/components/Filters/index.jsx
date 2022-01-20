@@ -350,7 +350,7 @@ const Filters = () => {
   }, [search]);
 
   useEffect(() => {
-    history.push({
+    history.replace({
       search: '?' + new URLSearchParams(queryObject).toString(),
     });
   }, [queryObject]);
