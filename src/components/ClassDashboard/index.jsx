@@ -36,6 +36,7 @@ import EditAssignment from '../EditAssignment';
 import apiInstance from '../../utils/axiosConfig';
 import ClassAtendees from '../ClassAtendees';
 import { baseUrl } from '../../utils/constants';
+import ReactLoading from 'react-loading';
 
 const ClassDashboard = () => {
   const [showDrawer, setShowDrawer] = useState(false);
@@ -45,6 +46,7 @@ const ClassDashboard = () => {
   const classId = params.classId;
   const history = useHistory();
   const [openModal, setOpenModal] = useState(false);
+  const [leaveClassLoading, setLeaveClassLoading] = useState(false);
   const [apiLoading, setApiLoading] = useState(true);
   const [role, setRole] = useState(null);
 
@@ -60,13 +62,14 @@ const ClassDashboard = () => {
       .catch(err => {
         setRole('anonymous');
       });
-  }, [location,role]);
+  }, [location, role]);
 
   const handleClose = () => {
     setOpenModal(false);
   };
 
   const leaveClass = () => {
+    setLeaveClassLoading(true);
     apiInstance
       .post(`${baseUrl}/courses/${classId}/leave/`)
       .then(res => {
@@ -75,10 +78,12 @@ const ClassDashboard = () => {
         setTimeout(() => {
           history.push(`/courses/${classId}`);
         }, 2000);
+        setLeaveClassLoading(false);
       })
       .catch(err => {
         console.log(err);
         toast.error('مشکلی در سامانه به وجود اومده.');
+        setLeaveClassLoading(false);
       });
   };
 
@@ -122,14 +127,7 @@ const ClassDashboard = () => {
               <DashboardIcon />
             </div>
           </NavLink>
-          {/* <div className={baseClass + '__item'}>
-            <p>چت با {role == 'student' ? 'استاد' : 'دانش‌آموزان'}</p>
-            <ChatIcon />
-          </div>
-          <div className={baseClass + '__item'}>
-            <p>گفتگوی گروهی</p>
-            <PeopleIcon />
-          </div> */}
+
           <NavLink
             activeClassName="active-class-drawer-item"
             onClick={() => setShowDrawer(false)}
@@ -140,10 +138,7 @@ const ClassDashboard = () => {
               <MenuBookIcon />
             </div>
           </NavLink>
-          {/* <div className={baseClass + '__item'}>
-            <p>بازخوردها</p>
-            <FeedbackIcon />
-          </div> */}
+
           <Link to={`/courses/${classId}`}>
             <div className={baseClass + '__item'}>
               <p>صفحه عمومی درس</p>
@@ -258,12 +253,16 @@ const ClassDashboard = () => {
             <Fade in={openModal}>
               <div className="register-modal">
                 <h4 className="register-modal__title">آیا از ترک این کلاس مطمئن هستید؟</h4>
+                <p className="register-modal__description">در صورت ترک کلاس، هزینه کلاس به شما برگردانده نمی‌شود.</p>
                 <button className="register-modal__confirm" onClick={handleClose}>
                   بازگشت
                 </button>
                 <button className="register-modal__cancel" onClick={leaveClass}>
                   ترک کلاس
                 </button>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  {leaveClassLoading && <ReactLoading type="bubbles" color="#000" />}
+                </div>
               </div>
             </Fade>
           </Modal>

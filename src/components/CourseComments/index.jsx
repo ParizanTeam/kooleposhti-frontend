@@ -1,19 +1,28 @@
 import React from 'react';
 import CourseComment from './CourseComment';
 import CourseAddComment from './CourseAddComment';
-import { Divider, Typography } from '@mui/material';
+import { Divider, Rating, Typography } from '@mui/material';
+import StarRoundedIcon from '@mui/icons-material/StarRounded';
+import StarOutlineRoundedIcon from '@mui/icons-material/StarOutlineRounded';
 import './style.scss';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
 import ReactLoading from 'react-loading';
 import { baseUrl } from '../../utils/constants';
+import { convertNumberToPersian } from '../../utils/helpers';
+import apiInstance from '../../utils/axiosConfig';
+import { toast } from 'react-toastify';
 
 function CourseComments(props) {
+  const { enrolled, rate } = props;
+  console.log('rate:::::::::: ', rate);
+  const [rateValue, setRateValue] = useState(rate);
   const [comments, setComments] = useState([]);
   const [refresh, setRefresh] = useState(true);
   const [role, setRole] = useState();
   const [loading, setLoading] = useState(true);
+  const [rateLoading, setRateLoading] = useState(false);
   const token = 'JWT ' + localStorage.getItem('access_token');
 
   useEffect(() => {
@@ -65,12 +74,58 @@ function CourseComments(props) {
     check();
   }, []);
 
+  const handleRateSubmit = () => {
+    setRateLoading(true);
+    apiInstance
+      .post(`${baseUrl}/courses/${props.course_id}/rate/`, { rate: rateValue })
+      .then(res => {
+        toast.success('امتیاز شما با موفقیت ثبت شد.');
+        setRateLoading(false);
+      })
+      .catch(err => {
+        console.log(err);
+        toast.error('مشکلی در سامانه به وجود آمده‌است.');
+        setRateLoading(false);
+      });
+  };
+
   return (
     <React.Fragment>
       <div className="course-comments__card">
-        {loading && <ReactLoading type="spinningBubbles" color="#EF006C" height={100} width={100} className='comment-loading' />}
+        {loading && (
+          <ReactLoading type="spinningBubbles" color="#EF006C" height={100} width={100} className="comment-loading" />
+        )}
         {!loading && (
           <div>
+            {enrolled && (
+              <div className="course-comments__rate-section">
+                <p>امتیاز دادن به کلاس:</p>
+                <div className="course-comments__rate-btn-wrapper">
+                  <div
+                    className="course-comments__rating-wrapper"
+                    style={{ direction: 'ltr', display: 'flex', alignItems: 'flex-start' }}
+                  >
+                    <Rating
+                      name="simple-controlled"
+                      size={'large'}
+                      icon={<StarRoundedIcon />}
+                      emptyIcon={<StarOutlineRoundedIcon />}
+                      value={rateValue}
+                      onChange={(event, newValue) => {
+                        setRateValue(newValue);
+                      }}
+                    />
+                    <span className="course-comments__rating-number">
+                      {' ' + convertNumberToPersian(rateValue || 0)}
+                    </span>
+                  </div>
+                  <button onClick={handleRateSubmit} className="yellow-btn course-comments__submit-rate">
+                    {rateLoading ? <ReactLoading type="bubbles" color="#fff" className="loading-rate" /> : 'ثبت امتیاز'}
+                  </button>
+                </div>
+              </div>
+            )}
+
             {role === 'student' && <CourseAddComment course_id={props.course_id} refresh={setRefresh} reply={false} />}
             <Divider className="course-comments-divider"></Divider>
             {comments.length === 0 && (

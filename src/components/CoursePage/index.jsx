@@ -136,6 +136,8 @@ const CoursePage = () => {
   const [registerLoading, setRegisterLoading] = useState(false);
   const [discountLoading, setDiscountLoading] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+  const [enrolled, setEnrolled] = useState(false);
+  const [rate, setRate] = useState(null);
   const [title, setTitle] = useState('');
   const [open, setOpen] = useState(false);
   const [code, setCode] = useState('');
@@ -156,7 +158,8 @@ const CoursePage = () => {
 
   const tags = ['معماری', 'خلاقیت', 'ساختن', 'کار گروهی'];
   const scrollToDates = () => {
-    datesRef.current.scrollIntoView({
+    window.scrollTo({
+      top: datesRef.current.getBoundingClientRect().top + window.pageYOffset - 100,
       behavior: 'smooth',
     });
   };
@@ -194,7 +197,9 @@ const CoursePage = () => {
   useEffect(() => {
     apiInstance.get(`${baseUrl}/courses/${courseId}/can-enroll/`).then(res => {
       setShowRegister(res.data.enroll);
-      console.log(res.data);
+      setEnrolled(res.data.enrolled);
+      setRate(res.data.rate);
+      console.log('ressssssssss: ', res.data);
     });
   }, []);
 
@@ -311,6 +316,16 @@ const CoursePage = () => {
                   <button onClick={scrollToDates} className="course-header__goto-times">
                     مشاهده زمان جلسه‌ها
                   </button>
+                  {enrolled && (
+                    <button
+                      onClick={() => {
+                        history.push(`/dashboard/class/${courseId}`);
+                      }}
+                      className="course-header__goto-class orange-btn"
+                    >
+                      رفتن به صفحه کلاس
+                    </button>
+                  )}
                   {showRegister && (
                     <button className="course-header__register" onClick={handleOpen}>
                       ثبت‌نام‌ در کلاس
@@ -432,7 +447,7 @@ const CoursePage = () => {
             </Modal>
             <div>
               <Typography className="course-header__title">نظرات شرکت‌کنندگان:</Typography>
-              <CourseComments course_id={courseId} />
+              <CourseComments enrolled={enrolled} rate={rate} course_id={courseId} />
             </div>
           </div>
         )}
