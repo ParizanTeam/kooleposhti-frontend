@@ -14,13 +14,11 @@ const CourseAddComment = props => {
   const [loading, setLoading] = useState(false);
   const token = 'JWT ' + localStorage.getItem('access_token');
 
-  useEffect(()=>{
-    if(props.edit_mode)
-    {
-      comment.current.value = props.comment
+  useEffect(() => {
+    if (props.edit_mode) {
+      comment.current.value = props.comment;
     }
-
-  },[])
+  }, []);
 
   const sendComment = async () => {
     setLoading(true);
@@ -38,7 +36,7 @@ const CourseAddComment = props => {
             props.refresh(true);
             setLoading(false);
           }, 500);
-          comment.current.value = "";
+          comment.current.value = '';
         })
         .catch(err => {
           console.log('error: ', err);
@@ -89,35 +87,35 @@ const CourseAddComment = props => {
 
   return (
     <Fragment>
-      <Grid container>
+      <Grid container style={{ display: 'flex', alignItems: 'flex-start' }}>
         <Grid item sm={1} xs={0} md={1} className="course-add-comment-image__container">
-          <Avatar xs={0} src={avatar} alt="avatar" className="course-add-comment-image" />
+          <Avatar style={{ margin: '8px 0' }} xs={0} src={avatar} alt="avatar" className="course-add-comment-image" />
         </Grid>
-        <Grid item container xs={12} sm={11} md={11} >
-        <Grid item className="course-add-comment-textField__container" md={12} sm={12} xs={12} sx={{pr:0}}>
-        <TextField
-            fullWidth
-            className="CourseAddComment-textField"
-            placeholder="نظر خود را در مورد این کلاس بنویسید."
-            multiline
-            inputRef={comment}
-            inputProps={{ maxLength: 1000 }}
-          ></TextField>
-        </Grid>
-        <Grid
-          md={12}
-          sm={12}
-          xs={12}
-          item
-          className="course-add-comment-button__container"
-          //sx={{ mr: { xl: '2.5vmin', lg: '4vmin', md: '4.5vmin', sm: '3vmin', xs: '-3vmin' } }}
-          >
-          <Button type="submit" variant="contained" className="course-add-comment-button" onClick={sendComment}>
-            {!loading && <span>ارسال نظر</span>}
-            {loading && <ReactLoading type="bubbles" color="#fff" className="loading-signup" />}
-          </Button>
-        </Grid>
+        <Grid item container xs={12} sm={11} md={11}>
+          <Grid item className="course-add-comment-textField__container" md={12} sm={12} xs={12} sx={{ pr: 0 }}>
+            <TextField
+              fullWidth
+              className="CourseAddComment-textField"
+              placeholder="نظر خود را در مورد این کلاس بنویسید."
+              multiline
+              inputRef={comment}
+              inputProps={{ maxLength: 1000 }}
+            ></TextField>
           </Grid>
+          <Grid
+            md={12}
+            sm={12}
+            xs={12}
+            item
+            className="course-add-comment-button__container"
+            //sx={{ mr: { xl: '2.5vmin', lg: '4vmin', md: '4.5vmin', sm: '3vmin', xs: '-3vmin' } }}
+          >
+            <Button type="submit" variant="contained" className="course-add-comment-button" onClick={sendComment}>
+              {!loading && <span>ارسال نظر</span>}
+              {loading && <ReactLoading type="bubbles" color="#fff" className="loading-signup" />}
+            </Button>
+          </Grid>
+        </Grid>
       </Grid>
     </Fragment>
   );

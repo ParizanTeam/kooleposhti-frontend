@@ -144,6 +144,7 @@ const CoursePage = () => {
   const [correctCode, setCorrectCode] = useState('');
   const [codeBlured, setCodeBlured] = useState(false);
   const [price, setPrice] = useState();
+  const [initialPrice, setInitialPrice] = useState();
   const [useDiscount, setUseDiscount] = useState(false);
   const [lastPrice, setLastPrice] = useState();
   const handleOpen = () => setOpen(true);
@@ -178,6 +179,7 @@ const CoursePage = () => {
       .then(res => {
         setData(res.data);
         setPrice(res.data.price);
+        setInitialPrice(res.data.price);
         setLastPrice(res.data.price);
         console.log(res.data);
         setTimeout(() => {
@@ -240,7 +242,7 @@ const CoursePage = () => {
       .get(`${baseUrl}/discounts/validate?code=${code}&course=${courseId}`)
       .then(res => {
         console.log(res);
-        setPrice(((100 - res.data.discount) / 100) * price);
+        setPrice(((100 - res.data.discount) / 100) * initialPrice);
         setCorrectCode(code);
         setUseDiscount(true);
         console.log(price);
@@ -248,6 +250,8 @@ const CoursePage = () => {
       })
       .catch(err => {
         console.log(err);
+        setUseDiscount(false);
+        setPrice(initialPrice);
         setDiscountLoading(false);
         console.log('result is :' + err);
         if (err.response) {
@@ -401,38 +405,39 @@ const CoursePage = () => {
               <Fade in={open}>
                 <div className="register-modal">
                   <h4 className="register-modal__title">آیا از شرکت توی این کلاس مطمئنی؟</h4>
-                  {!useDiscount && (
-                    <div>
-                      <input
-                        type="text"
-                        placeholder="متن کد تخفیف"
-                        onBlur={() => setCodeBlured(true)}
-                        value={code}
-                        onChange={e => setCode(e.target.value)}
-                        className="kp-text-input__input course-page-input__title"
-                        id="title"
-                      />
-                      {regex.test(code) && (
-                        <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>
-                          متن کد تخفیف باید تنها از اعداد و الفبای انگلیسی تشکیل شده باشد.
-                        </div>
-                      )}
 
-                      <button className="register-modal__confirm info-btn" onClick={discount}>
-                        {!discountLoading && <span>اعمال</span>}
-                        {discountLoading && (
-                          <ReactLoading type="bubbles" color="#fff" className="register-modal__discount-button" />
-                        )}
-                      </button>
-                    </div>
-                  )}
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="متن کد تخفیف"
+                      onBlur={() => setCodeBlured(true)}
+                      value={code}
+                      onChange={e => setCode(e.target.value)}
+                      className="kp-text-input__input course-page-input__title"
+                      id="title"
+                    />
+                    {regex.test(code) && (
+                      <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>
+                        متن کد تخفیف باید تنها از اعداد و الفبای انگلیسی تشکیل شده باشد.
+                      </div>
+                    )}
+
+                    <button className="register-modal__confirm info-btn" onClick={discount}>
+                      {!discountLoading && <span>اعمال</span>}
+                      {discountLoading && (
+                        <ReactLoading type="bubbles" color="#fff" className="register-modal__discount-button" />
+                      )}
+                    </button>
+                  </div>
 
                   {useDiscount && (
-                    <p className="register-modal__last-price-text">{`هزینه ی کلاس: ${convertNumberToPersian(
-                      lastPrice
+                    <p className="register-modal__last-price-text">{`هزینه ی کلاس: ${formatPrice(
+                      convertNumberToPersian(lastPrice)
                     )} تومان`}</p>
                   )}
-                  <p className="register-modal__price-text">{`هزینه ی کلاس: ${convertNumberToPersian(price)} تومان`}</p>
+                  <p className="register-modal__price-text">{`هزینه ی کلاس: ${formatPrice(
+                    convertNumberToPersian(price)
+                  )} تومان`}</p>
                   <button className="register-modal__confirm" onClick={register}>
                     ثبت نام
                   </button>
