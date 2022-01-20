@@ -147,7 +147,7 @@ function DashboardTeacherBankAccount(props) {
               <Grid container>
                 <Grid item xs={12} className="CardName">
                   <Typography sx={{ fontSize: { lg: '20px', md: '20px', sm: '15px', xs: '3vmin' } }}>
-                    سید عماد موسوی
+                    {props.fullname}
                   </Typography>
                 </Grid>
                 <Grid item xs={12} mt={2} dir="ltr">

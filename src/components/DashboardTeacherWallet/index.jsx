@@ -103,8 +103,28 @@ function DashboardTeacherWallet(props) {
       });
   };
 
+  const [fullName,setFullName] = useState();
   useEffect(() => {
     async function fetchData() {
+
+      const res1 = await axios
+      .get(`${baseUrl}/accounts/instructors/me/`, {
+        headers: {
+          Authorization: token,
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => {
+        console.log(response.data);
+
+        setFullName(response.data.first_name + " " + response.data.last_name);
+
+      })
+      .catch(err => {
+
+      });
+
+
       const res = await axios
         .get(`${baseUrl}/accounts/wallet/mywallet/`, {
           headers: {
@@ -114,6 +134,7 @@ function DashboardTeacherWallet(props) {
         })
         .then(response => {
           setBankInfo(response.data);
+          console.log(bankInfo);
           setLoading(false);
         })
         .catch(err => {
@@ -140,7 +161,7 @@ function DashboardTeacherWallet(props) {
       )}
       {!loading && (
         <div>
-          <DashboardTeacherBankAccount card_no={bankInfo.card_no} sheba={bankInfo.sheba} />
+          <DashboardTeacherBankAccount card_no={bankInfo.card_no} sheba={bankInfo.sheba} fullname={fullName}/>
           <ToastContainer rtl={true} position="bottom-center" />
           <div style={{ marginTop: '120px' }}>
             <Grid container>
