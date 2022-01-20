@@ -162,6 +162,22 @@ $color-highlight: lighten($c-gray-95, 7%);
   }
 }
 
+.yellow-btn {
+  background-color: #f8ab2e;
+  color: $c-white;
+  border: 1px solid #e6a235;
+  padding: 8px 16px;
+  font-weight: 700;
+  border-radius: 4px;
+  box-shadow: 0 4px 10px rgba(255, 209, 109, 0.35);
+  font-size: 16px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #e6a235;
+  }
+}
+
 .pink-btn {
   background-color: rgb(244, 121, 131);
   color: $c-white;

@@ -7,9 +7,58 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.25) !important;
     border-radius: 16px !important;
   }
+  &__rate-section {
+    margin: 8px 32px 32px;
+  }
+  &__rating-wrapper {
+    label {
+      width: 24px !important;
+    }
+  }
+  &__rate-btn-wrapper {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+  }
+  &__rating-number {
+    font-size: 20px;
+    font-weight: 800;
+    color: rgb(253, 200, 64);
+    margin-left: -20px;
+    width: 12px;
+  }
+  &__submit-rate {
+    margin-right: 16px;
+    font-size: 14px !important;
+    padding: 7.5px 16px !important;
+  }
 }
 
 .course-comments-divider {
   margin-top: 20px !important;
   margin-bottom: 20px !important;
+}
+
+.loading-rate {
+  height: 19px !important;
+  align-items: center;
+  display: flex;
+}
+
+@media (max-width: 600px) {
+  .course-comments {
+    &__rate-section {
+      margin: 8px 0px 32px;
+    }
+    &__rate-btn-wrapper {
+      flex-direction: column;
+      // align-items: flex-start;
+    }
+    &__submit-rate {
+      margin-right: 0;
+      margin-top: 4px;
+      font-size: 14px !important;
+      padding: 7.5px 16px !important;
+    }
+  }
 }
