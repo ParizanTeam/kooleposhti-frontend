@@ -53,9 +53,10 @@
   }
 
   .My-carousal-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: auto !important;
 
     .swiper-slide {
       padding: 10px 0;

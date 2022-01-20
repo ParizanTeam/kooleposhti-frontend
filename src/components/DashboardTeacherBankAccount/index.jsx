@@ -68,7 +68,7 @@ function DashboardTeacherBankAccount(props) {
       })
       .catch(err => {
         console.log('error', err);
-        toast.error('اطلاعات با موفقیت تغییر یافت', {
+        toast.error('اطلاعات را کامل وارد کنید', {
           position: 'bottom-center',
           autoClose: 5000,
           hideProgressBar: false,

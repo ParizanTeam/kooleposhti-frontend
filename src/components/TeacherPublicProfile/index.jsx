@@ -243,7 +243,7 @@ function TeacherPublicProfile(props) {
         <div className="My-carousal-container">
           <Grid sx={{ width: { xl: '100%', md: '85%', sm: '65vmin', xs: '90vmin' } }}>
             {teacherData.courses.length === 0 && (
-              <Grid container direction="column" alignItems="center" justifyContent="center">
+              <Grid container direction="column" alignItems="center" justifyContent="center" sx={{margin:"auto"}}>
                 <Avatar
                   src={classImg}
                   alt="class list"
@@ -256,12 +256,14 @@ function TeacherPublicProfile(props) {
                 <p className="teacher-classes-emptylist">کلاسی برای نمایش وجود نداره !!!</p>
               </Grid>
             )}
+            
             {teacherData.courses.length !== 0 && (
+              
               <Swiper
                 style={{ padding: 20 }}
                 spaceBetween={10}
                 slidesPerView={'auto'}
-                centeredSlides
+                
                 navigation={use_mobile || teacherData.courses.length <= 1 ? false : true}
                 keyboard
               >
@@ -288,6 +290,7 @@ function TeacherPublicProfile(props) {
                   </SwiperSlide>
                 ))}
               </Swiper>
+         
             )}
           </Grid>
         </div>
