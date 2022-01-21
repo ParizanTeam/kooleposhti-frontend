@@ -123,6 +123,14 @@
       margin-left: 0;
     }
 
+    .info-btn,
+    .orange-btn,
+    .pink-btn,
+    .danger-btn {
+      width: 142px;
+      text-align: center;
+    }
+
     &__buttons-wrapper {
       flex-direction: column;
       align-items: center;
