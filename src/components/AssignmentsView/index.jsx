@@ -483,10 +483,10 @@ export default function AssignmentsView() {
                 item.username,
                 item.id in temp,
                 temp[item.id],
-                item.id
+                temp[item.id].id
               )
             );
-            // console.log('heu', res.data);
+            console.log('assignments', res.data);
             setStudents(rows);
             setLoading(false);
           })
