@@ -404,49 +404,64 @@ const CoursePage = () => {
             >
               <Fade in={open}>
                 <div className="register-modal">
-                  <h4 className="register-modal__title">آیا از شرکت توی این کلاس مطمئنی؟</h4>
+                  {isAuthenticated && (
+                    <>
+                      <h4 className="register-modal__title">آیا از شرکت توی این کلاس مطمئنی؟</h4>
+                      <div>
+                        <input
+                          type="text"
+                          placeholder="متن کد تخفیف"
+                          onBlur={() => setCodeBlured(true)}
+                          value={code}
+                          onChange={e => setCode(e.target.value)}
+                          className="kp-text-input__input course-page-input__title"
+                          id="title"
+                        />
+                        {regex.test(code) && (
+                          <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>
+                            متن کد تخفیف باید تنها از اعداد و الفبای انگلیسی تشکیل شده باشد.
+                          </div>
+                        )}
 
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="متن کد تخفیف"
-                      onBlur={() => setCodeBlured(true)}
-                      value={code}
-                      onChange={e => setCode(e.target.value)}
-                      className="kp-text-input__input course-page-input__title"
-                      id="title"
-                    />
-                    {regex.test(code) && (
-                      <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>
-                        متن کد تخفیف باید تنها از اعداد و الفبای انگلیسی تشکیل شده باشد.
+                        <button className="register-modal__confirm info-btn" onClick={discount}>
+                          {!discountLoading && <span>اعمال</span>}
+                          {discountLoading && (
+                            <ReactLoading type="bubbles" color="#fff" className="register-modal__discount-button" />
+                          )}
+                        </button>
                       </div>
-                    )}
-
-                    <button className="register-modal__confirm info-btn" onClick={discount}>
-                      {!discountLoading && <span>اعمال</span>}
-                      {discountLoading && (
-                        <ReactLoading type="bubbles" color="#fff" className="register-modal__discount-button" />
+                      {useDiscount && (
+                        <p className="register-modal__last-price-text">{`هزینه ی کلاس: ${formatPrice(
+                          convertNumberToPersian(lastPrice)
+                        )} تومان`}</p>
                       )}
-                    </button>
-                  </div>
-
-                  {useDiscount && (
-                    <p className="register-modal__last-price-text">{`هزینه ی کلاس: ${formatPrice(
-                      convertNumberToPersian(lastPrice)
-                    )} تومان`}</p>
+                      <p className="register-modal__price-text">{`هزینه ی کلاس: ${formatPrice(
+                        convertNumberToPersian(price)
+                      )} تومان`}</p>
+                      <button className="register-modal__confirm" onClick={register}>
+                        ثبت نام
+                      </button>
+                      <button className="register-modal__cancel" onClick={handleClose}>
+                        بازگشت
+                      </button>
+                      <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        {registerLoading && <ReactLoading type="bubbles" color="#000" />}
+                      </div>
+                    </>
                   )}
-                  <p className="register-modal__price-text">{`هزینه ی کلاس: ${formatPrice(
-                    convertNumberToPersian(price)
-                  )} تومان`}</p>
-                  <button className="register-modal__confirm" onClick={register}>
-                    ثبت نام
-                  </button>
-                  <button className="register-modal__cancel" onClick={handleClose}>
-                    بازگشت
-                  </button>
-                  <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    {registerLoading && <ReactLoading type="bubbles" color="#000" />}
-                  </div>
+                  {!isAuthenticated && (
+                    <>
+                      <h4 className="register-modal__title">
+                        برای ثبت‌نام در کلاس ابتدا باید وارد حساب کاربری خود شوید.
+                      </h4>
+                      <button className="register-modal__confirm" onClick={() => history.push('/login')}>
+                        ورود
+                      </button>
+                      <button className="register-modal__cancel" onClick={handleClose}>
+                        بازگشت
+                      </button>
+                    </>
+                  )}
                 </div>
               </Fade>
             </Modal>
