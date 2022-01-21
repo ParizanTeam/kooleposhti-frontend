@@ -120,14 +120,14 @@ function ClassStudentInfo(props) {
   studentsInfo.forEach(item => {
     rows.push(
       createData(
-        <Avatar src={`${baseUrl}` + item.image.image} alt="profile" sx={{ borderRadius: '50%' }} />,
-        // item.image.image,
+        <Avatar src={item.image?  `${baseUrl}` + item.image.image : item.image} alt="profile" sx={{ borderRadius: '50%' }} />,
+        // item.image? item.image.image : item.image,
         item.username,
         item.email,
         item.id
       )
     );
-    console.log(`item image is ` + `${baseUrl}` + item.image.image);
+    console.log(`item image is ` + (item.image?  `${baseUrl}` + item.image.image : item.image));
   });
 
   const DeleteStudent = async inputRow => {
