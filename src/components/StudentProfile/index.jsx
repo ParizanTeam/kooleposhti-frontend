@@ -78,8 +78,10 @@ function StudentAboutMe(props) {
           },
         })
         .then(response => {
-          EditorState.createWithContent(
-            customContentStateConverter(ContentState.createFromBlockArray(convertFromHTML(response.data.data.bio)))
+          setEditorState(
+            EditorState.createWithContent(
+              customContentStateConverter(ContentState.createFromBlockArray(convertFromHTML(response.data.data.bio)))
+            )
           );
         })
         .catch(err => {
@@ -120,6 +122,7 @@ function StudentAboutMe(props) {
               variant="Button"
               sx={{ color: `${themeProps.primaryColor}`, fontSize: { sm: '3vmin', xs: '4vmin' } }}
             >
+              
               درباره من
             </Typography>
 
@@ -134,7 +137,7 @@ function StudentAboutMe(props) {
                   const body = { bio: draftToHtml(convertToRaw(editorState.getCurrentContent())) };
 
                   axios
-                    .put(`${baseUrl}/accounts/profile/update-profile/`, JSON.stringify(body))
+                    .put(`${baseUrl}/accounts/profile/update-profile/`, body)
                     .then(response => {
                       console.log('response ', response);
                       toast.success('با موفقیت به‌روز شد', {
