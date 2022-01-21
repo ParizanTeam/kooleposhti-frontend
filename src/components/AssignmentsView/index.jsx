@@ -31,14 +31,22 @@ import TablePagination from '../TablePagination';
 
 import { useParams } from 'react-router-dom';
 import { baseUrl } from '../../utils/constants';
+import axios from '../../utils/axiosConfig';
 import apiInstance from '../../utils/axiosConfig';
 import ReactLoading from 'react-loading';
+import './style.scss';
+import { EditorState, ContentState, convertFromHTML, convertToRaw } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import ReactHtmlParser from 'react-html-parser';
+import { toast } from 'react-toastify';
+
 
 import samplePDF from '../../assets/samples/Sample PDF.pdf';
 import sampleVideo from '../../assets/samples/Sample Video.mp4';
 import sampleImage from '../../assets/samples/Sample Image.jpg';
+import { HomeWork } from '@mui/icons-material';
 
-function createData(id, studentImage, firstname, lastname, username, status, answer) {
+function createData(id, studentImage, firstname, lastname, username, status, answer, hwId) {
   return {
     id,
     studentImage,
@@ -47,6 +55,7 @@ function createData(id, studentImage, firstname, lastname, username, status, ans
     username,
     status,
     answer,
+    hwId,
   };
 }
 
@@ -107,9 +116,211 @@ const headCells = [
     disablePadding: true,
   },
 ];
+
+const StudentHomeWork = ({ hw, assignmentId }) => {
+  const answer = hw.answer;
+  const [editorContent, setEditorContent] = useState(EditorState.createEmpty());
+  const feedbackPlaceHolder = '<p>بازخوردی ثبت نشده ...</p>';
+
+  const [editorState, setEditorState] = useState(
+    EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(feedbackPlaceHolder)))
+  );
+  const [hwMark, setHwMark] = React.useState('A');
+  const [haveFB, setHaveFB] = React.useState(false);
+
+  useEffect(() => {
+    axios
+      .get(`${baseUrl}/assignments/${assignmentId}/submit/${hw.hwId}/feedback/myfeedback/`)
+      .then(res => {
+        console.log('data', res.data);
+        const description = res.data.description;
+        const grade = res.data.grade;
+        setHwMark(reverseMarks[grade]);
+        setHaveFB(true);
+        setEditorState(EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(description))));
+      })
+      .catch(err => {
+        console.log('error', err);
+      });
+  }, [hw, assignmentId]);
+  const onContentStateChange = editorcontent => {
+    setEditorContent(editorcontent);
+  };
+
+  const onEditorStateChange = editorstate => {
+    setEditorState(editorstate);
+  };
+
+  const Marks = {
+    A: 'عالی',
+    B: 'خیلی خوب',
+    C: 'خوب',
+    D: 'نیاز به تلاش بیشتر',
+  };
+
+  const reverseMarks = {
+    عالی: 'A',
+    'خیلی خوب': 'B',
+    خوب: 'C',
+    'نیاز به تلاش بیشتر': 'D',
+  };
+  const handleMarkChange = event => {
+    const val = event.target.value;
+    setHwMark(val);
+  };
+
+  const submitFeedback = () => {
+    console.log('mark', Marks[hwMark]);
+    const mark = Marks[hwMark];
+    let feedback = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+
+    // not working
+    if (feedback === feedbackPlaceHolder) feedback = null;
+    const body = {
+      grade: mark,
+      description: feedback,
+    };
+    axios
+      .post(`${baseUrl}/assignments/${assignmentId}/submit/${hw.hwId}/feedback/myfeedback/`, body)
+      .then(res => {
+        console.log(res.data);
+        toast.success('بازخورد شما با موفقیت ثبت شد.');
+
+      })
+      .catch(err => {
+        console.log('error', err);
+        toast.error('مشکلی در سامانه به وجود آمده‌است.');
+
+      });
+  };
+  const [attachmentToView, setAttachmentToView] = React.useState(null);
+  const convertDateToJalali = input => {
+    const JDate = require('jalali-date');
+    const date = new Date(input);
+    const jdate = new JDate(date).format('dddd DD MMMM YYYY');
+    return `${jdate} ساعت ${date.getHours()}:${date.getMinutes()}`;
+  };
+
+  const attachmentFiles = [];
+  if (answer && answer.file) {
+    // console.log('answer', answer);
+    let name = hw.username;
+    if (hw.firstname) {
+      name = hw.firstname;
+      if (hw.last_name) name = `${hw.firstname} ${hw.lastname}`;
+    }
+    const filename = decodeURI(answer.file.split('/').at(-1));
+    const file_adrr = `https:\\kooleposhti.ml${answer.file}`;
+    const file_format = filename.split('.').at(-1);
+    const mime_type = `${mime_types[file_format]}/${file_format}`;
+    // const submited_date=convertDateToJalali(hw.submited_date);
+    attachmentFiles.push({
+      id: 1,
+      uploader: {
+        username: name,
+        userImage: hw.studentImage,
+      },
+      name: filename,
+      link: file_adrr,
+      createdAt: convertNumberToPersian(hw.submited_date),
+      mimetype: mime_type,
+    });
+  }
+  return (
+    <Box className="studentHW" sx={{ margin: 1, textAlign: 'right' }}>
+      <h3 style={{ marginBottom: '10px' }}>پاسخ ثبت شده: </h3>
+      <Typography variant="p" gutterBottom component="div">
+        {answer && ReactHtmlParser(answer.answer)}
+      </Typography>
+      <div>
+        <div className="attachments">
+          <h4>
+            <AttachFileIcon />
+            پیوست ها:
+          </h4>
+        </div>
+
+        {attachmentToView ? (
+          <AttachmentViewer
+            attachment={attachmentToView}
+            // onDelete={}
+            onClose={() => setAttachmentToView(null)}
+          />
+        ) : null}
+        {attachmentFiles.length == 0 && (
+          <Typography style={{ color: 'grey', marginTop: '5px' }} variant="subtitle1">
+            هیچی پیوست نشده است
+          </Typography>
+        )}
+        {attachmentFiles.map(attachment => (
+          <div>
+            <Button
+              style={{ textTransform: 'none' }}
+              key={attachment.id}
+              onClick={() => setAttachmentToView(attachment)}
+            >
+              {attachment.name}
+            </Button>
+          </div>
+        ))}
+      </div>
+      <div>
+        <div className="assignment-feedback">
+          <div className="title">
+            <h3>ثبت بازخورد</h3>
+          </div>
+          <Editor
+            defaultEditorState={editorState}
+            editorState={editorState}
+            editorContent={editorContent}
+            wrapperClassName="editor-wrapper feedback-editor"
+            editorClassName="editor-main"
+            onContentStateChange={onContentStateChange}
+            onEditorStateChange={onEditorStateChange}
+            toolbar={{
+              inline: { inDropdown: true },
+              list: { inDropdown: true },
+              textAlign: { inDropdown: true },
+              link: { inDropdown: true },
+              history: { inDropdown: true },
+            }}
+          />
+          <div className="mark">
+            <h4> نمره: </h4>
+            <div className="marks-menu">
+              <Select
+                value={hwMark}
+                placeholder="A"
+                onChange={handleMarkChange}
+                displayEmpty
+                MenuProps={{
+                  disableScrollLock: true,
+                }}
+              >
+                {Object.entries(Marks).map(([key, val], i) => (
+                  <MenuItem key={i} value={key}>
+                    {val}
+                  </MenuItem>
+                ))}
+              </Select>
+            </div>
+            <Box className="submit-btn">
+              <Button onClick={submitFeedback} variant="outlined">
+                {
+                  haveFB?'ثبت تغییرات' : 'ثبت'
+                }
+              </Button>
+            </Box>
+          </div>
+        </div>
+      </div>
+    </Box>
+  );
+};
 function Row(props) {
   const { row } = props;
-  const answer = row.answer;
+  const params = useParams();
+  const assignmentId = params.assignmentId;
   const [open, setOpen] = React.useState(false);
   const isSelected = name => props.selected.indexOf(name) !== -1;
   const isItemSelected = isSelected(row.id);
@@ -135,87 +346,7 @@ function Row(props) {
 
     props.setSelected(newSelected);
   };
-  const [attachmentToView, setAttachmentToView] = React.useState(null);
-  // const attachmentFiles = [
-  //   {
-  //     id: 1,
-  //     uploader: {
-  //       username: `${row.firstname} ${row.lastname}`,
-  //       userImage: row.studentImage,
-  //     },
-  //     name: 'Sample PDF.pdf',
-  //     link: samplePDF,
-  //     createdAt: convertNumberToPersian('شنبه 6 آذر 1400'),
-  //     mimetype: 'application/pdf',
-  //   },
 
-  //   {
-  //     id: 2,
-  //     uploader: {
-  //       username: `${row.firstname} ${row.lastname}`,
-  //       userImage: row.studentImage,
-  //     },
-  //     name: 'Sample Video.mp4',
-  //     link: sampleVideo,
-  //     createdAt: convertNumberToPersian('شنبه 6 آذر 1400'),
-  //     mimetype: 'video/mp4',
-  //   },
-
-  //   {
-  //     id: 3,
-  //     uploader: {
-  //       username: `${row.firstname} ${row.lastname}`,
-  //       userImage: row.studentImage,
-  //     },
-  //     name: 'Sample Image.jpg',
-  //     link: sampleImage,
-  //     createdAt: convertNumberToPersian('شنبه 6 آذر 1400'),
-  //     mimetype: 'image/jpeg',
-  //   },
-  //   {
-  //     id: 4,
-  //     uploader: {
-  //       username: `${row.firstname} ${row.lastname}`,
-  //       userImage: row.studentImage,
-  //     },
-  //     name: 'Sample Document.docx',
-  //     link: 'https://file-examples-com.github.io/uploads/2017/02/file-sample_100kB.docx',
-  //     createdAt: convertNumberToPersian('شنبه 6 آذر 1400'),
-  //     mimetype: 'document/docx',
-  //   },
-  // ];
-  const convertDateToJalali = input => {
-    const JDate = require('jalali-date');
-    const date = new Date(input);
-    const jdate = new JDate(date).format('dddd DD MMMM YYYY');
-    return `${jdate} ساعت ${date.getHours()}:${date.getMinutes()}`;
-  };
-
-  const attachmentFiles = [];
-  if (answer && answer.file) {
-    console.log('answer', answer);
-    let name = row.username;
-    if (row.firstname) {
-      name = row.firstname;
-      if (row.last_name) name = `${row.firstname} ${row.lastname}`;
-    }
-    const filename = decodeURI(answer.file.split('/').at(-1));
-    const file_adrr = `https:\\kooleposhti.ml${answer.file}`;
-    const file_format = filename.split('.').at(-1);
-    const mime_type = `${mime_types[file_format]}/${file_format}`;
-    // const submited_date=convertDateToJalali(row.submited_date);
-    attachmentFiles.push({
-      id: 1,
-      uploader: {
-        username: name,
-        userImage: row.studentImage,
-      },
-      name: filename,
-      link: file_adrr,
-      createdAt: convertNumberToPersian(row.submited_date),
-      mimetype: mime_type,
-    });
-  }
   return (
     <React.Fragment>
       <TableRow
@@ -250,83 +381,11 @@ function Row(props) {
           </Button>
         </TableCell>
       </TableRow>
+
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1, textAlign: 'right' }}>
-              <Typography variant="h6" gutterBottom component="div">
-                تکلیف ارسال شده:
-              </Typography>
-              <Typography variant="p" gutterBottom component="div">
-                {answer && answer.answer}
-              </Typography>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                  <AttachFileIcon />
-                  پیوست ها:
-                </div>
-
-                {attachmentToView ? (
-                  <AttachmentViewer
-                    attachment={attachmentToView}
-                    // onDelete={}
-                    onClose={() => setAttachmentToView(null)}
-                  />
-                ) : null}
-                {attachmentFiles.length == 0 && (
-                  <Typography style={{ color: 'grey', marginTop: '5px' }} variant="subtitle1">هیچی پیوست نشده است</Typography>
-                )}
-                {attachmentFiles.map(attachment => (
-                  <div>
-                    <Button
-                      style={{ textTransform: 'none' }}
-                      key={attachment.id}
-                      onClick={() => setAttachmentToView(attachment)}
-                    >
-                      {attachment.name}
-                    </Button>
-                  </div>
-                ))}
-              </div>
-              <div>
-                <div>
-                  <Typography variant="body1" component="div" style={{ margin: '50px 0 20px' }}>
-                    ثبت بازخورد:
-                  </Typography>
-                  {/* <TextField
-                    id="outlined-multiline-static"
-                    multiline
-                    rows={4}
-                    sx={{ paddingTop: '10px', paddingBottom: '10px' }}
-                  /> */}
-                  <Editor
-                    wrapperClassName="rich-text-wrapper-class"
-                    editorClassName="rich-text-editor-class"
-                    toolbarClassName="rich-text-toolbar-class"
-                    // wrapperStyle={<wrapperStyleObject>}
-                    // editorStyle={<editorStyleObject>}
-                    // toolbarStyle={<toolbarStyleObject>}
-                  />
-                </div>
-                {/* وضعیت:
-                <Select
-                  // value={classStatus}
-                  placeholder="active"
-                  // onChange={handleChange}
-                  displayEmpty
-                  MenuProps={{
-                    disableScrollLock: true,
-                  }}
-                >
-                  <MenuItem value="active">بسیار عالی</MenuItem>
-                  <MenuItem value="past">خیلی خوب</MenuItem>
-                  <MenuItem value="all">متوسط</MenuItem>
-                </Select> */}
-                <Box style={{ marginTop: '20px', marginRight: 'auto' }}>
-                  <Button variant="outlined">ارسال</Button>
-                </Box>
-              </div>
-            </Box>
+            <StudentHomeWork hw={row} assignmentId={assignmentId} />
           </Collapse>
         </TableCell>
       </TableRow>
@@ -423,7 +482,8 @@ export default function AssignmentsView() {
                 item.last_name,
                 item.username,
                 item.id in temp,
-                temp[item.id]
+                temp[item.id],
+                item.id
               )
             );
             // console.log('heu', res.data);
@@ -468,7 +528,7 @@ export default function AssignmentsView() {
   return (
     <>
       <div>
-        <h3 style={{ marginBottom: 16 }}>لیست تکالیف ثبت شده</h3>
+        <h3 style={{ marginBottom: 16 }}>لیست تکالیف دانش آموزان</h3>
         {loading ? (
           <div style={{ display: 'flex', justifyContent: 'center', padding: 'auto', marginTop: 24 }}>
             <ReactLoading type="spinningBubbles" color="#EF006C" height={100} width={100} />

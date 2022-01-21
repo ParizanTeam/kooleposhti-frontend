@@ -1,1 +1,46 @@
 @import '/src/theme/main.scss';
+
+.studentHW {
+  .attachments {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    h4{
+
+    }
+  }
+  .assignment-feedback {
+    .title {
+      margin-top: 10px;
+      border-bottom: 3px solid #255dad;
+      padding-bottom: 5px;
+    }
+
+    .mark {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+      h4 {
+        margin-left: 30px;
+      }
+      .MuiSelect-select {
+        min-width: 80px;
+      }
+      .marks-menu {
+        min-width: 200px;
+      }
+    }
+  }
+
+  .feedback-editor {
+    border: 2px solid #255dad;
+    background-color: rgba(#575786, 0.1);
+    .rdw-editor-toolbar{
+      border-bottom: 2px solid #255dad;
+
+    }
+    .DraftEditor-editorContainer {
+      padding: 0 20px;
+    }
+  }
+}
