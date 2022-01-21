@@ -12,15 +12,17 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 //import FolderIcon from "@mui/icons-material/Folder";
 import FolderIcon from '../../assets/images/banner.png';
-import { convertNumberToPersian } from '../../utils/helpers';
+import { convertNumberToPersian ,formatPrice} from '../../utils/helpers';
 import { useState, useEffect, useRef } from 'react';
 import axios from '../../utils/axiosConfig';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { baseUrl } from '../../utils/constants';
+import { useMobile } from '../../utils/detectSource';
 import './style.scss';
 
-function generate(element) {
+function Generate(element) {
   if (element) {
+    var myDate = new Date(element.date); 
     return (
       <ListItem
         sx={{ backgroundColor: 'rgb(165, 247, 226)', marginBottom: '8px', borderRadius: '5px', padding: '6px' }}
@@ -34,13 +36,13 @@ function generate(element) {
           {/*    <FolderIcon />
                   </Avatar>*/}
         </ListItemAvatar>
-        <ListItemText primary={element.course} />
-        <ListItemText primary={element.username} />
-        <ListItemText className="mgRight" primary="مبلغ" />
-        <ListItemText primary={convertNumberToPersian(`${element.amount}`)} />
-        <ListItemText primary="تومان" />
-        <ListItemText className="mgRight" primary="در تاریخ" />
-        <ListItemText sx={{ marginLeft: '5px' }} primary={convertNumberToPersian(`${element.date}`)} />
+        <div style={{width:'130px',marginRight: '15px',textAlign:'right'}}>
+        <ListItemText primary={element.course} sx={{margin:'auto',justifyContent:'center'}}/></div>
+        <div style={{width:'130px',marginRight: '30px',marginLeft: '2px',textAlign:'center'}}>
+        <ListItemText primary={element.student} sx={{margin:'auto',justifyContent:'center'}}/></div>
+        
+        <ListItemText primary={convertNumberToPersian(` ${formatPrice(element.amount)} تومان `)}/>
+        <ListItemText sx={{ marginLeft: '5px' }} primary={convertNumberToPersian(` در تاریخ ${(myDate.getFullYear())}/${(myDate.getMonth())}/${(myDate.getDate())}`)} />
         <ListItemText className="mgRight" primary="به کیف شما واریز نمود" />
       </ListItem>
     );
@@ -76,7 +78,7 @@ export default function RecievedList() {
           تاریخچه دریافت ها
         </Typography>
         <Demo>
-          <List>{tansferHistory && tansferHistory.map(item => generate(item))}</List>
+          <List>{tansferHistory && tansferHistory.map(item => Generate(item))}</List>
         </Demo>
       </Grid>
     </Box>

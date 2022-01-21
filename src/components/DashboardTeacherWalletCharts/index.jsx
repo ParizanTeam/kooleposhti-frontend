@@ -9,6 +9,33 @@ import { useState, useEffect, useRef } from 'react';
 import axios from '../../utils/axiosConfig';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { baseUrl } from '../../utils/constants';
+import ReactLoading from 'react-loading';
+
+/*function orderss(){
+  const myOrder=[];
+  for (const property in diagramData) {
+    myOrder.push(property.amount);
+  }
+  return (
+    myOrder
+  );
+}*/
+
+/*function Generate(element) {
+  const newData={}
+  newData.label = element.title;
+  newData.fill= false;
+  newData.borderColor= "rgba(255, 0, 0, 0.3)";
+  newData.borderWidth= 2;
+  newData.pointRadius= 2;
+  newData.data= [];
+  for (const property in element.orders) {
+    newData.data.push(property.amount);
+  }
+  return (
+    newData
+  );
+  }*/
 
 function DashboardTeacherWalletCharts() {
   const [tansferHistory, setTansferHistory] = useState(null);
@@ -27,6 +54,24 @@ function DashboardTeacherWalletCharts() {
         console.log('error: ', err);
       });
   }, []);
+  const myOrder=[];
+  const Names=[];
+  for (const i in diagramData) {
+    let newOrder = []
+    let newName=diagramData[i]['title'];
+    for (const property in diagramData[i]['orders']) {
+      console.log(property);
+      newOrder.push(diagramData[i]['orders'][property].amount);
+    }
+    myOrder.push(newOrder);
+    Names.push(newName);
+  }
+  console.log(myOrder);
+  console.log(Names);
+  //const myData = diagramData.map(item => Generate(item));
+  /*const or1 = orderss(diagramData[0].);
+  const or2 = orderss(diagramData[1]);
+  const or3 = orderss(diagramData[2]);*/
   const data = {
     labels: [
       "",
@@ -41,28 +86,28 @@ function DashboardTeacherWalletCharts() {
     //lineTension: 1,
     datasets: [
       {
-        label: "نقاشی مبتدی",
+        label:Names[0],
         fill: false,
         borderColor: "rgba(255, 0, 0, 0.3)",
         borderWidth: 2,
         pointRadius: 2,
-        data: [65, 59, 80, 81, 56, 55, 40]
+        data: myOrder[0]
       },
       {
-        label: "نقاشی انسان",
+        label:Names[1],
         fill: false,
         borderColor: "mediumseagreen",
         borderWidth: 2,
         pointRadius: 2,
-        data: [70, 32, 45, 65, 87, 92, 99]
+        data: myOrder[1]
       },
       {
-        label: "نقاشی پیشرفته",
+        label: Names[2],
         fill: false,
         borderColor: "blue",
         borderWidth: 2,
         pointRadius: 2,
-        data: [135, 91, 125, 144, 143, 143, 139]
+        data: myOrder[2]
       }
     ]
   };
@@ -107,7 +152,14 @@ const pieData = {
         <img className="wid2__media" src={Wallet} alt='recieved' />
       </div>
       <div className='wid'>
-      <Line data={data} options={options}/></div>
+      {loading && (
+        <div style={{ display: 'flex', justifyContent: 'center', padding: 'auto', marginTop: 24 }}>
+          <ReactLoading type="spinningBubbles" color="#a5f7e2" height={100} width={100} />
+        </div>
+      )}
+      {!loading && (
+      <Line data={data} options={options}/>)}
+      </div>
       {/*<div className='wid'>
       <Bar data={data} options={options}/></div>*/}
       {/*<Pie data={pieData} options={options} />*/}

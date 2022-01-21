@@ -1,5 +1,5 @@
-import React, { useState , useEffect, useRef} from "react";
-import axios from "../../utils/axiosConfig";
+import React, { useState, useEffect, useRef } from 'react';
+import axios from '../../utils/axiosConfig';
 import { Button } from '@mui/material';
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, ContentState, convertFromHTML, convertToRaw } from 'draft-js';
@@ -8,20 +8,22 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { baseUrl } from '../../utils/constants';
 import { ToastContainer, toast } from 'react-toastify';
 import draftToHtml from 'draftjs-to-html';
+import gloves from '../../assets/images/uploadGloves.png';
+import DragDrop from './DragDrop';
 function App() {
   const params = useParams();
   const [myAns, setMyAns] = useState('پاسخ من');
   const MySource = `${baseUrl}/assignments/${params.assignmentId}/submit/`;
   useEffect(() => {
     axios
-      .get(`${baseUrl}/assignments/${params.assignmentId}/submit/`)
+      .get(`${baseUrl}/assignments/${params.assignmentId}/submit/me`)
       .then(res => {
-        setMyAns(res.data.answer);
-          setEditorState(
-            EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(res.data.answer)))
-          );
-          console.log('content:', editorContent);
-          setLoading(false);
+        setEditorState(
+          EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(res.data.answer)))
+        );
+        console.log('content:', editorContent);
+        setMyAns(editorContent);
+        setLoading(false);
       })
       .catch(err => {
         console.log('error: ', err);
@@ -61,8 +63,8 @@ function App() {
 
   const uploadFile = async file => {
     const formData = new FormData();
-    formData.append("file", file);
-    formData.append("answer", {myAns});
+    if(file)formData.append('file', file);
+    formData.append('answer', myAns);
     await axios.post(MySource, formData);
     return toast.success('پاسخ شما با موفقیت ثبت شد.');
   };
@@ -74,7 +76,7 @@ function App() {
 
   const onContentStateChange = editorcontent => {
     setEditorContent(editorcontent);
-    setMyAns({ answer: draftToHtml(convertToRaw(editorState.getCurrentContent())) });
+    setMyAns(draftToHtml(convertToRaw(editorState.getCurrentContent())));
   };
 
   const onEditorStateChange = editorstate => {
@@ -84,43 +86,50 @@ function App() {
   return (
     <div className="App">
       <h1 className="MyHeader">پاسخ شما:</h1>
-      <div className='editor'>
+      <div className="editor">
         <Editor
-        defaultEditorState={editorState}
-        editorState={editorState}
-        editorContent={editorContent}
-        wrapperClassName="rich-text-wrapper-class"
-        editorClassName="rich-text-editor-class color"
-        toolbarClassName="rich-text-toolbar-class Border"
-        onContentStateChange={onContentStateChange}
-        onEditorStateChange={onEditorStateChange}
-        // wrapperStyle={<wrapperStyleObject>}
-        // editorStyle={<editorStyleObject>}
-        // toolbarStyle={<toolbarStyleObject>}
+          defaultEditorState={editorState}
+          editorState={editorState}
+          editorContent={editorContent}
+          wrapperClassName="rich-text-wrapper-class"
+          editorClassName="rich-text-editor-class color"
+          toolbarClassName="rich-text-toolbar-class Border"
+          onContentStateChange={onContentStateChange}
+          onEditorStateChange={onEditorStateChange}
+          // wrapperStyle={<wrapperStyleObject>}
+          // editorStyle={<editorStyleObject>}
+          // toolbarStyle={<toolbarStyleObject>}
         />
       </div>
-      <br/>
-      <div className='MyUp'>
+      <br />
+      <div className="MyUp">
         <h2 className="MyHeader">آپلود فایل:</h2>
-        <div className="Uplr" dir='ltr'>
+        <div className="Uplr" dir="ltr">
           <form onSubmit={handleSubmit}>
-            <input type="file" onChange={handleOnChange} />
+            {/*<DragDrop/>*/}
+          <label for="file" onChange={handleOnChange}>
+          <img src={gloves} alt="gloves" style={{width:'50px', margin:'5px'}}/>
+          </label>
+  <input type="file" id="file" name="file" style={{display:'none'}} onChange={handleOnChange}/>
+          {/* <img src={gloves} alt="gloves" style={{width:'50px', margin:'5px'}}/>
+  <input type="file" onChange={handleOnChange} />*/}
             {/*<div className="Bt">
               <button type="submit">ثبت</button>
             </div>
-          */}</form></div></div>
-          <div className="Bt">
+          */}
+          </form>
+        </div>
+      </div>
+      <div className="Bt">
         <Button onClick={handleSubmit}>
           <p className="Bt__txt">ثبت</p>
         </Button>
       </div>
-        
     </div>
   );
 }
 
 export default App;
-
 
 //Modify the UPLOAD_ENDPOINT with the API URL.
 //The uploaded file can be retreived via $_FILES['avatar'] on the server-side(PHP).
