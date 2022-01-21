@@ -9,9 +9,11 @@ import apiInstance from '../../utils/axiosConfig';
 import 'swiper/swiper-bundle.min.css';
 import './style.scss';
 import { baseUrl } from '../../utils/constants';
+import { useLocation } from 'react-router';
 
 SwiperCore.use([Navigation, Keyboard]);
-const CourseSlider = () => {
+const CourseSlider = ({loadingColor="#EF006C"}) => {
+  const location = useLocation();
   const [topCourses, setTopCourses] = useState([]);
   const [apiLoading, setApiLoading] = useState(false);
   useEffect(() => {
@@ -24,12 +26,14 @@ const CourseSlider = () => {
   const isMobile = useMobile();
   return (
     <div className="courses-section">
-      <h2 className="courses-section__title">
-        کلاس‌های <span className="courses-section__highlight">خفن</span>!
-      </h2>
+      {location.pathname === '/' && (
+        <h2 className="courses-section__title">
+          کلاس‌های <span className="courses-section__highlight">خفن</span>!
+        </h2>
+      )}
       {apiLoading && (
         <div style={{ display: 'flex', justifyContent: 'center', padding: 'auto', marginTop: 96, marginBottom: 96 }}>
-          <ReactLoading type="spinningBubbles" color="#EF006C" height={100} width={100} />
+          <ReactLoading type="spinningBubbles" color={loadingColor} height={100} width={100} />
         </div>
       )}
       {!apiLoading && topCourses.length > 0 && (
@@ -52,11 +56,9 @@ const CourseSlider = () => {
                     title={item.title}
                     teacherName={item.instructor.first_name + ' ' + item.instructor.last_name}
                     rate={item.rate}
-                    teacherImgSrc={
-                      (item.instructor.image && 'https:/kooleposhti.ml/' + item.instructor.image) || noPersonImg
-                    }
+                    teacherImgSrc={(item.instructor.image && baseUrl + item.instructor.image) || noPersonImg}
                     imgSrc={
-                      (item.image && 'https:/kooleposhti.ml/' + item.image) ||
+                      (item.image && baseUrl + item.image) ||
                       'https://www.inklyo.com/wp-content/uploads/How-to-Succeed-in-an-Online-Course.jpg'
                     }
                   />

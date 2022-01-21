@@ -85,19 +85,19 @@ const StudentDashboardClassesList = () => {
             </Select>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'center', textAlign: 'center', marginBottom: '30px' }}>
+          <div >
             {loading ? (
-              <div style={{ padding: '100px', display: 'flex' }}>
+              <div style={{ padding: '100px'}} className='make-center'>
                 <ReactLoading type="spinningBubbles" color={themeProps.primaryColor} height={100} width={100} />{' '}
               </div>
             ) : (
               <>
                 {classData.length === 0 && (
                   <div>
-                    <Typography variant="h6" component="div" style={{ padding: '50px 0', color: 'grey' }}>
+                    <Typography variant="h6" component="div" className='make-center' style={{ padding: '50px 0', color: 'grey' }}>
                       کلاسی نداری چطوره یه نگاهی به کلاسای اینجا بندازی؟
                     </Typography>
-                    <CourseSlider />
+                    <CourseSlider loadingColor={themeProps.primaryColor} />
                   </div>
                 )}
                 <Grid
