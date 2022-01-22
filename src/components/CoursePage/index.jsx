@@ -127,6 +127,8 @@ export const categoriesData = [
 const CoursePage = () => {
   const params = useParams();
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const user = useSelector(state => state.auth);
+
   const courseId = params.courseId;
   const history = useHistory();
   const datesRef = useRef(null);
@@ -148,7 +150,10 @@ const CoursePage = () => {
   const [initialPrice, setInitialPrice] = useState();
   const [useDiscount, setUseDiscount] = useState(false);
   const [lastPrice, setLastPrice] = useState();
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    if (!user.first_name || !user.last_name) toast.error('قبل ثبت نام باید اطلاعات خود را از قسمت پروفایل تکمیل کنید');
+    else setOpen(true);
+  };
   const handleClose = () => setOpen(false);
   const showMoreText = 'نمایش بیشتر...';
   const showLessText = 'نمایش کمتر...';

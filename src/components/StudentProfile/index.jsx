@@ -443,10 +443,10 @@ function SProfile(props) {
 
                 if (!values.username) {
                   error.username = ' نام کاربری خودت رو وارد کن';
-                } else if (!values.email) {
-                  error.email = ' ایمیل خودت رو وارد کن';
-                } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-                  error.email = 'ایمیل نامعتبر';
+                } else if (!values.first_name) {
+                  error.first_name = ' نام خودت رو وارد کن';
+                } else if (!values.last_name) {
+                  error.last_name = 'نام‌خانوادگی خودت رو وارد کن';
                 }
 
                 return error;
@@ -467,6 +467,7 @@ function SProfile(props) {
                   <Grid container spacing={2}>
                     <Grid item sm={6} xs={12}>
                       <TextField
+                        required
                         value={values.first_name}
                         InputLabelProps={{ shrink: !!values.first_name }}
                         autoComplete="given-name"
@@ -482,6 +483,7 @@ function SProfile(props) {
                     </Grid>
                     <Grid item sm={6} xs={12}>
                       <TextField
+                        required
                         autoComplete="given-name"
                         InputLabelProps={{ shrink: !!values.last_name }}
                         name="last_name"
