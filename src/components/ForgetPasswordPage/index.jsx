@@ -50,7 +50,7 @@ const ForgetPasswordPage = () => {
     onSubmit: async values => {
       try {
         setLoading(true);
-        const res = await axios.post(`${baseUrl}/accounts/users/reset_password/`, {
+        const res = await axios.post(`${baseUrl}/auth/users/reset_password/`, {
           email: values.email,
         });
         console.log(res);
