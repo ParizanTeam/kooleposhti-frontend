@@ -511,7 +511,7 @@ function SProfile(props) {
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
-                        required
+                        disabled
                         InputLabelProps={{ shrink: !!values.email }}
                         fullWidth
                         id="email"
