@@ -10,15 +10,19 @@ import 'swiper/swiper-bundle.min.css';
 import './style.scss';
 import { baseUrl } from '../../utils/constants';
 import { useLocation } from 'react-router';
+import { useSelector } from 'react-redux';
 
 SwiperCore.use([Navigation, Keyboard]);
 const CourseSlider = ({loadingColor="#EF006C"}) => {
   const location = useLocation();
   const [topCourses, setTopCourses] = useState([]);
   const [apiLoading, setApiLoading] = useState(false);
+  let roles = useSelector(state => state.auth.roles);
+
   useEffect(() => {
     setApiLoading(true);
-    apiInstance.get(`${baseUrl}/courses/top/`).then(res => {
+    const apiUrl=`${baseUrl}/courses${(roles && roles[0]==="student" )? "/student/" : '/'}top/`;
+    apiInstance.get(apiUrl).then(res => {
       setTopCourses(res.data);
       setApiLoading(false);
     });
@@ -61,11 +65,13 @@ const CourseSlider = ({loadingColor="#EF006C"}) => {
                       (item.image && baseUrl + item.image) ||
                       'https://www.inklyo.com/wp-content/uploads/How-to-Succeed-in-an-Online-Course.jpg'
                     }
+                    isCFavorite={item.is_favorite}
                   />
                 </SwiperSlide>
               ))}
             </Swiper>
           </div>
+          
         </div>
       )}
     </div>

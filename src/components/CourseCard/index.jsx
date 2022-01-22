@@ -9,8 +9,11 @@ import './style.scss';
 import axios from '../../utils/axiosConfig';
 import { baseUrl } from '../../utils/constants';
 import { useHistory, useParams } from 'react-router-dom';
-import {useMediaQuery } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 import apiInstance from '../../utils/axiosConfig';
+import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+
 /*function Heart(EndPoint){
   const history = useHistory();
   //const [loading, setLoading] = React.useState(true);
@@ -30,8 +33,10 @@ import apiInstance from '../../utils/axiosConfig';
     fetchData();
   }, []);
 };*/
-const CourseCard = ({id, imgSrc, title, teacherImgSrc, teacherName, rate, dir }) => {
-  const [isFavorite, setIsFavorite] = useState(false);
+const CourseCard = ({ id, imgSrc, title, teacherImgSrc, teacherName, rate, dir, isCFavorite }) => {
+  const [isFavorite, setIsFavorite] = useState(isCFavorite);
+  let roles = useSelector(state => state.auth.roles);
+
   return (
     <Link to={`/courses/${id}`} className="course-card">
       <img src={imgSrc} alt={title} className="course-card__img" />
@@ -45,17 +50,24 @@ const CourseCard = ({id, imgSrc, title, teacherImgSrc, teacherName, rate, dir })
           emptyIcon={<StarOutlineRoundedIcon />}
           readOnly
         />
-        <IconButton
-          onClick={e => {
-            e.preventDefault();
-            e.stopPropagation();
-            setIsFavorite(state => !state);
-            if(!isFavorite){apiInstance.get(`${baseUrl}/courses/${id}/favorite/add/`);}
-            else{apiInstance.get(`${baseUrl}/courses/${id}/favorite/remove/`);};
-          }}
-        >
-          {isFavorite ? <Favorite className="filled-fav-icon" /> : <FavoriteBorderIcon className="fav-icon" />}
-        </IconButton>
+        {(!roles || roles[0] === 'student') && (
+          <IconButton
+            onClick={e => {
+              e.preventDefault();
+              e.stopPropagation();
+              if (roles) {
+                if (roles[0] == 'student') {
+                  apiInstance.get(`${baseUrl}/courses/${id}/favorite/${isFavorite ? 'remove' : 'add'}/`);
+                  setIsFavorite(state => !state);
+                } else {
+                  toast.error('این قابلیت مختص دانش آموز میباشد');
+                }
+              } else toast.error('برای اضافه کردن درس به علاقمندی‌ها باید ثبت نام کنید');
+            }}
+          >
+            {isFavorite ? <Favorite className="filled-fav-icon" /> : <FavoriteBorderIcon className="fav-icon" />}
+          </IconButton>
+        )}
       </div>
       <h3 className="course-card__title">{title}</h3>
       <div className="course-card__footer">

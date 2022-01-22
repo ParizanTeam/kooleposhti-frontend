@@ -6,6 +6,7 @@ import CourseSlider from '../CourseSlider';
 import Navbar from '../Navbar';
 import HowItWorks from '../HowItWorks';
 import HomeHeader from '../HomeHeader';
+import {ToastContainer} from 'react-toastify';
 import Footer from '../Footer';
 import './style.scss';
 
@@ -28,6 +29,8 @@ const HomePage = () => {
       <Categories />
       <CourseSlider />
       <BestTeachers />
+      <ToastContainer rtl={true} position="bottom-center" />
+
       <Footer />
     </div>
   );
