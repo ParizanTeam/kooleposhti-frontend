@@ -336,7 +336,7 @@ const CoursePage = () => {
                         رفتن به صفحه کلاس
                       </button>
                     ))}
-                  {showRegister && (
+                  {showRegister && data.capacity > 0 && (
                     <button className="course-header__register" onClick={handleOpen}>
                       ثبت‌نام‌ در کلاس
                     </button>
