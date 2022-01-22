@@ -59,11 +59,13 @@ function DashboardTeacherWalletCharts() {
   for (const i in diagramData) {
     let newOrder = []
     let newName=diagramData[i]['title'];
+    let v= 0;
     for (const property in diagramData[i]['orders']) {
       console.log(property);
-      newOrder.push(diagramData[i]['orders'][property].amount);
+      //newOrder.push(diagramData[i]['orders'][property].amount);
+      v = v+diagramData[i]['orders'][property].amount;
     }
-    myOrder.push(newOrder);
+    myOrder.push(v);
     Names.push(newName);
   }
   console.log(myOrder);
@@ -74,26 +76,28 @@ function DashboardTeacherWalletCharts() {
   const or3 = orderss(diagramData[2]);*/
   const data = {
     labels: [
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      ""
+      Names[0],
+      Names[1],
+      Names[2],
+      Names[3],
+      Names[4],
+      Names[5],
+      Names[6]
     ],
     //backgroundColor: ['rgba(255,0,0,1)'],
     //lineTension: 1,
     datasets: [
       {
-        label:Names[0],
+        label:'کلاسهای من',
         fill: false,
-        borderColor: "rgba(255, 0, 0, 0.3)",
+        //borderColor: "rgba(255, 0, 0, 0.3)",
+        //borderColor: "mediumseagreen",
+        borderColor: "blue",
         borderWidth: 2,
         pointRadius: 2,
-        data: myOrder[0]
+        data: myOrder
       },
-      {
+      /*{
         label:Names[1],
         fill: false,
         borderColor: "mediumseagreen",
@@ -108,7 +112,7 @@ function DashboardTeacherWalletCharts() {
         borderWidth: 2,
         pointRadius: 2,
         data: myOrder[2]
-      }
+      }*/
     ]
   };
 

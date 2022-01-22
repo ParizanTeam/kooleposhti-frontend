@@ -108,7 +108,7 @@ function App() {
           <form onSubmit={handleSubmit}>
             {/*<DragDrop/>*/}
           <label for="file" onChange={handleOnChange}>
-          <img src={gloves} alt="gloves" style={{width:'50px', margin:'5px'}}/>
+          <img src={gloves} alt="gloves" style={{width:'100px', margin:'5px'}}/>
           </label>
   <input type="file" id="file" name="file" style={{display:'none'}} onChange={handleOnChange}/>
           {/* <img src={gloves} alt="gloves" style={{width:'50px', margin:'5px'}}/>

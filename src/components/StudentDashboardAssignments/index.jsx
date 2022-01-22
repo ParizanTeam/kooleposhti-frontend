@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SleepingFox from '../../assets/images/SleepingFox.png';
 import AwakenFox from '../../assets/images/AwakenFox.png';
+import TimeToRest from '../../assets/images/TimeToRest.png';
 //import PlayfulFox from '../../assets/images/PlayfulFox.png';
 //import HappyFox from '../../assets/images/HappyFox.png'
 
@@ -49,7 +50,8 @@ function MyAssignments() {
     <div  className="AcDiv">
       {loading || assignments.length <= 0? (
         <div style={{ padding: '140px', display: 'flex',alignItems:'center',justifyContent:'center' }}>
-          <ReactLoading type="spinningBubbles" color="white" height={100} width={100} />
+          <p className='NoAssign'>تمرین حل نشده نداری</p>
+          <img src={TimeToRest} alt='TimeToRest' style={{width:'60px',marginRight:'10px'}}/>
         </div>
       ) : (
         <div>

@@ -7,6 +7,8 @@ import './theme/main.scss';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { login, remove_token } from './store/actions';
 import { faIR } from '@mui/material/locale';
+import { defaults } from 'chart.js';
+defaults.font.family ='iranyekan';
 
 const theme = createTheme(
   {

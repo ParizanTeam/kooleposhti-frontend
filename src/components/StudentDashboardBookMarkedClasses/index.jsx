@@ -17,6 +17,7 @@ import {useMediaQuery } from '@mui/material';
 import axios from '../../utils/axiosConfig';
 import { baseUrl } from '../../utils/constants';
 import { change_profile_color } from '../../store/actions';
+import noPersonImg from '../../assets/images/noperson.png';
 
 SwiperCore.use([Navigation, Keyboard]);
 const MyCourseSlider = () => {
@@ -67,8 +68,11 @@ const MyCourseSlider = () => {
                   title={item.title}
                   teacherName={item.instructor.last_name}
                   rate={item.rate}
-                  teacherImgSrc={item.instructor.image}
-                  imgSrc={item.image}
+                  teacherImgSrc={(item.instructor.image && baseUrl + item.instructor.image) || noPersonImg}
+                  imgSrc={
+                    (item.image && baseUrl + item.image) ||
+                    'https://www.inklyo.com/wp-content/uploads/How-to-Succeed-in-an-Online-Course.jpg'
+                  }
                 />
               </SwiperSlide>
             ))}
