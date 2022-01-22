@@ -20,7 +20,7 @@ import { change_profile_color } from '../../store/actions';
 import noPersonImg from '../../assets/images/noperson.png';
 
 SwiperCore.use([Navigation, Keyboard]);
-const MyCourseSlider = () => {
+const StudentDashboardBookMarkedClasses = () => {
   const themeProps = useSelector(state => state.theme);
   let theNewone = localStorage.getItem('chosenColor');
   change_profile_color(theNewone);
@@ -42,53 +42,6 @@ const MyCourseSlider = () => {
     }
     fetchData();
   }, []);
-  return (
-    <div className="My-courses-section">
-      <h2 className="My-courses-section__title">
-        مورد <span className="My-courses-section__highlight"> &#x2665; </span>ها
-      </h2>
-      <div className="My-carousal-container">
-        {loading || favorites.length <= 0 ? (
-          <div style={{ padding: '100px', display: 'flex' }}>
-            <ReactLoading type="spinningBubbles" color={themeProps.primaryColor} height={100} width={100} />{' '}
-          </div>
-        ) : (
-          <div style={{ width: isMobile ? '100%' : '90%' }}>
-            <Swiper
-              spaceBetween={10}
-              slidesPerView={'auto'}
-              centeredSlides
-              navigation={isMobile || favorites.length <= 1 ? false : true}
-              keyboard
-            >
-              {favorites.map(item => (
-                <SwiperSlide key={item.id}>
-                  <CourseCard
-                    id={item.id}
-                    username={item.instructor.username}
-                    title={item.title}
-                    teacherName={item.instructor.first_name + ' ' + item.instructor.last_name}
-                    rate={item.rate}
-                    teacherImgSrc={(item.instructor.image && baseUrl + item.instructor.image) || noPersonImg}
-                    imgSrc={
-                      (item.image && baseUrl + item.image) ||
-                      'https://www.inklyo.com/wp-content/uploads/How-to-Succeed-in-an-Online-Course.jpg'
-                    }
-                    isCFavorite={item.is_favorite}
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
-
-const StudentDashboardBookMarkedClasses = () => {
-  const themeProps = useSelector(state => state.theme);
-  let theNewone = localStorage.getItem('chosenColor');
   change_profile_color(theNewone);
   return (
     <div>
@@ -97,9 +50,49 @@ const StudentDashboardBookMarkedClasses = () => {
       <br />
       <br />
       <div className="afterMyC-a">
-        <MyCourseSlider />
+        <div className="My-courses-section">
+          <h2 className="My-courses-section__title">
+            مورد <span className="My-courses-section__highlight"> &#x2665; </span>ها
+          </h2>
+          <div className="My-carousal-container">
+            {loading ? (
+              <div className='make-center'>
+                <ReactLoading type="spinningBubbles" color={themeProps.primaryColor} height={100} width={100} />{' '}
+              </div>
+            ) : (
+              <div style={{ width: isMobile ? '100%' : '90%' }}>
+                {favorites.length === 0 && <h3> با زدن رو قلب درس ها میتونی اونا رو به اینجا اضافه کنی😉</h3>}
+                <Swiper
+                  spaceBetween={10}
+                  slidesPerView={'auto'}
+                  centeredSlides
+                  navigation={isMobile || favorites.length <= 1 ? false : true}
+                  keyboard
+                >
+                  {favorites.map(item => (
+                    <SwiperSlide key={item.id}>
+                      <CourseCard
+                        id={item.id}
+                        username={item.instructor.username}
+                        title={item.title}
+                        teacherName={item.instructor.first_name + ' ' + item.instructor.last_name}
+                        rate={item.rate}
+                        teacherImgSrc={(item.instructor.image && baseUrl + item.instructor.image) || noPersonImg}
+                        imgSrc={
+                          (item.image && baseUrl + item.image) ||
+                          'https://www.inklyo.com/wp-content/uploads/How-to-Succeed-in-an-Online-Course.jpg'
+                        }
+                        isCFavorite={item.is_favorite}
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
-      <StudentDashboardFooter />
+      <StudentDashboardFooter  styles={(loading || favorites.length===0)?{position:'absolute'}:{}}/>
     </div>
   );
 };

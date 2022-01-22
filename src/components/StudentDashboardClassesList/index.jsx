@@ -70,7 +70,7 @@ const StudentDashboardClassesList = () => {
         <img src={themeProps.btnLabel} alt="cs" className="csImg" />
         <br />
         <div className="afterMyC-c studentdash ">
-          <div style={{ marginRight: '100px' }}>
+          <div style={{ marginRight: '5%' }}>
             <Select
               value={classStatus}
               onChange={handleChange}
@@ -87,7 +87,7 @@ const StudentDashboardClassesList = () => {
 
           <div >
             {loading ? (
-              <div style={{ padding: '100px'}} className='make-center'>
+              <div className='make-center' >
                 <ReactLoading type="spinningBubbles" color={themeProps.primaryColor} height={100} width={100} />{' '}
               </div>
             ) : (
@@ -100,6 +100,7 @@ const StudentDashboardClassesList = () => {
                     <CourseSlider loadingColor={themeProps.primaryColor} />
                   </div>
                 )}
+                <div className="make-center">
                 <Grid
                   className="studentdash"
                   style={{ display: 'flex' }}
@@ -159,12 +160,13 @@ const StudentDashboardClassesList = () => {
                     </>
                   ))}
                 </Grid>
+                </div>
               </>
             )}
           </div>
         </div>
       </ThemeProvider>
-      <StudentDashboardFooter />
+      <StudentDashboardFooter  styles={loading?{position:'absolute'}:{}}/>
     </div>
   );
 };

@@ -19,7 +19,7 @@ import { colorMap } from './constant';
 
 export const ConfirmationDialogRaw = props => {
   const { onClose, value: valueProp, open, ...other } = props;
-  const [value, setValue] = React.useState(valueProp);
+  const [value, setValue] = React.useState(localStorage.getItem('chosenColor')??'Pink');
   const radioGroupRef = React.useRef(null);
   const dispatch = useDispatch();
   React.useEffect(() => {
