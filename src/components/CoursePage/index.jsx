@@ -132,6 +132,7 @@ const CoursePage = () => {
   const datesRef = useRef(null);
   const [showMore, setShowMore] = useState(true);
   const [data, setData] = useState(null);
+  const [role, setRole] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [registerLoading, setRegisterLoading] = useState(false);
   const [discountLoading, setDiscountLoading] = useState(false);
@@ -194,6 +195,10 @@ const CoursePage = () => {
         // TODO uncomment when done
         history.push('/not-found');
       });
+    apiInstance.get(`${baseUrl}/courses/${courseId}/role/`).then(res => {
+      console.log('rolllle ', res.data);
+      setRole(res.data.role);
+    });
   }, []);
 
   useEffect(() => {
@@ -320,16 +325,17 @@ const CoursePage = () => {
                   <button onClick={scrollToDates} className="course-header__goto-times">
                     مشاهده زمان جلسه‌ها
                   </button>
-                  {enrolled && (
-                    <button
-                      onClick={() => {
-                        history.push(`/dashboard/class/${courseId}`);
-                      }}
-                      className="course-header__goto-class orange-btn"
-                    >
-                      رفتن به صفحه کلاس
-                    </button>
-                  )}
+                  {enrolled ||
+                    (role === 'teacher' && (
+                      <button
+                        onClick={() => {
+                          history.push(`/dashboard/class/${courseId}`);
+                        }}
+                        className="course-header__goto-class orange-btn"
+                      >
+                        رفتن به صفحه کلاس
+                      </button>
+                    ))}
                   {showRegister && (
                     <button className="course-header__register" onClick={handleOpen}>
                       ثبت‌نام‌ در کلاس
