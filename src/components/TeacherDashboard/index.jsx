@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import BaseDashboard from '../BaseDashboard';
-import { Grid, ListItem, Avatar, Toolbar, Typography } from '@mui/material';
+import { Grid, ListItem, Avatar, Toolbar } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Apple';
 import BankAccount from '@mui/icons-material/AccountBalance';
 import RecievedCash from '@mui/icons-material/AttachMoney';
@@ -40,7 +40,6 @@ function TeacherDashboard(props) {
           },
         })
         .then(response => {
-          console.log('get response: ', response);
           setProfileUserName(response.data.username);
           setIsTeacher(true);
         })
@@ -60,7 +59,7 @@ function TeacherDashboard(props) {
 
   const items = [
     {
-      text: 'کلاس ها',
+      text: 'کلاس‌ها',
       icon: <Classes />,
       onClick: () => {
         history.push(`/dashboard/teacher/${tabs[1]}`);
@@ -74,7 +73,7 @@ function TeacherDashboard(props) {
       },
     },
     {
-      text: 'دریافت ها',
+      text: 'دریافت‌ها',
       icon: <RecievedCash />,
       onClick: () => {
         history.push(`/dashboard/teacher/${tabs[3]}`);
@@ -109,7 +108,7 @@ function TeacherDashboard(props) {
           </ListItem>
           <ListItem button className="dashboard-avatar-item">
             <Link to={`/dashboard/teacher/${tabs[0]}`}>
-              <Typography variant="body3" className="dashboard-avatar-item__info-edit">ویرایش حساب کاربری</Typography>
+              <p className="dashboard-avatar-item__info-edit">ویرایش حساب کاربری</p>
             </Link>
           </ListItem>
         </Grid>

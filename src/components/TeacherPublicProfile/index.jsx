@@ -34,6 +34,7 @@ import ReactHtmlParser from 'react-html-parser';
 import { useLocation } from 'react-router-dom';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
+import classImg from '../../assets/images/assignment.png';
 import './style.scss';
 
 function TeacherPublicProfile(props) {
@@ -52,6 +53,14 @@ function TeacherPublicProfile(props) {
   });
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, [location.pathname]);
+
+  useEffect(() => {
     function fetchData() {
       if (teacher_username === 'public-profile') {
         const res = axios
@@ -62,7 +71,6 @@ function TeacherPublicProfile(props) {
             },
           })
           .then(response => {
-            console.log(response.data.data);
             setTeacherData(response.data.data);
             setLoading(false);
           })
@@ -78,7 +86,6 @@ function TeacherPublicProfile(props) {
             },
           })
           .then(response => {
-            console.log(response.data.data);
             setTeacherData(response.data.data);
             setLoading(false);
           })
@@ -123,6 +130,14 @@ function TeacherPublicProfile(props) {
   const breakpoint3 = useMediaQuery('(max-width: 600px)');
 
   const [value, setValue] = React.useState(3);
+
+  const cacheRtl = createCache({
+    key: 'muirtl',
+
+    stylisPlugins: [rtlPlugin],
+
+    prepend: true,
+  });
 
   const teacher_profile1 = (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -185,21 +200,24 @@ function TeacherPublicProfile(props) {
               color: 'rgb(0,155,160) !important',
             }}
           >
-            {teacherData.first_name + ' ' + teacherData.last_name}
+            {teacherData.first_name && teacherData.last_name
+              ? teacherData.first_name + ' ' + teacherData.last_name
+              : null}
           </Typography>
-          <Rating
-            name="simple-controlled"
-            readOnly
-            precision={0.5}
-            value={teacherData.rate === null ? 3 : teacherData.rate}
-            onChange={(event, newValue) => {
-              setValue(newValue);
-            }}
-            dir="rtl"
-            sx={{ mt: '1vmin' }}
-            size={useMediaQuery('(max-width: 1100px)') ? 'small' : 'large'}
-            /* IconContainerComponent={IconContainer} */
-          />
+          <div dir='ltr' className="course-card__rating-wrapper">
+            <Rating
+              name="simple-controlled"
+              readOnly
+              precision={0.5}
+              value={teacherData.rate}
+              onChange={(event, newValue) => {
+                setValue(newValue);
+              }}
+              sx={{ mt: '1vmin' }}
+              size={useMediaQuery('(max-width: 1100px)') ? 'small' : 'large'}
+              /* IconContainerComponent={IconContainer} */
+            />
+          </div>
         </Grid>
       </Grid>
     </div>
@@ -224,39 +242,56 @@ function TeacherPublicProfile(props) {
     </div>
   );
   const use_mobile = useMobile();
+
   /*  SwiperCore.use([Navigation, Keyboard]); */
   const TeacherClasses = () => {
     return (
       <div className="My-courses-section">
-        <h2 className="My-courses-section__title">لیست کلاس ها</h2>
+        <h2 className="My-courses-section__title">لیست کلاس‌ها</h2>
         <div className="My-carousal-container">
           <Grid sx={{ width: { xl: '100%', md: '85%', sm: '65vmin', xs: '90vmin' } }}>
             {teacherData.courses.length === 0 && (
-              <p className="teacher-public-profile-about-me__text">کلاسی برای نمایش وجود نداره !!!</p>
+              <Grid container direction="column" alignItems="center" justifyContent="center" sx={{ margin: 'auto' }}>
+                <Avatar
+                  src={classImg}
+                  alt="class list"
+                  sx={{
+                    width: { md: '20vw', sm: '40vw', xs: '50vw' },
+                    height: { md: '20vw', sm: '40vw', xs: '50vw' },
+                    borderRadius: '0',
+                  }}
+                />
+                <p className="teacher-classes-emptylist">کلاسی برای نمایش وجود نداره !!!</p>
+              </Grid>
             )}
+
             {teacherData.courses.length !== 0 && (
               <Swiper
                 style={{ padding: 20 }}
                 spaceBetween={10}
                 slidesPerView={'auto'}
-                centeredSlides
                 navigation={use_mobile || teacherData.courses.length <= 1 ? false : true}
                 keyboard
               >
                 {teacherData.courses.map(item => (
                   <SwiperSlide key={item.id}>
                     <Link to={`/courses/${item.id}`}>
-                    <CourseCard
-                      title={item.title === undefined ? 'title' : item.title}
-                      teacherName={
-                        item.teacherName === undefined
-                          ? teacherData.first_name + ' ' + teacherData.last_name
-                          : item.teacherName
-                      }
-                      rate={item.rate === undefined ? 2 : item.rate}
-                      teacherImgSrc={teacherData.image === null ? profile_1 : teacherData.image.image}
-                      imgSrc={item.imgSrc === undefined ? image : item.imgSrc}
-                    />
+                      <CourseCard
+                        id={item.id}
+                        title={item.title === undefined ? 'title' : item.title}
+                        teacherName={
+                          item.teacherName === undefined
+                            ? teacherData.first_name + ' ' + teacherData.last_name
+                            : item.teacherName
+                        }
+                        rate={item.rate === undefined ? 2 : item.rate}
+                        teacherImgSrc={teacherData.image === null ? profile_1 : teacherData.image.image}
+                        imgSrc={
+                          item.image === null
+                            ? 'https://www.inklyo.com/wp-content/uploads/How-to-Succeed-in-an-Online-Course.jpg'
+                            : item.image
+                        }
+                      />
                     </Link>
                   </SwiperSlide>
                 ))}
@@ -270,6 +305,9 @@ function TeacherPublicProfile(props) {
 
   return (
     <>
+      <Helmet>
+        <title>پروفایل عمومی مدرس</title>
+      </Helmet>
       {teacher_username !== 'public-profile' && (
         <div style={{ marginBottom: 72 }}>
           <Navbar color="#fd576c" />
@@ -303,11 +341,10 @@ function TeacherPublicProfile(props) {
               <Grid item xs={12} maxWidth="68%" sx={{ mt: 5 }} minWidth="68%">
                 <div className="abut-me_wrapper">
                   <Typography variant="body" className="about-me">
-                    {teacherData.bio && ReactHtmlParser(teacherData.bio)}
-
-                    {!teacherData.bio && (
+                    {(!teacherData.bio || teacherData.bio === '<p></p>') && (
                       <p className="teacher-public-profile-about-me__text">متنی برای نمایش وجود نداره !!!</p>
                     )}
+                    {teacherData.bio && teacherData.bio !== '' && ReactHtmlParser(teacherData.bio)}
                   </Typography>
                 </div>
               </Grid>

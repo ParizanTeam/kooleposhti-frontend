@@ -24,9 +24,12 @@
 
 .teacher-public-profile-about-me__text {
   text-align: center;
-  font-size: 24px !important;
+  font-size: 20px !important;
   font-weight: 700 !important;
   color: $c-black m !important;
+  @media(max-width:900px){
+    font-size: 15px !important;
+  }
 }
 
 .afterMyC-a {
@@ -50,9 +53,10 @@
   }
 
   .My-carousal-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: auto !important;
 
     .swiper-slide {
       padding: 10px 0;

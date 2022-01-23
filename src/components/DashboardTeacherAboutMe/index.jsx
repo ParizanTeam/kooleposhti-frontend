@@ -1,14 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import SignupIcon from '@mui/icons-material/AccountCircle';
-import Avatar from '@mui/material/Avatar';
 import { Button, Grid, Box, Typography, Container } from '@mui/material';
-import { Link } from 'react-router-dom';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { ToastContainer, toast } from 'react-toastify';
 import { Helmet } from 'react-helmet';
-import FormData from 'form-data';
 import { Formik } from 'formik';
 import ReactLoading from 'react-loading';
 import axios from '../../utils/axiosConfig';
@@ -19,14 +15,36 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { baseUrl } from '../../utils/constants';
 import './style.scss';
 
+const customContentStateConverter = contentState => {
+  // changes block type of images to 'atomic'
+  const newBlockMap = contentState.getBlockMap().map(block => {
+    const entityKey = block.getEntityAt(0);
+    if (entityKey !== null) {
+      const entityBlock = contentState.getEntity(entityKey);
+      const entityType = entityBlock.getType();
+      switch (entityType) {
+        case 'IMAGE': {
+          const newBlock = block.merge({
+            type: 'atomic',
+            text: 'img',
+          });
+          return newBlock;
+        }
+        default:
+          return block;
+      }
+    }
+    return block;
+  });
+  const newContentState = contentState.set('blockMap', newBlockMap);
+  return newContentState;
+};
+
 function DashboardTeacherAboutMe(props) {
   const [validateAfterSubmit, setValidateAfterSubmit] = useState(false);
-  const [apiResponse, setApiResponse] = useState(false);
-  const [values, setValues] = useState({});
-  const [teacher_data, setteacherData] = useState({});
   const [editorContent, setEditorContent] = useState(EditorState.createEmpty());
   const [loading, setLoading] = useState(true);
-  const [loadingButton , setLoadingButton] = useState(false);
+  const [loadingButton, setLoadingButton] = useState(false);
   const [editorState, setEditorState] = useState(
     EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(`<p>درباره من ...</p>`)))
   );
@@ -42,15 +60,16 @@ function DashboardTeacherAboutMe(props) {
           },
         })
         .then(response => {
-          console.log(response.data.data.bio);
-          /* setEditorContent(response.data.data.bio); */
+
           setEditorState(
-            EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(response.data.data.bio)))
+            EditorState.createWithContent(
+              customContentStateConverter(ContentState.createFromBlockArray(convertFromHTML(response.data.data.bio)))
+            )
           );
           console.log('content:', editorContent);
           setLoading(false);
         })
-        .catch(err => {
+        .catch(() => {
           setLoading(false);
         });
     }
@@ -65,15 +84,6 @@ function DashboardTeacherAboutMe(props) {
     prepend: true,
   });
 
-  const editor = useRef(null);
-  const [content, setContent] = useState('');
-  const config = {
-    readonly: false, // all options from https://xdsoft.net/jodit/doc/
-    placeholder: 'درباره من ...',
-    minHeight: 500,
-    editorCssClass: 'about-me',
-    statusbar: false,
-  };
 
   const onContentStateChange = editorcontent => {
     setEditorContent(editorcontent);
@@ -125,7 +135,6 @@ function DashboardTeacherAboutMe(props) {
                 onSubmit={async values => {
                   try {
                     setLoadingButton(true);
-                    console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
                     const body = { bio: draftToHtml(convertToRaw(editorState.getCurrentContent())) };
                     axios
                       .put(`${baseUrl}/accounts/profile/update-profile/`, JSON.stringify(body), {
@@ -134,8 +143,7 @@ function DashboardTeacherAboutMe(props) {
                           'Content-Type': 'application/json',
                         },
                       })
-                      .then(response => {
-                        console.log('response ', response);
+                      .then(() => {
                         toast.success('با موفقیت به‌روز شد', {
                           position: 'bottom-center',
                           autoClose: 5000,
@@ -164,7 +172,7 @@ function DashboardTeacherAboutMe(props) {
                       });
                   } catch (error) {
                     console.log('error');
-                    setLoadingButton(false)
+                    setLoadingButton(false);
                   }
                 }}
                 validateOnChange={validateAfterSubmit}
@@ -174,7 +182,7 @@ function DashboardTeacherAboutMe(props) {
                   return error;
                 }}
               >
-                {({ handleSubmit, handleChange, setFieldValue, values, errors, handleBlur }) => (
+                {({ handleSubmit, handleChange, setFieldValue, handleBlur }) => (
                   <Box
                     component="form"
                     id="profile-form"

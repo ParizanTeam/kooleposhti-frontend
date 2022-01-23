@@ -60,7 +60,7 @@ function ClassStudentInfo(props) {
   const handleClose = () => {
     setOpenModal(false);
   };
-  
+
   const [openModal, setOpenModal] = useState(false);
   const [modalConfirm, setModalConfirm] = useState(null);
   const [registerLoading, setRegisterLoading] = useState(false);
@@ -110,8 +110,8 @@ function ClassStudentInfo(props) {
     },
   }));
 
-  function createData(img, studentName, email, id) {
-    return { img, studentName, email, id };
+  function createData(image, studentName, email, id) {
+    return { image, studentName, email, id };
   }
 
   //ask why
@@ -120,12 +120,14 @@ function ClassStudentInfo(props) {
   studentsInfo.forEach(item => {
     rows.push(
       createData(
-        <Avatar src={item.image} alt="profile" sx={{ borderRadius: '50%' }} />,
+        <Avatar src={item.image?  `${baseUrl}` + item.image.image : item.image} alt="profile" sx={{ borderRadius: '50%' }} />,
+        // item.image? item.image.image : item.image,
         item.username,
         item.email,
         item.id
       )
     );
+    console.log(`item image is ` + (item.image?  `${baseUrl}` + item.image.image : item.image));
   });
 
   const DeleteStudent = async inputRow => {
@@ -151,8 +153,14 @@ function ClassStudentInfo(props) {
       .catch(err => {
         console.log('error: ', err);
         setOpenModal(false);
-        toast.error('مشکلی در سامانه رخ داده‌است.');
         setRegisterLoading(false);
+        if (err.response) {
+          if (err.response.status == '400') {
+            toast.error('موجودی شما کافی نیست.');
+          } else {
+            toast.error('شرمنده. مشکلی پیش اومده. دوباره امتحان کن.');
+          }
+        }
       });
     // }
     // const updatedTable = studentsInfo.filter(row => row != inputRow);
@@ -213,7 +221,12 @@ function ClassStudentInfo(props) {
                                 console.log({ showProfile });
                               }}
                             >
-                              {row.img}
+                              {row.image}
+                              {/* <Avatar
+                                src={`https://kooleposhti.ml${row.image}/`}
+                                alt="profile"
+                                sx={{ borderRadius: '50%' }}
+                              ></Avatar> */}
                             </StyledTableCell>
                             <StyledTableCell align="center">{row.studentName}</StyledTableCell>
                             <StyledTableCell align="center">{row.email}</StyledTableCell>
@@ -240,6 +253,7 @@ function ClassStudentInfo(props) {
                                 className="student-info-form__close-icon"
                               ></CloseIcon>
                             </StyledTableCell>
+                            {console.log('image is ' + row.image)}
                             {/* <StyledTableCell align="left">{row.capacity}</StyledTableCell> */}
                           </StyledTableRow>
                         ))}

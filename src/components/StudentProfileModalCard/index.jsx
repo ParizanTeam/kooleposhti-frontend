@@ -9,6 +9,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Divider from '@mui/material/Divider';
 import './style.scss';
 import { height, width } from '@mui/system';
 import ReactHtmlParser from 'react-html-parser';
@@ -57,7 +58,7 @@ const StudentProfileCard = props => {
           <div className="student-profile-modal-card-upper-part">
             <div className="student-profile-card-upper-part__image">
               {resData.image != null ? (
-                <img src={resData.image} alt="" height="150px" width="150px" />
+                <img src={resData.image.image} alt="" height="150px" width="150px" />
               ) : (
                 <img src={imageSrc} alt="" height="150px" width="150px" />
               )}
@@ -79,24 +80,50 @@ const StudentProfileCard = props => {
                 style={{ display: resData.first_name == null && resData.last_name == null ? null : 'block' }}
               >
                 <div className="student-profile-card-lower-part__name__firstname">
-                  <h4>{resData.first_name}</h4>
+                  <h4>نام:</h4>
                 </div>
+                <div className="student-profile-card-lower-part__name__firstname" style={{ marginRight: '30px' }}>
+                  {resData.first_name != null && <h4>{resData.first_name}</h4>}
+                  {resData.first_name == null && <br></br>}
+                </div>
+                <Divider style={{ margin: '15px' }} />
                 <div className="student-profile-card-lower-part__name__lastname">
-                  <h4>{resData.last_name}</h4>
+                  <h4>نام خانوادگی:</h4>
+                </div>
+                <div className="student-profile-card-lower-part__name__lastname" style={{ marginRight: '30px' }}>
+                  {resData.last_name != null && <h4>{resData.last_name}</h4>}
+                  {resData.last_name == null && <br></br>}
                 </div>
               </div>
+              {/* <div className="student-profile-card-lower-part__name__firstname">
+                <h4>نام: {resData.first_name}</h4>
+              </div> */}
               <div
                 className="student-profile-card-lower-part__bio"
                 style={{ display: resData.bio == null ? null : 'block' }}
               >
-                <p className="student-profile-card-lower-part__bio__text">{ReactHtmlParser(resData.bio)}</p>
+                <Divider style={{ margin: '15px' }} />
+                <div className="student-profile-card-lower-part__name__firstname">
+                  <h4>درباره‌ی من:</h4>
+                </div>
+                {resData.bio != null && (
+                  <p className="student-profile-card-lower-part__bio__text">{ReactHtmlParser(resData.bio)}</p>
+                )}
+
+                {resData.bio == null && (
+                  <div>
+                    <br></br>
+                    <br></br>
+                  </div>
+                )}
+                {/* <p className="student-profile-card-lower-part__bio__text">{ReactHtmlParser(resData.bio)}</p> */}
               </div>
-              <div
+              {/* <div
                 className="student-profile-card-lower-part__age"
                 style={{ display: resData.age == null ? null : 'block', marginBottom: 20 }}
               >
                 {resData.age != null ? <p>سن: {resData.age}</p> : <p></p>}
-              </div>
+              </div> */}
             </div>
           </DialogContentText>
         </DialogContent>

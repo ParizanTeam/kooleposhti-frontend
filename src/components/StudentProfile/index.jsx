@@ -33,6 +33,30 @@ const cacheRtl = createCache({
 
   prepend: true,
 });
+const customContentStateConverter = contentState => {
+  // changes block type of images to 'atomic'
+  const newBlockMap = contentState.getBlockMap().map(block => {
+    const entityKey = block.getEntityAt(0);
+    if (entityKey !== null) {
+      const entityBlock = contentState.getEntity(entityKey);
+      const entityType = entityBlock.getType();
+      switch (entityType) {
+        case 'IMAGE': {
+          const newBlock = block.merge({
+            type: 'atomic',
+            text: 'img',
+          });
+          return newBlock;
+        }
+        default:
+          return block;
+      }
+    }
+    return block;
+  });
+  const newContentState = contentState.set('blockMap', newBlockMap);
+  return newContentState;
+};
 
 function StudentAboutMe(props) {
   const themeProps = useSelector(state => state.theme);
@@ -41,7 +65,6 @@ function StudentAboutMe(props) {
   const [values, setValues] = useState({});
   const [loading, setLoading] = useState(false);
   const [editorContent, setEditorContent] = useState(EditorState.createEmpty());
-  let init_content = '';
   const [editorState, setEditorState] = useState(
     EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(`<p>درباره من ...</p>`)))
   );
@@ -49,29 +72,24 @@ function StudentAboutMe(props) {
   useEffect(() => {
     async function fetchData() {
       const res = await axios
-        .get(`${baseUrl}/accounts/profile/update-profile/`)
-        .then(response => {
-          console.log(response.data.data.bio);
-          /* setEditorContent(response.data.data.bio); */
-          setEditorState(
-            EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(response.data.data.bio)))
-          );
-          console.log('content:', editorContent);
+        .get(`${baseUrl}/accounts/profile/update-profile/`, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
         })
-        .catch(err => {});
+        .then(response => {
+          setEditorState(
+            EditorState.createWithContent(
+              customContentStateConverter(ContentState.createFromBlockArray(convertFromHTML(response.data.data.bio)))
+            )
+          );
+        })
+        .catch(err => {
+          setLoading(false);
+        });
     }
     fetchData();
   }, []);
-
-  const editor = useRef(null);
-  const [content, setContent] = useState('');
-  const config = {
-    readonly: false, // all options from https://xdsoft.net/jodit/doc/
-    placeholder: 'درباره من ...',
-    minHeight: 500,
-    editorCssClass: 'about-me',
-    statusbar: false,
-  };
 
   const onContentStateChange = editorcontent => {
     setEditorContent(editorcontent);
@@ -104,6 +122,7 @@ function StudentAboutMe(props) {
               variant="Button"
               sx={{ color: `${themeProps.primaryColor}`, fontSize: { sm: '3vmin', xs: '4vmin' } }}
             >
+              
               درباره من
             </Typography>
 
@@ -115,10 +134,10 @@ function StudentAboutMe(props) {
               onSubmit={async values => {
                 try {
                   setLoading(true);
-                  console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
                   const body = { bio: draftToHtml(convertToRaw(editorState.getCurrentContent())) };
+
                   axios
-                    .put(`${baseUrl}/accounts/profile/update-profile/`, JSON.stringify(body))
+                    .put(`${baseUrl}/accounts/profile/update-profile/`, body)
                     .then(response => {
                       console.log('response ', response);
                       toast.success('با موفقیت به‌روز شد', {
@@ -149,6 +168,7 @@ function StudentAboutMe(props) {
                     });
                 } catch (error) {
                   console.log('error');
+                  setLoading(false);
                 }
               }}
               validateOnChange={validateAfterSubmit}
@@ -158,7 +178,7 @@ function StudentAboutMe(props) {
                 return error;
               }}
             >
-              {({ handleSubmit, handleChange, setFieldValue, values, errors, handleBlur }) => (
+              {({ handleSubmit, handleChange, setFieldValue, handleBlur }) => (
                 <Box
                   component="form"
                   id="profile-form"
@@ -228,11 +248,19 @@ function StudentAboutMe(props) {
 function SProfile(props) {
   const themeProps = useSelector(state => state.theme);
 
+  function replaceUndefinied(item) {
+    var str = JSON.stringify(item, function (key, value) {
+      return value === null ? '' : value;
+    });
+    return JSON.parse(str);
+  }
   const [validateAfterSubmit, setValidateAfterSubmit] = useState(false);
   const [values, setValues] = useState({});
   const [loading, setLoading] = useState(false);
   const [binaryFile, setBinaryFile] = useState(null);
-  const userData = useSelector(state => state.auth);
+  const [changeImage, setChangeImage] = useState(false);
+
+  const userData = replaceUndefinied(useSelector(state => state.auth));
   const dispatch = useDispatch();
   console.log(userData);
 
@@ -241,6 +269,7 @@ function SProfile(props) {
 
   const handleChange = e => {
     setFile(URL.createObjectURL(e.target.files[0]));
+    setChangeImage(true);
 
     let picture = e.target.files[0];
     console.log('picture', picture);
@@ -279,7 +308,7 @@ function SProfile(props) {
             >
               ویرایش حساب کاربری
             </Typography>
-            <Avatar src={file} alt="profile" sx={{ mt: 1, width: 'auto', height: '18vmin', borderRadius: '50%' }} />
+            <Avatar  src={userData.image ? userData.image.image : file} alt="profile" sx={{ mt: 1, width: '18vmin', height: '18vmin', borderRadius: '50%' }} />
 
             <Button
               variant="contained"
@@ -287,7 +316,7 @@ function SProfile(props) {
               sx={{ backgroundColor: themeProps.primaryColor, color: 'white', width: '120px', mt: 2 }}
             >
               <p style={{ fontSize: '0.8rem' }}>انتخاب عکس</p>
-              <input type="file" hidden onChange={handleChange} />
+              <input type="file" hidden onChange={handleChange} accept=".jpg,.jpeg,.png" />
             </Button>
 
             <ToastContainer rtl={true} />
@@ -305,25 +334,38 @@ function SProfile(props) {
               onSubmit={async values => {
                 try {
                   setLoading(true);
-
-                  console.log('pass: ', document.getElementById('password').value);
-                  console.log('binary file', binaryFile);
-
                   const formdata = new FormData();
+                  let body = { ...values };
+                  let imag_uploaded = true;
+                  formdata.append('image', binaryFile);
+                  if (changeImage) {
+                    const res = await axios
+                      .post(`${baseUrl}/images/`, formdata, {
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                      })
+                      .then(res => {
+                        console.log('res', res);
+                        console.log('res image', res.data.image);
+                        body = { ...values, image_url: res.data.image };
+                      })
+                      .catch(err => {
+                        console.log('error', err);
+                        imag_uploaded = false;
+                      });
+                  }
 
-                  const data = { ...values, 'image.image': binaryFile };
-                  formdata.append('username', values.username);
-                  formdata.append('email', values.email);
-                  formdata.append('first_name', values.first_name);
-                  formdata.append('last_name', values.last_name);
-                  formdata.append('password', values.password);
-                  formdata.append('phone_no', values.phone_no);
-
-                  formdata.append('image.image', binaryFile);
-                  console.log('form data', formdata);
-
+                  console.log("body",body);
+                  if(values.password === undefined){
+                    body = {...body};
+                    if(values.phone_no === ""){
+                      body = {...body , phone_no:null};
+                    }
+                  }
+                  console.log("body",body);
                   axios
-                    .put(`${baseUrl}/accounts/students/me/`, formdata, {
+                    .put(`${baseUrl}/accounts/students/me/`, JSON.stringify(body), {
                       headers: {
                         'Content-Type': 'application/json',
                       },
@@ -401,10 +443,10 @@ function SProfile(props) {
 
                 if (!values.username) {
                   error.username = ' نام کاربری خودت رو وارد کن';
-                } else if (!values.email) {
-                  error.email = ' ایمیل خودت رو وارد کن';
-                } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-                  error.email = 'ایمیل نامعتبر';
+                } else if (!values.first_name) {
+                  error.first_name = ' نام خودت رو وارد کن';
+                } else if (!values.last_name) {
+                  error.last_name = 'نام‌خانوادگی خودت رو وارد کن';
                 }
 
                 return error;
@@ -425,8 +467,9 @@ function SProfile(props) {
                   <Grid container spacing={2}>
                     <Grid item sm={6} xs={12}>
                       <TextField
+                        required
                         value={values.first_name}
-                        InputLabelProps={{ shrink: values.first_name }}
+                        InputLabelProps={{ shrink: !!values.first_name }}
                         autoComplete="given-name"
                         name="first_name"
                         fullWidth
@@ -440,8 +483,9 @@ function SProfile(props) {
                     </Grid>
                     <Grid item sm={6} xs={12}>
                       <TextField
+                        required
                         autoComplete="given-name"
-                        InputLabelProps={{ shrink: values.last_name }}
+                        InputLabelProps={{ shrink: !!values.last_name }}
                         name="last_name"
                         fullWidth
                         id="last_name"
@@ -455,7 +499,7 @@ function SProfile(props) {
                     <Grid item xs={12}>
                       <TextField
                         value={values.username}
-                        InputLabelProps={{ shrink: values.username }}
+                        InputLabelProps={{ shrink: !!values.username }}
                         autoComplete="given-name"
                         name="username"
                         required
@@ -469,8 +513,8 @@ function SProfile(props) {
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
-                        required
-                        InputLabelProps={{ shrink: values.email }}
+                        disabled
+                        InputLabelProps={{ shrink: !!values.email }}
                         fullWidth
                         id="email"
                         label="ایمیل"
@@ -486,7 +530,7 @@ function SProfile(props) {
                       <TextField
                         fullWidth
                         name="password"
-                        InputLabelProps={{ shrink: values.password }}
+                        InputLabelProps={{ shrink: !!values.password }}
                         label="رمز عبور جدید"
                         type="password"
                         id="password"
@@ -500,7 +544,7 @@ function SProfile(props) {
                     <Grid item xs={12}>
                       <TextField
                         fullWidth
-                        InputLabelProps={{ shrink: values.phone_no }}
+                        InputLabelProps={{ shrink: !!values.phone_no }}
                         name="phone_no"
                         label="شماره موبایل"
                         type="phone"
@@ -547,7 +591,8 @@ const StudentProfile = () => {
         <div>
           <WelcomeBox />
         </div>
-        <div className='marginBox'
+        <div
+          className="marginBox"
           style={{
             backgroundColor: themeProps.secondaryColor,
             boxShadow: `${themeProps.primaryColor} 0px 2px 10px`,

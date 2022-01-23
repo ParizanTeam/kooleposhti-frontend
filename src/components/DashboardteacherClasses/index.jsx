@@ -69,7 +69,6 @@ function DashboardTeacherClasses(props) {
           },
         })
         .then(response => {
-          console.log('get response: ', response);
           setClassData(response.data);
           setLoading(false);
         })
@@ -116,7 +115,9 @@ function DashboardTeacherClasses(props) {
   classData.forEach(item => {
     rows.push(
       createData(
-        item.image === null ? image : `${baseUrl}` + item.image,
+        item.image === null
+          ? 'https://www.inklyo.com/wp-content/uploads/How-to-Succeed-in-an-Online-Course.jpg'
+          : `${baseUrl}` + item.image,
         item.title,
         convertNumberToPersian(item.start_date),
         convertNumberToPersian(item.end_date),
@@ -221,7 +222,15 @@ function DashboardTeacherClasses(props) {
             >
               {rows.length === 0 && (
                 <Grid container direction="column" alignItems="center" justifyContent="center">
-                  <img src={classImg} alt="class list"  />
+                  <Avatar
+                    src={classImg}
+                    alt="class list"
+                    sx={{
+                      width: { md: '20vw', sm: '40vw', xs: '50vw' },
+                      height: { md: '20vw', sm: '40vw', xs: '50vw' },
+                      borderRadius: '0',
+                    }}
+                  />
                   <p className="teacher-classes-emptylist">کلاسی برای نمایش وجود نداره !!!</p>
                 </Grid>
               )}
@@ -242,7 +251,7 @@ function DashboardTeacherClasses(props) {
                     </CardContent>
 
                     {/* <Divider sx={{ ml: 2.5, mr: 2.5 }} /> */}
-                    <CardContent className="card-item" sx={{ margin: '0 0 -12px 0 ' }}>
+                    <CardContent className="card-item" sx={{ margin: '0 0 0 0 ' }}>
                       <Typography variant="body1" sx={{ fontWeight: 'bold', mr: 1 }}>
                         ‌ظرفیت کلاس:
                       </Typography>
@@ -251,7 +260,7 @@ function DashboardTeacherClasses(props) {
                     </CardContent>
 
                     {/*  <Divider sx={{ ml: 2.5, mr: 2.5 }} /> */}
-                    <CardContent className="card-item" sx={{ margin: '0 0 -10px 0 ' }}>
+                    <CardContent className="card-item" sx={{ margin: '0 0 0 0 ' }}>
                       <Typography variant="body1" sx={{ fontWeight: 'bold', mr: 1 }}>
                         تاریخ شروع کلاس:
                       </Typography>

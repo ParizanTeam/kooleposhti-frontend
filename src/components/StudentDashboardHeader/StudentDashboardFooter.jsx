@@ -1,10 +1,10 @@
 import './style.scss';
 
-const StudentDashboardFooter = () => {
+const StudentDashboardFooter = ({styles}) => {
   return (
     <div
-      className="MCappbarWrapperforfooter"
-      style={{ justifyContent: 'center', alignItems: 'center' }}
+      className="MCappbarWrapperforfooter make-center"
+      style={styles}
     >
 
       <div className="MCmy-footer__bylove">

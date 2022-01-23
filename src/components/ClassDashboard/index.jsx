@@ -7,6 +7,9 @@ import FeedbackIcon from '@mui/icons-material/Feedback';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import GroupsIcon from '@mui/icons-material/Groups';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import ClassDiscounts from '../ClassDiscounts';
+import CreateDiscount from '../ClassDiscounts/CreateDiscount';
 import MenuIcon from '@mui/icons-material/Menu';
 import Assignments from '../Assignments';
 import CreateAssignment from '../CreateAssignment';
@@ -27,12 +30,13 @@ import IconButton from '@mui/material/IconButton';
 import { useMediaQuery } from '@mui/material';
 import patternSrc from '../../assets/images/pattern2.png';
 import './style.scss';
-import { Link, Redirect, Route, useHistory, useLocation, useParams } from 'react-router-dom';
+import { Link, NavLink, Redirect, Route, useHistory, useLocation, useParams } from 'react-router-dom';
 import EditAssignment from '../EditAssignment';
 
 import apiInstance from '../../utils/axiosConfig';
 import ClassAtendees from '../ClassAtendees';
 import { baseUrl } from '../../utils/constants';
+import ReactLoading from 'react-loading';
 
 const ClassDashboard = () => {
   const [showDrawer, setShowDrawer] = useState(false);
@@ -42,8 +46,9 @@ const ClassDashboard = () => {
   const classId = params.classId;
   const history = useHistory();
   const [openModal, setOpenModal] = useState(false);
-  const [apiLoading, setApiLoading] = useState(false);
+  const [leaveClassLoading, setLeaveClassLoading] = useState(false);
   const [role, setRole] = useState(null);
+  const [apiLoading, setApiLoading] = useState(role ? false : true);
 
   useEffect(() => {
     setApiLoading(true);
@@ -57,25 +62,28 @@ const ClassDashboard = () => {
       .catch(err => {
         setRole('anonymous');
       });
-  }, []);
+  }, [role]);
 
   const handleClose = () => {
     setOpenModal(false);
   };
 
   const leaveClass = () => {
+    setLeaveClassLoading(true);
     apiInstance
-      .post(`http://185.239.106.239/courses/${classId}/leave/`)
+      .post(`${baseUrl}/courses/${classId}/leave/`)
       .then(res => {
         console.log(res);
         toast.success('با موفقیت از کلاس خارج شدید.');
         setTimeout(() => {
           history.push(`/courses/${classId}`);
         }, 2000);
+        setLeaveClassLoading(false);
       })
       .catch(err => {
         console.log(err);
         toast.error('مشکلی در سامانه به وجود اومده.');
+        setLeaveClassLoading(false);
       });
   };
 
@@ -108,44 +116,63 @@ const ClassDashboard = () => {
         <img className={baseClass + '__img-bottom'} src={patternSrc} alt="" />
         <div className={baseClass + '__box-1'}></div>
         <div className={baseClass + '__items-container'}>
-          <Link to={`/dashboard/class/${classId}/`}>
+          <NavLink
+            exact
+            activeClassName="active-class-drawer-item"
+            onClick={() => setShowDrawer(false)}
+            to={`/dashboard/class/${classId}/`}
+          >
             <div className={baseClass + '__item'}>
               <p>اطلاعات کلی کلاس</p>
               <DashboardIcon />
             </div>
-          </Link>
-          {/* <div className={baseClass + '__item'}>
-            <p>چت با {role == 'student' ? 'استاد' : 'دانش‌آموزان'}</p>
-            <ChatIcon />
-          </div>
-          <div className={baseClass + '__item'}>
-            <p>گفتگوی گروهی</p>
-            <PeopleIcon />
-          </div> */}
-          <Link to={`/dashboard/class/${classId}/assignments`}>
+          </NavLink>
+
+          <NavLink
+            activeClassName="active-class-drawer-item"
+            onClick={() => setShowDrawer(false)}
+            to={`/dashboard/class/${classId}/assignments`}
+          >
             <div className={baseClass + '__item'}>
               <p>تمرین‌ها</p>
               <MenuBookIcon />
             </div>
-          </Link>
-          {/* <div className={baseClass + '__item'}>
-            <p>بازخوردها</p>
-            <FeedbackIcon />
-          </div> */}
+          </NavLink>
+
           <Link to={`/courses/${classId}`}>
             <div className={baseClass + '__item'}>
               <p>صفحه عمومی درس</p>
               <RemoveRedEyeIcon />
             </div>
           </Link>
-          <Link to={`/dashboard/class/${classId}/attendees`}>
+          <NavLink
+            activeClassName="active-class-drawer-item"
+            onClick={() => setShowDrawer(false)}
+            to={`/dashboard/class/${classId}/attendees`}
+          >
             <div className={baseClass + '__item'}>
               <p>شرکت‌کنندگان کلاس</p>
               <GroupsIcon />
             </div>
-          </Link>
+          </NavLink>
+          {role == 'teacher' && (
+            <NavLink
+              activeClassName="active-class-drawer-item"
+              onClick={() => setShowDrawer(false)}
+              to={`/dashboard/class/${classId}/discounts`}
+            >
+              <div className={baseClass + '__item'}>
+                <p>تخفیف ها</p>
+                <LocalOfferIcon />
+              </div>
+            </NavLink>
+          )}
           {role == 'student' && (
-            <div style={{ color: '#f22613' }} onClick={() => setOpenModal(true)} className={baseClass + '__item'}>
+            <div
+              style={{ color: '#f22613', cursor: 'pointer' }}
+              onClick={() => setOpenModal(true)}
+              className={baseClass + '__item'}
+            >
               <p>ترک کلاس</p>
               <ExitToAppIcon />
             </div>
@@ -199,6 +226,12 @@ const ClassDashboard = () => {
               <Route path="/dashboard/class/:classId/assignments/view/:assignmentId" exact>
                 <BaseAssignments role={role} />
               </Route>
+              <Route path="/dashboard/class/:classId/discounts" exact>
+                {role != 'teacher' ? <Redirect to="/not-found" /> : <ClassDiscounts />}
+              </Route>
+              <Route path="/dashboard/class/:classId/discounts/create" exact>
+                {role != 'teacher' ? <Redirect to="/not-found" /> : <CreateDiscount role={role} />}
+              </Route>
               <Route path="/dashboard/class/:classId/attendees" exact>
                 {role == 'teacher' ? <ClassStudentsInfo /> : <ClassAtendees role={role} />}
                 {/* <ClassAtendees role={role} /> */}
@@ -220,12 +253,16 @@ const ClassDashboard = () => {
             <Fade in={openModal}>
               <div className="register-modal">
                 <h4 className="register-modal__title">آیا از ترک این کلاس مطمئن هستید؟</h4>
+                <p className="register-modal__description">در صورت ترک کلاس، هزینه کلاس به شما برگردانده نمی‌شود.</p>
                 <button className="register-modal__confirm" onClick={handleClose}>
                   بازگشت
                 </button>
                 <button className="register-modal__cancel" onClick={leaveClass}>
                   ترک کلاس
                 </button>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  {leaveClassLoading && <ReactLoading type="bubbles" color="#000" />}
+                </div>
               </div>
             </Fade>
           </Modal>

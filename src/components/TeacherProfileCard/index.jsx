@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import noPersonImg from '../../assets/images/noperson.png';
 import './style.scss';
 
 const TeacherProfileCard = ({ instructor }) => {
@@ -13,21 +14,15 @@ const TeacherProfileCard = ({ instructor }) => {
           <div>
             <h3>درباره مدرس:</h3>
             <Link to={`/public-profile/teacher/${instructor.username}`} className="teacher-profile__name">
-              {instructor.first_name} {instructor.last_name}
+              {instructor.first_name && instructor.last_name
+                ? instructor.first_name + ' ' + instructor.last_name
+                : instructor.username}
             </Link>
             {instructor.title && <p className="teacher-profile__title">{instructor.title}</p>}
           </div>
           <Link to={`/public-profile/teacher/${instructor.username}`}>
             <div className="teacher-profile__avatar">
-              {instructor.image && (
-                <img
-                  src={
-                    instructor.image.image ||
-                    'https://www.pinclipart.com/picdir/middle/148-1486972_mystery-man-avatar-circle-clipart.png'
-                  }
-                  alt=""
-                />
-              )}
+              <img src={instructor.image?.image || noPersonImg} alt="" />
             </div>
           </Link>
         </div>

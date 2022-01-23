@@ -225,13 +225,19 @@ const ClassCard = ({ classData }) => {
           <div className="class-card__content">
             <div className="class-card__age">سن {age}</div>
             <h3 className="class-card__title">{title}</h3>
-            <p className="class-card__description">{description}</p>
+            <p className="class-card__description">
+              {description.length > 300 ? description.slice(0, 240) + '...' : description}
+            </p>
             <div className="class-card__teacher-rating-wrapper">
               <div className="class-teacher-card">
                 <div className="class-teacher-card__img-wrapper">
-                  <Link to={`/public-profile/teacher/${classData.teacherName}`}><img className="class-teacher-card__img" src={teacherImg} alt="" /></Link>
+                  <Link to={`/public-profile/teacher/${classData.teacherName}`}>
+                    <img className="class-teacher-card__img" src={teacherImg} alt="" />
+                  </Link>
                 </div>
-                <Link to={`/public-profile/teacher/${classData.teacherName}`}><div className="class-teacher-card__name">{teacherName}</div></Link>
+                <Link to={`/public-profile/teacher/${classData.teacherName}`}>
+                  <div className="class-teacher-card__name">{teacherName}</div>
+                </Link>
               </div>
               <div className="class-card__rating" dir="ltr">
                 <Rating
@@ -272,13 +278,23 @@ const Filters = () => {
   const history = useHistory();
   const search = location.search;
   const category = new URLSearchParams(search).get('category');
+  const searchUrlParam = new URLSearchParams(search).get('search');
   const [activeCategory, setActiveCategory] = useState(category);
   const [age, setAge] = useState('any');
   const [choseAge, setChoseAge] = useState('any');
   const [searchString, setSearchString] = useState('');
-  const [queryObject, setQueryObject] = useState(category ? { category: category } : {});
+  let defaultQueryObject = {};
+  if (category) {
+    defaultQueryObject = { ...defaultQueryObject, category };
+  }
+  if (searchUrlParam) {
+    defaultQueryObject = { ...defaultQueryObject, search: searchUrlParam };
+  }
+  const [queryObject, setQueryObject] = useState(defaultQueryObject);
   const [apiLoading, setApiLoading] = useState(false);
+  const [showMoreLoading, setShowMoreLoading] = useState(false);
   const [classes, setClasses] = useState(classesData);
+  const [showMore, setShowMore] = useState(false);
 
   const handleFiltersModalClose = () => {
     setOpenFiltersModal(false);
@@ -334,7 +350,7 @@ const Filters = () => {
   }, [search]);
 
   useEffect(() => {
-    history.push({
+    history.replace({
       search: '?' + new URLSearchParams(queryObject).toString(),
     });
   }, [queryObject]);
@@ -354,7 +370,8 @@ const Filters = () => {
         }&${query.category ? `categories=${query.category}` : ''}`
       )
       .then(res => {
-        console.log(res.data.results, '@@@@@@@');
+        console.log(res.data, '@@@@@@@');
+        setShowMore(res.data.next);
         setClasses(() =>
           res.data.results.map(classData => ({
             classImg:
@@ -379,6 +396,38 @@ const Filters = () => {
         );
         setApiLoading(false);
       });
+  };
+
+  const getMoreClasses = async (query = queryObject) => {
+    setShowMoreLoading(true);
+    apiInstance.get(showMore).then(res => {
+      console.log(res.data, '@@@@@@@');
+      setShowMore(res.data.next);
+      setClasses(oldClasses => [
+        ...oldClasses,
+        ...res.data.results.map(classData => ({
+          classImg:
+            classData.image || 'https://www.inklyo.com/wp-content/uploads/How-to-Succeed-in-an-Online-Course.jpg',
+          age: convertNumberToPersian(`${classData.min_age} تا ${classData.max_age} سال`),
+          title: classData.title,
+          description: classData.description,
+          teacherImg:
+            (classData.instructor.image && classData.instructor.image.image) ||
+            'https://www.pinclipart.com/picdir/middle/148-1486972_mystery-man-avatar-circle-clipart.png',
+          teacherName:
+            classData.instructor.first_name == 'null' || classData.instructor.last_name == 'null'
+              ? classData.instructor.first_name + ' ' + classData.instructor.last_name
+              : classData.instructor.username,
+          rating: classData.rate,
+          date: `از ${convertNumberToPersian(classData.start_date.split('-').join('/'))} تا ${convertNumberToPersian(
+            classData.end_date.split('-').join('/')
+          )}`,
+          price: classData.price,
+          id: classData.id,
+        })),
+      ]);
+      setShowMoreLoading(false);
+    });
   };
 
   return (
@@ -801,7 +850,23 @@ const Filters = () => {
                   هیچ کلاسی یافت نشد!
                 </div>
               ) : (
-                classes.map(classData => <ClassCard classData={classData} />)
+                <>
+                  {classes.map(classData => (
+                    <ClassCard classData={classData} />
+                  ))}
+                  {showMoreLoading && (
+                    <div style={{ display: 'flex', justifyContent: 'center', padding: 'auto', marginTop: 64 }}>
+                      <ReactLoading type="spinningBubbles" color="#EF006C" height={100} width={100} />
+                    </div>
+                  )}
+                  {!showMoreLoading && showMore && (
+                    <div className="show-more-classes-btn-wrapper">
+                      <button onClick={getMoreClasses} className="info-btn show-more-classes-btn">
+                        مشاهده بیشتر
+                      </button>
+                    </div>
+                  )}
+                </>
               )}
             </>
           )}

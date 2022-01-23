@@ -127,17 +127,34 @@ export const categoriesData = [
 const CoursePage = () => {
   const params = useParams();
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const user = useSelector(state => state.auth);
+
   const courseId = params.courseId;
   const history = useHistory();
   const datesRef = useRef(null);
   const [showMore, setShowMore] = useState(true);
   const [data, setData] = useState(null);
+  const [role, setRole] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [registerLoading, setRegisterLoading] = useState(false);
+  const [discountLoading, setDiscountLoading] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+  const [enrolled, setEnrolled] = useState(false);
+  const [rate, setRate] = useState(null);
   const [title, setTitle] = useState('');
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
+  const [code, setCode] = useState('');
+  const [correctCode, setCorrectCode] = useState('');
+  const [codeBlured, setCodeBlured] = useState(false);
+  const [price, setPrice] = useState();
+  const [initialPrice, setInitialPrice] = useState();
+  const [useDiscount, setUseDiscount] = useState(false);
+  const [lastPrice, setLastPrice] = useState();
+  const handleOpen = () => {
+    if (isAuthenticated && (!user.first_name || !user.last_name))
+      toast.error('قبل ثبت نام باید اطلاعات خود را از قسمت پروفایل تکمیل کنید');
+    else setOpen(true);
+  };
   const handleClose = () => setOpen(false);
   const showMoreText = 'نمایش بیشتر...';
   const showLessText = 'نمایش کمتر...';
@@ -149,10 +166,13 @@ const CoursePage = () => {
 
   const tags = ['معماری', 'خلاقیت', 'ساختن', 'کار گروهی'];
   const scrollToDates = () => {
-    datesRef.current.scrollIntoView({
+    window.scrollTo({
+      top: datesRef.current.getBoundingClientRect().top + window.pageYOffset - 100,
       behavior: 'smooth',
     });
   };
+
+  let regex = /[^A-Za-z0-9]+/;
 
   useEffect(() => {
     window.scrollTo({
@@ -165,6 +185,9 @@ const CoursePage = () => {
       .get(`${baseUrl}/courses/${courseId}`)
       .then(res => {
         setData(res.data);
+        setPrice(res.data.price);
+        setInitialPrice(res.data.price);
+        setLastPrice(res.data.price);
         console.log(res.data);
         setTimeout(() => {
           setIsLoading(false);
@@ -178,12 +201,18 @@ const CoursePage = () => {
         // TODO uncomment when done
         history.push('/not-found');
       });
+    apiInstance.get(`${baseUrl}/courses/${courseId}/role/`).then(res => {
+      console.log('rolllle ', res.data);
+      setRole(res.data.role);
+    });
   }, []);
 
   useEffect(() => {
     apiInstance.get(`${baseUrl}/courses/${courseId}/can-enroll/`).then(res => {
       setShowRegister(res.data.enroll);
-      console.log(res.data);
+      setEnrolled(res.data.enrolled);
+      setRate(res.data.rate);
+      console.log('ressssssssss: ', res.data);
     });
   }, []);
 
@@ -192,12 +221,20 @@ const CoursePage = () => {
       toast.error('باید قبلش وارد حسابت بشی.');
       return;
     }
+    const data = {
+      code: correctCode,
+      // course_pk: +courseId,
+    };
+    console.log(data);
     setRegisterLoading(true);
     apiInstance
-      .post(`${baseUrl}/courses/${courseId}/enroll/`)
+      .post(`${baseUrl}/courses/${courseId}/enroll/`, data)
+      // .post(`${baseUrl}/accounts/students/enroll/`, data)
       .then(res => {
         console.log(res);
-        toast.success('با موفقیت ثبت‌نام‌ شدی.');
+        toast.success(
+          `با موفقیت ثبت‌نام‌ شدی. مقدار ${convertNumberToPersian(formatPrice(price))}تومان از حسابت کم شد.`
+        );
         setRegisterLoading(false);
         setTimeout(() => {
           history.push(`/dashboard/class/${courseId}`);
@@ -207,6 +244,34 @@ const CoursePage = () => {
         console.log(err);
         toast.error('مشکلی در سامانه به وجود اومده.');
         setRegisterLoading(false);
+      });
+  };
+
+  const discount = () => {
+    setDiscountLoading(true);
+    apiInstance
+      .get(`${baseUrl}/discounts/validate?code=${code}&course=${courseId}`)
+      .then(res => {
+        console.log(res);
+        setPrice(((100 - res.data.discount) / 100) * initialPrice);
+        setCorrectCode(code);
+        setUseDiscount(true);
+        console.log(price);
+        setDiscountLoading(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setUseDiscount(false);
+        setPrice(initialPrice);
+        setDiscountLoading(false);
+        console.log('result is :' + err);
+        if (err.response) {
+          if (err.response.status == '403') {
+            toast.error('متاسفانه کد تخفیفی با این عنوان در سیستم ثبت نشده.');
+          } else if (err.response.status == '410') {
+            toast.error('متاسفانه این کد تخفیف مهلتش تموم شده.');
+          }
+        }
       });
   };
 
@@ -266,7 +331,17 @@ const CoursePage = () => {
                   <button onClick={scrollToDates} className="course-header__goto-times">
                     مشاهده زمان جلسه‌ها
                   </button>
-                  {showRegister && (
+                  {(enrolled || role === 'teacher') && (
+                    <button
+                      onClick={() => {
+                        history.push(`/dashboard/class/${courseId}`);
+                      }}
+                      className="course-header__goto-class orange-btn"
+                    >
+                      رفتن به صفحه کلاس
+                    </button>
+                  )}
+                  {showRegister && data.capacity > 0 && (
                     <button className="course-header__register" onClick={handleOpen}>
                       ثبت‌نام‌ در کلاس
                     </button>
@@ -340,22 +415,70 @@ const CoursePage = () => {
             >
               <Fade in={open}>
                 <div className="register-modal">
-                  <h4 className="register-modal__title">آیا از شرکت توی این کلاس مطمئنی؟</h4>
-                  <button className="register-modal__confirm" onClick={register}>
-                    ثبت نام
-                  </button>
-                  <button className="register-modal__cancel" onClick={handleClose}>
-                    بازگشت
-                  </button>
-                  <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    {registerLoading && <ReactLoading type="bubbles" color="#000" />}
-                  </div>
+                  {isAuthenticated && (
+                    <>
+                      <h4 className="register-modal__title">آیا از شرکت توی این کلاس مطمئنی؟</h4>
+                      <div>
+                        <input
+                          type="text"
+                          placeholder="متن کد تخفیف"
+                          onBlur={() => setCodeBlured(true)}
+                          value={code}
+                          onChange={e => setCode(e.target.value)}
+                          className="kp-text-input__input course-page-input__title"
+                          id="title"
+                        />
+                        {regex.test(code) && (
+                          <div style={{ fontSize: 12, color: 'red', marginBottom: 10 }}>
+                            متن کد تخفیف باید تنها از اعداد و الفبای انگلیسی تشکیل شده باشد.
+                          </div>
+                        )}
+
+                        <button className="register-modal__confirm info-btn" onClick={discount}>
+                          {!discountLoading && <span>اعمال</span>}
+                          {discountLoading && (
+                            <ReactLoading type="bubbles" color="#fff" className="register-modal__discount-button" />
+                          )}
+                        </button>
+                      </div>
+                      {useDiscount && (
+                        <p className="register-modal__last-price-text">{`هزینه ی کلاس: ${formatPrice(
+                          convertNumberToPersian(lastPrice)
+                        )} تومان`}</p>
+                      )}
+                      <p className="register-modal__price-text">{`هزینه ی کلاس: ${formatPrice(
+                        convertNumberToPersian(price)
+                      )} تومان`}</p>
+                      <button className="register-modal__confirm" onClick={register}>
+                        ثبت نام
+                      </button>
+                      <button className="register-modal__cancel" onClick={handleClose}>
+                        بازگشت
+                      </button>
+                      <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        {registerLoading && <ReactLoading type="bubbles" color="#000" />}
+                      </div>
+                    </>
+                  )}
+                  {!isAuthenticated && (
+                    <>
+                      <h4 className="register-modal__title">
+                        برای ثبت‌نام در کلاس ابتدا باید وارد حساب کاربری خود شوید.
+                      </h4>
+                      <button className="register-modal__confirm" onClick={() => history.push('/login')}>
+                        ورود
+                      </button>
+                      <button className="register-modal__cancel" onClick={handleClose}>
+                        بازگشت
+                      </button>
+                    </>
+                  )}
                 </div>
               </Fade>
             </Modal>
             <div>
-              <Typography className="course-header__title">نظرات شرکت کنندگان:</Typography>
-              <CourseComments />
+              <Typography className="course-header__title">نظرات شرکت‌کنندگان:</Typography>
+              <CourseComments enrolled={enrolled} rate={rate} course_id={courseId} />
             </div>
           </div>
         )}

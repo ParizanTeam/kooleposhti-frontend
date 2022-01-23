@@ -40,7 +40,10 @@ function BaseAssignments() {
   const params = useParams();
   const [assignment, setAssignment] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const [isDone, setIsDone] = useState(false);
+  const handleIsDone=()=>{
+    setIsDone(true);
+  }
   const MySource = `${baseUrl}/assignments/${params.assignmentId}/`;
   useEffect(() => {
     axios
@@ -61,22 +64,20 @@ function BaseAssignments() {
           <ReactLoading type="spinningBubbles" color="#EF006C" height={100} width={100} />
         </div>
       ) : (
-        <Accordion expanded={true}>
-          <AccordionSummary aria-controls="panel1bh-content" id="panel1bh-header">
+        <>
+          <div style={{ display: 'flex' }}>
             <img src={Pen} alt="Sleeping Fox" className="Apic" />
-            <div className="txt">
+            <p className="txt">
               <Typography sx={{ width: '33%', flexShrink: 0, margin: 1 }}>{assignment.title}</Typography>
-              <Typography sx={{ color: '#300404', margin: 1 }}>حل نشده &#128542;</Typography>
-            </div>
-          </AccordionSummary>
-          <AccordionDetails>
-            <div className="Clful">
-              <p className="mytxt">&#x2618; {ReactHtmlParser(assignment.question)}</p>
-              <br />
-              <Uploader />
-            </div>
-          </AccordionDetails>
-        </Accordion>
+               <Typography sx={{ color: '#300404', margin: 1 }}>{isDone ? ' حل شده😎' : 'حل نشده 😔'}</Typography>
+            </p>
+          </div>
+          <div className="Clful">
+            <p className="mytxt">&#x2618; {ReactHtmlParser(assignment.question)}</p>
+            <br />
+            <Uploader handleIsDone={handleIsDone}/>
+          </div>
+        </>
       )}
     </div>
   );

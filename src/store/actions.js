@@ -31,7 +31,6 @@ export const logout = () => {
 };
 
 export const change_profile_color = (new_color) => {
-  console.log("root styles",document.documentElement.style)
   document.documentElement.style.setProperty('--color-student-primary', colorMap[new_color].primaryColor);
   document.documentElement.style.setProperty('--color-student-primary-light', colorMap[new_color].primaryLightColor);
   document.documentElement.style.setProperty('--color-student-secondary', colorMap[new_color].secondaryColor);

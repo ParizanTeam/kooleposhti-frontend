@@ -77,7 +77,6 @@ const LoginPage = () => {
           .get(`${baseUrl}/accounts/users/me`)
           .then(res => {
             setTimeout(() => {
-              console.log(res);
               dispatch(login());
               if (res.data.roles[0] === 'instructor') {
                 history.push('/dashboard/teacher');

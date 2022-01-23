@@ -40,7 +40,6 @@ function DashboardTeacherProfile(props) {
   const [changeImage, setChangeImage] = useState(false);
 
   const token = 'JWT ' + localStorage.getItem('access_token');
-  console.log(token);
 
   useEffect(() => {
     async function fetchData() {
@@ -52,7 +51,6 @@ function DashboardTeacherProfile(props) {
           },
         })
         .then(response => {
-          console.log('get response: ', response);
           setteacherData(response.data);
           if (response.data.image.image !== null || response.data.image.image !== undefined) {
             setFile(response.data.image.image);
@@ -61,21 +59,20 @@ function DashboardTeacherProfile(props) {
         })
         .catch(err => {
           setLoading(false);
-          console.log('error bedeeeeee: ', err);
+          console.log('error: ', err);
         });
     }
     fetchData();
   }, []);
 
   const [file, setFile] = useState(profile_1);
-  console.log(file);
 
   const handleChange = e => {
     setFile(URL.createObjectURL(e.target.files[0]));
     setChangeImage(true);
 
     let picture = e.target.files[0];
-    console.log('picture', picture);
+
     setBinaryFile(picture);
   };
 
@@ -87,7 +84,6 @@ function DashboardTeacherProfile(props) {
     prepend: true,
   });
 
-  console.log(teacher_data.username);
   return (
     <CacheProvider value={cacheRtl}>
       {loading && (
@@ -129,7 +125,7 @@ function DashboardTeacherProfile(props) {
                 sx={{ backgroundColor: 'rgba(10, 67, 94, 0.942)', color: 'white', width: '120px', mt: 2 }}
               >
                 <p style={{ fontSize: '0.8rem' }}>انتخاب عکس</p>
-                <input type="file" hidden onChange={handleChange} />
+                <input type="file" hidden onChange={handleChange} accept=".jpg,.jpeg,.png" />
               </Button>
 
               <ToastContainer rtl={true} />
@@ -151,8 +147,6 @@ function DashboardTeacherProfile(props) {
                     const formdata = new FormData();
                     let body = { ...values };
                     let imag_uploaded = true;
-                    console.log('form data', formdata);
-                    console.log('pass ', values.password);
                     formdata.append('image', binaryFile);
                     if (changeImage) {
                       const res = await axios
@@ -162,8 +156,7 @@ function DashboardTeacherProfile(props) {
                           },
                         })
                         .then(res => {
-                          console.log('res', res);
-                          console.log('res image', res.data.image);
+
                           body = { ...values, image_url: res.data.image };
                         })
                         .catch(err => {
@@ -171,8 +164,14 @@ function DashboardTeacherProfile(props) {
                           imag_uploaded = false;
                         });
                     }
+                    
+                    if(values.password === undefined){
+                      body = {...body, password:null};
+                      if(values.phone_no === ""){
+                        body = {...body , phone_no:null};
+                      }
+                    }
 
-                    console.log('body ', body);
                     axios
                       .put(`${baseUrl}/accounts/instructors/me/`, JSON.stringify(body), {
                         headers: {
@@ -181,7 +180,7 @@ function DashboardTeacherProfile(props) {
                         },
                       })
                       .then(async response => {
-                        console.log('response ', response);
+
                         if (imag_uploaded) {
                           toast.success('با موفقیت به‌روز شد', {
                             position: 'bottom-center',
@@ -202,12 +201,12 @@ function DashboardTeacherProfile(props) {
                               },
                             })
                             .then(res => {
-                              console.log('get response: ', res);
+
                               setteacherData(response.data);
                               if (res.data.image.image !== null || res.data.image.image !== undefined) {
                                 setFile(res.data.image.image);
                               }
-                              props.setUsername(res.data.username)
+                              props.setUsername(res.data.username);
                               setLoading(false);
                             })
                             .catch(err => {
@@ -291,17 +290,17 @@ function DashboardTeacherProfile(props) {
               >
                 {({ handleSubmit, handleChange, setFieldValue, values, errors, handleBlur }) => (
                   <Box
-                    component="form"
-                    id="profile-form"
-                    noValidate
-                    sx={{ mt: 8 }}
-                    onSubmit={e => {
-                      e.preventDefault();
-                      setValidateAfterSubmit(true);
-                      handleSubmit();
-                    }}
+                  component="form"
+                  id="profile-form"
+                  noValidate
+                  sx={{ mt: 8 }}
+                  onSubmit={e => {
+                    e.preventDefault();
+                    setValidateAfterSubmit(true);
+                    handleSubmit();
+                  }}
                   >
-                    <ToastContainer rtl={true} />
+                  <ToastContainer rtl={true} />
                     <Grid container spacing={2}>
                       <Grid item sm={6} xs={12}>
                         <TextField
@@ -338,6 +337,9 @@ function DashboardTeacherProfile(props) {
                           InputLabelProps={{ shrink: values.username }}
                           autoComplete="given-name"
                           name="username"
+                          InputProps={{
+                            readOnly: true,
+                          }}
                           required
                           fullWidth
                           id="username"
