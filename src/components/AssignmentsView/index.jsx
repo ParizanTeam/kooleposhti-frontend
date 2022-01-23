@@ -207,7 +207,7 @@ const StudentHomeWork = ({ hw, assignmentId }) => {
     let name = hw.username;
     if (hw.firstname) {
       name = hw.firstname;
-      if (hw.last_name) name = `${hw.firstname} ${hw.lastname}`;
+      if (hw.lastname) name = `${hw.firstname} ${hw.lastname}`;
     }
     const filename = decodeURI(answer.file.split('/').at(-1));
     const file_adrr = `https://kooleposhti.ml${answer.file}`;
