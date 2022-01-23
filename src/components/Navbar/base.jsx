@@ -68,13 +68,8 @@ export const MyClasses = () => {
 };
 export const ProfileMenu = props => {
   const username = useSelector(state => state.auth.username);
-  /*let profileImage = useSelector(state => state.auth.image);
-  if( profileImage.image){
-    profileImage = profileImage.image
-  }else{
-    profileImage=""
-  }
-  console.log("Profile Image",profileImage)*/
+  const profileImage = useSelector(state => state.auth.image);
+  const editProfileStyle = { color: navbarProps.baseColor, fontSize: '12px', filter: 'brightness(70%)' };
   let role = useSelector(state => state.auth.roles)[0];
   if (role == 'instructor') role = 'teacher';
   const profileMenuItems = {
@@ -83,7 +78,6 @@ export const ProfileMenu = props => {
       { icon: Assignment, label: 'چالش‌ها', to: '/dashboard/student/assignments' },
       { icon: FavoriteBorder, label: 'علاقمندی‌ها', to: '/dashboard/student/bookmarks' },
       { icon: AttachMoneyIcon, label: 'سکه‌های من', to: '/dashboard/student/Coins' },
-
     ],
     teacher: [
       { icon: CastForEducationIcon, label: 'کلاس‌ها', to: '/dashboard/teacher/classes' },
@@ -112,7 +106,11 @@ export const ProfileMenu = props => {
           >
             <Tooltip title="منوی شخصی">
               <IconButton onClick={handleClick} size="small">
-                <Avatar sx={{ width: 32, height: 32 }}>{username[0].toUpperCase()}</Avatar>
+                {profileImage ? (
+                  <Avatar src={profileImage.image} sx={{ width: 45, height: 45 }} />
+                ) : (
+                  <Avatar sx={{ width: 32, height: 32 }}>{username[0].toUpperCase()}</Avatar>
+                )}
               </IconButton>
             </Tooltip>
           </Box>
@@ -127,8 +125,11 @@ export const ProfileMenu = props => {
             disableScrollLock={true}
           >
             <MenuItem component={Link} to={`/dashboard/${role}/profile`}>
-              <Avatar src={AccountCircleIcon} sx={{ width: 45, height: 45, ml: '15px' }} />
-              {username}
+              <Avatar src={profileImage ? profileImage.image : ''} sx={{ width: 45, height: 45, ml: '15px' }} />
+              <div>
+                <p>{username}</p>
+                <a style={editProfileStyle}>ویرایش پروفایل</a>
+              </div>
             </MenuItem>
             <Divider />
             {profileMenuItems[role].map((item, i) => (
@@ -145,8 +146,11 @@ export const ProfileMenu = props => {
       ) : (
         <>
           <MenuItem component={Link} to={`/dashboard/${role}/profile`}>
-            <Avatar src={AccountCircleIcon} sx={{ width: 45, height: 45, ml: '15px' }} />
-            {username}
+            <Avatar src={profileImage ? profileImage.image : ''} sx={{ width: 45, height: 45, ml: '15px' }} />
+            <div>
+              <p>{username}</p>
+              <a style={editProfileStyle}>ویرایش پروفایل</a>
+            </div>
           </MenuItem>
           <Divider />
           {profileMenuItems[role].map((item, i) => (

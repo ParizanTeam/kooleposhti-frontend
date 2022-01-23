@@ -1,20 +1,17 @@
 @import '/src/theme/main.scss';
 
-
-.navbar{
-
-&__search-bar{
-  display: flex;
-  padding: 0 7%;
-  justify-content: center;
-  align-items: center;
-  height: 60px;
-  width: 100%;
-  margin-top: 60px;
-}
+.navbar {
+  &__search-bar {
+    display: flex;
+    padding: 0 7%;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    width: 100%;
+    margin-top: 60px;
+  }
 }
 .desktop_navbar {
-  
   @media screen and (min-width: 900px) {
     &__logo {
       margin-right: 50px;
@@ -26,4 +23,3 @@
     }
   }
 }
-
