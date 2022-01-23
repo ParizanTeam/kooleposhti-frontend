@@ -151,7 +151,8 @@ const CoursePage = () => {
   const [useDiscount, setUseDiscount] = useState(false);
   const [lastPrice, setLastPrice] = useState();
   const handleOpen = () => {
-    if (!user.first_name || !user.last_name) toast.error('قبل ثبت نام باید اطلاعات خود را از قسمت پروفایل تکمیل کنید');
+    if (isAuthenticated && (!user.first_name || !user.last_name))
+      toast.error('قبل ثبت نام باید اطلاعات خود را از قسمت پروفایل تکمیل کنید');
     else setOpen(true);
   };
   const handleClose = () => setOpen(false);
