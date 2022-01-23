@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 import { convertNumberToPersian } from '../../utils/helpers';
 import AttachmentViewer from '../AttachmentViewer';
 import './style.scss';
+import { flexbox } from '@mui/system';
 const mime_types = {
   png: 'image',
   jpg: 'image',
@@ -35,6 +36,8 @@ function App() {
   const [myAns, setMyAns] = useState('پاسخ من');
   const [previousFile, setPreviousFile] = useState(null);
   const [fileDate, setFileDate] = useState(new Date());
+  const [hwId, setHwId] = useState(new Date());
+
 
   const [previousAns, setPreviousAns] = useState('پاسخ من');
   const user = useSelector(state => state.auth);
@@ -53,7 +56,7 @@ function App() {
     const file_adrr = isLocal ? URL.createObjectURL(file) : `https://kooleposhti.ml${file}`;
     const file_format = filename.split('.').at(-1);
     const mime_type = `${mime_types[file_format]}/${file_format}`;
-    const submited_date = convertDateToJalali(new Date());
+    const submited_date = convertDateToJalali(fileDate);
 
     return {
       id: 1,
@@ -68,7 +71,7 @@ function App() {
     };
   };
   const MySource = `${baseUrl}/assignments/${params.assignmentId}/submit/`;
-  const editionSource = `${baseUrl}/assignments/${params.assignmentId}/submit/5/`;
+ 
 
   useEffect(() => {
     axios
@@ -84,6 +87,7 @@ function App() {
         setPreviousFile(res.data.file);
         setPreviousAns(res.data.answer);
         setFileDate(res.data.submited_date);
+        setHwId(res.data.id)
         setLoading(false);
       })
       .catch(err => {
@@ -139,7 +143,7 @@ function App() {
     console.log(previousFile);
     console.log(previousAns);
     if (previousFile || previousAns !== 'پاسخ من') {
-      await axios.patch(editionSource, formData).then(res => {
+      await axios.patch(`${baseUrl}/assignments/${params.assignmentId}/submit/${hwId}/`, formData).then(res => {
         setFile(null);
         setPreviousFile(res.data.file);
       });
@@ -239,7 +243,9 @@ function App() {
       </div>
       <div className="Bt">
         <Button onClick={handleSubmit}>
-          <p className="Bt__txt">ثبت</p>
+          <p className="Bt__txt">
+         { !(previousFile || previousAns)  ? 'ثبت' : 'ثبت تغییرات'}
+            </p>
         </Button>
       </div>
     </div>
