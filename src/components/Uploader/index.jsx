@@ -13,7 +13,10 @@ import DragDrop from './DragDrop';
 function App() {
   const params = useParams();
   const [myAns, setMyAns] = useState('پاسخ من');
+  const [previeousFile , setPrevieousFile]= useState(null);
+  const [previeousAns , setPrevieousAns]= useState('پاسخ من');
   const MySource = `${baseUrl}/assignments/${params.assignmentId}/submit/`;
+  const editionSource = `${baseUrl}/assignments/${params.assignmentId}/submit/${params.assignmentId}/`;
   useEffect(() => {
     axios
       .get(`${baseUrl}/assignments/${params.assignmentId}/submit/me`)
@@ -23,6 +26,8 @@ function App() {
         );
         console.log('content:', editorContent);
         setMyAns(editorContent);
+        setPrevieousFile(res.file);
+        setPrevieousAns(res.answer);
         setLoading(false);
       })
       .catch(err => {
@@ -62,9 +67,25 @@ function App() {
   };
 
   const uploadFile = async file => {
+    toast.info('🦄 درحال بارگذاری پاسخ شما ...', {
+      position: "bottom-center",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      });
     const formData = new FormData();
     if(file)formData.append('file', file);
     formData.append('answer', myAns);
+    console.log(previeousFile);
+    console.log(previeousAns);
+    if(previeousFile || previeousAns!=='پاسخ من')  
+    {
+      await axios.patch(editionSource, formData);
+      return toast.success('پاسخ شما با موفقیت ویرایش شد.');
+    }
     await axios.post(MySource, formData);
     return toast.success('پاسخ شما با موفقیت ثبت شد.');
   };
