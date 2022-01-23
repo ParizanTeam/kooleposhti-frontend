@@ -100,7 +100,7 @@ const PWAttachmentViewer = ({ attachment, onClose, onDelete }) => {
 
   return (
     <div className="container">
-      <AppBar style={{ color: 'white', backgroundColor: 'black' }}>
+      <AppBar style={{ color: 'white', backgroundColor: 'black',marginTop:'65px' }}>
         <Toolbar>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <Avatar src={userImage} sx={{ borderRadius: '50%', marginLeft: '10px' }} />

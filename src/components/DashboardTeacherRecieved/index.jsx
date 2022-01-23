@@ -10,9 +10,12 @@ function DashboardTeacherRecieved(props) {
       {/*<React.Fragment>
         <h1>دریافت ها</h1>
       </React.Fragment>*/}
-      <DashboardTeacherWalletCharts/>
+      <div className='chartIn'>
+      <DashboardTeacherWalletCharts/></div>
       <StyledEngineProvider injectFirst>
-        <RecievedList />
+        <div>
+          <RecievedList />
+        </div>
       </StyledEngineProvider>
   </div>
   );

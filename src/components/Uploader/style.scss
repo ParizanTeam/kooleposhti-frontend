@@ -1,0 +1,13 @@
+@import '/src/theme/main.scss';
+.doNotShow > input {
+  display: none;
+}
+
+.uploadfile-preview-btn {
+  color: rgb(124, 2, 22);
+  cursor: pointer;
+
+  &:hover {
+    color: rgba(124, 2, 22, 0.548);
+  }
+}

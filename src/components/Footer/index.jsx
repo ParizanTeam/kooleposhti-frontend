@@ -21,11 +21,21 @@ const Footer = () => {
 
       <div className="my-social" style={{ textAlign: 'center' }}>
         <p className="my-footer__content">تماس با ما</p>
-        <img src={email} alt="SMI" className="my-social__Icon" />
-        <img src={instagram} alt="SMI" className="my-social__Icon" />
-        <img src={twitter} alt="SMI" className="my-social__Icon" />
-        <img src={whatsapp} alt="SMI" className="my-social__Icon" />
-        <img src={phone} alt="SMI" className="my-social__Icon" />
+        <a href="mailto:contact.kooleposhti@gmail.com">
+          <img src={email} alt="email" className="my-social__Icon" />
+        </a>
+        <a href="https://www.instagram.com/kooleposhti_learning_platform/" target="_blank">
+          <img src={instagram} alt="instagram" className="my-social__Icon" />
+        </a>
+        <a href="https://twitter.com/kooleposhti_edu" target="_blank">
+          <img src={twitter} alt="twitter" className="my-social__Icon" />
+        </a>
+        <a href="https://wa.me/989037505722" target="_blank">
+          <img src={whatsapp} alt="whatsapp" className="my-social__Icon" />
+        </a>
+        <a href="tel:+989037505722">
+          <img src={phone} alt="phone" className="my-social__Icon" />
+        </a>
       </div>
 
       <div className="my-footer__bylove">

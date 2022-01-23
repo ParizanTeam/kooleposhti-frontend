@@ -88,19 +88,26 @@ function CreateCourseStepTwo(props) {
     setAgeSlider(event.target.value);
     console.log(event.target.value);
     // setFormData(prev => ({ ...prev, age: event.target.value }));
-    if (event.target.value == '1') {
+    if (event.target.value === 1) {
+      console.log('hello');
       setFormData(prev => ({ ...prev, age: event.target.value, startAge: '4', endAge: '7' }));
-    } else if (event.target.value == '2') {
+    } else if (event.target.value === 2) {
+      console.log('hello');
       setFormData(prev => ({ ...prev, age: event.target.value, startAge: '7', endAge: '10' }));
-    } else if (event.target.value == '3') {
+    } else if (event.target.value === 3) {
+      console.log('hello');
       setFormData(prev => ({ ...prev, age: event.target.value, startAge: '10', endAge: '13' }));
-    } else if (event.target.value == '4') {
+    } else if (event.target.value === 4) {
+      console.log('hello');
       setFormData(prev => ({ ...prev, age: event.target.value, startAge: '13', endAge: '18' }));
-    } else if (event.target.value == '5') {
+    } else if (event.target.value === 5) {
+      console.log('hello');
       setFormData(prev => ({ ...prev, age: event.target.value, startAge: '4', endAge: '10' }));
-    } else if (event.target.value == '6') {
+    } else if (event.target.value === 6) {
+      console.log('hello');
       setFormData(prev => ({ ...prev, age: event.target.value, startAge: '10', endAge: '18' }));
-    } else if (event.target.value == '7') {
+    } else if (event.target.value === 7) {
+      console.log('hello');
       setFormData(prev => ({ ...prev, age: event.target.value, startAge: '4', endAge: '18' }));
     }
     // console.log('start is ' + startAge);
@@ -204,7 +211,7 @@ function CreateCourseStepTwo(props) {
     values.splice(index, 1);
     setPrerequisites(values);
   };
-  
+
   return (
     <CacheProvider value={rtl ? cacheRtl : cacheLtr}>
       <div dir="rtl">
@@ -241,9 +248,9 @@ function CreateCourseStepTwo(props) {
                 autoFocus
                 value={convertNumberToPersian(capacity)}
                 onBlur={() => setCapacityBlured(true)}
-                error={(capacity == '' || !isPersianNumber(capacity)) && capacityBlured}
+                error={(capacity === '' || !isPersianNumber(capacity)) && capacityBlured}
                 helperText={
-                  capacity == '' && capacityBlured
+                  capacity === '' && capacityBlured
                     ? 'پر کردن این فیلد الزامی است '
                     : capacityBlured && !isPersianNumber(capacity)
                     ? 'باید مقدار عددی وارد کنید.'
@@ -266,7 +273,7 @@ function CreateCourseStepTwo(props) {
                   value={age}
                   label="رده سنی*"
                   name="ageRange"
-                  error={age == '' && ageRangeBlured}
+                  error={age === '' && ageRangeBlured}
                   onChange={handleSelectChange}
                   // style={{ margin: '50px' }}
                 >
@@ -279,7 +286,7 @@ function CreateCourseStepTwo(props) {
                   <MenuItem value={7}>بین ۴ تا ۱۸</MenuItem>
                 </Select>
                 <FormHelperText style={{ color: '#D32F2F' }}>
-                  {age == '' && ageRangeBlured ? 'باید یک گزینه را انتخاب کنید.' : ''}
+                  {age === '' && ageRangeBlured ? 'باید یک گزینه را انتخاب کنید.' : ''}
                 </FormHelperText>
               </FormControl>
 
@@ -290,7 +297,7 @@ function CreateCourseStepTwo(props) {
                   <TextField
                     name="learningItem"
                     label={`هدف ${
-                      index == 0 ? 'اول' : index == 1 ? 'دوم' : index == 2 ? 'سوم' : index == 3 ? 'چهارم' : ''
+                      index === 0 ? 'اول' : index === 1 ? 'دوم' : index === 2 ? 'سوم' : index === 3 ? 'چهارم' : ''
                     }`}
                     variant="outlined"
                     value={objective}
@@ -341,7 +348,7 @@ function CreateCourseStepTwo(props) {
                   // component="span"
                   className="steeper-button"
                   onClick={handleLast}
-                  disabled={activeStep == 0}
+                  disabled={activeStep === 0}
                 >
                   صفحه‌ی قبل
                 </Button>
@@ -359,7 +366,7 @@ function CreateCourseStepTwo(props) {
                   className="steeper-button"
                   onClick={handleNext}
                 >
-                  {activeStep == 2 ? 'پایان' : 'صفحه‌ی بعد'}
+                  {activeStep === 2 ? 'پایان' : 'صفحه‌ی بعد'}
                 </Button>
               </div>
             </Box>

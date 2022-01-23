@@ -80,7 +80,11 @@ function Row(props) {
         sx={{ '& > *': { borderBottom: 'unset' }, margin: '100px' }}
       >
         <TableCell align="right">
-          <Avatar src={row.studentImage} alt="profile" sx={{ borderRadius: '50%' }} />
+          <Avatar
+            src={row.image ? `https://kooleposhti.ml${row.image}` : null}
+            alt="profile"
+            sx={{ borderRadius: '50%' }}
+          />
         </TableCell>
         <TableCell align="right">
           <p>{row.firstname}</p>
@@ -165,7 +169,7 @@ const ClassAtendees = () => {
       .get(`${baseUrl}/courses/${classId}/students/`)
       .then(res => {
         const rows = res.data.map(item =>
-          createData(item.user_id, item.image, item.first_name, item.last_name, item.username)
+          createData(item.user_id, item.image ? item.image.image : null, item.first_name, item.last_name, item.username)
         );
         setStudents(rows);
         setLoading(false);

@@ -22,6 +22,31 @@ import apiInstance from '../../utils/axiosConfig';
 import { baseUrl } from '../../utils/constants';
 import { useMediaQuery } from '@mui/material';
 
+const customContentStateConverter = contentState => {
+  // changes block type of images to 'atomic'
+  const newBlockMap = contentState.getBlockMap().map(block => {
+    const entityKey = block.getEntityAt(0);
+    if (entityKey !== null) {
+      const entityBlock = contentState.getEntity(entityKey);
+      const entityType = entityBlock.getType();
+      switch (entityType) {
+        case 'IMAGE': {
+          const newBlock = block.merge({
+            type: 'atomic',
+            text: 'img',
+          });
+          return newBlock;
+        }
+        default:
+          return block;
+      }
+    }
+    return block;
+  });
+  const newContentState = contentState.set('blockMap', newBlockMap);
+  return newContentState;
+};
+
 const EditAssignment = ({ role }) => {
   const params = useParams();
   const assignmentId = params.assignmentId;
@@ -31,7 +56,6 @@ const EditAssignment = ({ role }) => {
   useEffect(() => {
     setLoadData(true);
     apiInstance.get(`${baseUrl}/assignments/${assignmentId}/`).then(res => {
-      console.log(res.data);
       setTitle(res.data.title);
       const [startYear, startMonth, startDay] = res.data.start_date.split('-');
       const [endYear, endMonth, endDay] = res.data.end_date.split('-');
@@ -54,7 +78,9 @@ const EditAssignment = ({ role }) => {
         })
       );
       const blocksFromHTML = convertFromHTML(res.data.question);
-      const state = ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap);
+      const state = customContentStateConverter(
+        ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap)
+      );
       setEditorContent(EditorState.createWithContent(state));
       setContent(draftToHtml(convertToRaw(EditorState.createWithContent(state).getCurrentContent())));
       setLoadData(false);

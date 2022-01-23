@@ -61,4 +61,7 @@
   align-items: center;
   margin: auto;
   margin-top: 4vmin !important;
+  @media(max-width:900px){
+    font-size: 18px !important;
+  }
 }

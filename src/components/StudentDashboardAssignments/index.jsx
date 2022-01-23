@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SleepingFox from '../../assets/images/SleepingFox.png';
 import AwakenFox from '../../assets/images/AwakenFox.png';
+import TimeToRest from '../../assets/images/TimeToRest.png';
 //import PlayfulFox from '../../assets/images/PlayfulFox.png';
 //import HappyFox from '../../assets/images/HappyFox.png'
 
@@ -22,8 +23,7 @@ import ReactLoading from 'react-loading';
 import ReactHtmlParser from 'react-html-parser';
 import { changeDateFormat2 } from '../../utils/helpers';
 import { useSelector } from 'react-redux';
-
-
+import { change_profile_color } from '../../store/actions';
 function MyAssignments() {
   const [loading, setLoading] = React.useState(true);
 
@@ -34,7 +34,6 @@ function MyAssignments() {
       .get(`${baseUrl}/accounts/students/assignments/`)
       .then(res => {
         setAssignments(res.data);
-        console.log('students assignments', res.data);
         setLoading(false);
       })
       .catch(err => {
@@ -48,24 +47,32 @@ function MyAssignments() {
     setExpanded(isExpanded ? panel : false);
   };
   return (
-    <div  className="AcDiv">
+    <div className="AcDiv">
       {loading ? (
-        <div style={{ padding: '140px', display: 'flex',alignItems:'center',justifyContent:'center' }}>
+        <div style={{ padding: '140px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <ReactLoading type="spinningBubbles" color="white" height={100} width={100} />
         </div>
       ) : (
         <div>
+          {assignments.length === 0 && (
+            <div>
+              <div style={{ padding: '140px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <p className="NoAssign">تمرین حل نشده نداری</p>
+                <img src={TimeToRest} alt="TimeToRest" style={{ width: '60px', marginRight: '10px' }} />
+              </div>
+            </div>
+          )}
           {assignments.map((assignment, idx) => (
             <Accordion expanded={idx == 0 ? true : expanded === idx} onChange={handleChange(idx)}>
               <AccordionSummary expandIcon={<ExpandMoreIcon className="assignment-margin" />}>
                 <img
                   src={idx == 0 || expanded === idx ? AwakenFox : SleepingFox}
-                  alt="Sleeping Fox"
+                  alt="Fox"
                   className="FoxP assignment-margin"
                 />
                 <div className="Text">
                   <Typography sx={{ width: '33%', flexShrink: 0, margin: 1 }}>{assignment.title}</Typography>
-                  <Typography sx={{ color: 'text.secondary', margin: 1, marginRight: 3 }}>
+                  <Typography sx={{ width: '33%', color: 'text.secondary', margin: 1, marginRight: 3 }}>
                     تا&nbsp;
                     {changeDateFormat2(assignment.end_date)} &nbsp; وقت داری
                   </Typography>
@@ -73,8 +80,8 @@ function MyAssignments() {
                   {!isMobile && (
                     <Typography sx={{ width: '33%', flexShrink: 0, margin: 1 }}>
                       درس: {assignment.course.title}
-                      </Typography>
-                  )} 
+                    </Typography>
+                  )}
                 </div>
               </AccordionSummary>
               <AccordionDetails>
@@ -96,7 +103,10 @@ function MyAssignments() {
                     </Button>
                   </div>
                   <div className="SecBt">
-                    <Button component={Link} to={`/dashboard/class/${assignment.course.id}/assignments/view/${assignment.id}`}>
+                    <Button
+                      component={Link}
+                      to={`/dashboard/class/${assignment.course.id}/assignments/view/${assignment.id}`}
+                    >
                       <p className="Mycolor">بریم به صفحه این تمرین</p>
                     </Button>
                   </div>
@@ -110,20 +120,20 @@ function MyAssignments() {
   );
 }
 
-
 const StudentDashboardAssignments = () => {
   const themeProps = useSelector(state => state.theme);
-
+  let theNewone = localStorage.getItem('chosenColor');
+  change_profile_color(theNewone);
   return (
-  <div>
-    <StudentDashboardHeader/>
-    <img src={themeProps.btnLabel} alt='cc' className='ccImg'/>
-    <br/>
-    <div className="afterMyC-b">
-      <MyAssignments />
+    <div>
+      <StudentDashboardHeader />
+      <img src={themeProps.btnLabel} alt="cc" className="ccImg" />
+      <br />
+      <div className="afterMyC-b">
+        <MyAssignments />
+      </div>
+      <StudentDashboardFooter />
     </div>
-    <StudentDashboardFooter />
-  </div>
   );
 };
 export default StudentDashboardAssignments;

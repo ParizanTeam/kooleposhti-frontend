@@ -12,7 +12,7 @@
 
   &__img {
     width: 100%;
-    height: 40%;
+    min-height: 150px;
   }
 
   &__rating-wrapper {
@@ -57,4 +57,5 @@
 
 .filled-fav-icon {
   color: rgb(241, 93, 93);
+  color: rgb(177, 177, 250);
 }
