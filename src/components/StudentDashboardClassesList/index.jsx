@@ -25,6 +25,8 @@ import { change_profile_color } from '../../store/actions';
 const StudentDashboardClassesList = () => {
   const [loading, setLoading] = React.useState(true);
   const [classStatus, setClassStatus] = React.useState('active');
+  const [displayClasses, setDisplayClasses] = React.useState([]);
+
   const themeProps = useSelector(state => state.theme);
   let theNewone = localStorage.getItem('chosenColor');
   change_profile_color(theNewone);
@@ -39,10 +41,10 @@ const StudentDashboardClassesList = () => {
     },
   });
   const [classData, setClassData] = useState([]);
-  const DisplayClass = date => {
+  const DisplayClass = (date, status) => {
     const isPast = dateDiff(date) >= -1 ? true : false;
-    if (classStatus === 'active') return isPast;
-    else if (classStatus === 'past') return !isPast;
+    if (status === 'active') return isPast;
+    else if (status === 'past') return !isPast;
     else return true;
   };
   useEffect(() => {
@@ -52,6 +54,7 @@ const StudentDashboardClassesList = () => {
         .then(response => {
           console.log('classData ', response.data.courses);
           setClassData(response.data.courses);
+          setDisplayClasses(response.data.courses.filter(x => DisplayClass(x.end_date, classStatus)));
           setLoading(false);
         })
         .catch(err => {
@@ -61,7 +64,9 @@ const StudentDashboardClassesList = () => {
     fetchData();
   }, []);
   const handleChange = event => {
-    setClassStatus(event.target.value);
+    const status = event.target.value;
+    setClassStatus(status);
+    setDisplayClasses(classData.filter(x => DisplayClass(x.end_date, status)));
   };
   return (
     <div>
@@ -85,88 +90,105 @@ const StudentDashboardClassesList = () => {
             </Select>
           </div>
 
-          <div >
+          <div>
             {loading ? (
-              <div className='make-center' >
+              <div className="make-center">
                 <ReactLoading type="spinningBubbles" color={themeProps.primaryColor} height={100} width={100} />{' '}
               </div>
             ) : (
               <>
-                {classData.length === 0 && (
-                  <div>
-                    <Typography variant="h6" component="div" className='make-center' style={{ padding: '50px 0', color: 'grey' }}>
-                      کلاسی نداری چطوره یه نگاهی به کلاسای اینجا بندازی؟
-                    </Typography>
-                    <CourseSlider loadingColor={themeProps.primaryColor} />
-                  </div>
+                {displayClasses.length === 0 && (
+                  <>
+                    {classData.length === 0 ? (
+                      <div>
+                        <Typography
+                          variant="h6"
+                          component="div"
+                          className="make-center"
+                          style={{ padding: '50px 0', color: 'grey' }}
+                        >
+                          کلاسی نداری چطوره یه نگاهی به کلاسای اینجا بندازی؟
+                        </Typography>
+                        <CourseSlider loadingColor={themeProps.primaryColor} />
+                      </div>
+                    ) : (
+                      <div>
+                        <Typography
+                          variant="h6"
+                          component="div"
+                          className="make-center"
+                          style={{ padding: '50px 0', color: 'grey' }}
+                        >
+                          هنوز هیچ کدوم از کلاسات تموم نشدن
+                        </Typography>
+                      </div>
+                    )}
+                  </>
                 )}
+
                 <div className="make-center">
-                <Grid
-                  className="studentdash"
-                  style={{ display: 'flex' }}
-                  justifyContent="center"
-                  alignItems="center"
-                  container
-                  rowSpacing={4}
-                  md={8}
-                  xs={10}
-                >
-                  {classData.map(classInfo => (
-                    <>
-                      {DisplayClass(classInfo.end_date) && (
-                        <Grid item md={4} sm={6} xs={12}>
-                          <Card>
-                            <CardMedia
-                              component="img"
-                              height="180"
-                              image={
-                                classInfo.image
-                                  ? `${baseUrl}${classInfo.image}`
-                                  : 'https://www.inklyo.com/wp-content/uploads/How-to-Succeed-in-an-Online-Course.jpg'
-                              }
-                              alt="green iguana"
-                            />
-                            <CardContent>
-                              <Typography gutterBottom variant="h5" component="div">
-                                {classInfo.title}
+                  <Grid
+                    className="studentdash"
+                    style={{ display: 'flex' }}
+                    justifyContent="center"
+                    alignItems="center"
+                    container
+                    rowSpacing={4}
+                    md={8}
+                    xs={10}
+                  >
+                    {displayClasses.map(classInfo => (
+                      <Grid item md={4} sm={6} xs={12}>
+                        <Card>
+                          <CardMedia
+                            component="img"
+                            height="180"
+                            image={
+                              classInfo.image
+                                ? `${baseUrl}${classInfo.image}`
+                                : 'https://www.inklyo.com/wp-content/uploads/How-to-Succeed-in-an-Online-Course.jpg'
+                            }
+                            alt="green iguana"
+                          />
+                          <CardContent>
+                            <Typography gutterBottom variant="h5" component="div">
+                              {classInfo.title}
+                            </Typography>
+                            <div className="studentdash__class-details">
+                              <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                align="right"
+                                style={{ lineHeight: '2' }}
+                              >
+                                <span>مدرس</span> :{' '}
+                                <span>
+                                  {classInfo.instructor.first_name} {classInfo.instructor.last_name}
+                                </span>
+                                <br />
+                                <span>از تاریخ</span> : <span>{changeDateFormat(classInfo.start_date)}</span>
+                                <br />
+                                <span>تا تاریخ</span> : <span>{changeDateFormat(classInfo.end_date)}</span>
+                                <br />
                               </Typography>
-                              <div className="studentdash__class-details">
-                                <Typography
-                                  variant="body2"
-                                  color="text.secondary"
-                                  align="right"
-                                  style={{ lineHeight: '2' }}
-                                >
-                                  <span>مدرس</span> :{' '}
-                                  <span>
-                                    {classInfo.instructor.first_name} {classInfo.instructor.last_name}
-                                  </span>
-                                  <br />
-                                  <span>از تاریخ</span> : <span>{changeDateFormat(classInfo.start_date)}</span>
-                                  <br />
-                                  <span>تا تاریخ</span> : <span>{changeDateFormat(classInfo.end_date)}</span>
-                                  <br />
-                                </Typography>
-                              </div>
-                            </CardContent>
-                            <CardActions>
-                              <a href={`/dashboard/class/${classInfo.id}`} target="_blank">
-                                ورود به کلاس
-                              </a>
-                            </CardActions>
-                          </Card>
-                        </Grid>
-                      )}
-                    </>
-                  ))}
-                </Grid>
+                            </div>
+                          </CardContent>
+                          <CardActions>
+                            <a href={`/dashboard/class/${classInfo.id}`} target="_blank">
+                              ورود به کلاس
+                            </a>
+                          </CardActions>
+                        </Card>
+                      </Grid>
+                    ))}
+                  </Grid>
                 </div>
               </>
             )}
           </div>
         </div>
       </ThemeProvider>
-      <StudentDashboardFooter  styles={loading?{position:'absolute'}:{}}/>
+      <StudentDashboardFooter styles={loading || displayClasses.length === 0 ? { position: 'absolute' } : {}} />
     </div>
   );
 };
