@@ -330,17 +330,16 @@ const CoursePage = () => {
                   <button onClick={scrollToDates} className="course-header__goto-times">
                     مشاهده زمان جلسه‌ها
                   </button>
-                  {enrolled ||
-                    (role === 'teacher' && (
-                      <button
-                        onClick={() => {
-                          history.push(`/dashboard/class/${courseId}`);
-                        }}
-                        className="course-header__goto-class orange-btn"
-                      >
-                        رفتن به صفحه کلاس
-                      </button>
-                    ))}
+                  {(enrolled || role === 'teacher') && (
+                    <button
+                      onClick={() => {
+                        history.push(`/dashboard/class/${courseId}`);
+                      }}
+                      className="course-header__goto-class orange-btn"
+                    >
+                      رفتن به صفحه کلاس
+                    </button>
+                  )}
                   {showRegister && data.capacity > 0 && (
                     <button className="course-header__register" onClick={handleOpen}>
                       ثبت‌نام‌ در کلاس
