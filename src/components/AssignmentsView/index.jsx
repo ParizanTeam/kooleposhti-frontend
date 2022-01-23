@@ -198,7 +198,7 @@ const StudentHomeWork = ({ hw, assignmentId }) => {
     const JDate = require('jalali-date');
     const date = new Date(input);
     const jdate = new JDate(date).format('dddd DD MMMM YYYY');
-    return `${jdate} ساعت ${date.getHours()}:${date.getMinutes()}`;
+    return jdate;
   };
 
   const attachmentFiles = [];
@@ -213,16 +213,16 @@ const StudentHomeWork = ({ hw, assignmentId }) => {
     const file_adrr = `https:\\kooleposhti.ml${answer.file}`;
     const file_format = filename.split('.').at(-1);
     const mime_type = `${mime_types[file_format]}/${file_format}`;
-    // const submited_date=convertDateToJalali(hw.submited_date);
+    const submited_date=convertDateToJalali(answer.submited_date);
     attachmentFiles.push({
       id: 1,
       uploader: {
         username: name,
-        userImage: hw.studentImage,
+        userImage: hw.studentImage ? `https://kooleposhti.ml${hw.studentImage}` : null,
       },
       name: filename,
       link: file_adrr,
-      createdAt: convertNumberToPersian(hw.submited_date),
+      createdAt: convertNumberToPersian(submited_date),
       mimetype: mime_type,
     });
   }
@@ -474,6 +474,8 @@ export default function AssignmentsView() {
         apiInstance
           .get(`${baseUrl}/courses/${classId}/students/`)
           .then(res => {
+            console.log('students', res.data);
+
             const rows = res.data.map(item =>
               createData(
                 item.user_id,
@@ -483,7 +485,7 @@ export default function AssignmentsView() {
                 item.username,
                 item.id in temp,
                 temp[item.id],
-                temp[item.id].id
+                temp[item.id]?temp[item.id].id:null
               )
             );
             console.log('assignments', res.data);
