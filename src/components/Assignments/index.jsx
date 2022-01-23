@@ -6,6 +6,7 @@ import { convertNumberToPersian } from '../../utils/helpers';
 import { Modal, Fade, Backdrop } from '@mui/material';
 import apiInstance from '../../utils/axiosConfig';
 import ReactLoading from 'react-loading';
+import ReactHtmlParser from 'react-html-parser';
 
 import './style.scss';
 import { toast, ToastContainer } from 'react-toastify';
@@ -33,6 +34,10 @@ const Assignments = ({ role }) => {
   const classId = params.classId;
   const [assignments, setAssignments] = useState(mockAssignments);
   const [openModal, setOpenModal] = useState(false);
+  const [openFeedbackModal, setOpenFeedbackModal] = useState(false);
+  const [feedback, setFeedback] = useState(null);
+  const [FMLoading, setFMLoading] = useState(true);
+
   const [modalConfirm, setModalConfirm] = useState(null);
   const [apiLoading, setapiLoading] = useState(false);
   useEffect(() => {
@@ -59,6 +64,32 @@ const Assignments = ({ role }) => {
   }, []);
   const handleClose = () => {
     setOpenModal(false);
+  };
+
+  const handleFMClose = () => {
+    setOpenFeedbackModal(false);
+  };
+  const handleFeedbackModal = (assignmentId, title) => {
+    setFMLoading(true);
+    setOpenFeedbackModal(true);
+    apiInstance
+      .get(`${baseUrl}/assignments/${assignmentId}/myfeedback/`)
+      .then(res => {
+        const fb = {
+          title,
+          ...res.data,
+        };
+        console.log('feedback', fb);
+        setFeedback(fb);
+        setFMLoading(false);
+      })
+      .catch(error => {
+        setFeedback({
+          title,
+          error,
+        });
+        setFMLoading(false);
+      });
   };
   return (
     <div className="assignments">
@@ -115,18 +146,24 @@ const Assignments = ({ role }) => {
                       <Link to={`assignments/view/${assignment.id}`} className="pink-btn">
                         مشاهده تمرین
                       </Link>
+
+                      {role == 'student' && (
+                        <button
+                          onClick={() => {
+                            setFeedback({ title: assignment.title });
+                            handleFeedbackModal(assignment.id, assignment.title);
+                          }}
+                          className="info-btn"
+                        >
+                          بازخورد معلم
+                        </button>
+                      )}
                       {role == 'teacher' && (
                         <Fragment>
-                          <Link
-                            className="info-btn"
-                            to={`assignments/${assignment.id}/edit`}
-                          >
+                          <Link className="info-btn" to={`assignments/${assignment.id}/edit`}>
                             ویرایش تمرین
                           </Link>
-                          <Link
-                            to={`assignments/${assignment.id}/homeworks`}
-                            className="orange-btn"
-                          >
+                          <Link to={`assignments/${assignment.id}/homeworks`} className="orange-btn">
                             مشاهده تکالیف
                           </Link>
                           <button
@@ -174,6 +211,55 @@ const Assignments = ({ role }) => {
                 </button>
                 <button className="register-modal__cancel" onClick={modalConfirm}>
                   حذف
+                </button>
+              </div>
+            </Fade>
+          </Modal>
+
+          <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            open={openFeedbackModal}
+            onClose={handleFMClose}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+          >
+            <Fade in={openFeedbackModal}>
+              <div className="register-modal">
+                {feedback && (
+                  <div dir="rtl">
+                    <h3 className="register-modal__title">{feedback.title}</h3>
+                    {FMLoading ? (
+                      <div className="make-center">
+                        <ReactLoading type="cylon" color="#255DAD" height={100} width={100} />
+                      </div>
+                    ) : (
+                      <>
+                        {!feedback.error ? (
+                          <div style={{ textAlign: 'right' }}>
+                            <h4>
+                              <span> نمره: </span>
+                              <span> {feedback.grade} </span>
+                            </h4>
+                            {feedback.description && (
+                              <div style={{ paddingTop: '10px' }}>
+                                <h4>توضیحات:</h4>
+                                <span> {ReactHtmlParser(feedback.description)}</span>
+                              </div>
+                            )}
+                          </div>
+                        ) : (
+                          <h4>هنوز معلم بازخوردی ثبت نکرده.</h4>
+                        )}
+                      </>
+                    )}
+                  </div>
+                )}
+                <button className="register-modal__confirm" onClick={handleFMClose}>
+                  بازگشت
                 </button>
               </div>
             </Fade>
