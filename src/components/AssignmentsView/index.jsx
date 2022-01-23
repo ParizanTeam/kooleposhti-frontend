@@ -64,7 +64,7 @@ function createData(id, studentImage, firstname, lastname, username, status, ans
 const mime_types = {
   png: 'image',
   jpg: 'image',
-  jepg: 'image',
+  jpeg: 'image',
   docx: 'document',
   pdf: 'application',
   video: 'mp4',
@@ -210,7 +210,7 @@ const StudentHomeWork = ({ hw, assignmentId }) => {
       if (hw.last_name) name = `${hw.firstname} ${hw.lastname}`;
     }
     const filename = decodeURI(answer.file.split('/').at(-1));
-    const file_adrr = `https:\\kooleposhti.ml${answer.file}`;
+    const file_adrr = `https://kooleposhti.ml${answer.file}`;
     const file_format = filename.split('.').at(-1);
     const mime_type = `${mime_types[file_format]}/${file_format}`;
     const submited_date=convertDateToJalali(answer.submited_date);
