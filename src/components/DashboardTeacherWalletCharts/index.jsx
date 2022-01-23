@@ -10,6 +10,7 @@ import axios from '../../utils/axiosConfig';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { baseUrl } from '../../utils/constants';
 import ReactLoading from 'react-loading';
+import { useMediaQuery } from '@mui/material';
 
 /*function orderss(){
   const myOrder=[];
@@ -41,6 +42,7 @@ function DashboardTeacherWalletCharts() {
   const [tansferHistory, setTansferHistory] = useState(null);
   const [diagramData, setDiagramData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   useEffect(() => {
       axios
@@ -117,6 +119,8 @@ function DashboardTeacherWalletCharts() {
   };
 
   var options = {
+    maintainAspectRatio : false,
+    responsive:true,
     legend: {
       position: "right",
       labels: {

@@ -11,7 +11,8 @@ import FormGroup from '@mui/material/FormGroup';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 //import FolderIcon from "@mui/icons-material/Folder";
-import FolderIcon from '../../assets/images/banner.png';
+//import FolderIcon from '../../assets/images/banner.png';
+import FolderIcon from '../../assets/images/walletIcon4.png';
 import { convertNumberToPersian ,formatPrice} from '../../utils/helpers';
 import { useState, useEffect, useRef } from 'react';
 import axios from '../../utils/axiosConfig';
@@ -36,13 +37,13 @@ function Generate(element) {
           {/*    <FolderIcon />
                   </Avatar>*/}
         </ListItemAvatar>
-        <div style={{width:'130px',marginRight: '15px',textAlign:'right'}}>
+        <div style={{width:'155px',marginRight: '30px',textAlign:'right'}}>
         <ListItemText primary={element.course} sx={{margin:'auto',justifyContent:'center'}}/></div>
-        <div style={{width:'130px',marginRight: '30px',marginLeft: '2px',textAlign:'center'}}>
+        <div className='doNotShow' style={{width:'130px',marginRight: '30px',marginLeft: '2px',textAlign:'center'}}>
         <ListItemText primary={element.student} sx={{margin:'auto',justifyContent:'center'}}/></div>
         
-        <ListItemText primary={convertNumberToPersian(` ${formatPrice(element.amount)} تومان `)}/>
-        <ListItemText sx={{ marginLeft: '5px' }} primary={convertNumberToPersian(` در تاریخ ${(myDate.getFullYear())}/${(myDate.getMonth())}/${(myDate.getDate())}`)} />
+        <ListItemText sx={{ marginLeft: '5px' }} primary={convertNumberToPersian(` ${formatPrice(element.amount)} تومان `)}/>
+        <ListItemText sx={{ marginLeft: '5px' }} className='doNotShow' primary={convertNumberToPersian(` در تاریخ ${(myDate.getFullYear())}/${(myDate.getMonth())}/${(myDate.getDate())}`)} />
         <ListItemText className="mgRight" primary="به کیف شما واریز نمود" />
       </ListItem>
     );
