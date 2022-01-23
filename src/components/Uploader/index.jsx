@@ -31,7 +31,7 @@ const convertDateToJalali = input => {
   return jdate;
 };
 
-function App() {
+function App({handleIsDone}) {
   const params = useParams();
   const [myAns, setMyAns] = useState('پاسخ من');
   const [previousFile, setPreviousFile] = useState(null);
@@ -88,6 +88,7 @@ function App() {
         setPreviousAns(res.data.answer);
         setFileDate(res.data.submited_date);
         setHwId(res.data.id)
+        handleIsDone(true);
         setLoading(false);
       })
       .catch(err => {
